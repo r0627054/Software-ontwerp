@@ -1,4 +1,4 @@
-package ui;
+package ui.model;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;

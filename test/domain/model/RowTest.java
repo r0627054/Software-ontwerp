@@ -1,4 +1,4 @@
-package test.domain.model;
+package domain.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 

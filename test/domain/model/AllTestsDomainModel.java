@@ -1,4 +1,4 @@
-package test.domain.model;
+package domain.model;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
