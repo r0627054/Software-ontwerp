@@ -12,22 +12,30 @@ import java.util.List;
  */
 public class Table {
 
+	/**
+	 * Variable storing the name of the table.
+	 */
 	String name;
+	
+	/**
+	 * Variable storing the columns of the table.
+	 */
 	List<Column> columns = new ArrayList<>();
+	
+	/**
+	 * Variable storing the rows of the table.
+	 */
 	List<Row> rows = new ArrayList<>();
 
 	/**
 	 * Initialise a new Table with a given name.
 	 * 
 	 * @param name The name given to a table.
-	 * @effect the name of the Table is set. | setName(name)
+	 * @effect the name of the Table is set.
+	 *        | setName(name)
 	 */
 	public Table(String name) {
 		this.setName(name);
-	}
-
-	public void addColumn(Column column) {
-
 	}
 
 	/**
@@ -40,12 +48,16 @@ public class Table {
 	/**
 	 * Sets the name of the table.
 	 * 
-	 * @param name The name of the table.
-	 * @throws DomainException The name equals null. | name == null
+	 * @param name 
+	 *        The name of the table.
+	 * @throws DomainException The name equals null.
+	 *         | name == null
+	 * @post  The name of the table is set with the given value.
+	 *       new.getName() == name
 	 */
 	private void setName(String name) {
 		if (name == null) {
-			throw new DomainException("Invalid Table name!");
+			throw new DomainException("Invalid table name!");
 		}
 		this.name = name;
 	}
@@ -60,8 +72,10 @@ public class Table {
 	/**
 	 * Sets the columns of the Table.
 	 * 
-	 * @param columns the given columns of the table.
-	 * @throws DomainException The list of columns equals null. | name == null
+	 * @param columns
+	 *        The given columns of the table.
+	 * @throws DomainException 
+	 *         The list of columns equals null. | name == null
 	 */
 	private void setColumns(List<Column> columns) {
 		if (columns == null) {
@@ -80,8 +94,10 @@ public class Table {
 	/**
 	 * Sets the rows of the Table.
 	 * 
-	 * @param rows the given rows of the table.
-	 * @throws DomainException The list of rows equals null. | name == null
+	 * @param rows 
+	 *        The given rows of the table.
+	 * @throws DomainException 
+	 *        The list of rows equals null. | name == null
 	 */
 	private void setRows(List<Row> rows) {
 		if (this.rows == null) {
@@ -90,6 +106,10 @@ public class Table {
 		this.rows = rows;
 	}
 
+	/**
+	 * Returns all the cells.
+	 * @return
+	 */
 	public List<Cell> getAllCells() {
 		List<Cell> result = new ArrayList<Cell>();
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
