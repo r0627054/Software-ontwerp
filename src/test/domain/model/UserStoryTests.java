@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import ui.CanvasWindow;
+import ui.model.CanvasWindow;
 
 public class UserStoryTests {
 

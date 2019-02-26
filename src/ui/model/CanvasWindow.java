@@ -67,7 +67,7 @@ public class CanvasWindow {
 	 * 
 	 * @param title Window title
 	 */
-	protected CanvasWindow(String title) {
+	public CanvasWindow(String title) {
 		this.title = title;
 	}
 	
