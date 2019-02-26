@@ -159,7 +159,7 @@ public class Column {
 	 * Sets an ArrayList of cells for the cells.
 	 * 
 	 * @param cells
-	 *        an ArrayList which contains Cells.
+	 *        an ArrayList which contains cells.
      * @throws DomainException
 	 *         The cells equals null.
 	 *         | cells == null
@@ -179,7 +179,7 @@ public class Column {
 	 * @param cell
 	 *        The cell that needs to be added to the column.
 	 * @throws DomainException
-	 *         The cell equals null of the cell is of a different type than .
+	 *         The cell equals null of the cell is of a different type.
 	 *         | cells == null
 	 * @effect The cell is added to the list of cells.
 	 *         | cells.add(cell)
@@ -198,7 +198,7 @@ public class Column {
 	 * Returns the cell at the requested index of the column.
 	 * 
 	 * @param index
-	 *        | The index in of which the Cell is positioned.
+	 *        | The index in of which the cell is positioned.
 	 * @return The cell at the requested index of the column.
 	 *          | this.cells.get(index)
 	 */
