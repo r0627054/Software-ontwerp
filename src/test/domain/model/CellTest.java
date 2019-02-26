@@ -37,15 +37,15 @@ public class CellTest {
 		assertEquals(cell.getValue(), true);
 	}
 	
-	/*@Test
+	@Test
 	void test4ConstructorCorrectTypeAndWrongValue() {
 		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(ColumnType.BOOLEAN, "Invalid value"));
-		assertEquals(e.getMessage(), "TODO");
+		assertEquals(e.getMessage(), "Invalid value for this cell.");
 	}
 	
 	@Test
 	void test5ConstructorWrongTypeAndCorrectValue() {
 		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(null, "Value"));
 		assertEquals(e.getMessage(), "Invalid columntype for the cell.");
-	}*/
+	}
 }

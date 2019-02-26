@@ -80,6 +80,8 @@ public class Cell {
 	 *       new.getValue().equals(value)
 	 */
 	private void setValue(Object value) {
+		if(!type.canHaveAsValue(value))
+			throw new DomainException("Invalid value for this cell.");
 		this.value = value;
 	}
 }
