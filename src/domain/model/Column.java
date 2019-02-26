@@ -141,7 +141,7 @@ public class Column {
 	 * @return Object The default value for the column type. |
 	 *         this.getType().getDefaultValue()
 	 */
-	public Object getDefaultValue() { // TODO: clone
+	public Object getDefaultValue() { // TODO: clone?
 		return this.defaultValue;
 	}
 
@@ -193,8 +193,15 @@ public class Column {
 	 * 
 	 * @param cell The cell that needs to be added to the column.
 	 * @throws DomainException The cell equals null of the cell is of a different
-	 *                         type than . | cells == null
+	 *                         type than the expected type. | cells == null
 	 * @effect The cell is added to the list of cells. | cells.add(cell)
+	 * @param cell
+	 *        The cell that needs to be added to the column.
+	 * @throws DomainException
+	 *         The cell equals null of the cell is of a different type.
+	 *         | cells == null
+	 * @effect The cell is added to the list of cells.
+	 *         | cells.add(cell)
 	 */
 	public void addCell(Cell cell) {
 		if (cell == null) {
