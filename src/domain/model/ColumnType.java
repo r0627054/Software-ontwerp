@@ -8,9 +8,19 @@ package domain.model;
  */
 public enum ColumnType {
 
-	EMAIL,
-	STRING,
-	BOOLEAN,
-	INTEGER
+	EMAIL(""),
+	STRING(""),
+	BOOLEAN(new Boolean(true)),
+	INTEGER(new Integer(0));
+	
+	private Object defaultValue;
+	
+	private ColumnType(Object defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+	
+	public Object getDefaultValue() {
+		return this.defaultValue;	
+	}
 	
 }

@@ -1,4 +1,4 @@
-package ui;
+package ui.model;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
