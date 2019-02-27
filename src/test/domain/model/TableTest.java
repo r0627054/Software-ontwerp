@@ -22,14 +22,22 @@ class TableTest {
 		tableName = "tableName";
 	}
 	
+	/**
+	 * Test 1: Testing the constructor
+	 * Testing constructor with correct name should set the name correctly.
+	 */
 	@Test
-	void test1ConstructorCorrectName() {
+	void test1ConstructorCorrectNameSetsNameCorrectly() {
 		table = new Table(tableName);
 		assertSame(table.getName(), tableName);
 	}
 	
+	/**
+	 * Test 2: Testing the constructor
+	 * Testing constructor with an empty name should throw an error.
+	 */
 	@Test
-	void test2ConstructorNullName() {		
+	void test2ConstructorNullNameParamShouldThrowException() {		
 		DomainException e = assertThrows(DomainException.class, () -> table = new Table(null));
 		assertEquals(e.getMessage(),"Invalid Table name!");
 	}
