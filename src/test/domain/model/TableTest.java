@@ -34,4 +34,6 @@ class TableTest {
 		assertEquals(e.getMessage(),"Invalid Table name!");
 	}
 	
+	
+	
 }
