@@ -12,8 +12,19 @@ import java.util.List;
  */
 public class Table {
 
+	/**
+	 * Variable storing the name of the table.
+	 */
 	String name;
+	
+	/**
+	 * Variable storing the columns of the table.
+	 */
 	List<Column> columns = new ArrayList<>();
+	
+	/**
+	 * Variable storing the rows of the table.
+	 */
 	List<Row> rows = new ArrayList<>();
 
 	/**
@@ -28,10 +39,6 @@ public class Table {
 		this.setName(name);
 	}
 
-	public void addColumn(Column column) {
-
-	}
-
 	/**
 	 * Return the name of the table.
 	 */
@@ -44,12 +51,14 @@ public class Table {
 	 * 
 	 * @param name 
 	 * 			The name of the table.
-	 * @throws DomainException The name equals null. 
-	 * 			| name == null
+	 * @throws DomainException The name equals null.
+	 *         | name == null
+	 * @post  The name of the table is set with the given value.
+	 *       new.getName() == name
 	 */
 	private void setName(String name) {
 		if (name == null) {
-			throw new DomainException("Invalid Table name!");
+			throw new DomainException("Invalid table name!");
 		}
 		this.name = name;
 	}
@@ -98,6 +107,10 @@ public class Table {
 		this.rows = rows;
 	}
 
+	/**
+	 * Returns all the cells.
+	 * @return
+	 */
 	public List<Cell> getAllCells() {
 		List<Cell> result = new ArrayList<Cell>();
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
