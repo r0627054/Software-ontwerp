@@ -19,8 +19,10 @@ public class Table {
 	/**
 	 * Initialise a new Table with a given name.
 	 * 
-	 * @param name The name given to a table.
-	 * @effect the name of the Table is set. | setName(name)
+	 * @param name 
+	 * 			The name given to a table.
+	 * @effect the name of the Table is set. 
+	 * 			| setName(name)
 	 */
 	public Table(String name) {
 		this.setName(name);
@@ -40,8 +42,10 @@ public class Table {
 	/**
 	 * Sets the name of the table.
 	 * 
-	 * @param name The name of the table.
-	 * @throws DomainException The name equals null. | name == null
+	 * @param name 
+	 * 			The name of the table.
+	 * @throws DomainException The name equals null. 
+	 * 			| name == null
 	 */
 	private void setName(String name) {
 		if (name == null) {
@@ -60,8 +64,10 @@ public class Table {
 	/**
 	 * Sets the columns of the Table.
 	 * 
-	 * @param columns the given columns of the table.
-	 * @throws DomainException The list of columns equals null. | name == null
+	 * @param columns 
+	 * 			the given columns of the table.
+	 * @throws DomainException The list of columns equals null. 
+	 * 			| name == null
 	 */
 	private void setColumns(List<Column> columns) {
 		if (columns == null) {
@@ -80,8 +86,10 @@ public class Table {
 	/**
 	 * Sets the rows of the Table.
 	 * 
-	 * @param rows the given rows of the table.
-	 * @throws DomainException The list of rows equals null. | name == null
+	 * @param rows 
+	 * 			the given rows of the table.
+	 * @throws DomainException The list of rows equals null. 
+	 * 			| name == null
 	 */
 	private void setRows(List<Row> rows) {
 		if (this.rows == null) {
