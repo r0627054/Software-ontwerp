@@ -21,10 +21,13 @@ public class Cell {
 	/**
 	 * Initialize the new cell with given type and value.
 	 * 
-	 * @param type  The columntype of the cell.
-	 * @param value The value of the cell.
-	 * @effect The type and the value of the cell are set. |setType(type)
-	 *         |setValue(value)
+	 * @param type  
+	 * 			The columntype of the cell.
+	 * @param value 
+	 * 			The value of the cell.
+	 * @effect The type and the value of the cell are set. 
+	 * 			|setType(type)
+	 *          |setValue(value)
 	 */
 	public Cell(ColumnType type, Object value) {
 		this.setType(type);
@@ -34,9 +37,10 @@ public class Cell {
 	/**
 	 * Initialize the new cell with given type and the default value of the type.
 	 * 
-	 * @param type The columntype of the cell.
-	 * @effect The type and the default value of that type is set. | this(type,
-	 *         type.getDefaultValue())
+	 * @param type 
+	 * 			The columntype of the cell.
+	 * @effect The type and the default value of that type is set. 
+	 * 			| this(type, type.getDefaultValue())
 	 */
 	public Cell(ColumnType type) {
 		setType(type);
@@ -53,10 +57,12 @@ public class Cell {
 	/**
 	 * Sets the column type for the cell
 	 * 
-	 * @param type The columntype of the cell.
-	 * @throws DomainException The type equals null. | type == null
-	 * @post The column type of the cell equals the given columnType. |
-	 *       new.getType().equals(type)
+	 * @param type 
+	 * 			The columntype of the cell.
+	 * @throws DomainException The type equals null. 
+	 * 			| type == null
+	 * @post The column type of the cell equals the given columnType. 
+	 * 			| new.getType().equals(type)
 	 */
 	private void setType(ColumnType type) {
 		if (type == null) {
@@ -75,9 +81,10 @@ public class Cell {
 	/**
 	 * Sets the value of the cell.
 	 * 
-	 * @param value The value of the cell.
-	 * @post The value of the cell equals the given value. |
-	 *       new.getValue().equals(value)
+	 * @param value 
+	 * 			The value of the cell.
+	 * @post The value of the cell equals the given value. 
+	 * 			| new.getValue().equals(value)
 	 */
 	private void setValue(Object value) {
 		if(!type.canHaveAsValue(value))
