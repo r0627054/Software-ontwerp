@@ -2,8 +2,19 @@ package ui.model.view;
 
 public class UIFacade implements UIFacadeInterface {
 	
-	public UIFacade() {
+	private static UIFacade uifInstance = null;
+	
+	private UIFacade() {
 		
+	}
+	
+	private synchronized static void createInstance() {
+		if (uifInstance == null) uifInstance = new UIFacade();
+	}
+	
+	public static UIFacade getInstance() {
+		if (uifInstance == null) createInstance();
+		return uifInstance;
 	}
 	
 	public void show() {
