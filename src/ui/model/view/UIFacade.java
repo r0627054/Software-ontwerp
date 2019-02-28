@@ -8,7 +8,7 @@ public class UIFacade implements UIFacadeInterface {
 		
 	}
 	
-	private synchronized static void createInstance() {
+	private static void createInstance() {
 		if (uifInstance == null) uifInstance = new UIFacade();
 	}
 	

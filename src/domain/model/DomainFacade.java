@@ -12,7 +12,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private synchronized static void createInstance() {
+	private static void createInstance() {
 		if (dfInstance == null) dfInstance = new DomainFacade();
 	}
 	
