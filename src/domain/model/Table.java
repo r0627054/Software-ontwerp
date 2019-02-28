@@ -108,8 +108,9 @@ public class Table {
 	}
 
 	/**
-	 * Returns all the cells.
-	 * @return
+	 * Returns a copy of all cells of the table.
+	 * @return 
+	 *         A List of all the cells of the tables, these cells are all copies.
 	 */
 	public List<Cell> getAllCells() {
 		List<Cell> result = new ArrayList<Cell>();

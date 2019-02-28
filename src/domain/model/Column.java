@@ -38,7 +38,7 @@ public class Column {
 	private Object defaultValue;
 
 	/**
-	 * Initialise a new column with the given name and valuetype and by default it
+	 * Initialise a new column with the given name and valueType and by default it
 	 * allows blank spaces.
 	 *
 	 * @param name
