@@ -1,5 +1,5 @@
 package ui.components;
 
-public class Container {
+public class Container extends Component {
 
 }
