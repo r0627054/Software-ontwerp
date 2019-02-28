@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class of columns, containing a name, type and if the column allows blanks.
@@ -28,7 +29,7 @@ public class Column {
 	/**
 	 * Variable storing all the cells.
 	 */
-	private ArrayList<Cell> cells = new ArrayList<>();
+	private List<Cell> cells = new ArrayList<>();
 
 	/**
 	 * Variable storing the default value of the column. Initialised to the default
@@ -62,7 +63,7 @@ public class Column {
 	public Column(String name, ColumnType type, boolean allowsBlanks) {
 		this.setName(name);
 		this.setType(type);
-		this.allowsBlanks = allowsBlanks;
+		this.setAllowsBlanks(allowsBlanks);
 		this.setDefaultValue(type.getDefaultValue());
 	}
 
@@ -123,15 +124,10 @@ public class Column {
 	 * allows blank values. Otherwise the column does not allow blank values.
 	 * 
 	 * @param allowsBlanks Whether the column allows blank spaces.
-	 * @throws DomainException When allowBlanks is false whilst the default value is
-	 *                         still blank. | !allowsBlanks && getDefaultValue() ==
-	 *                         null
 	 * @post The allowsblanks variable is set, with the given value. |
 	 *       new.getAllowsBlanks.equals(allowsBlanks)
 	 */
 	public void setAllowsBlanks(boolean allowsBlanks) {
-		if (!allowsBlanks && this.defaultValue == null)
-			throw new DomainException("Default value is still empty.");
 		this.allowsBlanks = allowsBlanks;
 	}
 
@@ -169,7 +165,7 @@ public class Column {
 	 * 
 	 * @return A copy of the ArrayList of cells. | new ArrayList<>(this.cells)
 	 */
-	public ArrayList<Cell> getCells() {
+	public List<Cell> getCells() {
 		return new ArrayList<>(this.cells);
 	}
 
@@ -181,7 +177,7 @@ public class Column {
 	 * @post The ArrayList of cells equals the given cells |
 	 *       new.getCells().equals(cells)
 	 */
-	private void setCells(ArrayList<Cell> cells) {
+	private void setCells(List<Cell> cells) {
 		if (cells == null) {
 			throw new DomainException("The List of cells cannot be null for a column.");
 		}
@@ -207,7 +203,7 @@ public class Column {
 		if (cell == null) {
 			throw new DomainException("A cell cannot be null in a column.");
 		}
-		if (cell.getType().equals(this.getType())) { // TODO: Cell.isValid(cell);
+		if (cell.getType().equals(this.getType())) {
 			throw new DomainException("The type of the cell does not equals the column type.");
 		}
 		cells.add(cell);

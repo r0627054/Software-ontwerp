@@ -71,7 +71,7 @@ public class Cell {
 	public Object getValue() {
 		return value;
 	}
-
+	
 	/**
 	 * Sets the value of the cell.
 	 * 

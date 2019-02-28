@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A class of rows; a row contains multiple cells.
@@ -14,7 +15,7 @@ public class Row {
 	/**
 	 * Variable storing all the cells.
 	 */
-	private ArrayList<Cell> cells = new ArrayList<>();
+	private List<Cell> cells = new ArrayList<>();
 	
 	/**
 	 * Initialises a new row without cells. 
@@ -56,7 +57,7 @@ public class Row {
 	 * @post The ArrayList of cells equals the given cells
 	 *         | new.getCells().equals(cells)      
 	 */
-	private void setCells(ArrayList<Cell> cells) {
+	private void setCells(List<Cell> cells) {
 		if(cells == null) {
 			throw new DomainException("The List of cells cannot be null for a column.");
 		}

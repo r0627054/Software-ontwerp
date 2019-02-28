@@ -25,7 +25,7 @@ public class CellTest {
 	}
 
 	@Test
-	void test2ConstructorNullType() {
+	void test2_Constructor_Null_Type_throws_exception() {
 		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(null));
 		assertEquals(e.getMessage(), "Invalid columntype for the cell.");
 	}
