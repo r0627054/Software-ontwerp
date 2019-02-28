@@ -12,7 +12,7 @@ public class Cell {
 	/**
 	 * Variable storing the type of the cell.
 	 */
-	private ColumnType type;
+	private ValueType type;
 	/**
 	 * Variable storing the value of the cell.
 	 */
@@ -22,14 +22,14 @@ public class Cell {
 	 * Initialize the new cell with given type and value.
 	 * 
 	 * @param type  
-	 * 			The columntype of the cell.
+	 * 			The valuetype of the cell.
 	 * @param value 
 	 * 			The value of the cell.
 	 * @effect The type and the value of the cell are set. 
 	 * 			|setType(type)
 	 *          |setValue(value)
 	 */
-	public Cell(ColumnType type, Object value) {
+	public Cell(ValueType type, Object value) {
 		this.setType(type);
 		this.setValue(value);
 	}
@@ -38,19 +38,19 @@ public class Cell {
 	 * Initialize the new cell with given type and the default value of the type.
 	 * 
 	 * @param type 
-	 * 			The columntype of the cell.
+	 * 			The valuetype of the cell.
 	 * @effect The type and the default value of that type is set. 
 	 * 			| this(type, type.getDefaultValue())
 	 */
-	public Cell(ColumnType type) {
+	public Cell(ValueType type) {
 		setType(type);
 		setValue(type.getDefaultValue());
 	}
 
 	/**
-	 * Returns the columnType of the cell.
+	 * Returns the valuetype of the cell.
 	 */
-	public ColumnType getType() {
+	public ValueType getType() {
 		return type;
 	}
 
@@ -58,15 +58,15 @@ public class Cell {
 	 * Sets the column type for the cell
 	 * 
 	 * @param type 
-	 * 			The columntype of the cell.
+	 * 			The valuetype of the cell.
 	 * @throws DomainException The type equals null. 
 	 * 			| type == null
-	 * @post The column type of the cell equals the given columnType. 
+	 * @post The column type of the cell equals the given valuetype. 
 	 * 			| new.getType().equals(type)
 	 */
-	private void setType(ColumnType type) {
+	private void setType(ValueType type) {
 		if (type == null) {
-			throw new DomainException("Invalid columntype for the cell.");
+			throw new DomainException("Invalid valuetype for the cell.");
 		}
 		this.type = type;
 	}

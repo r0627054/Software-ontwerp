@@ -10,8 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 public class ColumnTest {
 
 	private final String columnName = "TestColumnName";
-	private final ColumnType stringType = ColumnType.STRING;
-	private final ColumnType boolType = ColumnType.BOOLEAN;
+	private final ValueType stringType = ValueType.STRING;
+	private final ValueType boolType = ValueType.BOOLEAN;
 	
 	private boolean allowBlanks = true;
 

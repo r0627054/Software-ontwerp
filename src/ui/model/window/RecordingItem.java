@@ -1,4 +1,4 @@
-package ui.model;
+package ui.model.window;
 
 import java.io.IOException;
 import java.io.PrintWriter;

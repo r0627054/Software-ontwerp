@@ -1,4 +1,4 @@
-package ui.model;
+package ui.model.window;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

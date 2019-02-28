@@ -19,7 +19,7 @@ public class Column {
 	/**
 	 * Variable storing the type of the column.
 	 */
-	private ColumnType type;
+	private ValueType type;
 
 	/**
 	 * Variable storing if the Column allows to store Blank values.
@@ -33,12 +33,12 @@ public class Column {
 
 	/**
 	 * Variable storing the default value of the column. Initialised to the default
-	 * value of the ColumnType.
+	 * value of the valuetype.
 	 */
 	private Object defaultValue;
 
 	/**
-	 * Initialise a new column with the given name and columntype and by default it
+	 * Initialise a new column with the given name and valuetype and by default it
 	 * allows blank spaces.
 	 *
 	 * @param name
@@ -48,12 +48,12 @@ public class Column {
 	 * @effect The name, the type, allowblanks (default=true) and default value (default=type.getDefaultValue()) are set.
 	 *         | this(name,type,true)
 	 */
-	public Column(String name, ColumnType type) {
+	public Column(String name, ValueType type) {
 		this(name, type, true);
 	}
 
 	/**
-	 * Initialise a new column with the given name, columntype and allowsblanks
+	 * Initialise a new column with the given name, valuetype and allowsblanks
 	 * variable.
 	 *
 	 * @param name
@@ -65,7 +65,7 @@ public class Column {
 	 * @effect The name, the type, allowblanks and default value (default=type.getDefaultValue()) are are set.
 	 *         | this(name,type,true)
 	 */
-	public Column(String name, ColumnType type, boolean allowsBlanks) {
+	public Column(String name, ValueType type, boolean allowsBlanks) {
 		this.setName(name);
 		this.setType(type);
 		this.setAllowsBlanks(allowsBlanks);
@@ -99,7 +99,7 @@ public class Column {
 	/**
 	 * Returns the type of the column.
 	 */
-	public ColumnType getType() {
+	public ValueType getType() {
 		return type;
 	}
 
@@ -113,7 +113,7 @@ public class Column {
 	 * @post The type of the column equals the given type.
 	 * 			| new.getType.equals(type)
 	 */
-	private void setType(ColumnType type) {
+	private void setType(ValueType type) {
 		if (type == null) {
 			throw new DomainException("Invalid column type for the column.");
 		}

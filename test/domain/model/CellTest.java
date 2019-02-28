@@ -19,9 +19,9 @@ public class CellTest {
 	 */
 	@Test
 	void test1ConstructorWithOnlyTypeSetsCorrectVariables() {
-		cell = new Cell(ColumnType.BOOLEAN);
-		assertEquals(cell.getType(), ColumnType.BOOLEAN);
-		assertEquals(cell.getValue(), ColumnType.BOOLEAN.getDefaultValue());
+		cell = new Cell(ValueType.BOOLEAN);
+		assertEquals(cell.getType(), ValueType.BOOLEAN);
+		assertEquals(cell.getValue(), ValueType.BOOLEAN.getDefaultValue());
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class CellTest {
 	@Test
 	void test2_Constructor_Null_Type_throws_exception() {
 		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(null));
-		assertEquals(e.getMessage(), "Invalid columntype for the cell.");
+		assertEquals(e.getMessage(), "Invalid valuetype for the cell.");
 	}
 
 	/**
@@ -40,8 +40,8 @@ public class CellTest {
 	 */
 	@Test
 	void test3ConstructorCorrectTypeAndCorrectValueShouldSetCorrectVariables() {
-		cell = new Cell(ColumnType.BOOLEAN, true);
-		assertEquals(cell.getType(), ColumnType.BOOLEAN);
+		cell = new Cell(ValueType.BOOLEAN, true);
+		assertEquals(cell.getType(), ValueType.BOOLEAN);
 		assertEquals(cell.getValue(), true);
 	}
 
@@ -51,7 +51,7 @@ public class CellTest {
 	 */
 	@Test
 	void test4ConstructorCorrectTypeAndWrongValueShouldThrowException() {
-		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(ColumnType.BOOLEAN, "Invalid value"));
+		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(ValueType.BOOLEAN, "Invalid value"));
 		assertEquals(e.getMessage(), "Invalid value for this cell.");
 	}
 
@@ -62,6 +62,6 @@ public class CellTest {
 	@Test
 	void test5ConstructorWrongTypeAndCorrectValueShouldThrowException() {
 		DomainException e = assertThrows(DomainException.class, () -> cell = new Cell(null, "Value"));
-		assertEquals(e.getMessage(), "Invalid columntype for the cell.");
+		assertEquals(e.getMessage(), "Invalid valuetype for the cell.");
 	}
 }

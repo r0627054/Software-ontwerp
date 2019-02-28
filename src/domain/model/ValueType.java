@@ -7,7 +7,7 @@ package domain.model;
  * @version 1.0
  * @author Dries Janse
  */
-public enum ColumnType {
+public enum ValueType {
 
 	EMAIL("", String.class),
 	STRING("", String.class),
@@ -35,7 +35,7 @@ public enum ColumnType {
 	 *        | new.getTypeClass() == cl
 	 *        | new.getDefaultValue() == defaultValue
 	 */
-	private ColumnType(Object defaultValue, Class cl) {
+	private ValueType(Object defaultValue, Class cl) {
 		this.defaultValue = defaultValue;
 		this.cl = cl;
 	}
@@ -56,14 +56,14 @@ public enum ColumnType {
 	}
 	
 	/**
-	 * Returns the class Object of the ColumnType.
+	 * Returns the class Object of the ValueType.
 	 */
 	public Class getTypeClass() {
 		return this.cl;
 	}
 	
 	/**
-	 * Returns the default value of the ColumnType.
+	 * Returns the default value of the ValueType.
 	 */
 	public Object getDefaultValue() {
 		return this.defaultValue;	
