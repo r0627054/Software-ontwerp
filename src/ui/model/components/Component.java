@@ -124,6 +124,26 @@ public abstract class Component {
 	}
 	
 	/**
+	 * Returns the offset x, this is the x-coordinate plus the width.
+	 * 
+	 * @return The x coordinate plus the width.
+	 *         | this.getX() + this.getWidth()
+	 */
+	public int getOffsetX() {
+		return this.getX() + this.getWidth();
+	}
+	
+	/**
+	 * Returns the offset y, this is the y-coordinate plus the height.
+	 * 
+	 * @return The y coordinate plus the height.
+	 *         |this.getY() + this.getHeight()
+	 */
+	public int getOffsetY() {
+		return this.getY() + this.getHeight();
+	}
+	
+	/**
 	 * Returns the y-coordinate of the component.
 	 */
 	public int getY() {
