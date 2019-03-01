@@ -1,4 +1,7 @@
 package ui.model.components;
+
+import java.awt.Graphics;
+
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
  * height and whether the component is hidden or not.
@@ -113,7 +116,7 @@ public abstract class Component {
 	 * @post The x-coordinate is set with the given value.
 	 *       | new.getX() == x
 	 */
-	public void setX(int x) {
+	private void setX(int x) {
 		if(x < 0) {
 			throw new IllegalArgumentException("The x-coordinate of the component cannot be negative.");
 		}
@@ -138,7 +141,7 @@ public abstract class Component {
 	 * @post The y-coordinate is set with the given value.
 	 *       | new.getY() == y
 	 */
-	public void setY(int y) {
+	private void setY(int y) {
 		if(y < 0) {
 			throw new IllegalArgumentException("The y-coordinate of the component cannot be negative.");
 		}
@@ -163,7 +166,7 @@ public abstract class Component {
 	 * @post The width is set with the given value.
 	 *       | new.getWidth() == width
 	 */
-	public void setWidth(int width) {
+	private void setWidth(int width) {
 		if(width < 0) {
 			throw new IllegalArgumentException("The width of the component cannot be negative.");
 		}
@@ -188,7 +191,7 @@ public abstract class Component {
 	 * @post The height is set with the given value.
 	 *       | new.getHeight() == height
 	 */
-	public void setHeight(int height) {
+	private void setHeight(int height) {
 		if(height < 0) {
 			throw new IllegalArgumentException("The height of the component cannot be negative.");
 		}
@@ -203,7 +206,6 @@ public abstract class Component {
 	}
 	
 	/**
-	 * 
 	 * Sets the hidden variable of the component.
 	 * 
 	 * @param hidden
@@ -211,11 +213,19 @@ public abstract class Component {
 	 * @post The hidden variable is set with the given value.
 	 *       | new.isHidden() == hidden
 	 */
-	public void setHidden(boolean hidden) {
+	private void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
 	
 		
+	
+
+	/**
+	 * Containing all visualisation and paint methods of the component.
+	 * 
+	 * @param g This object offers the methods that allow you to paint on the canvas.
+	 */
+	public abstract void paint(Graphics g);
 	
 	
 }
