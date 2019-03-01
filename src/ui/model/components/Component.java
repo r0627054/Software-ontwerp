@@ -217,8 +217,6 @@ public abstract class Component {
 		this.hidden = hidden;
 	}
 	
-		
-	
 
 	/**
 	 * Containing all visualisation and paint methods of the component.
