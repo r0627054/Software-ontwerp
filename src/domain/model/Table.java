@@ -40,7 +40,7 @@ public class Table {
 	}
 
 	/**
-	 * Return the name of the table.
+	 * Returns the name of the table.
 	 */
 	public String getName() {
 		return name;
