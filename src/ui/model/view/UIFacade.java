@@ -4,6 +4,8 @@ public class UIFacade implements UIFacadeInterface {
 	
 	private static UIFacade uifInstance = null;
 	
+	
+	
 	private UIFacade() {
 		
 	}

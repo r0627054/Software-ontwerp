@@ -11,7 +11,6 @@ public class TextField extends Component {
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
