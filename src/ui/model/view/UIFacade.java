@@ -30,11 +30,4 @@ public class UIFacade implements UIFacadeInterface {
 		this.view.show();
 	}
 
-	public void addWindowSwitchListeners() {
-
-	}
-	
-	private void switchWindowsToTableView() {
-		
-	}
 }

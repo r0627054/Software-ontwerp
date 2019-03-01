@@ -34,25 +34,26 @@ import javax.swing.JPanel;
  */
 
 public class CanvasWindow {
-	
+
 	int width = 600;
 	int height = 600;
 	String title;
 	Panel panel;
 	private Frame frame;
-	
+
 	private String recordingPath;
 	private CanvasWindowRecording recording;
-	
+
 	void updateFrameTitle() {
-		frame.setTitle(recording == null ? title : title + " - Recording: " + recording.items.size() + " items recorded");
+		frame.setTitle(
+				recording == null ? title : title + " - Recording: " + recording.items.size() + " items recorded");
 	}
 
-        public void setTitle(String title) {
-            this.title = title;
-            updateFrameTitle();
-        }
-	
+	public void setTitle(String title) {
+		this.title = title;
+		updateFrameTitle();
+	}
+
 	/**
 	 * Initializes a CanvasWindow object.
 	 * 
@@ -61,12 +62,12 @@ public class CanvasWindow {
 	public CanvasWindow(String title) {
 		this.title = title;
 	}
-	
+
 	public final void recordSession(String path) {
 		recordingPath = path;
 		recording = new CanvasWindowRecording();
 	}
-	
+
 	/**
 	 * Call this method if the canvas is out of date and needs to be repainted.
 	 * This will cause method {@link #paint(Graphics)} to be called after the current call of method handleMouseEvent or handleKeyEvent finishes.
@@ -75,7 +76,7 @@ public class CanvasWindow {
 		if (panel != null)
 			panel.repaint();
 	}
-	
+
 	/**
 	 * Called to allow you to paint on the canvas.
 	 * 
@@ -85,14 +86,14 @@ public class CanvasWindow {
 	 */
 	protected void paint(Graphics g) {
 	}
-	
+
 	private void handleMouseEvent_(MouseEvent e) {
-		System.out.println(e);
+		//System.out.println(e);
 		if (recording != null)
 			recording.items.add(new MouseEventItem(e.getID(), e.getX(), e.getY(), e.getClickCount()));
 		handleMouseEvent(e.getID(), e.getX(), e.getY(), e.getClickCount());
 	}
-	
+
 	/**
 	 * Called when the user presses (id == MouseEvent.MOUSE_PRESSED), releases (id == MouseEvent.MOUSE_RELEASED), or drags (id == MouseEvent.MOUSE_DRAGGED) the mouse.
 	 * 
@@ -100,14 +101,14 @@ public class CanvasWindow {
 	 */
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
 	}
-	
+
 	private void handleKeyEvent_(KeyEvent e) {
 		System.out.println(e);
 		if (recording != null)
 			recording.items.add(new KeyEventItem(e.getID(), e.getKeyCode(), e.getKeyChar()));
 		handleKeyEvent(e.getID(), e.getKeyCode(), e.getKeyChar());
 	}
-	
+
 	/**
 	 * Called when the user presses a key (id == KeyEvent.KEY_PRESSED) or enters a character (id == KeyEvent.KEY_TYPED).
 	 * 
@@ -125,62 +126,62 @@ public class CanvasWindow {
 		CanvasWindow.this.paint(imageGraphics);
 		return image;
 	}
-	
+
 	class Panel extends JPanel {
-		
+
 		{
 			setPreferredSize(new Dimension(width, height));
 			setBackground(Color.WHITE);
 			setFocusable(true);
-			
+
 			addMouseListener(new MouseAdapter() {
-	
+
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					handleMouseEvent_(e);
 				}
-	
+
 				@Override
 				public void mousePressed(MouseEvent e) {
 					handleMouseEvent_(e);
 				}
-	
+
 				@Override
 				public void mouseReleased(MouseEvent e) {
 					handleMouseEvent_(e);
 				}
-				
+
 			});
-			
+
 			addMouseMotionListener(new MouseAdapter() {
-	
+
 				@Override
 				public void mouseDragged(MouseEvent e) {
 					handleMouseEvent_(e);
 				}
-				
+
 			});
-			
+
 			addKeyListener(new KeyAdapter() {
-	
+
 				@Override
 				public void keyTyped(KeyEvent e) {
 					handleKeyEvent_(e);
 				}
-	
+
 				@Override
 				public void keyPressed(KeyEvent e) {
 					handleKeyEvent_(e);
 				}
-				
+
 			});
 		}
-		
+
 		@Override
 		protected void paintComponent(Graphics g) {
 			System.out.println("Painting...");
 			super.paintComponent(g);
-			
+
 			if (recording != null) {
 				BufferedImage image = captureImage();
 				g.drawImage(image, 0, 0, null);
@@ -190,13 +191,13 @@ public class CanvasWindow {
 				CanvasWindow.this.paint(g);
 			}
 		}
-		
+
 	}
 
 	private class Frame extends JFrame {
 		Frame(String title) {
 			super(title);
-			
+
 			addWindowListener(new WindowAdapter() {
 
 				@Override
@@ -210,7 +211,7 @@ public class CanvasWindow {
 						}
 					System.exit(0);
 				}
-				
+
 			});
 			getContentPane().add(panel);
 			pack();
@@ -226,7 +227,7 @@ public class CanvasWindow {
 		frame = new Frame(title);
 		frame.setVisible(true);
 	}
-	
+
 	public static void replayRecording(String path, CanvasWindow window) {
 		try {
 			new CanvasWindowRecording(path).replay(window);

@@ -1,6 +1,6 @@
 package ui.model.components;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
@@ -16,27 +16,27 @@ public abstract class Component {
 	 * Variable storing the x coordinate of the component.
 	 */
 	private int x;
-	
+
 	/**
 	 * Variable storing the y coordinate of the component.
 	 */
 	private int y;
-	
+
 	/**
 	 * Variable storing the width of the component.
 	 */
 	private int width;
-	
+
 	/**
 	 * Variable storing the height coordinate of the component.
 	 */
 	private int height;
-	
+
 	/**
 	 * Variable storing whether the component is hidden or not.
 	 */
 	private boolean hidden;
-	
+
 	/**
 	 * Initialise this new component with all the given variables.
 	 * 
@@ -64,7 +64,7 @@ public abstract class Component {
 		this.setWidth(width);
 		this.setHidden(hidden);
 	}
-	
+
 	/**
 	 * Initialise the given component with the given width, height and hidden.
 	 * The x- and y-coordinate are by default 0.
@@ -80,9 +80,9 @@ public abstract class Component {
 	 * 
 	 */
 	public Component(int width, int height, boolean hidden) {
-		this(0,0,width,height,hidden);
+		this(0, 0, width, height, hidden);
 	}
-	
+
 	/**
 	 * Initialise the given component with the given width and height.
 	 * The x- and y-coordinate are by default 0 and the component is not hidden.
@@ -95,16 +95,16 @@ public abstract class Component {
 	 *        | this(width,height,true)      
 	 */
 	public Component(int width, int height) {
-		this(width,height,true);
+		this(width, height, true);
 	}
-	
+
 	/**
 	 * Returns the x-coordinate of the component.
 	 */
 	public int getX() {
 		return x;
 	}
-	
+
 	/**
 	 * Sets the x-coordinate of the component.
 	 * 
@@ -117,12 +117,12 @@ public abstract class Component {
 	 *       | new.getX() == x
 	 */
 	private void setX(int x) {
-		if(x < 0) {
+		if (x < 0) {
 			throw new IllegalArgumentException("The x-coordinate of the component cannot be negative.");
 		}
 		this.x = x;
 	}
-	
+
 	/**
 	 * Returns the offset x, this is the x-coordinate plus the width.
 	 * 
@@ -132,7 +132,7 @@ public abstract class Component {
 	public int getOffsetX() {
 		return this.getX() + this.getWidth();
 	}
-	
+
 	/**
 	 * Returns the offset y, this is the y-coordinate plus the height.
 	 * 
@@ -142,14 +142,14 @@ public abstract class Component {
 	public int getOffsetY() {
 		return this.getY() + this.getHeight();
 	}
-	
+
 	/**
 	 * Returns the y-coordinate of the component.
 	 */
 	public int getY() {
 		return y;
 	}
-	
+
 	/**
 	 * Sets the y-coordinate of the component.
 	 * 
@@ -162,19 +162,19 @@ public abstract class Component {
 	 *       | new.getY() == y
 	 */
 	private void setY(int y) {
-		if(y < 0) {
+		if (y < 0) {
 			throw new IllegalArgumentException("The y-coordinate of the component cannot be negative.");
 		}
 		this.y = y;
 	}
-	
+
 	/**
 	 * Returns the width of the component.
 	 */
 	public int getWidth() {
 		return width;
 	}
-	
+
 	/**
 	 * Sets the width of the component.
 	 * 
@@ -187,19 +187,19 @@ public abstract class Component {
 	 *       | new.getWidth() == width
 	 */
 	private void setWidth(int width) {
-		if(width < 0) {
+		if (width < 0) {
 			throw new IllegalArgumentException("The width of the component cannot be negative.");
 		}
 		this.width = width;
 	}
-	
+
 	/**
 	 * Returns the height of the component.
 	 */
 	public int getHeight() {
 		return height;
 	}
-	
+
 	/**
 	 * Sets the height of the component.
 	 * 
@@ -212,19 +212,19 @@ public abstract class Component {
 	 *       | new.getHeight() == height
 	 */
 	private void setHeight(int height) {
-		if(height < 0) {
+		if (height < 0) {
 			throw new IllegalArgumentException("The height of the component cannot be negative.");
 		}
 		this.height = height;
 	}
-	
+
 	/**
 	 * Returns whether the component is hidden or not.
 	 */
 	public boolean isHidden() {
 		return hidden;
 	}
-	
+
 	/**
 	 * Sets the hidden variable of the component.
 	 * 
@@ -236,14 +236,15 @@ public abstract class Component {
 	private void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
-	
 
 	/**
 	 * Containing all visualisation and paint methods of the component.
 	 * 
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 */
-	public abstract void paint(Graphics g);
+	public abstract void paint(Graphics2D g);
 	
-	
+	public abstract void mouseClicked(int id, int x, int y, int clickCount);
+	public abstract void keyPressed(int id, int keyCode, char keyChar);
+
 }

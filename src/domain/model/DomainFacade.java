@@ -31,5 +31,6 @@ public class DomainFacade implements DomainFacadeInterface {
 	public Table getTable(String key) {
 		return this.tableMap.get(key);
 	}
+}
 
 

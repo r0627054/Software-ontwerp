@@ -1,16 +1,51 @@
 package ui.model.components;
 
-import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.Graphics2D;
 
 public class TextField extends Component {
+	private String text;
 
-	public TextField(int x, int y, int width, int height, boolean hidden) {
+	public TextField(int x, int y, int width, int height, String text) {
+		super(x, y, width, height, true);
+		this.setText(text);
+	}
+
+	public TextField(int x, int y, int width, int height, boolean hidden, String text) {
 		super(x, y, width, height, hidden);
 	}
 
+	public void setText(String text) {
+		if (text != null && text.length() == 0)
+			throw new IllegalArgumentException("Text of TextField cannot be empty.");
+		this.text = text;
+	}
+
 	@Override
-	public void paint(Graphics g) {
+	public void paint(Graphics2D g) {
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		
+		//Dit zorgt ervoor dat de tekst niet buiten de width/height gaat.
+		g.setClip(getX(), getY(), getWidth(), getHeight());
+
+		//Font setten met de hoogte vd param die je via de constructor meegeeft
+		Font f = new Font("TimesRoman", Font.PLAIN, getHeight());
+		g.setFont(f);
+		
+		//Je begint linksonder te tekenen
+		g.drawString(text, getX(), getOffsetY());
+	}
+
+	@Override
+	public void mouseClicked(int id, int x, int y, int clickCount) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
