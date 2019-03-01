@@ -9,10 +9,23 @@ import ui.model.components.Component;
 
 public abstract class ViewMode {
 	private List<Component> components = new ArrayList<>();
+	private String name;
 	
-	public ViewMode() {
+	public ViewMode(String name) {
+		this.setName(name);
 	}
 	
+	public String getName() {
+		return name;
+	}
+
+	private void setName(String name) {
+		if(name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("The name of a view cannot be null or empty");
+		}
+		this.name = name;
+	}
+
 	public List<Component> getComponents() {
 		return new ArrayList<>(components);
 	}

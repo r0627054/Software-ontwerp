@@ -3,11 +3,11 @@ package ui.model.view;
 public class UIFacade implements UIFacadeInterface {
 	
 	private static UIFacade uifInstance = null;
-	
+	private View view;
 	
 	
 	private UIFacade() {
-		
+		this.view = new View("Tablr");
 	}
 	/**
 	* Creates an UIFacade instalce only once.
@@ -27,6 +27,7 @@ public class UIFacade implements UIFacadeInterface {
 	}
 	
 	public void show() {
+		this.view.show();
 	}
 
 	public void addWindowSwitchListeners() {
@@ -34,6 +35,6 @@ public class UIFacade implements UIFacadeInterface {
 	}
 	
 	private void switchWindowsToTableView() {
-
+		
 	}
 }
