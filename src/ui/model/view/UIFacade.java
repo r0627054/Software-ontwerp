@@ -9,13 +9,20 @@ public class UIFacade implements UIFacadeInterface {
 	private UIFacade() {
 		
 	}
-	
-	private static void createInstance() {
-		if (uifInstance == null) uifInstance = new UIFacade();
-	}
+	/**
+	* Creates an UIFacade instalce only once.
+	* Returns the only existing instance.
+	*
+	* @post uifInstance is instansiated
+	* | new.getInstance == UIFacadeInstance
+	*
+	* @notes
+	* synchronized makes sure that every thread is synchronized and
+	* prevents creating another instance in a other thread.
+	**/
 	
 	public static UIFacade getInstance() {
-		if (uifInstance == null) createInstance();
+		if (uifInstance == null) uifInstance = new UIFacade();
 		return uifInstance;
 	}
 	

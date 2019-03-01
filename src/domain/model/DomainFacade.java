@@ -11,13 +11,20 @@ public class DomainFacade implements DomainFacadeInterface {
 	private DomainFacade() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	private static void createInstance() {
-		if (dfInstance == null) dfInstance = new DomainFacade();
-	}
-	
-	public static DomainFacade getInstance() {
-		if(dfInstance == null) createInstance();
+
+	/**
+	* Creates an domainFacade instance only once. 
+	* Returns the only existing instance.
+	*
+	* @post dfInstance is instantiated
+	* | new.getInstance == domainFacadeInstance
+	*
+	* @notes
+	* synchronized makes sure that every thread is synchronized and
+	* prevents creating another instance in a other thread.
+	**/	
+	public static synchronized DomainFacade getInstance() {
+		if(dfInstance == null) dfInstance = new DomainFacade();
 		return dfInstance;
 	}
 
@@ -25,4 +32,4 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.tableMap.get(key);
 	}
 
-}
+
