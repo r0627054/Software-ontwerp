@@ -1,6 +1,7 @@
 package ui.model.viewmodes;
 
 import ui.model.components.CheckBox;
+import ui.model.components.EditableTextField;
 import ui.model.components.TextField;
 
 public class TablesViewMode extends ViewMode {
@@ -11,7 +12,9 @@ public class TablesViewMode extends ViewMode {
 		CheckBox cb = new CheckBox(10, 10, true);
 		this.addComponent(cb);
 		this.addClickListener(cb);
-		this.addComponent(new TextField(50, 50, 100, 50, "Wauw fantastisch leuke tekst"));
+		TextField tf = new EditableTextField(50, 50, 100, 50, false, "Wauw fantastisch leuke tekst");
+		this.addComponent(tf);
+		this.addClickListener(tf);
 
 	}
 
