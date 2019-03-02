@@ -13,8 +13,7 @@ public class CheckBox extends Component {
 	private boolean checked;
 
 	public CheckBox(int x, int y, boolean checked) {
-		super(x, y, SIZE, SIZE, false);
-		this.setChecked(checked);
+		this(x,y,false,checked);
 	}
 
 	public CheckBox(int x, int y, boolean hidden, boolean checked) {
