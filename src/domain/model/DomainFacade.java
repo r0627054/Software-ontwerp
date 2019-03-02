@@ -27,9 +27,16 @@ public class DomainFacade implements DomainFacadeInterface {
 		if(dfInstance == null) dfInstance = new DomainFacade();
 		return dfInstance;
 	}
-
-	public Table getTable(String key) {
-		return this.tableMap.get(key);
+	
+	/**
+	 * @param tableName
+	 * name of table
+	 * 
+	 * @return
+	 * the table corresponding to the tableName in the tableMap.
+	 **/
+	public Table getTable(String tableName) {
+		return this.tableMap.get(tableName);
 	}
 }
 

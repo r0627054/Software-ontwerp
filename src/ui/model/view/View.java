@@ -26,6 +26,7 @@ public class View extends CanvasWindow {
 		changeModeTo("Tables1");
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		this.currentMode.paint(g);
 	}
