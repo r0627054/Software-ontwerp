@@ -2,10 +2,13 @@ package ui.model.components;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 
 public class CheckBox extends Component {
 	private final static int SIZE = 18;
+	private final static int STROKE_WIDTH_BOX = 3;
+	private final static int STROKE_WIDTH_CROSS = 2;
 
 	private boolean checked;
 
@@ -25,14 +28,15 @@ public class CheckBox extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setStroke(new BasicStroke(3));
+		Stroke oldStroke = g.getStroke();
+		g.setStroke(new BasicStroke(STROKE_WIDTH_BOX, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
 		g.drawRect(getX(), getY(), SIZE, SIZE);
-
 		if (this.checked) {
-			g.setStroke(new BasicStroke(2));
-			g.drawLine(getX() + 2, getY() + 2, getOffsetX() - 2, getOffsetY() - 2);
-			g.drawLine(getX() + 2, getOffsetY() - 2, getOffsetX() - 2, getY() + 2);
+			g.setStroke(new BasicStroke(STROKE_WIDTH_CROSS, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
+			g.drawLine(getX(), getY(), getOffsetX(), getOffsetY());
+			g.drawLine(getX(), getOffsetY(), getOffsetX(), getY());
 		}
+		g.setStroke(oldStroke);
 	}
 
 	@Override
