@@ -21,7 +21,7 @@ public class UIFacade implements UIFacadeInterface {
 	* prevents creating another instance in a other thread.
 	**/
 	
-	public static UIFacade getInstance() {
+	public static synchronized UIFacade getInstance() {
 		if (uifInstance == null) uifInstance = new UIFacade();
 		return uifInstance;
 	}
