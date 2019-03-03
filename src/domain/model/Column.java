@@ -203,7 +203,7 @@ public class Column {
 	 *
 	 * @param cell
 	 * 			The cell that needs to be added to the column.
-	 * @throws DomainException The cell equals null of the cell is of a different type than the expected type.
+	 * @throws DomainException The cell equals null or the cell is of a different type than the expected type.
 	 * 			| cells == null
 	 * @effect The cell is added to the list of cells.
 	 * 			| cells.add(cell)
@@ -216,6 +216,28 @@ public class Column {
 			throw new DomainException("The type of the cell does not equals the column type.");
 		}
 		cells.add(cell);
+	}
+
+	/**
+	 * Adds at the bottom of the column.
+	 *
+	 * @param cells
+	 * 			The list of cells that needs to be added to the column.
+	 * @throws DomainException The list of cells equals null or any of the cells is of a different type than the expected type.
+	 * 			| cells == null
+	 * @effect The cells are added to the list of cells.
+	 * 			| cells.addAll(cells)
+	 */
+	public void addCells(List<Cell> cells) {
+		for (Cell cell : cells) {
+			if (cell == null) {
+				throw new DomainException("A cell cannot be null in a column.");
+			}
+			if (cell.getType().equals(this.getType())) {
+				throw new DomainException("The type of the cell does not equals the column type.");
+			}
+			cells.add(cell);
+		}
 	}
 
 	/**

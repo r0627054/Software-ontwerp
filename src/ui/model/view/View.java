@@ -2,6 +2,7 @@ package ui.model.view;
 
 import java.awt.Graphics;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ui.model.viewmodes.TablesViewMode;
@@ -37,6 +38,13 @@ public class View extends CanvasWindow {
 
 	public ViewMode getCurrentMode() {
 		return currentMode;
+	}
+	
+	public ViewMode getViewMode(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("Cannot get ViewMode for null string");
+		}
+		return this.viewModes.get(name);
 	}
 
 	public void changeModeTo(String key) {
@@ -80,6 +88,19 @@ public class View extends CanvasWindow {
 		this.repaint();
 		//Same as handleMouseEvent
 		//Dit is enkel om te testen/tonen dat EditableTextField werkt!
+	}
+
+	public void setTablesViewModeListValues(List<String> tableNames) {
+		//this.viewModes.get("Tables1").???
+		
+		//Steven: Hoe setten we deze values?
+		//1) Oftewel casten we hier naar TablesViewMode bij deze 'get' en maken in TablesViewMode een functie
+		//-> Lijkt me niet echt juist, te hardcoded
+		
+		//2) Oftewel slagen we specifieke ViewModes (ipv List<ViewMode>) toch op
+		//-> Lijkt me ook niet echt juist, niet super goed ivm toekomstige nieuwe ViewModes
+		
+		//3) De benodigde functie in ViewMode zelf schrijven is al helemaal fout
 	}
 
 }

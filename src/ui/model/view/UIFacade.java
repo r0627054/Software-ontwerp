@@ -1,5 +1,7 @@
 package ui.model.view;
 
+import java.util.List;
+
 public class UIFacade implements UIFacadeInterface {
 	
 	private static UIFacade uifInstance = null;
@@ -28,6 +30,11 @@ public class UIFacade implements UIFacadeInterface {
 	
 	public void show() {
 		this.view.show();
+	}
+	
+	@Override
+	public void setTableNames(List<String> tableNames) {
+		view.setTablesViewModeListValues(tableNames);
 	}
 
 }

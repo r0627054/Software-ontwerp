@@ -16,12 +16,12 @@ public class Table {
 	 * Variable storing the name of the table.
 	 */
 	String name;
-	
+
 	/**
 	 * Variable storing the columns of the table.
 	 */
 	List<Column> columns = new ArrayList<>();
-	
+
 	/**
 	 * Variable storing the rows of the table.
 	 */
@@ -116,6 +116,44 @@ public class Table {
 		List<Cell> result = new ArrayList<Cell>();
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
 		return result;
+	}
+
+	public void addColumn(String name, ValueType type) {
+		if (name == null || type == null) {
+			throw new DomainException("A name or type cannot be null when adding a column");
+		}
+		this.columns.add(new Column(name, type));
+	}
+
+	public void addColumn(String name, ValueType type, boolean allowBlanks) {
+		if (name == null || type == null) {
+			throw new DomainException("A name or type cannot be null when adding a column");
+		}
+		this.columns.add(new Column(name, type, allowBlanks));
+	}
+
+	public void addColumn(Column column) {
+		if (column == null) {
+			throw new DomainException("A new collumn cannot be null when adding a column");
+		}
+		this.columns.add(column);
+	}
+
+	public void addRow() {
+		ArrayList<Cell> newCells = new ArrayList<Cell>();
+
+		for (Column c : this.columns) {
+			newCells.add(new Cell(c.getType()));
+		}
+
+		this.rows.add(new Row(newCells));
+	}
+
+	public void addRow(Row r) {
+		if (r == null) {
+			throw new DomainException("A new row cannot be null when adding a row");
+		}
+		this.rows.add(r);
 	}
 
 }

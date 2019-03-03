@@ -10,12 +10,10 @@ public class Controller {
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-
-		addActionListeners();
+		
+		this.uiFacade.setTableNames(domainFacade.getTableNames());
+		
 		this.uiFacade.show();
-	}
-
-	private void addActionListeners() {
 	}
 
 	public UIFacadeInterface getUiFacade() {
@@ -32,6 +30,10 @@ public class Controller {
 
 	private void setDomainFacade(DomainFacadeInterface domainFacade) {
 		this.domainFacade = domainFacade;
+	}
+	
+	public void addTable(String name) {
+		this.domainFacade.addTable(name);
 	}
 
 }
