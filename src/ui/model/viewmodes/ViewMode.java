@@ -17,16 +17,7 @@ public abstract class ViewMode {
 	public ViewMode(String name) {
 		this.setName(name);
 
-		registerAllClickListeners();
-		registerAllKeyListeners();
-	}
-
-	private void registerAllKeyListeners() {
-
-	}
-
-	private void registerAllClickListeners() {
-
+		registerWindowChangeListeners();
 	}
 
 	public String getName() {
@@ -79,7 +70,7 @@ public abstract class ViewMode {
 
 	public void paint(Graphics g) {
 		for (Component component : components) {
-			component.paint((Graphics2D) g);
+			component.paint((Graphics2D) g.create());
 		}
 	}
 
@@ -88,6 +79,13 @@ public abstract class ViewMode {
 			throw new IllegalArgumentException("A new click listener cannot be null");
 
 		this.clickListeners.add(c);
+	}
+	
+	protected void addKeyListener(Component c) {
+		if (c == null)
+			throw new IllegalArgumentException("A new key listener cannot be null");
+
+		this.keyListeners.add(c);
 	}
 
 	public void mouseClicked(int id, int x, int y, int clickCount) {
@@ -101,5 +99,12 @@ public abstract class ViewMode {
 			c.keyPressed(id, keyCode, keyChar);
 		}
 	}
+	
+
+	abstract void registerWindowChangeListeners();
+
+	abstract void registerAllKeyListeners();
+
+	abstract void registerAllClickListeners();
 
 }

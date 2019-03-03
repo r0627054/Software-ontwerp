@@ -36,6 +36,11 @@ public abstract class Component {
 	 * Variable storing whether the component is hidden or not.
 	 */
 	private boolean hidden;
+	
+	/**
+	 * Variable storing the parent container.
+	 */
+	private Component container;
 
 	/**
 	 * Initialise this new component with all the given variables.
@@ -236,6 +241,10 @@ public abstract class Component {
 	private void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
+	
+	public boolean isWithinComponent(int x, int y) {
+		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
+	}
 
 	/**
 	 * Containing all visualisation and paint methods of the component.
@@ -243,8 +252,13 @@ public abstract class Component {
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 */
 	public abstract void paint(Graphics2D g);
-	
+
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
+
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
+
+	protected void propertyChanged() {
+
+	}
 
 }

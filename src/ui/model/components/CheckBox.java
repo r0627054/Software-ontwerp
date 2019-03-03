@@ -2,7 +2,6 @@ package ui.model.components;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 
 public class CheckBox extends Component {
@@ -23,26 +22,29 @@ public class CheckBox extends Component {
 
 	private void setChecked(boolean checked) {
 		this.checked = checked;
+		propertyChanged();
+	}
+	
+	public boolean isChecked() {
+		return checked;
 	}
 
 	@Override
 	public void paint(Graphics2D g) {
-		Stroke oldStroke = g.getStroke();
 		g.setStroke(new BasicStroke(STROKE_WIDTH_BOX, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
 		g.drawRect(getX(), getY(), SIZE, SIZE);
+		
 		if (this.checked) {
 			g.setStroke(new BasicStroke(STROKE_WIDTH_CROSS, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
 			g.drawLine(getX(), getY(), getOffsetX(), getOffsetY());
 			g.drawLine(getX(), getOffsetY(), getOffsetX(), getY());
 		}
-		g.setStroke(oldStroke);
 	}
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED && x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY()) {
-			this.checked = !this.checked;
-			System.out.println("CheckBox state: " + this.checked);
+		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
+			this.setChecked(!isChecked());
 		}
 	}
 
@@ -51,5 +53,6 @@ public class CheckBox extends Component {
 		// TODO Auto-generated method stub
 
 	}
+
 
 }

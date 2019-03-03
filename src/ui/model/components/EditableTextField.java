@@ -5,13 +5,30 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+
+import com.sun.glass.events.KeyEvent;
+
 public class EditableTextField extends TextField {
+
+	/**
+	 * Variable to determine if the checkbox is selected
+	 */
+	private boolean selected = false;
 	
-	private boolean editmode;
+	/**
+	 * Position of the cursor.
+	 */
+	private int position;
+
+	public EditableTextField(int x, int y, int width, int height, String defaultValue) {
+		super(x, y, width, height, false, defaultValue);
+	}
 
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue) {
-		super(x, y, width, height, hidden, defaultValue);
-		this.editmode = false; 		
+		this(x, y, width, height, hidden, defaultValue); 		
 	}
 	
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue, boolean editmode) {
@@ -63,4 +80,48 @@ public class EditableTextField extends TextField {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void paint(Graphics2D g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		g.setColor(Color.BLACK);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
+
+		g.setClip(getX(), getY(), getWidth(), getHeight());
+
+		Font f = new Font("TimesRoman", Font.PLAIN, getHeight());
+		g.setFont(f);
+
+		g.drawString(getText(), getX(), getOffsetY());
+		
+		//TODO: blinkende cursor
+		//Eventueel een '|' char toevoegen & verwijderen vd tekst elke seconde?
+	}
+
+	@Override
+	public void mouseClicked(int id, int x, int y, int clickCount) {
+		if (isWithinComponent(x, y)) {
+			this.selected = true;
+		} else {
+			this.selected = false;
+		}
+	}
+
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		if (this.selected) {
+			System.out.println(id);
+			System.out.println(keyCode);
+			System.out.println(keyChar);
+			if (id == KeyEvent.PRESS && keyCode == 8) {
+				String text = getText();
+				setText(text.substring(0, text.length() - 1));
+				System.out.println(text);
+			}
+			
+			//TODO: links & rechts op keyboard
+		}
+	}
+
 }
