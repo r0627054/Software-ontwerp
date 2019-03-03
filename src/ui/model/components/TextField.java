@@ -2,7 +2,6 @@ package ui.model.components;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 
 public class TextField extends Component {
 	private String text;
@@ -17,17 +16,13 @@ public class TextField extends Component {
 	}
 
 	public void setText(String text) {
-		if (text != null && text.length() == 0)
+		if (text == null)
 			throw new IllegalArgumentException("Text of TextField cannot be empty.");
 
 		this.text = text;
 		propertyChanged();
 	}
 
-	public String getText() {
-		return this.text;
-	}
-	
 	public String getText() {
 		return this.text;
 	}

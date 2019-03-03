@@ -40,7 +40,7 @@ public abstract class Component {
 	/**
 	 * Variable storing the parent container.
 	 */
-	private Component container;
+	private Container container;
 
 	/**
 	 * Initialise this new component with all the given variables.
@@ -242,23 +242,40 @@ public abstract class Component {
 		this.hidden = hidden;
 	}
 	
-	public boolean isWithinComponent(int x, int y) {
-		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
-	}
 
 	/**
 	 * Containing all visualisation and paint methods of the component.
 	 * 
-	 * @param g This object offers the methods that allow you to paint on the canvas.
+	 * @param g 
+	 * 			This object offers the methods that allow you to paint on the canvas.
 	 */
 	public abstract void paint(Graphics2D g);
+	
+	public boolean isWithinComponent(int x, int y) {
+		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
+	}
+	
+	public Container getContainer() {
+		return container;
+	}
+	
+	private void setContainer(Container container) {
+		if(container == null) {
+			throw new IllegalArgumentException("Container of a component cannot be null");
+		}
+		this.container = container;
+	}
+
 
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
 
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
-	protected void propertyChanged() {
-
+	protected void propertyChanged() {	
+		//Dit faalt omdat je nog geen container meegeeft via de constructors van Components
+		//Zie Container klasse commentaar
+		
+		//container.repaintContainer();
 	}
 
 }

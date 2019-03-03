@@ -19,8 +19,8 @@ public class View extends CanvasWindow {
 	}
 
 	private void initTestingModes() {
-		TablesViewMode tablesViewMode1 = new TablesViewMode("Tables1");
-		TablesViewMode tablesViewMode2 = new TablesViewMode("Tables2");
+		TablesViewMode tablesViewMode1 = new TablesViewMode("Tables1", this);
+		TablesViewMode tablesViewMode2 = new TablesViewMode("Tables2", this);
 		addViewMode(tablesViewMode1);
 		addViewMode(tablesViewMode2);
 		changeModeTo("Tables1");
@@ -29,6 +29,10 @@ public class View extends CanvasWindow {
 	@Override
 	public void paint(Graphics g) {
 		this.currentMode.paint(g);
+	}
+
+	public void repaintTest() {
+		this.repaint();
 	}
 
 	public ViewMode getCurrentMode() {
@@ -58,18 +62,24 @@ public class View extends CanvasWindow {
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
 		currentMode.mouseClicked(id, x, y, clickCount);
-		
-		this.repaint(); 
-		//Steven: Ik denk niet dat dit de juiste plaats is om te repainten?
-		//Weet niet goed hoe ik terug vanaf de Components naar de View kan callen om te repainten.
-		//Eventueel Observer gebruiken?
-		
-		//Dit zorgt momenteel voor elke mouse click/drag/release voor een volledige repaint
+
+		this.repaint();
+		// Steven: Ik denk niet dat dit de juiste plaats is om te repainten?
+		// Weet niet goed hoe ik terug vanaf de Components naar de View kan callen om te
+		// repainten.
+		// Eventueel Observer gebruiken?
+
+		// Dit zorgt momenteel voor elke mouse click/drag/release voor een volledige
+		// repaint
 	}
-	
+
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		currentMode.keyPressed(id, keyCode, keyChar);
+		
+		this.repaint();
+		//Same as handleMouseEvent
+		//Dit is enkel om te testen/tonen dat EditableTextField werkt!
 	}
 
 }

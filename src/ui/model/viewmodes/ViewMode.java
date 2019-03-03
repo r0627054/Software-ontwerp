@@ -7,15 +7,20 @@ import java.util.Collection;
 import java.util.List;
 
 import ui.model.components.Component;
+import ui.model.view.View;
 
 public abstract class ViewMode {
 	private List<Component> components = new ArrayList<>();
 	private List<Component> clickListeners = new ArrayList<>();
 	private List<Component> keyListeners = new ArrayList<>();
+	
+	private View view; 
+	
 	private String name;
 
-	public ViewMode(String name) {
+	public ViewMode(String name, View v) {
 		this.setName(name);
+		this.view = view;
 
 		registerWindowChangeListeners();
 	}
@@ -98,6 +103,10 @@ public abstract class ViewMode {
 		for (Component c : keyListeners) {
 			c.keyPressed(id, keyCode, keyChar);
 		}
+	}
+	
+	public void repaint() {
+		view.repaintTest();
 	}
 	
 

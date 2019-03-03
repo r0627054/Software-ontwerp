@@ -5,16 +5,38 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import ui.model.viewmodes.ViewMode;
+
 public class Container extends Component {
+	
+	//Steven:
+	//In mijn ogen is dit mss geen Component omdat:
+	//1) Moet een speciale link naar 'boven' hebben om de repaint methode te callen.
+	//2) Heeft geen actionListeners op key/mouse (?)
+	//3) x/y & width/height is bij ons altijd hetzelfde als parent
+	//4) Een component moet aan zijn container zeggen a.d.h.v. propertyChanged om te repainten
+	//      -> Een container kan dit moeilijk doen
+	//		-> Je kan wel evt in Container die repaintContainer() overriden & linken aan parent.repaint();
+	//5) In Swing/AWT zijn Containers ook geen JComponent's
 
 	private List<Component> components = new ArrayList<>();
+	private ViewMode parent;
 
-	public Container(int x, int y, int width, int height) {
-		this(x, y, width, height, false);
+	public Container(int x, int y, int width, int height, ViewMode parent) {
+		this(x, y, width, height, false, parent);
 	}
 
-	public Container(int x, int y, int width, int height, boolean hidden) {
+	public Container(int x, int y, int width, int height, boolean hidden, ViewMode parent) {
 		super(x, y, width, height, hidden);
+		this.setParent(parent);
+	}
+
+	private void setParent(ViewMode parent) {
+		if (parent == null) {
+			throw new IllegalArgumentException("Parent cannot be null of a container");
+		}
+		this.parent = parent;
+
 	}
 
 	@Override
@@ -22,7 +44,7 @@ public class Container extends Component {
 		g.setColor(Color.LIGHT_GRAY);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(Color.BLACK);
-		
+
 		for (Component c : components) {
 			c.paint((Graphics2D) g.create());
 		}
@@ -46,6 +68,10 @@ public class Container extends Component {
 		}
 
 		this.components.add(c);
+	}
+	
+	public void repaintContainer() {
+		parent.repaint();
 	}
 
 }
