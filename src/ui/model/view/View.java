@@ -9,11 +9,33 @@ import ui.model.viewmodes.TablesViewMode;
 import ui.model.viewmodes.ViewMode;
 import ui.model.window.CanvasWindow;
 
+/**
+ * 
+ * A view is a subclass of CanvasWindow.
+ * This is a frame which contains all the different viewModes. 
+ * 
+ * @version 1.0
+ * @author Dries Janse
+ *
+ */
 public class View extends CanvasWindow {
 
+	/**
+	 * Variable storing the current (view mode)
+	 */
 	private ViewMode currentMode;
+	
+	/**
+	 * Variable storing all the different viewModes. With a String as key.
+	 */
 	private Map<String, ViewMode> viewModes = new HashMap<String, ViewMode>();
 
+	/**
+	 * Initialise this new view component with the given title.
+	 * 
+	 * @param title
+	 *        The title of the view.
+	 */
 	public View(String title) {
 		super(title);
 		initTestingModes();
@@ -27,19 +49,35 @@ public class View extends CanvasWindow {
 		changeModeTo("Tables1");
 	}
 
+	/**
+	 * Paints the current mode.
+	 */
 	@Override
 	public void paint(Graphics g) {
 		this.currentMode.paint(g);
 	}
 
-	public void repaintTest() {
+	/*public void repaintTest() {
 		this.repaint();
-	}
-
+	}*/
+	
+	/**
+	 * Returns the current mode of the view.
+	 */
 	public ViewMode getCurrentMode() {
 		return currentMode;
 	}
 	
+	/**
+	 * Returns the view mode associated with the given String.
+	 * 
+	 * @param name
+	 *        The name (key) of the view mode.
+	 * @return The ViewMode associated with the given String.
+	 * @throws IllegalArgumentException
+	 *         The name is null.
+	 *         | name == null
+	 */
 	public ViewMode getViewMode(String name) {
 		if(name == null) {
 			throw new IllegalArgumentException("Cannot get ViewMode for null string");
@@ -47,6 +85,16 @@ public class View extends CanvasWindow {
 		return this.viewModes.get(name);
 	}
 
+	/**
+	 * Changes the current mode with the mode associated with the given key.
+	 * 
+	 * @param key
+	 * @throws IllegalArgumentException
+	 *         if the newCurrentMode is null
+	 *         | viewModes.get(key) == null
+	 * @post The current mode is switched with the mode associated with the given key.
+	 *         | new.getCurrentMode == viewModes.get(key) 
+	 */
 	public void changeModeTo(String key) {
 		ViewMode newCurrentMode = viewModes.get(key);
 		if (newCurrentMode == null) {
@@ -56,6 +104,7 @@ public class View extends CanvasWindow {
 
 	}
 
+	
 	public void addViewMode(ViewMode mode) {
 		if (this.viewModes.containsKey(mode.getName())) {
 			throw new IllegalArgumentException("Mode with duplicate name already exists");
