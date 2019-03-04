@@ -233,7 +233,7 @@ public class Column {
 			if (cell == null) {
 				throw new DomainException("A cell cannot be null in a column.");
 			}
-			if (cell.getType().equals(this.getType())) {
+			if (!cell.getType().equals(this.getType())) {
 				throw new DomainException("The type of the cell does not equals the column type.");
 			}
 			cells.add(cell);
