@@ -91,7 +91,7 @@ public class View extends CanvasWindow {
 	}
 
 	public void setTablesViewModeListValues(List<String> tableNames) {
-		//this.viewModes.get("Tables1").???
+		//this.viewModes.get("Tables1").
 		
 		//Steven: Hoe setten we deze values?
 		//1) Oftewel casten we hier naar TablesViewMode bij deze 'get' en maken in TablesViewMode een functie

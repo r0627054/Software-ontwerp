@@ -1,5 +1,7 @@
 package ui.model.viewmodes;
 
+
+
 import ui.model.view.View;
 
 public class TableDesignViewMode extends ViewMode {
@@ -25,5 +27,6 @@ public class TableDesignViewMode extends ViewMode {
 		// TODO Auto-generated method stub
 		
 	}
+
 
 }
