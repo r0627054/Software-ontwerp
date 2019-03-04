@@ -121,7 +121,7 @@ public abstract class Component {
 	 * @post The x-coordinate is set with the given value.
 	 *       | new.getX() == x
 	 */
-	private void setX(int x) {
+	protected void setX(int x) {
 		if (x < 0) {
 			throw new IllegalArgumentException("The x-coordinate of the component cannot be negative.");
 		}
@@ -166,7 +166,7 @@ public abstract class Component {
 	 * @post The y-coordinate is set with the given value.
 	 *       | new.getY() == y
 	 */
-	private void setY(int y) {
+	protected void setY(int y) {
 		if (y < 0) {
 			throw new IllegalArgumentException("The y-coordinate of the component cannot be negative.");
 		}
@@ -255,17 +255,6 @@ public abstract class Component {
 		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
 	}
 	
-	public Container getContainer() {
-		return container;
-	}
-	
-	private void setContainer(Container container) {
-		if(container == null) {
-			throw new IllegalArgumentException("Container of a component cannot be null");
-		}
-		this.container = container;
-	}
-
 
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
 
