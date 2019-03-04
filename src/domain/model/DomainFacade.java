@@ -37,11 +37,12 @@ public class DomainFacade implements DomainFacadeInterface {
 		Cell c2[] = { c02, c12, c22 };
 		Cell c3[] = { c03, c13, c23 };
 		Cell c4[] = { c04, c14, c24 };
+		
 
-		Row r1 = new Row((ArrayList<Cell>) Arrays.asList(c1));
-		Row r2 = new Row((ArrayList<Cell>) Arrays.asList(c2));
-		Row r3 = new Row((ArrayList<Cell>) Arrays.asList(c3));
-		Row r4 = new Row((ArrayList<Cell>) Arrays.asList(c4));
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(c1)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(c2)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(c3)));
+		Row r4 = new Row(new ArrayList<Cell>(Arrays.asList(c4)));
 
 		Cell colCells1[] = { c01, c02, c03, c04 };
 		Cell colCells2[] = { c11, c12, c13, c14 };
