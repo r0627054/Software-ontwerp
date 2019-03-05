@@ -1,9 +1,13 @@
 package ui.model.components;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
 public class TextField extends Component {
+	public static final String FONT = "NewTimesRoman";
+	public static final int MARGIN = 3;
+
 	private String text;
 
 	public TextField(int x, int y, int width, int height, String text) {
@@ -29,17 +33,15 @@ public class TextField extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
+		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
-		// Dit zorgt ervoor dat de tekst niet buiten de width/height gaat.
-		g.setClip(getX(), getY(), getWidth(), getHeight());
+		g.setClip(getX() + MARGIN, getY() + MARGIN, getWidth() - 2 * MARGIN, getHeight() - 2 * MARGIN);
 
-		// Font setten met de hoogte vd param die je via de constructor meegeeft
-		Font f = new Font("TimesRoman", Font.PLAIN, getHeight());
+		Font f = new Font(FONT, Font.PLAIN, getHeight());
 		g.setFont(f);
 
-		// Je begint linksonder te tekenen
-		g.drawString(text, getX(), getOffsetY());
+		g.drawString(text, getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	@Override

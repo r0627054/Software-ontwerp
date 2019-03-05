@@ -1,11 +1,17 @@
 package ui.model.components;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Row extends Component {
+public class Row extends VerticalComponentList {
 
-	public Row(int x, int y, int width, int height, boolean hidden) {
-		super(x, y, width, height, hidden);
+	public Row(int x, int y, int width, int height, List<Component> listItems) {
+		super(x, y, width, height, listItems);
+	}
+	
+	public Row(int x, int y, int width, int height) {
+		super(x, y, width, height, new ArrayList<Component>());
 	}
 
 	@Override

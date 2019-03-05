@@ -6,31 +6,33 @@ import java.util.List;
 
 public class VerticalComponentList extends ContainerList {
 
-	private int currentX;
 	private int currentY;
 
 	public VerticalComponentList(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, listItems);
-		this.currentX = x;
-		this.currentY = y;
-		// TODO Auto-generated constructor stub
+		setCurrentY(y);
 	}
 
 	public VerticalComponentList(int x, int y, int width, int height) {
 		this(x, y, width, height, new ArrayList<Component>());
-		// TODO Auto-generated constructor stub
+		setCurrentY(y);
+	}
+
+	private void setCurrentY(int y) {
+		if (y < 0)
+			throw new IllegalArgumentException("Cannot have negative position when adding a VerticalComponentList");
+		this.currentY = y;
 	}
 
 	@Override
 	public void paint(Graphics2D g) {
-		// TODO Auto-generated method stub
 		for (Component c : getComponentsList()) {
-			c.setX(this.currentX + c.getY());
 			c.setY(this.currentY + c.getY());
-			c.paint(g);
+			c.setX(this.getX());
+			c.paint((Graphics2D) g.create());
 			this.currentY += c.getHeight();
-			System.out.println(currentX);
 		}
+		setCurrentY(getY());
 	}
 
 }

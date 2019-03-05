@@ -35,15 +35,8 @@ public class EditableTextField extends TextField {
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
-		g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
-
-		g.setClip(getX(), getY(), getWidth(), getHeight());
-
-		Font f = new Font("TimesRoman", Font.PLAIN, getHeight());
-		g.setFont(f);
-
-		g.drawString(getText(), getX(), getOffsetY());
+		super.paint((Graphics2D) g.create());
+		
 
 		// TODO: blinkende cursor
 		// Een '|' char toevoegen & verwijderen op de 'position plaats' vd text elke

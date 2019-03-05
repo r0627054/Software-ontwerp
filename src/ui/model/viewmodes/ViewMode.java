@@ -105,10 +105,6 @@ public abstract class ViewMode {
 		}
 	}
 	
-	public void repaint() {
-		view.repaintTest();
-	}
-	
 	abstract void registerWindowChangeListeners();
 
 	abstract void registerAllKeyListeners();

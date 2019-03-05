@@ -7,6 +7,7 @@ import ui.model.components.CheckBox;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.EditableTextField;
+import ui.model.components.HorizontalComponentList;
 import ui.model.components.TableList;
 import ui.model.components.TextField;
 import ui.model.view.View;
@@ -24,26 +25,25 @@ public class TablesViewMode extends ViewMode {
 		
 		container = new Container(0, 0, 600, 600);
 		
-		cb = new CheckBox(10, 10, true);
 		textfield = new EditableTextField(50, 50, 200, 30, "test");
-		textfield1 = new EditableTextField(50, 50, 200, 30, "testfadsf");
-		textfield2 = new EditableTextField(50, 50, 200, 30, "test123");
-		textfield3 = new EditableTextField(50, 50, 200, 30, "test44444");
-		container.addComponent(cb);
-		container.addComponent(textfield);
+		cb = new CheckBox(10, 10, true);
+
+
 		List<Component> testlist = new ArrayList<>();
-		
-		
+		textfield1 = new TextField(50, 50, 200, 30, "testfadsf");
+		textfield2 = new TextField(50, 50, 200, 30, "test123");
+		textfield3 = new TextField(50, 50, 200, 30, "test44444");
 		testlist.add(textfield1);
 		testlist.add(textfield2);
 		testlist.add(textfield3);
 
+		container.addComponent(cb);
+		container.addComponent(textfield);
+		container.addComponent(new TableList(30, 100, 500, 500, testlist));
+		//container.addComponent(new HorizontalComponentList(0, 200, 500, 500, testlist));
+				
 		this.addComponent(container);
-		
-		this.addComponent(new TableList(0, 100, 500, 500, testlist));
-		
-		
-		
+
 		this.registerAllClickListeners();
 		this.registerAllKeyListeners();
 
