@@ -23,14 +23,21 @@ public class VerticalComponentList extends ContainerList {
 			throw new IllegalArgumentException("Cannot have negative position when adding a VerticalComponentList");
 		this.currentY = y;
 	}
+	
+	private void positionChildren() {
+		int tempY = getY();
+		for (Component c : getComponentsList()) {
+			c.setY(tempY);
+			c.setX(this.getX());
+			tempY += c.getHeight();
+		}
+	}
 
 	@Override
 	public void paint(Graphics2D g) {
+		positionChildren();
 		for (Component c : getComponentsList()) {
-			c.setY(this.currentY + c.getY());
-			c.setX(this.getX());
 			c.paint((Graphics2D) g.create());
-			this.currentY += c.getHeight();
 		}
 		setCurrentY(getY());
 	}
