@@ -2,7 +2,7 @@ package ui.model.viewmodes;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.function.Consumer;
 
 import ui.model.components.CheckBox;
 import ui.model.components.Component;
@@ -27,27 +27,31 @@ public class TablesViewMode extends ViewMode {
 
 	public TablesViewMode(String name, View view) {
 		super(name, view);
-		
 		container = new Container(0, 0, 600, 600);
 		
-		textfield = new EditableTextField(50, 50, 200, 30, "test");
-		cb = new CheckBox(10, 10, true);
-		//register this as changelistener for the components
-		cb.addPropertyChangeListener(this);
-		textfield.addPropertyChangeListener(this);
+//		textfield = new EditableTextField(50, 50, 200, 30, "test");
+//		cb = new CheckBox(10, 10, true);
+//		//register this as changelistener for the components
+//		cb.addPropertyChangeListener(this);
+//		textfield.addPropertyChangeListener(this);
 
 
 		List<Component> testlist = new ArrayList<>();
-		textfield1 = new TextField(50, 50, 200, 35, "testfadsf");
-		textfield2 = new TextField(50, 50, 200, 30, "test123");
-		textfield3 = new TextField(50, 50, 200, 25, "test44444");
+		textfield1 = new EditableTextField(50, 50, 250, 35, "testfadsf");
+		textfield2 = new EditableTextField(50, 50, 200, 30, "test123");
+		textfield3 = new EditableTextField(50, 50, 150, 25, "test44444");
 		testlist.add(textfield1);
 		testlist.add(textfield2);
 		testlist.add(textfield3);
+		testlist.forEach(c -> {
+			c.addPropertyChangeListener(this);
+			this.addClickListener(c);
+			this.addKeyListener(c);
+		});
 
-		container.addComponent(cb);
-		container.addComponent(textfield);
-		container.addComponent(new TableList(30, 100, 500, 500, testlist));
+//		container.addComponent(cb);
+//		container.addComponent(textfield);
+//		container.addComponent(new TableList(30, 100, 500, 500, testlist));
 //		List<Component> colList = new ArrayList<>();
 //		col1 = new VerticalComponentList(0, 200, 500, 500, testlist);
 //		col2 = new VerticalComponentList(0, 200, 500, 500, testlist);
@@ -55,12 +59,12 @@ public class TablesViewMode extends ViewMode {
 //		colList.add(col1);
 //		colList.add(col2);
 //		colList.add(col3);
-//		container.addComponent(new HorizontalComponentList(0, 200, 500, 500, colList));
+		container.addComponent(new VerticalComponentList(0, 0, 600, 600, testlist));
 				
 		this.addComponent(container);
 
-		this.registerAllClickListeners();
-		this.registerAllKeyListeners();
+//		this.registerAllClickListeners();
+//		this.registerAllKeyListeners();
 
 	}
 

@@ -205,7 +205,7 @@ public abstract class Component {
 	 * @post The width is set with the given value.
 	 *       | new.getWidth() == width
 	 */
-	private void setWidth(int width) {
+	protected void setWidth(int width) {
 		if (width < 0) {
 			throw new IllegalArgumentException("The width of the component cannot be negative.");
 		}
@@ -230,7 +230,7 @@ public abstract class Component {
 	 * @post The height is set with the given value.
 	 *       | new.getHeight() == height
 	 */
-	private void setHeight(int height) {
+	protected void setHeight(int height) {
 		if (height < 0) {
 			throw new IllegalArgumentException("The height of the component cannot be negative.");
 		}

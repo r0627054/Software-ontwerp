@@ -45,6 +45,13 @@ public class Container extends Component {
 	public List<Component> getComponentsList(){
 		return this.components;
 	}
+	public int getMaxHeightFromChildren() {
+		return getComponentsList().stream().mapToInt(c -> c.getHeight()).max().orElse(0);
+	}
+	
+	public int getMaxWidthFromChildren() {
+		return getComponentsList().stream().mapToInt(c -> c.getWidth()).max().orElse(0);
+	}
 	/*
 	 * private void setParent(ViewMode parent) { if (parent == null) { throw new
 	 * IllegalArgumentException("Parent cannot be null of a container"); }
