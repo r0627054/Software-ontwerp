@@ -15,14 +15,22 @@ public class HorizontalComponentList extends ContainerList {
 	public HorizontalComponentList(int x, int y, int width, int height) {
 		this(x, y, width, height, new ArrayList<Component>());
 	}
+	
+	private void positionChildren() {
+		int tempX = getX();
+		for (Component c : getComponentsList()) {
+			c.setX(tempX);
+			c.setY(this.getY());
+			tempX += c.getWidth();
+		}
+
+	}
 
 	@Override
 	public void paint(Graphics2D g) {
+		positionChildren();
 		for (Component c : getComponentsList()) {
-			c.setX(this.currentX + c.getX());
-			c.setY(this.getY());
 			c.paint((Graphics2D) g.create());
-			this.currentX += c.getWidth();
 		}
 		setCurrentX(getX());
 	}
