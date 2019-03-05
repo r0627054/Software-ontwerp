@@ -2,6 +2,9 @@ package ui.model.viewmodes;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,10 +12,12 @@ import java.util.List;
 import ui.model.components.Component;
 import ui.model.view.View;
 
-public abstract class ViewMode {
+public abstract class ViewMode implements PropertyChangeListener{
 	private List<Component> components = new ArrayList<>();
 	private List<Component> clickListeners = new ArrayList<>();
 	private List<Component> keyListeners = new ArrayList<>();
+	
+	private PropertyChangeSupport support;
 	
 	private View view; 
 	
@@ -21,9 +26,17 @@ public abstract class ViewMode {
 	public ViewMode(String name, View v) {
 		this.setName(name);
 		this.view = view;
-
+		support = new PropertyChangeSupport(this);
 		registerWindowChangeListeners();
 	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
 
 	public String getName() {
 		return name;
@@ -103,6 +116,12 @@ public abstract class ViewMode {
 		for (Component c : keyListeners) {
 			c.keyPressed(id, keyCode, keyChar);
 		}
+	}
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("ViewMode propertyChange called");
+		this.support.firePropertyChange(evt);
+		
 	}
 	
 	abstract void registerWindowChangeListeners();

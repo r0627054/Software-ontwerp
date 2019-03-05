@@ -1,6 +1,8 @@
 package ui.model.view;
 
 import java.awt.Graphics;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,7 @@ import ui.model.window.CanvasWindow;
  * @author Dries Janse
  *
  */
-public class View extends CanvasWindow {
+public class View extends CanvasWindow implements PropertyChangeListener{
 
 	/**
 	 * Variable storing the current (view mode)
@@ -44,6 +46,8 @@ public class View extends CanvasWindow {
 	private void initTestingModes() {
 		TablesViewMode tablesViewMode1 = new TablesViewMode("Tables1", this);
 		TablesViewMode tablesViewMode2 = new TablesViewMode("Tables2", this);
+		tablesViewMode1.addPropertyChangeListener(this);
+		tablesViewMode2.addPropertyChangeListener(this);
 		addViewMode(tablesViewMode1);
 		addViewMode(tablesViewMode2);
 		changeModeTo("Tables1");
@@ -57,9 +61,9 @@ public class View extends CanvasWindow {
 		this.currentMode.paint(g);
 	}
 
-	/*public void repaintTest() {
+	public void repaintTest() {
 		this.repaint();
-	}*/
+	}
 	
 	/**
 	 * Returns the current mode of the view.
@@ -120,7 +124,7 @@ public class View extends CanvasWindow {
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
 		currentMode.mouseClicked(id, x, y, clickCount);
 
-		this.repaint();
+		//this.repaint();
 		// Steven: Ik denk niet dat dit de juiste plaats is om te repainten?
 		// Weet niet goed hoe ik terug vanaf de Components naar de View kan callen om te
 		// repainten.
@@ -134,7 +138,7 @@ public class View extends CanvasWindow {
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		currentMode.keyPressed(id, keyCode, keyChar);
 		
-		this.repaint();
+		//this.repaint();
 		//Same as handleMouseEvent
 		//Dit is enkel om te testen/tonen dat EditableTextField werkt!
 	}
@@ -150,6 +154,13 @@ public class View extends CanvasWindow {
 		//-> Lijkt me ook niet echt juist, niet super goed ivm toekomstige nieuwe ViewModes
 		
 		//3) De benodigde functie in ViewMode zelf schrijven is al helemaal fout
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("View PropertyChange called");
+		this.repaint();
+		
 	}
 
 }

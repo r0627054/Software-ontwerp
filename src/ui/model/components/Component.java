@@ -1,6 +1,9 @@
 package ui.model.components;
 
 import java.awt.Graphics2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
@@ -11,6 +14,8 @@ import java.awt.Graphics2D;
  *
  */
 public abstract class Component {
+	
+	private PropertyChangeSupport support;
 
 	/**
 	 * Variable storing the x coordinate of the component.
@@ -68,7 +73,16 @@ public abstract class Component {
 		this.setHeight(height);
 		this.setWidth(width);
 		this.setHidden(hidden);
+		this.support = new PropertyChangeSupport(this);
 	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
 
 	/**
 	 * Initialise the given component with the given width, height and hidden.
@@ -261,10 +275,8 @@ public abstract class Component {
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
 	protected void propertyChanged() {	
-		//Dit faalt omdat je nog geen container meegeeft via de constructors van Components
-		//Zie Container klasse commentaar
-		
-		//container.repaintContainer();
+		System.out.println("Component PropertyChanged called");
+		support.firePropertyChange(new PropertyChangeEvent("Component",	null, null, null));
 	}
 
 }
