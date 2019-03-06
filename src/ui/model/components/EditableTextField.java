@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 public class EditableTextField extends TextField {
 
 	/**
-	 * Variable to determine if the checkbox is selected
+	 * Variable to determine if the textfield is selected
 	 */
 	private boolean selected = false;
 
@@ -48,20 +48,21 @@ public class EditableTextField extends TextField {
 //		System.out.println("X= " + getX() + "|y= " + getY() + "| xClick = " + x + "| yClick= " + y);
 //		System.out.println("ISWITHIN: " + isWithinComponent(x, y));
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			System.out.println("ETF clicked");
-
 			if (!this.selected) {
 				resetCursorPosition();
-				this.selected = true;
+				select();
 			}
-		} else {
-			this.selected = false;
-		}
+		} 
+	}
+	
+	@Override
+	public void outsideClick() {
+		unselect();
 	}
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
-		if (this.selected) {
+		if (isSelected()) {
 			if (id == KeyEvent.KEY_PRESSED) {
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
@@ -79,6 +80,16 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
+	}
+	private void select() {
+		this.selected = true;
+	}
+	private void unselect() {
+		this.selected = false;
+	}
+	
+	public boolean isSelected() {
+		return this.selected;
 	}
 
 	private void deleteChar() {

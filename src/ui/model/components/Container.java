@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import ui.model.viewmodes.ViewMode;
 
 public class Container extends Component {
 
