@@ -27,6 +27,10 @@ public class EditableTextField extends TextField {
 		this.resetCursorPosition();
 	}
 
+	public EditableTextField(String string) {
+		this(0, 0, 50, 100, string); //TODO: Defaults
+	}
+
 	@Override
 	public void paint(Graphics2D g) {
 		if (this.selected) {
@@ -41,6 +45,8 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
+//		System.out.println("X= " + getX() + "|y= " + getY() + "| xClick = " + x + "| yClick= " + y);
+//		System.out.println("ISWITHIN: " + isWithinComponent(x, y));
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
 			System.out.println("ETF clicked");
 
@@ -76,11 +82,11 @@ public class EditableTextField extends TextField {
 	}
 
 	private void deleteChar() {
-		if(position!=0) {
-			String left = getText().substring(0, position-1);
+		if (position != 0) {
+			String left = getText().substring(0, position - 1);
 			String right = getText().substring(position, getText().length());
 			setText(left + right);
-			moveCursorLocationLeft();			
+			moveCursorLocationLeft();
 		}
 	}
 

@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +14,20 @@ public class Column extends VerticalComponentList {
 		this(x, y, width, height, new ArrayList<Component>());
 	}
 
+	public Column(int x, int y, List<Component> listItems) {
+		this(x, y, 0, 0, listItems);
+
+		// TODO: Add columnHeader + add columnHeader height to height
+	}
+
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		System.out.println();
+
+		if (id == MouseEvent.MOUSE_CLICKED) {
+			System.out.println("Column is geklikt hehe");
+			System.out.println("column clicked with x=" + getX() + "& y= " + getY() + "| width= " + getWidth()
+					+ "|height= " + getHeight());
+		}
 		for (Component c : getComponentsList()) {
 			if (c.isWithinComponent(x, y))
 				c.mouseClicked(id, x, y, clickCount);

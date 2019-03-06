@@ -12,6 +12,10 @@ public class CheckBox extends Component {
 
 	private boolean checked;
 
+	public CheckBox(boolean checked) {
+		this(0, 0, checked);
+	}
+
 	public CheckBox(int x, int y, boolean checked) {
 		this(x, y, SIZE, SIZE, checked);
 	}

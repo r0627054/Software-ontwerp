@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 public class TextField extends Component {
-	public static final String FONT = "NewTimesRoman";
+	public Font font;
 	public static final int MARGIN = 3;
 
 	private String text;
@@ -17,6 +17,17 @@ public class TextField extends Component {
 	public TextField(int x, int y, int width, int height, boolean hidden, String text) {
 		super(x, y, width, height, hidden);
 		this.setText(text);
+		this.setFont(new Font("NewTimesRoman", Font.PLAIN, getHeight()));
+	}
+
+	private void setFont(Font font) {
+		if (font == null)
+			throw new IllegalArgumentException("Font cannot be null inside a TextField.");
+		this.font = font;
+	}
+
+	public Font getFont() {
+		return this.font;
 	}
 
 	public void setText(String text) {
@@ -33,15 +44,13 @@ public class TextField extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.BLACK);		
+		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
 		g.setClip(getX() + MARGIN, getY() + MARGIN, getWidth() - 2 * MARGIN, getHeight() - 2 * MARGIN);
 
-		Font f = new Font(FONT, Font.PLAIN, getHeight());
-		g.setFont(f);
-
-		
+		g.setFont(this.getFont());
+		//g.getFontMetrics().stringWidth("breedte van deze string");
 
 		g.drawString(text, getX() + MARGIN, getOffsetY() - MARGIN);
 	}
