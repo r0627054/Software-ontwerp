@@ -11,6 +11,19 @@ public class Cell extends Component {
 	public Cell(int x, int y, int width, int height, Object value) {
 		super(x, y, width, height, false);
 		createComponent(value);
+		setComponentCoordinates(x, y, width, height);
+	}
+
+	private void setComponentCoordinates(int x, int y, int width, int height) {
+		component.setX(x);
+		component.setY(y);
+		component.setWidth(width);
+		component.setHeight(height);
+		
+	}
+	
+	private void refreshComponentCoordinates() {
+		setComponentCoordinates(getX(), getY(), getWidth(), getHeight());
 	}
 
 	public Cell(int x, int y, Object value) {
@@ -25,6 +38,7 @@ public class Cell extends Component {
 		}
 
 	}
+	
 
 	public Component getComponent() {
 		return component;
@@ -36,7 +50,8 @@ public class Cell extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		System.out.println("Cell painted at:" + getX() + "| y= " + getY());
+		refreshComponentCoordinates();
+		System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
 		component.paint(g);
 
 	}

@@ -17,7 +17,7 @@ public class TextField extends Component {
 	public TextField(int x, int y, int width, int height, boolean hidden, String text) {
 		super(x, y, width, height, hidden);
 		this.setText(text);
-		this.setFont(new Font("NewTimesRoman", Font.PLAIN, getHeight()));
+		this.setFont(new Font("NewTimesRoman", Font.PLAIN, 12));
 	}
 
 	private void setFont(Font font) {

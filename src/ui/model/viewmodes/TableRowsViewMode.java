@@ -23,21 +23,21 @@ public class TableRowsViewMode extends ViewMode {
 		// Testing purposes
 		List<Object> col1 = new ArrayList<>();
 		col1.add("1. fmdksjmfk");
-//		col1.add("2. fmdksjmfk");
-//		col1.add("3. fmdksjmfk");
-//		col1.add("4. fmdksjmfk");
+		col1.add("2. fmdksjmfk");
+		col1.add("3. fmdksjmfk");
+		col1.add("4. fmdksjmfk");
 
 		List<Object> col2 = new ArrayList<>();
 		col2.add(new Boolean(true));
-//		col2.add(new Boolean(true));
-//		col2.add(new Boolean(false));
-//		col2.add(new Boolean(true));
+		col2.add(new Boolean(true));
+		col2.add(new Boolean(false));
+		col2.add(new Boolean(true));
 
 		List<Object> list3 = new ArrayList<>();
 		list3.add(1546532);
-//		list3.add(35653186);
-//		list3.add(123);
-//		list3.add(123);
+		list3.add(35653186);
+		list3.add(123);
+		list3.add(123);
 
 		Map<String, List<Object>> tableMap = new HashMap<>();
 		tableMap.put("Header1", col1);

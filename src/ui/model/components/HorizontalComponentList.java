@@ -36,6 +36,7 @@ public class HorizontalComponentList extends ContainerList {
 
 	@Override
 	public void paint(Graphics2D g) {
+		positionChildren();
 		System.out.println("HorizontalComponentList paint method");
 		for (Component c : getComponentsList()) {
 			c.paint((Graphics2D) g.create());

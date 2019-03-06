@@ -11,33 +11,41 @@ public class Table extends Component {
 
 	private HorizontalComponentList columns;
 
-	public Table(int x, int y, int width, int height, boolean hidden) {
+	public Table(int x, int y, int width, int height, boolean hidden, Map<String, List<Object>> values) {
 		super(x, y, width, height, false);
-		
-		//TODO: Set max width/Height of table;
-
-		this.columns = new HorizontalComponentList(x, y);
+		initTable(values);
 	}
 
 	public Table(int x, int y, int width, int height, Map<String, List<Object>> values) {
-		this(x, y, width, height, false);
+		this(x, y, width, height, false, values);
+		
+	}
 
+	private void initTable(Map<String, List<Object>> values) {
+		List<Component> columnList = new ArrayList<Component>();
 		for (String columnKey : values.keySet()) {
+			
 			List<Object> columnValues = values.get(columnKey);
-			List<Component> componentList = new ArrayList<>();
+			
+			List<Component> cells = new ArrayList<Component>();
+			
+			ColumnHeader header = new ColumnHeader(columnKey);
+			cells.add(header);
 
 			for (Object obj : columnValues) {
-				componentList.add(new Cell(0, 0, obj));
+				cells.add(new Cell(0, 0, obj));
 			}
-
-			columns.addComponent(new Column(0, 0, componentList));
+			columnList.add(new Column(0, 0, cells));
 		}
+		columns = new HorizontalComponentList(this.getX(), getY(), columnList);
+		
 	}
+
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
+//		g.setColor(Color.WHITE);
+//		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
 		this.columns.paint((Graphics2D) g.create());
 	}

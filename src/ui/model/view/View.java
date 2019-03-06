@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ui.model.viewmodes.TableRowsViewMode;
 import ui.model.viewmodes.TablesViewMode;
 import ui.model.viewmodes.ViewMode;
 import ui.model.window.CanvasWindow;
@@ -50,7 +51,10 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		TablesViewMode tablesViewMode = new TablesViewMode("TablesViewMode", tableNames);
 		tablesViewMode.addPropertyChangeListener(this);
 		addViewMode(tablesViewMode);
-		changeModeTo("TablesViewMode");
+		TableRowsViewMode tableRowsViewMode = new TableRowsViewMode("TableRowsViewMode");
+		tableRowsViewMode.addPropertyChangeListener(this);
+		addViewMode(tableRowsViewMode);
+		changeModeTo("TableRowsViewMode");
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {

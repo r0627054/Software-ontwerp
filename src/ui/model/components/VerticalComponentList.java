@@ -14,7 +14,6 @@ public class VerticalComponentList extends ContainerList {
 		setWidth(this.getMaxWidthFromChildren());
 
 		positionChildren();
-//		positionSelfCenter();
 	}
 
 	public VerticalComponentList(int x, int y, int width, int height) {
@@ -46,6 +45,7 @@ public class VerticalComponentList extends ContainerList {
 
 	@Override
 	public void paint(Graphics2D g) {
+		positionChildren();
 		for (Component c : getComponentsList()) {
 			c.paint((Graphics2D) g.create());
 		}

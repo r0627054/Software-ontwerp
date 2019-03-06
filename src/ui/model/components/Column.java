@@ -1,10 +1,12 @@
 package ui.model.components;
 
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Column extends VerticalComponentList {
+	
 
 	public Column(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, listItems);
@@ -38,6 +40,10 @@ public class Column extends VerticalComponentList {
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public void paint(Graphics2D g) {
+		super.paint(g);
 	}
 
 }
