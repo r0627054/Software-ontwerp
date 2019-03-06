@@ -36,11 +36,6 @@ public class EditableTextField extends TextField {
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
 		super.paint((Graphics2D) g.create());
-		
-
-		// TODO: blinkende cursor
-		// Een '|' char toevoegen & verwijderen op de 'position plaats' vd text elke
-		// seconde?
 	}
 
 	@Override

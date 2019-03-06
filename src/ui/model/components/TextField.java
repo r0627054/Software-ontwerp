@@ -33,7 +33,7 @@ public class TextField extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLACK);		
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
 		g.setClip(getX() + MARGIN, getY() + MARGIN, getWidth() - 2 * MARGIN, getHeight() - 2 * MARGIN);
@@ -41,19 +41,17 @@ public class TextField extends Component {
 		Font f = new Font(FONT, Font.PLAIN, getHeight());
 		g.setFont(f);
 
+		
+
 		g.drawString(text, getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
-		// TODO Auto-generated method stub
-
 	}
 
 }

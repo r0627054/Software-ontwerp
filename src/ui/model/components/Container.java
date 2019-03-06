@@ -23,7 +23,6 @@ public class Container extends Component {
 	// 5) In Swing/AWT zijn Containers ook geen JComponent's
 
 	private List<Component> components = new ArrayList<>();
-	// private ViewMode parent;
 
 	public Container(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, false);
@@ -52,19 +51,13 @@ public class Container extends Component {
 	public int getMaxWidthFromChildren() {
 		return getComponentsList().stream().mapToInt(c -> c.getWidth()).max().orElse(0);
 	}
-	/*
-	 * private void setParent(ViewMode parent) { if (parent == null) { throw new
-	 * IllegalArgumentException("Parent cannot be null of a container"); }
-	 * this.parent = parent;
-	 * 
-	 * }
-	 */
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.LIGHT_GRAY);
+		g.setColor(new Color(226, 226, 226));
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(Color.BLACK);
+		g.clipRect(getX(), getY(), getWidth(), getHeight());
 
 		for (Component c : components) {
 			c.paint((Graphics2D) g.create());
@@ -90,9 +83,5 @@ public class Container extends Component {
 
 		this.components.add(c);
 	}
-
-	/*
-	 * public void repaintContainer() { parent.repaint(); }
-	 */
 
 }

@@ -12,7 +12,7 @@ public class CheckBox extends Component {
 	private boolean checked;
 
 	public CheckBox(int x, int y, boolean checked) {
-		this(x,y,false,checked);
+		this(x, y, false, checked);
 	}
 
 	public CheckBox(int x, int y, boolean hidden, boolean checked) {
@@ -24,20 +24,21 @@ public class CheckBox extends Component {
 		this.checked = checked;
 		propertyChanged();
 	}
-	
+
 	public boolean isChecked() {
 		return checked;
 	}
 
 	@Override
 	public void paint(Graphics2D g) {
+
 		g.setStroke(new BasicStroke(STROKE_WIDTH_BOX, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
 		g.drawRect(getX(), getY(), SIZE, SIZE);
-		
+
 		if (this.checked) {
 			g.setStroke(new BasicStroke(STROKE_WIDTH_CROSS, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-			g.drawLine(getX(), getY(), getOffsetX(), getOffsetY());
-			g.drawLine(getX(), getOffsetY(), getOffsetX(), getY());
+			g.drawLine(getX(), getY(), getX() + SIZE, getY() + SIZE);
+			g.drawLine(getX(), getOffsetY(), getX() + SIZE, getY());
 		}
 	}
 
@@ -53,6 +54,5 @@ public class CheckBox extends Component {
 		// TODO Auto-generated method stub
 
 	}
-
 
 }

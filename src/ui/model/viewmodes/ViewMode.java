@@ -12,15 +12,15 @@ import java.util.List;
 import ui.model.components.Component;
 import ui.model.view.View;
 
-public abstract class ViewMode implements PropertyChangeListener{
+public abstract class ViewMode implements PropertyChangeListener {
 	private List<Component> components = new ArrayList<>();
 	private List<Component> clickListeners = new ArrayList<>();
 	private List<Component> keyListeners = new ArrayList<>();
-	
+
 	private PropertyChangeSupport support;
-	
-	private View view; 
-	
+
+	private View view;
+
 	private String name;
 
 	public ViewMode(String name, View v) {
@@ -29,14 +29,14 @@ public abstract class ViewMode implements PropertyChangeListener{
 		support = new PropertyChangeSupport(this);
 		registerWindowChangeListeners();
 	}
-	
+
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
-    }
- 
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        support.removePropertyChangeListener(pcl);
-    }
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
+	}
 
 	public String getName() {
 		return name;
@@ -98,7 +98,7 @@ public abstract class ViewMode implements PropertyChangeListener{
 
 		this.clickListeners.add(c);
 	}
-	
+
 	protected void addKeyListener(Component c) {
 		if (c == null)
 			throw new IllegalArgumentException("A new key listener cannot be null");
@@ -108,7 +108,8 @@ public abstract class ViewMode implements PropertyChangeListener{
 
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		for (Component c : clickListeners) {
-			c.mouseClicked(id, x, y, clickCount);
+			if (c.isWithinComponent(x, y))
+				c.mouseClicked(id, x, y, clickCount);
 		}
 	}
 
@@ -117,13 +118,14 @@ public abstract class ViewMode implements PropertyChangeListener{
 			c.keyPressed(id, keyCode, keyChar);
 		}
 	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println("ViewMode propertyChange called");
 		this.support.firePropertyChange(evt);
-		
+
 	}
-	
+
 	abstract void registerWindowChangeListeners();
 
 	abstract void registerAllKeyListeners();
