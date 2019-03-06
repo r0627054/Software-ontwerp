@@ -2,50 +2,35 @@ package ui.model.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class Table extends Component {
 
-	private List<Column> rows;
+	private HorizontalComponentList columns;
 
 	public Table(int x, int y, int width, int height, boolean hidden) {
 		super(x, y, width, height, false);
+		
+		//TODO: Set max width/Height of table;
 
-		this.rows = new ArrayList<>();
+		this.columns = new HorizontalComponentList(x, y);
 	}
 
 	public Table(int x, int y, int width, int height, Map<String, List<Object>> values) {
 		this(x, y, width, height, false);
 
-		int currX = getX();
-		int currY = getY();
-		int currWidth = this.getWidth() / values.size();
-		int currHeight;
-
 		for (String columnKey : values.keySet()) {
 			List<Object> columnValues = values.get(columnKey);
-			currHeight = getHeight() / (columnValues.size() + 1);
-			List<Component> compList = new ArrayList<>();
-
-			ColumnHeader header = new ColumnHeader(currX, getY(), currWidth, currHeight, columnKey);
-			compList.add(header);
-			currY += currHeight;
+			List<Component> componentList = new ArrayList<>();
 
 			for (Object obj : columnValues) {
-				if (obj instanceof String || obj instanceof Integer) {
-					compList.add(new EditableTextField(currX, currY, currWidth, currHeight, (String) obj.toString()));
-				} else if (obj instanceof Boolean) {
-					compList.add(new CheckBox(currX, currY, currWidth, currHeight, (Boolean) obj));
-					System.out.println("Creating checkbox with y= " + currY);
-				}
-				currY += currHeight;
+				componentList.add(new Cell(0, 0, obj));
 			}
-			Column tempCol = new Column(currX, getY(), currWidth, this.getHeight(), compList);
-			rows.add(tempCol);
-			currX += currWidth;
-			currY = getY();
+
+			columns.addComponent(new Column(0, 0, componentList));
 		}
 	}
 
@@ -53,19 +38,14 @@ public class Table extends Component {
 	public void paint(Graphics2D g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
-		g.setColor(Color.BLACK);
 
-		for (Column list : rows) {
-			list.paint((Graphics2D) g.create());
-		}
+		this.columns.paint((Graphics2D) g.create());
 	}
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		for (Column r : rows) {
-			if (r.isWithinComponent(x, y)) {
-				r.mouseClicked(id, x, y, clickCount);
-			}
+		if (this.columns.isWithinComponent(x, y)) {
+			columns.mouseClicked(id, x, y, clickCount);
 		}
 	}
 

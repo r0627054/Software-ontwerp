@@ -50,6 +50,15 @@ public class Container extends Component {
 	public int getMaxWidthFromChildren() {
 		return getComponentsList().stream().mapToInt(c -> c.getWidth()).max().orElse(0);
 	}
+	
+	public int getSumWidthFromChildren() {
+		return getComponentsList().stream().mapToInt(c -> c.getWidth()).sum();
+	}
+	
+	public int getSumHeightFromChildren() {
+		return getComponentsList().stream().mapToInt(c -> c.getHeight()).sum();
+	}
+
 
 	@Override
 	public void paint(Graphics2D g) {
