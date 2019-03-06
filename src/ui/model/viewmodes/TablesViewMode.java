@@ -74,43 +74,11 @@ public class TablesViewMode extends ViewMode {
 //		colList.add(col2);
 //		colList.add(col3);
 //		container.addComponent(new VerticalComponentList(0, 0, 600, 600, testlist));
-		//addDummyTable();
-		
 		this.addComponent(container);
 
 //		this.registerAllClickListeners();
 //		this.registerAllKeyListeners();
 
-	}
-	
-	private void addDummyTable() {
-		//Testing purposes
-		List<Object> col1 = new ArrayList<>();
-		col1.add("1. fmdksjmfk");
-		col1.add("2. fmdksjmfk");
-		col1.add("3. fmdksjmfk");
-		col1.add("4. fmdksjmfk");
-
-		List<Object> col2 = new ArrayList<>();
-		col2.add(new Boolean(true));
-		col2.add(new Boolean(true));
-		col2.add(new Boolean(false));
-		col2.add(new Boolean(true));
-
-		List<Object> list3 = new ArrayList<>();
-		list3.add(1546532);
-		list3.add(35653186);
-		list3.add(123);
-		list3.add(123);
-
-		Map<String, List<Object>> tableMap = new HashMap<>();
-		tableMap.put("Header1", col1);
-		tableMap.put("Header2", col2);
-		tableMap.put("Header3", list3);
-
-		Table table = new Table(50, 50, 500, 150, tableMap);
-		this.addClickListener(table);
-		container.addComponent(table);
 	}
 
 	@Override
