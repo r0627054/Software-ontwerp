@@ -3,6 +3,7 @@ package ui.model.view;
 import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ import ui.model.window.CanvasWindow;
  *
  */
 public class View extends CanvasWindow implements PropertyChangeListener{
-
+	
+	private PropertyChangeSupport support;
+	
 	/**
 	 * Variable storing the current (view mode)
 	 */
@@ -40,6 +43,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	 */
 	public View(String title) {
 		super(title);
+		support = new PropertyChangeSupport(this);
 		initTestingModes();
 	}
 
@@ -52,6 +56,14 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		addViewMode(tablesViewMode2);
 		changeModeTo("Tables1");
 	}
+	
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+        support.addPropertyChangeListener(pcl);
+    }
+ 
+    public void removePropertyChangeListener(PropertyChangeListener pcl) {
+        support.removePropertyChangeListener(pcl);
+    }
 
 	/**
 	 * Paints the current mode.
@@ -159,6 +171,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println("View PropertyChange called");
+		this.support.firePropertyChange(evt);
 		this.repaint();
 		
 	}
