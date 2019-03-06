@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
+
 
 import ui.model.components.CheckBox;
 import ui.model.components.Component;
@@ -19,18 +19,18 @@ import ui.model.components.VerticalComponentList;
 import ui.model.view.View;
 
 public class TablesViewMode extends ViewMode {
-	private CheckBox cb;
-	private TextField textfield;
-	private TextField textfield1;
-	private TextField textfield2;
-	private TextField textfield3;
-	private VerticalComponentList col1;
-	private VerticalComponentList col2;
-	private VerticalComponentList col3;
+//	private CheckBox cb;
+//	private TextField textfield;
+//	private TextField textfield1;
+//	private TextField textfield2;
+//	private TextField textfield3;
+//	private VerticalComponentList col1;
+//	private VerticalComponentList col2;
+//	private VerticalComponentList col3;
 	private Container container;
 
-	public TablesViewMode(String name, View view) {
-		super(name, view);
+	public TablesViewMode(String name, List<String> tableNames) {
+		super(name);
 		container = new Container(0, 0, 600, 600);
 
 //		textfield = new EditableTextField(50, 50, 200, 30, "test");
@@ -39,7 +39,18 @@ public class TablesViewMode extends ViewMode {
 //		cb.addPropertyChangeListener(this);
 //		textfield.addPropertyChangeListener(this);
 
-//		List<Component> testlist = new ArrayList<>();
+		List<Component> tablesList = new ArrayList<>();
+		
+		tableNames.forEach(tableName -> {
+			TextField textField = new EditableTextField(50, 50, 200, 30, tableName);
+			textField.addPropertyChangeListener(this);
+			this.addClickListener(textField);
+			this.addKeyListener(textField);
+			tablesList.add(textField);
+		});
+		container.addComponent(new VerticalComponentList(0, 0, 600, 600, tablesList));
+		
+		
 //		textfield1 = new EditableTextField(50, 50, 250, 35, "testfadsf");
 //		textfield2 = new EditableTextField(50, 50, 200, 30, "test123");
 //		textfield3 = new EditableTextField(50, 50, 150, 25, "test44444");
@@ -72,13 +83,13 @@ public class TablesViewMode extends ViewMode {
 
 	@Override
 	void registerAllKeyListeners() {
-		this.addKeyListener(textfield);
+		//this.addKeyListener(textfield);
 	}
 
 	@Override
 	void registerAllClickListeners() {
-		this.addClickListener(cb);
-		this.addClickListener(textfield);
+//		this.addClickListener(cb);
+//		this.addClickListener(textfield);
 
 	}
 
