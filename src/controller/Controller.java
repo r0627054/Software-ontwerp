@@ -1,19 +1,21 @@
 package controller;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
-public class Controller {
+public class Controller implements PropertyChangeListener{
 	private UIFacadeInterface uiFacade;
 	private DomainFacadeInterface domainFacade;
 
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-		
-		this.uiFacade.setTableNames(domainFacade.getTableNames());
-		
-		this.uiFacade.show();
+		this.getUiFacade().setTableNames(domainFacade.getTableNames());
+		this.getUiFacade().addPropertyChangeListener(this);
+		this.getUiFacade().show();
 	}
 
 	public UIFacadeInterface getUiFacade() {
@@ -34,6 +36,12 @@ public class Controller {
 	
 	public void addTable(String name) {
 		this.domainFacade.addTable(name);
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt) {
+		System.out.println("Controller change fired");
+		
 	}
 
 }

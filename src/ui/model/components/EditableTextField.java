@@ -73,14 +73,16 @@ public class EditableTextField extends TextField {
 	}
 
 	private void deleteChar() {
-		String left = getText().substring(0, position);
-		String right = getText().substring(position + 1, getText().length());
-		setText(left + right);
-		moveCursorLocationLeft();
+		if(position!=0) {
+			String left = getText().substring(0, position-1);
+			String right = getText().substring(position, getText().length());
+			setText(left + right);
+			moveCursorLocationLeft();			
+		}
 	}
 
 	private void setPosition(int pos) {
-		if (pos <= 0 || pos > getText().length() - 1) {
+		if (pos < 0 || pos > getText().length()) {
 			throw new IllegalArgumentException(
 					"The position cannot be set to below 0 or higher than the length of the text.");
 		}
@@ -92,21 +94,21 @@ public class EditableTextField extends TextField {
 	}
 
 	private void moveCursorLocationRight() {
-		if (this.position < this.getText().length() - 1) {
+		if (this.position < this.getText().length()) {
 			this.setPosition(getPosition() + 1);
 		}
 
 	}
 
 	private void moveCursorLocationLeft() {
-		if (this.position > 1) {
+		if (this.position >= 0) {
 			this.setPosition(getPosition() - 1);
 		}
 
 	}
 
 	private void resetPosition() {
-		this.setPosition(getText().length() - 1);
+		this.setPosition(getText().length());
 	}
 
 }
