@@ -66,8 +66,10 @@ public class Container extends Component {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
+		for(Component c: getComponentsList()) {
+			if (c.isWithinComponent(x, y))
+				c.mouseClicked(id, x, y, clickCount);
+		}
 	}
 
 	@Override

@@ -1,28 +1,25 @@
 package ui.model.components;
 
-import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Column extends Component {
+public class Column extends VerticalComponentList {
+
+	public Column(int x, int y, int width, int height, List<Component> listItems) {
+		super(x, y, width, height, listItems);
+	}
 
 	public Column(int x, int y, int width, int height) {
-		super(x, y, width, height, false);
-	}
-
-	public Column(int x, int y, int width, int height, List<Object> values) {
-		this(x, y, width, height);
-	}
-
-	@Override
-	public void paint(Graphics2D g) {
-		// TODO Auto-generated method stub
-
+		this(x, y, width, height, new ArrayList<Component>());
 	}
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
+		System.out.println();
+		for (Component c : getComponentsList()) {
+			if (c.isWithinComponent(x, y))
+				c.mouseClicked(id, x, y, clickCount);
+		}
 	}
 
 	@Override
