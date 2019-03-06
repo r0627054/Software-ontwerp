@@ -109,6 +109,7 @@ public class TablesViewMode extends ViewMode {
 		tableMap.put("Header3", list3);
 
 		Table table = new Table(50, 50, 500, 150, tableMap);
+		this.addClickListener(table);
 		container.addComponent(table);
 	}
 

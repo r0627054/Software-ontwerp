@@ -15,6 +15,10 @@ public class Row extends VerticalComponentList {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
+		for (Component c : getComponentsList()) {
+			if (c.isWithinComponent(x, y))
+				c.mouseClicked(id, x, y, clickCount);
+		}
 	}
 
 	@Override
