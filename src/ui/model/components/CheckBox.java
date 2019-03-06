@@ -2,6 +2,7 @@ package ui.model.components;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 public class CheckBox extends Component {
@@ -12,16 +13,17 @@ public class CheckBox extends Component {
 	private boolean checked;
 
 	public CheckBox(int x, int y, boolean checked) {
-		this(x, y, false, checked);
+		this(x, y, SIZE, SIZE, checked);
 	}
 
-	public CheckBox(int x, int y, boolean hidden, boolean checked) {
-		super(x, y, SIZE, SIZE, hidden);
-		this.setChecked(checked);
+	public CheckBox(int x, int y, int width, int height, boolean checked) {
+		super(x, y, width, height, false);
+		setChecked(checked);
 	}
 
 	private void setChecked(boolean checked) {
 		this.checked = checked;
+		System.out.println("new Checked value! =" + checked);
 		propertyChanged();
 	}
 
@@ -31,20 +33,27 @@ public class CheckBox extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
+		int x1 = getX() + (getWidth() - SIZE) / 2;
+		int y1 = getY() + (getHeight() - SIZE) / 2;
+
+		if (getWidth() != SIZE) {
+			g.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 
 		g.setStroke(new BasicStroke(STROKE_WIDTH_BOX, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-		g.drawRect(getX(), getY(), SIZE, SIZE);
+		g.drawRect(x1, y1, SIZE, SIZE);
 
 		if (this.checked) {
 			g.setStroke(new BasicStroke(STROKE_WIDTH_CROSS, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-			g.drawLine(getX(), getY(), getX() + SIZE, getY() + SIZE);
-			g.drawLine(getX(), getOffsetY(), getX() + SIZE, getY());
+			g.drawLine(x1, y1, x1 + SIZE, y1 + SIZE);
+			g.drawLine(x1, y1 + SIZE, x1 + SIZE, y1);
 		}
 	}
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
+			System.out.println("Checkbox clicked");
 			this.setChecked(!isChecked());
 		}
 	}

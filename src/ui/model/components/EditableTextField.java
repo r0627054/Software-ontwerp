@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public class EditableTextField extends TextField {
 
@@ -23,7 +24,7 @@ public class EditableTextField extends TextField {
 
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue) {
 		super(x, y, width, height, hidden, defaultValue);
-		this.resetPosition();
+		this.resetCursorPosition();
 	}
 
 	@Override
@@ -40,9 +41,11 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (isWithinComponent(x, y)) {
+		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
+			System.out.println("ETF clicked");
+
 			if (!this.selected) {
-				resetPosition();
+				resetCursorPosition();
 				this.selected = true;
 			}
 		} else {
@@ -107,7 +110,7 @@ public class EditableTextField extends TextField {
 
 	}
 
-	private void resetPosition() {
+	private void resetCursorPosition() {
 		this.setPosition(getText().length());
 	}
 

@@ -37,15 +37,14 @@ public class Table extends Component {
 
 			for (Object obj : columnValues) {
 				if (obj instanceof String || obj instanceof Integer) {
-					compList.add(new TextField(currX, currY, currWidth, currHeight, (String) obj.toString()));
+					compList.add(new EditableTextField(currX, currY, currWidth, currHeight, (String) obj.toString()));
 				} else if (obj instanceof Boolean) {
-					compList.add(new CheckBox(currX, currY, (Boolean) obj));
+					compList.add(new CheckBox(currX, currY, currWidth, currHeight, (Boolean) obj));
 					System.out.println("Creating checkbox with y= " + currY);
 				}
 				currY += currHeight;
 			}
 			Row tempCol = new Row(currX, getY(), currWidth, this.getHeight(), compList);
-
 			rows.add(tempCol);
 			currX += currWidth;
 			currY = getY();
@@ -65,8 +64,11 @@ public class Table extends Component {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
+		for (Row r : rows) {
+			if (r.isWithinComponent(x, y)) {
+				r.mouseClicked(id, x, y, clickCount);
+			}
+		}
 	}
 
 	@Override
