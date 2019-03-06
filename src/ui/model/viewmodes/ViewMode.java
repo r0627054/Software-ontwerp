@@ -105,8 +105,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		for (Component c : clickListeners) {
-			if (c.isWithinComponent(x, y))
-				c.mouseClicked(id, x, y, clickCount);
+			if (c.isWithinComponent(x, y)) {
+				c.mouseClicked(id, x, y, clickCount);				
+			} else {
+				c.outsideClick();
+			}
 		}
 	}
 

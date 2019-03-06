@@ -42,10 +42,6 @@ public abstract class Component {
 	 */
 	private boolean hidden;
 	
-	/**
-	 * Variable storing the parent container.
-	 */
-	private Container container;
 
 	/**
 	 * Initialise this new component with all the given variables.
@@ -274,9 +270,14 @@ public abstract class Component {
 
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
+	public void outsideClick() {
+		
+	}
+	
 	protected void propertyChanged() {	
 		System.out.println("Component PropertyChanged called");
 		support.firePropertyChange(new PropertyChangeEvent("Component",	null, null, null));
 	}
+
 
 }
