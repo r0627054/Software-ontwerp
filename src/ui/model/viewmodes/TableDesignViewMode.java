@@ -6,8 +6,8 @@ import ui.model.view.View;
 
 public class TableDesignViewMode extends ViewMode {
 
-	public TableDesignViewMode(String name, View view) {
-		super(name, view);
+	public TableDesignViewMode(String name) {
+		super(name);
 	}
 
 	@Override

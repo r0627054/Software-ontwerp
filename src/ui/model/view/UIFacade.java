@@ -48,9 +48,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
         support.removePropertyChangeListener(pcl);
     }
 	
-	@Override
-	public void setTableNames(List<String> tableNames) {
-		view.setTablesViewModeListValues(tableNames);
+	public void startup(List<String> tableNames) {
+		view.startup(tableNames);
 	}
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {

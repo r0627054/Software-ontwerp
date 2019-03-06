@@ -57,6 +57,8 @@ public class DomainFacade implements DomainFacadeInterface {
 		col3.addCells(Arrays.asList(colCells3));
 
 		Table persons = new Table("Persons");
+		Table table2 = new Table("Second");
+		Table table3 = new Table("Third");
 		persons.addColumn(col1);
 		persons.addColumn(col2);
 		persons.addColumn(col3);
@@ -67,6 +69,8 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addRow(r4);
 
 		this.tableMap.put(persons.getName(), persons);
+		this.tableMap.put(table2.getName(), table2);
+		this.tableMap.put(table3.getName(), table3);
 	}
 
 	/**

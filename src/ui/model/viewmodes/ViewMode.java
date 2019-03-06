@@ -19,13 +19,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	private PropertyChangeSupport support;
 
-	private View view;
-
 	private String name;
 
-	public ViewMode(String name, View v) {
+	public ViewMode(String name) {
 		this.setName(name);
-		this.view = view;
 		support = new PropertyChangeSupport(this);
 		registerWindowChangeListeners();
 	}

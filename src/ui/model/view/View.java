@@ -44,17 +44,13 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	public View(String title) {
 		super(title);
 		support = new PropertyChangeSupport(this);
-		initTestingModes();
 	}
 
-	private void initTestingModes() {
-		TablesViewMode tablesViewMode1 = new TablesViewMode("Tables1", this);
-		TablesViewMode tablesViewMode2 = new TablesViewMode("Tables2", this);
-		tablesViewMode1.addPropertyChangeListener(this);
-		tablesViewMode2.addPropertyChangeListener(this);
-		addViewMode(tablesViewMode1);
-		addViewMode(tablesViewMode2);
-		changeModeTo("Tables1");
+	public void startup(List<String> tableNames) {
+		TablesViewMode tablesViewMode = new TablesViewMode("TablesViewMode", tableNames);
+		tablesViewMode.addPropertyChangeListener(this);
+		addViewMode(tablesViewMode);
+		changeModeTo("TablesViewMode");
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -153,19 +149,6 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		//this.repaint();
 		//Same as handleMouseEvent
 		//Dit is enkel om te testen/tonen dat EditableTextField werkt!
-	}
-
-	public void setTablesViewModeListValues(List<String> tableNames) {
-		//this.viewModes.get("Tables1").
-		
-		//Steven: Hoe setten we deze values?
-		//1) Oftewel casten we hier naar TablesViewMode bij deze 'get' en maken in TablesViewMode een functie
-		//-> Lijkt me niet echt juist, te hardcoded
-		
-		//2) Oftewel slagen we specifieke ViewModes (ipv List<ViewMode>) toch op
-		//-> Lijkt me ook niet echt juist, niet super goed ivm toekomstige nieuwe ViewModes
-		
-		//3) De benodigde functie in ViewMode zelf schrijven is al helemaal fout
 	}
 
 	@Override
