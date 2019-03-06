@@ -10,10 +10,8 @@ public class Controller {
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-		
-		this.uiFacade.setTableNames(domainFacade.getTableNames());
-		
-		this.uiFacade.show();
+		this.getUiFacade().setTableNames(domainFacade.getTableNames());
+		this.getUiFacade().show();
 	}
 
 	public UIFacadeInterface getUiFacade() {
