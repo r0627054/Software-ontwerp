@@ -157,7 +157,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("View PropertyChange called");
+		//System.out.println("View PropertyChange called");
 		this.support.firePropertyChange(evt);
 		this.repaint();
 		

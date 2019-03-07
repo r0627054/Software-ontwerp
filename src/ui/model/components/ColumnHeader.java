@@ -15,7 +15,7 @@ public class ColumnHeader extends TextField {
 	
 	@Override
 	public void paint(Graphics2D g) {
-		System.out.println("header: " + getX() + " " + getY());
+//		System.out.println("header: " + getX() + " " + getY());
 		g.setColor(Color.PINK);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());

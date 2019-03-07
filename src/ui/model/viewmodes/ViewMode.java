@@ -121,7 +121,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("ViewMode propertyChange called");
+		//System.out.println("ViewMode propertyChange called");
 		this.support.firePropertyChange(evt);
 
 	}

@@ -9,7 +9,7 @@ import java.util.List;
  * @version 1.0
  * @author Dries Janse
  */
-public class Column {
+public class Column extends ObjectIdentifier {
 
 	/**
 	 * Variable storing the name of the column.

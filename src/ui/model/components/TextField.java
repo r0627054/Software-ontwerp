@@ -51,8 +51,12 @@ public class TextField extends Component {
 
 		g.setFont(this.getFont());
 		//g.getFontMetrics().stringWidth("breedte van deze string");
-
-		g.drawString(text, getX() + MARGIN, getOffsetY() - MARGIN);
+		
+		drawString(g);
+	}
+	
+	protected void drawString(Graphics2D g) {
+		g.drawString(getText(), getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	@Override

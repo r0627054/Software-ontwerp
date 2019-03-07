@@ -10,7 +10,7 @@ import java.util.List;
  * @author Dries Janse
  *
  */
-public class Row {
+public class Row extends ObjectIdentifier {
 
 	/**
 	 * Variable storing all the cells.

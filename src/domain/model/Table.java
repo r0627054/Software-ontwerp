@@ -10,7 +10,7 @@ import java.util.List;
  * @author Dries Janse
  *
  */
-public class Table {
+public class Table extends ObjectIdentifier {
 
 	/**
 	 * Variable storing the name of the table.

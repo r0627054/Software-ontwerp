@@ -51,9 +51,8 @@ public class Cell extends Component {
 	@Override
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
-		System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
+		//System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
 		component.paint(g);
-
 	}
 
 	@Override

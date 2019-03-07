@@ -7,7 +7,7 @@ package domain.model;
  * @author Dries Janse
  *
  */
-public class Cell {
+public class Cell extends ObjectIdentifier {
 
 	/**
 	 * Variable storing the type of the cell.

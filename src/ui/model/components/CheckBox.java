@@ -27,7 +27,7 @@ public class CheckBox extends Component {
 
 	private void setChecked(boolean checked) {
 		this.checked = checked;
-		System.out.println("new Checked value! =" + checked);
+		//System.out.println("new Checked value! =" + checked);
 		propertyChanged();
 	}
 
@@ -57,7 +57,7 @@ public class CheckBox extends Component {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			System.out.println("Checkbox clicked");
+			//System.out.println("Checkbox clicked");
 			this.setChecked(!isChecked());
 		}
 	}

@@ -13,6 +13,8 @@ public class EditableTextField extends TextField {
 	 */
 	private boolean selected = false;
 
+	private String defaultValue;
+	
 	/**
 	 * Position of the cursor.
 	 */
@@ -25,6 +27,7 @@ public class EditableTextField extends TextField {
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue) {
 		super(x, y, width, height, hidden, defaultValue);
 		this.resetCursorPosition();
+		this.setDefaultValue(defaultValue);	
 	}
 
 	public EditableTextField(String string) {
@@ -84,10 +87,11 @@ public class EditableTextField extends TextField {
 			}
 		}
 	}
+	
+	
 	private void textChangeSubmit() {
 		this.selected = false;
 		propertyChanged(this, "text", null, getText());
-		
 	}
 
 	private void select() {
@@ -117,6 +121,7 @@ public class EditableTextField extends TextField {
 			throw new IllegalArgumentException(
 					"The position cannot be set to below 0 or higher than the length of the text.");
 		}
+		propertyChanged();
 		this.position = pos;
 	}
 
@@ -132,7 +137,7 @@ public class EditableTextField extends TextField {
 	}
 
 	private void moveCursorLocationLeft() {
-		if (this.position >= 0) {
+		if (this.position > 0) {
 			this.setPosition(getPosition() - 1);
 		}
 
@@ -141,5 +146,30 @@ public class EditableTextField extends TextField {
 	private void resetCursorPosition() {
 		this.setPosition(getText().length());
 	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
+
+	private void setDefaultValue(String defaultValue) {
+		if(defaultValue == null) {
+			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
+		}
+		this.defaultValue = defaultValue;
+	}
+	
+	@Override
+	protected void drawString(Graphics2D g) {
+		if(selected) {
+			g.drawString(getCursorString(), getX() + MARGIN, getOffsetY() - MARGIN);	
+		}else {
+			super.drawString(g);	
+		}
+	}
+	
+	private String getCursorString() {
+		return getText().substring(0, position) + "|" + getText().substring(position, getText().length());
+	}
+	
 
 }

@@ -53,7 +53,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
 	}
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("UIfacade propertyChange fired");
+		//System.out.println("UIfacade propertyChange fired");
 		this.support.firePropertyChange(evt);
 	}
 
