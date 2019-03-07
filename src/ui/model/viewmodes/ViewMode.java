@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import ui.model.components.Component;
 import ui.model.view.View;
@@ -107,7 +108,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		for (Component c : clickListeners) {
 			if (c.isWithinComponent(x, y)) {
-				c.mouseClicked(id, x, y, clickCount);				
+				c.mouseClicked(id, x, y, clickCount);
 			} else {
 				c.outsideClick();
 			}
@@ -125,7 +126,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	protected void setType(ViewModeType type) {
-		if(type == null) {
+		if (type == null) {
 			throw new IllegalArgumentException("ViewModeType cannot be null in a viewmode.");
 		}
 		this.type = type;
@@ -133,11 +134,17 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		//System.out.println("ViewMode propertyChange called");
+		// System.out.println("ViewMode propertyChange called");
 		this.support.firePropertyChange(evt);
 
 	}
 
 	abstract void registerWindowChangeListeners();
+
+	public void throwError(UUID id) {
+		for (Component c : getComponents()) {
+			c.throwError(id);
+		}
+	}
 
 }

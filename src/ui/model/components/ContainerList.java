@@ -7,8 +7,6 @@ import java.util.List;
 
 public class ContainerList extends Container {
 
-
-
 	public ContainerList(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, listItems);
 	}

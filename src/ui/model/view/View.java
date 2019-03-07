@@ -83,7 +83,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	/**
 	 * Returns the current mode of the view.
 	 */
-	public ViewMode getCurrentMode() {
+	public ViewMode getCurrentViewMode() {
 		return currentMode;
 	}
 	
@@ -136,7 +136,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	}
 	
 	public ViewModeType getCurrentViewModeType() {
-		return this.getCurrentMode().getType();
+		return this.getCurrentViewMode().getType();
 	}
 
 	@Override
@@ -168,6 +168,10 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		this.support.firePropertyChange(evt);
 		this.repaint();
 		
+	}
+
+	public void throwErrorOnCurrentViewMode(UUID id) {
+		getCurrentViewMode().throwError(id);
 	}
 
 }

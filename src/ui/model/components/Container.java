@@ -4,22 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class Container extends Component {
-
-	// Steven:
-	// In mijn ogen is dit mss geen Component omdat:
-	// 1) Moet een speciale link naar 'boven' hebben om de repaint methode te
-	// callen.
-	// 2) Heeft geen actionListeners op key/mouse (?)
-	// 3) x/y & width/height is bij ons altijd hetzelfde als parent
-	// 4) Een component moet aan zijn container zeggen a.d.h.v. propertyChanged om
-	// te repainten
-	// -> Een container kan dit moeilijk doen
-	// -> Je kan wel evt in Container die repaintContainer() overriden & linken aan
-	// parent.repaint();
-	// 5) In Swing/AWT zijn Containers ook geen JComponent's
 
 	private List<Component> components = new ArrayList<>();
 
@@ -92,6 +80,14 @@ public class Container extends Component {
 		}
 
 		this.components.add(c);
+	}
+	
+	@Override
+	public void throwError(UUID id) {
+		super.throwError(id);
+		for(Component c: getComponentsList()) {
+			c.throwError(id);
+		}
 	}
 
 }

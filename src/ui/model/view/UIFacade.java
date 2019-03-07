@@ -70,5 +70,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
 	private View getView() {
 		return this.view;
 	}
+	@Override
+	public void throwError(UUID id) {
+		this.getView().throwErrorOnCurrentViewMode(id);		
+	}
 
 }

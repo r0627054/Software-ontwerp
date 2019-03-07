@@ -14,5 +14,6 @@ public interface UIFacadeInterface {
 	public void addPropertyChangeListener(PropertyChangeListener pcl);
 	public void removePropertyChangeListener(PropertyChangeListener pcl);
 	public ViewModeType getCurrentViewModeType();
+	public void throwError(UUID id);
 	
 }
