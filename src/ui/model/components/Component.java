@@ -280,7 +280,7 @@ public abstract class Component {
 	
 	protected void propertyChanged() {	
 		System.out.println("Component PropertyChanged called");
-		support.firePropertyChange(new PropertyChangeEvent("Component",	null, null, null));
+		support.firePropertyChange(new PropertyChangeEvent(this ,"repaint", null, null));
 	}
 
 

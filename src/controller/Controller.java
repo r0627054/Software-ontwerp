@@ -38,10 +38,19 @@ public class Controller implements PropertyChangeListener{
 		this.domainFacade.addTable(name);
 	}
 
+	private void handleChange(PropertyChangeEvent evt) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println("Controller change fired");
+		if(!evt.getPropertyName().equalsIgnoreCase("repaint")) {
+			handleChange(evt);
+		}
 		
 	}
+
 
 }
