@@ -5,6 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.UUID;
+
+import javax.swing.event.ChangeEvent;
+
+import controller.handlers.ChangeEventType;
 
 public class EditableTextField extends TextField {
 
@@ -20,18 +25,18 @@ public class EditableTextField extends TextField {
 	 */
 	private int position;
 
-	public EditableTextField(int x, int y, int width, int height, String defaultValue) {
-		this(x, y, width, height, false, defaultValue);
+	public EditableTextField(int x, int y, int width, int height, String defaultValue, UUID id) {
+		this(x, y, width, height, false, defaultValue, id);
 	}
 
-	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue) {
-		super(x, y, width, height, hidden, defaultValue);
+	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue, UUID id) {
+		super(x, y, width, height, hidden, defaultValue, id);
 		this.resetCursorPosition();
 		this.setDefaultValue(defaultValue);	
 	}
 
-	public EditableTextField(String string) {
-		this(0, 0, 50, 100, string); //TODO: Defaults
+	public EditableTextField(String string, UUID id) {
+		this(0, 0, 50, 100, string,id); //TODO: Defaults
 	}
 
 	@Override
@@ -88,16 +93,16 @@ public class EditableTextField extends TextField {
 		}
 	}
 	
-	
 	private void textChangeSubmit() {
 		this.selected = false;
-		propertyChanged(this, "text", null, getText());
+		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
 	}
 
 	private void select() {
 		this.selected = true;
 		propertyChanged();
 	}
+	
 	private void unselect() {
 		this.selected = false;
 		propertyChanged();

@@ -13,10 +13,11 @@ public class TableRowsViewMode extends ViewMode {
 
 	public TableRowsViewMode(String name) {
 		super(name);
+		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		container = new Container(0, 0, 600, 500);
 		addDummyTable();
 		this.addComponent(container);
-
+		
 	}
 
 	private void addDummyTable() {
@@ -49,17 +50,7 @@ public class TableRowsViewMode extends ViewMode {
 		container.addComponent(table);
 	}
 
-	@Override
-	void registerAllKeyListeners() {
-		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	void registerAllClickListeners() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	void registerWindowChangeListeners() {

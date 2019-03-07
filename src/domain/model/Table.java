@@ -56,7 +56,7 @@ public class Table extends ObjectIdentifier {
 	 * @post  The name of the table is set with the given value.
 	 *       new.getName() == name
 	 */
-	private void setName(String name) {
+	public void setName(String name) {
 		if (name == null) {
 			throw new DomainException("Invalid table name!");
 		}

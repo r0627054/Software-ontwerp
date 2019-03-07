@@ -19,6 +19,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	private PropertyChangeSupport support;
 
+	private ViewModeType type;
 	private String name;
 
 	public ViewMode(String name) {
@@ -119,6 +120,17 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	public ViewModeType getType() {
+		return type;
+	}
+
+	protected void setType(ViewModeType type) {
+		if(type == null) {
+			throw new IllegalArgumentException("ViewModeType cannot be null in a viewmode.");
+		}
+		this.type = type;
+	}
+
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		//System.out.println("ViewMode propertyChange called");
@@ -127,9 +139,5 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	abstract void registerWindowChangeListeners();
-
-	abstract void registerAllKeyListeners();
-
-	abstract void registerAllClickListeners();
 
 }

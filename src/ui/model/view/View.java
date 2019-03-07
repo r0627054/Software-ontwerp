@@ -7,10 +7,12 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import ui.model.viewmodes.TableRowsViewMode;
 import ui.model.viewmodes.TablesViewMode;
 import ui.model.viewmodes.ViewMode;
+import ui.model.viewmodes.ViewModeType;
 import ui.model.window.CanvasWindow;
 
 /**
@@ -47,10 +49,11 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		support = new PropertyChangeSupport(this);
 	}
 
-	public void startup(List<String> tableNames) {
-		TablesViewMode tablesViewMode = new TablesViewMode("TablesViewMode", tableNames);
+	public void startup(Map<UUID, String> map) {
+		TablesViewMode tablesViewMode = new TablesViewMode("TablesViewMode", map);
 		tablesViewMode.addPropertyChangeListener(this);
 		addViewMode(tablesViewMode);
+		
 		TableRowsViewMode tableRowsViewMode = new TableRowsViewMode("TableRowsViewMode");
 		tableRowsViewMode.addPropertyChangeListener(this);
 		addViewMode(tableRowsViewMode);
@@ -130,6 +133,10 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 
 	private void setCurrentMode(ViewMode currentMode) {
 		this.currentMode = currentMode;
+	}
+	
+	public ViewModeType getCurrentViewModeType() {
+		return this.getCurrentMode().getType();
 	}
 
 	@Override

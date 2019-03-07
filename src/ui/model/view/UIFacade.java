@@ -4,6 +4,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import ui.model.viewmodes.ViewModeType;
 
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
 	
@@ -40,6 +44,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
 		this.view.show();
 	}
 	
+	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
         support.addPropertyChangeListener(pcl);
     }
@@ -48,13 +53,22 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
         support.removePropertyChangeListener(pcl);
     }
 	
-	public void startup(List<String> tableNames) {
-		view.startup(tableNames);
-	}
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		//System.out.println("UIfacade propertyChange fired");
 		this.support.firePropertyChange(evt);
+	}
+	@Override
+	public void startup(Map<UUID, String> map) {
+		view.startup(map);
+	}
+	@Override
+	public ViewModeType getCurrentViewModeType() {
+		return this.getView().getCurrentViewModeType();
+	}
+	
+	private View getView() {
+		return this.view;
 	}
 
 }

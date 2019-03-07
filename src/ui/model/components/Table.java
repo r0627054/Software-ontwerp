@@ -22,7 +22,8 @@ public class Table extends Component {
 	}
 
 	private void initTable(Map<String, List<Object>> values) {
-		List<Component> columnList = new ArrayList<Component>();
+	
+	/*	List<Component> columnList = new ArrayList<Component>();
 		for (String columnKey : values.keySet()) {
 			
 			List<Object> columnValues = values.get(columnKey);
@@ -37,7 +38,7 @@ public class Table extends Component {
 			}
 			columnList.add(new Column(0, 0, cells));
 		}
-		columns = new HorizontalComponentList(this.getX(), getY(), columnList);
+		columns = new HorizontalComponentList(this.getX(), getY(), columnList);*/
 		
 	}
 

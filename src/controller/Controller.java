@@ -3,14 +3,14 @@ package controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import controller.handlers.ChangeHandler;
+import controller.handlers.ChangeHandlerFactory;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
 public class Controller implements PropertyChangeListener{
 	private UIFacadeInterface uiFacade;
 	private DomainFacadeInterface domainFacade;
-	private ChangeHandler changeHandler;
+	private ChangeHandlerFactory changeHandler;
 
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
@@ -18,7 +18,7 @@ public class Controller implements PropertyChangeListener{
 		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 		this.getUiFacade().show();
-		changeHandler = new ChangeHandler();
+		changeHandler = new ChangeHandlerFactory();
 	}
 
 	public UIFacadeInterface getUiFacade() {
