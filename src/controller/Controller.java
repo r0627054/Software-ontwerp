@@ -3,12 +3,14 @@ package controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import controller.handlers.ChangeHandlerFactory;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
 public class Controller implements PropertyChangeListener{
 	private UIFacadeInterface uiFacade;
 	private DomainFacadeInterface domainFacade;
+	private ChangeHandlerFactory changeHandler;
 
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
@@ -16,6 +18,7 @@ public class Controller implements PropertyChangeListener{
 		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 		this.getUiFacade().show();
+		changeHandler = new ChangeHandlerFactory();
 	}
 
 	public UIFacadeInterface getUiFacade() {
@@ -39,17 +42,14 @@ public class Controller implements PropertyChangeListener{
 	}
 
 	private void handleChange(PropertyChangeEvent evt) {
-		// TODO Auto-generated method stub
-		
+		changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.println("Controller change fired");
 		if(!evt.getPropertyName().equalsIgnoreCase("repaint")) {
 			handleChange(evt);
 		}
-		
 	}
 
 

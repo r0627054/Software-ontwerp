@@ -4,30 +4,31 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.util.UUID;
 
-public class CheckBox extends Component {
+public class CheckBox extends IdentifiableComponent {
 	private final static int SIZE = 18;
 	private final static int STROKE_WIDTH_BOX = 3;
 	private final static int STROKE_WIDTH_CROSS = 2;
 
 	private boolean checked;
 
-	public CheckBox(boolean checked) {
-		this(0, 0, checked);
+	public CheckBox(boolean checked, UUID id) {
+		this(0, 0, checked, id);
 	}
 
-	public CheckBox(int x, int y, boolean checked) {
-		this(x, y, SIZE, SIZE, checked);
+	public CheckBox(int x, int y, boolean checked, UUID id) {
+		this(x, y, SIZE, SIZE, checked, id);
 	}
 
-	public CheckBox(int x, int y, int width, int height, boolean checked) {
-		super(x, y, width, height, false);
+	public CheckBox(int x, int y, int width, int height, boolean checked, UUID id) {
+		super(x, y, width, height, false, id);
 		setChecked(checked);
 	}
 
 	private void setChecked(boolean checked) {
 		this.checked = checked;
-		System.out.println("new Checked value! =" + checked);
+		//System.out.println("new Checked value! =" + checked);
 		propertyChanged();
 	}
 
@@ -57,7 +58,7 @@ public class CheckBox extends Component {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			System.out.println("Checkbox clicked");
+			//System.out.println("Checkbox clicked");
 			this.setChecked(!isChecked());
 		}
 	}

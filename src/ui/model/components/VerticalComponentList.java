@@ -8,7 +8,7 @@ public class VerticalComponentList extends ContainerList {
 
 	public VerticalComponentList(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, listItems);
-		System.out.println("Constructor verticalComponentList x:" + x + "|getY" + y);
+		//System.out.println("Constructor verticalComponentList x:" + x + "|getY" + y);
 		
 		setHeight(this.getSumHeightFromChildren());
 		setWidth(this.getMaxWidthFromChildren());
@@ -21,7 +21,7 @@ public class VerticalComponentList extends ContainerList {
 	}
 
 	protected void positionChildren() {
-		System.out.println(this.getX() + " " + this.getY());
+		//System.out.println(this.getX() + " " + this.getY());
 		int tempY = getY();
 		int width = getMaxWidthFromChildren();
 		for (Component c : getComponentsList()) {

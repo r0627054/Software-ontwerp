@@ -10,7 +10,7 @@ import java.util.List;
  * @author Dries Janse
  *
  */
-public class Table {
+public class Table extends ObjectIdentifier {
 
 	/**
 	 * Variable storing the name of the table.
@@ -56,7 +56,7 @@ public class Table {
 	 * @post  The name of the table is set with the given value.
 	 *       new.getName() == name
 	 */
-	private void setName(String name) {
+	public void setName(String name) {
 		if (name == null) {
 			throw new DomainException("Invalid table name!");
 		}

@@ -3,19 +3,20 @@ package ui.model.components;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.UUID;
 
-public class TextField extends Component {
+public class TextField extends IdentifiableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
 
 	private String text;
 
-	public TextField(int x, int y, int width, int height, String text) {
-		this(x, y, width, height, true, text);
+	public TextField(int x, int y, int width, int height, String text, UUID id) {
+		this(x, y, width, height, true, text, id);
 	}
 
-	public TextField(int x, int y, int width, int height, boolean hidden, String text) {
-		super(x, y, width, height, hidden);
+	public TextField(int x, int y, int width, int height, boolean hidden, String text, UUID id) {
+		super(x, y, width, height, hidden,id);
 		this.setText(text);
 		this.setFont(new Font("NewTimesRoman", Font.PLAIN, 12));
 	}
@@ -51,8 +52,12 @@ public class TextField extends Component {
 
 		g.setFont(this.getFont());
 		//g.getFontMetrics().stringWidth("breedte van deze string");
-
-		g.drawString(text, getX() + MARGIN, getOffsetY() - MARGIN);
+		
+		drawString(g);
+	}
+	
+	protected void drawString(Graphics2D g) {
+		g.drawString(getText(), getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	@Override

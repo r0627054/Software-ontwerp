@@ -26,9 +26,9 @@ public class Column extends VerticalComponentList {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 
 		if (id == MouseEvent.MOUSE_CLICKED) {
-			System.out.println("Column is geklikt hehe");
-			System.out.println("column clicked with x=" + getX() + "& y= " + getY() + "| width= " + getWidth()
-					+ "|height= " + getHeight());
+			//System.out.println("Column is geklikt");
+//			System.out.println("column clicked with x=" + getX() + "& y= " + getY() + "| width= " + getWidth()
+//					+ "|height= " + getHeight());
 		}
 		for (Component c : getComponentsList()) {
 			if (c.isWithinComponent(x, y))

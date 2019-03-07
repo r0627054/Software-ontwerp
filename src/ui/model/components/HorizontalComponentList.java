@@ -29,15 +29,15 @@ public class HorizontalComponentList extends ContainerList {
 			c.setX(tempX);
 			c.setY(this.getY());
 			tempX += c.getWidth();
-			System.out.println(c.toString() + "Set x & y to: x=" + c.getX() + "| y= " + c.getY() + "| width=" + c.getWidth()
-					+ "|height =" + c.getHeight());
+//			System.out.println(c.toString() + "Set x & y to: x=" + c.getX() + "| y= " + c.getY() + "| width=" + c.getWidth()
+//					+ "|height =" + c.getHeight());
 		}
 	}
 
 	@Override
 	public void paint(Graphics2D g) {
 		positionChildren();
-		System.out.println("HorizontalComponentList paint method");
+		//System.out.println("HorizontalComponentList paint method");
 		for (Component c : getComponentsList()) {
 			c.paint((Graphics2D) g.create());
 		}

@@ -1,16 +1,14 @@
 package domain.model;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface DomainFacadeInterface {
 	
-	//Note op een Table doorgeven via Controller:
-	//Volgens mij mag dit, zolang je geen functies van Table zelf gebruikt.
-	//Als je Table doorgeeft helemaal tot de Table Component, en deze de domain Table laat gebruiken
-	//Mag dit wel volgens mij?
-	public Table getTable(String tableName);
-
-	public List<String> getTableNames();
+	//update the name of a table in tablesviewmode
+	public void updateTableName(UUID id, String newName);
+	
+	public Map<UUID, String> getTableNames();
 	
 	public void addTable(String name);
 

@@ -5,12 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class DomainFacade implements DomainFacadeInterface {
 
 	private static DomainFacade dfInstance = null;
-	private Map<String, Table> tableMap = new HashMap<>();
-
+	//private Map<String, Table> tableMap = new HashMap<>();
+	private Map<UUID, Table> tableMap = new HashMap<>();
+	
+	
 	private DomainFacade() {
 		addDummyTable();
 	}
@@ -68,9 +71,14 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addRow(r3);
 		persons.addRow(r4);
 
-		this.tableMap.put(persons.getName(), persons);
+		/*this.tableMap.put(persons.getName(), persons);
 		this.tableMap.put(table2.getName(), table2);
-		this.tableMap.put(table3.getName(), table3);
+		this.tableMap.put(table3.getName(), table3);*/
+		
+		this.tableMap.put(persons.getId(), persons);
+		this.tableMap.put(table2.getId(), table2);
+		this.tableMap.put(table3.getId(), table3);
+		
 	}
 
 	/**
@@ -97,16 +105,46 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @return
 	 * the table corresponding to the tableName in the tableMap.
 	 **/
-	public Table getTable(String tableName) {
-		return this.tableMap.get(tableName);
+	public Table getTable(UUID id) {
+		return this.tableMap.get(id);
 	}
 
-	public List<String> getTableNames() {
-		return new ArrayList<String>(this.tableMap.keySet());
+	public Map<UUID, String> getTableNames() {
+		Map<UUID, String> map = new HashMap<>();
+		for(Table table: getTableMap().values()) {
+			map.put(table.getId(), table.getName());
+		}
+		return map;
 	}
 	
 	public void addTable(String name) {
-		this.tableMap.put(name, new Table(name));
+		Table table = new Table(name);
+		this.tableMap.put(table.getId(), table);
 	}
+
+	public Map<UUID, Table> getTableMap() {
+		return tableMap;
+	}
+
+	@Override
+	public void updateTableName(UUID id, String newName) {
+		if(tableNameAlreadyExists(id, newName)) {
+			throw new DomainException("Table name already exists in another table.");
+		}
+		this.getTable(id).setName(newName);
+	}
+	
+	public boolean tableNameAlreadyExists(UUID id, String name) {
+		boolean exists = false;
+		for(Map.Entry<UUID, Table> entry: getTableMap().entrySet()) {
+			if( (entry.getKey().equals(id)) && entry.getValue().getName().equals(name) ) {
+				exists = true;
+			}
+		}
+		return exists;
+	}
+
+	
+	
 
 }

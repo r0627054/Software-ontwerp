@@ -1,6 +1,7 @@
 package ui.model.components;
 
 import java.awt.Graphics2D;
+import java.util.UUID;
 
 public class Cell extends Component {
 
@@ -8,10 +9,14 @@ public class Cell extends Component {
 	private static int defaultHeight = 50;
 	private static int defaultWidth = 100;
 
-	public Cell(int x, int y, int width, int height, Object value) {
+	public Cell(int x, int y, int width, int height, Object value, UUID id) {
 		super(x, y, width, height, false);
-		createComponent(value);
+		createComponent(value, id);
 		setComponentCoordinates(x, y, width, height);
+	}
+	
+	public Cell(int x, int y, Object value, UUID id) {
+		this(x, y, defaultWidth, defaultHeight, value, id);
 	}
 
 	private void setComponentCoordinates(int x, int y, int width, int height) {
@@ -26,15 +31,11 @@ public class Cell extends Component {
 		setComponentCoordinates(getX(), getY(), getWidth(), getHeight());
 	}
 
-	public Cell(int x, int y, Object value) {
-		this(x, y, defaultWidth, defaultHeight, value);
-	}
-
-	private void createComponent(Object value) {
+	private void createComponent(Object value, UUID id) {
 		if (value instanceof String || value instanceof Integer) {
-			this.setComponent(new EditableTextField((String) value.toString()));
+			this.setComponent(new EditableTextField((String) value.toString(),id));
 		} else if (value instanceof Boolean) {
-			this.setComponent(new CheckBox((boolean) value));
+			this.setComponent(new CheckBox((boolean) value,id));
 		}
 
 	}
@@ -51,9 +52,8 @@ public class Cell extends Component {
 	@Override
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
-		System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
+		//System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
 		component.paint(g);
-
 	}
 
 	@Override
