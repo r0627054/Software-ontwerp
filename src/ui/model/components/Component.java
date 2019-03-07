@@ -273,6 +273,10 @@ public abstract class Component {
 	public void outsideClick() {
 		
 	}
+	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
+		System.out.println("Custom propertychanged fired from: " + source.toString() + " " + propertyName + " new val: " + newValue);
+		support.firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
+	}
 	
 	protected void propertyChanged() {	
 		System.out.println("Component PropertyChanged called");

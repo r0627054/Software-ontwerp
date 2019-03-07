@@ -78,14 +78,25 @@ public class EditableTextField extends TextField {
 					setText(text + keyChar);
 					moveCursorLocationRight();
 				}
+				if(keyCode == KeyEvent.VK_ENTER) {
+					textChangeSubmit();
+				}
 			}
 		}
 	}
+	private void textChangeSubmit() {
+		this.selected = false;
+		propertyChanged(this, "text", null, getText());
+		
+	}
+
 	private void select() {
 		this.selected = true;
+		propertyChanged();
 	}
 	private void unselect() {
 		this.selected = false;
+		propertyChanged();
 	}
 	
 	public boolean isSelected() {

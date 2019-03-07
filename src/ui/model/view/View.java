@@ -54,7 +54,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		TableRowsViewMode tableRowsViewMode = new TableRowsViewMode("TableRowsViewMode");
 		tableRowsViewMode.addPropertyChangeListener(this);
 		addViewMode(tableRowsViewMode);
-		changeModeTo("TableRowsViewMode");
+		changeModeTo("TablesViewMode");
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
