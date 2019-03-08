@@ -12,12 +12,15 @@ public class ValueChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		if(uifacade.getCurrentViewModeType().equals(ViewModeType.TABLESVIEWMODE)) {
+			
+			String newTableName = (String) evt.getNewValue();
+			UUID id = (UUID) evt.getSource();
+			
 			try {
-				String newTableName = (String) evt.getNewValue();
-				UUID id = (UUID) evt.getSource();
 				domainfacade.updateTableName(id, newTableName);
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("ValueChangedHandler error thrown!");
+				uifacade.throwError(id);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.UUID;
 
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
@@ -14,7 +15,7 @@ import java.beans.PropertyChangeSupport;
  *
  */
 public abstract class Component {
-	
+
 	private PropertyChangeSupport support;
 
 	/**
@@ -41,7 +42,6 @@ public abstract class Component {
 	 * Variable storing whether the component is hidden or not.
 	 */
 	private boolean hidden;
-	
 
 	/**
 	 * Initialise this new component with all the given variables.
@@ -71,14 +71,14 @@ public abstract class Component {
 		this.setHidden(hidden);
 		this.support = new PropertyChangeSupport(this);
 	}
-	
+
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-        support.addPropertyChangeListener(pcl);
-    }
- 
-    public void removePropertyChangeListener(PropertyChangeListener pcl) {
-        support.removePropertyChangeListener(pcl);
-    }
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
+	}
 
 	/**
 	 * Initialise the given component with the given width, height and hidden.
@@ -251,7 +251,6 @@ public abstract class Component {
 	private void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
-	
 
 	/**
 	 * Containing all visualisation and paint methods of the component.
@@ -260,30 +259,31 @@ public abstract class Component {
 	 * 			This object offers the methods that allow you to paint on the canvas.
 	 */
 	public abstract void paint(Graphics2D g);
-	
+
 	public boolean isWithinComponent(int x, int y) {
 		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
 	}
-	
 
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
 
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
 	public void outsideClick() {
-		
-	}
-	
-	
-	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
-		//System.out.println("Custom propertychanged fired from: " + source.toString() + " " + propertyName + " new val: " + newValue);
-		support.firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
-	}
-	
-	protected void propertyChanged() {	
-		//System.out.println("Component PropertyChanged called");
-		support.firePropertyChange(new PropertyChangeEvent(this ,"repaint", null, null));
+
 	}
 
+	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
+		// System.out.println("Custom propertychanged fired from: " + source.toString()
+		// + " " + propertyName + " new val: " + newValue);
+		support.firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
+	}
+
+	protected void propertyChanged() {
+		// System.out.println("Component PropertyChanged called");
+		support.firePropertyChange(new PropertyChangeEvent(this, "repaint", null, null));
+	}
+
+	public void throwError(UUID id) {
+	};
 
 }

@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -12,14 +13,22 @@ import javax.swing.event.ChangeEvent;
 import controller.handlers.ChangeEventType;
 
 public class EditableTextField extends TextField {
+	
+	private final static int ERROR_RECT_SIZE = 2;
+
 
 	/**
 	 * Variable to determine if the textfield is selected
 	 */
 	private boolean selected = false;
+	
+	/**
+	 * Variable to show if the user caused an error
+	 */
+	private boolean error = false;
 
 	private String defaultValue;
-	
+
 	/**
 	 * Position of the cursor.
 	 */
@@ -32,11 +41,11 @@ public class EditableTextField extends TextField {
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue, UUID id) {
 		super(x, y, width, height, hidden, defaultValue, id);
 		this.resetCursorPosition();
-		this.setDefaultValue(defaultValue);	
+		this.setDefaultValue(defaultValue);
 	}
 
 	public EditableTextField(String string, UUID id) {
-		this(0, 0, 50, 100, string,id); //TODO: Defaults
+		this(0, 0, 50, 100, string, id); // TODO: Defaults
 	}
 
 	@Override
@@ -49,6 +58,12 @@ public class EditableTextField extends TextField {
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
 		super.paint((Graphics2D) g.create());
+
+		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
+		if (getError()) {
+			g.setColor(Color.RED);
+			g.drawRect(getX(), getY(), getWidth(), getHeight());
+		}
 	}
 
 	@Override
@@ -58,11 +73,12 @@ public class EditableTextField extends TextField {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
 			if (!this.selected) {
 				resetCursorPosition();
+				this.setDefaultValue(this.getText());
 				select();
 			}
-		} 
+		}
 	}
-	
+
 	@Override
 	public void outsideClick() {
 		unselect();
@@ -86,13 +102,13 @@ public class EditableTextField extends TextField {
 					setText(text + keyChar);
 					moveCursorLocationRight();
 				}
-				if(keyCode == KeyEvent.VK_ENTER) {
+				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
 				}
 			}
 		}
 	}
-	
+
 	private void textChangeSubmit() {
 		this.selected = false;
 		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
@@ -102,12 +118,12 @@ public class EditableTextField extends TextField {
 		this.selected = true;
 		propertyChanged();
 	}
-	
+
 	private void unselect() {
 		this.selected = false;
 		propertyChanged();
 	}
-	
+
 	public boolean isSelected() {
 		return this.selected;
 	}
@@ -157,24 +173,39 @@ public class EditableTextField extends TextField {
 	}
 
 	private void setDefaultValue(String defaultValue) {
-		if(defaultValue == null) {
+		if (defaultValue == null) {
 			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
 		}
 		this.defaultValue = defaultValue;
 	}
-	
+
 	@Override
 	protected void drawString(Graphics2D g) {
-		if(selected) {
-			g.drawString(getCursorString(), getX() + MARGIN, getOffsetY() - MARGIN);	
-		}else {
-			super.drawString(g);	
+		if (selected) {
+			g.drawString(getCursorString(), getX() + MARGIN, getOffsetY() - MARGIN);
+		} else {
+			super.drawString(g);
 		}
 	}
-	
+
 	private String getCursorString() {
 		return getText().substring(0, position) + "|" + getText().substring(position, getText().length());
 	}
-	
 
+	@Override
+	public void throwError(UUID id) {
+		if (this.getId().equals(id)) {
+			super.throwError(id);
+			this.setError(true);
+			this.setText(getDefaultValue());
+		}
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	private boolean getError() {
+		return error;
+	}
 }
