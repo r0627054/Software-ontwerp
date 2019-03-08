@@ -73,6 +73,9 @@ public class Row extends ObjectIdentifier {
 	 *          | this.cells.get(index)
 	 */
 	public Cell getCellAtIndex(int index) {
+		if(index < 0) {
+			throw new DomainException("Index of cell cannot be negative.");
+		}
 		return this.cells.get(index);
 	}
 	
