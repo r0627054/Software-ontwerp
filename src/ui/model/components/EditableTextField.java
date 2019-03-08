@@ -13,15 +13,14 @@ import javax.swing.event.ChangeEvent;
 import controller.handlers.ChangeEventType;
 
 public class EditableTextField extends TextField {
-	
-	private final static int ERROR_RECT_SIZE = 2;
 
+	private final static int ERROR_RECT_SIZE = 2;
 
 	/**
 	 * Variable to determine if the textfield is selected
 	 */
 	private boolean selected = false;
-	
+
 	/**
 	 * Variable to show if the user caused an error
 	 */
@@ -50,20 +49,28 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void paint(Graphics2D g) {
+
 		if (this.selected) {
 			g.setColor(Color.WHITE);
 		} else {
 			g.setColor(Color.LIGHT_GRAY);
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
-
 		super.paint((Graphics2D) g.create());
 
+		if (hasError())
+			displayError(g);
+
+	}
+
+	private void displayError(Graphics2D g) {
 		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-		if (getError()) {
-			g.setColor(Color.RED);
-			g.drawRect(getX(), getY(), getWidth(), getHeight());
-		}
+		g.setColor(Color.RED);
+
+		// -1 & +/- Error_rect_size zodat rode kader niet overlapped met zwarte kader
+		// van TextField
+		g.drawRect(getX() + ERROR_RECT_SIZE, getY() + ERROR_RECT_SIZE, getWidth() - ERROR_RECT_SIZE - 1,
+				getHeight() - ERROR_RECT_SIZE - 1);
 	}
 
 	@Override
@@ -82,6 +89,8 @@ public class EditableTextField extends TextField {
 	@Override
 	public void outsideClick() {
 		unselect();
+		if (hasError())
+			this.setError(false);
 	}
 
 	@Override
@@ -90,6 +99,8 @@ public class EditableTextField extends TextField {
 			if (id == KeyEvent.KEY_PRESSED) {
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
+					if (hasError())
+						this.setError(false);
 				}
 				if (keyCode == KeyEvent.VK_LEFT) {
 					moveCursorLocationLeft();
@@ -196,8 +207,10 @@ public class EditableTextField extends TextField {
 	public void throwError(UUID id) {
 		if (this.getId().equals(id)) {
 			super.throwError(id);
+			this.select();
 			this.setError(true);
 			this.setText(getDefaultValue());
+			this.resetCursorPosition();;
 		}
 	}
 
@@ -205,7 +218,7 @@ public class EditableTextField extends TextField {
 		this.error = error;
 	}
 
-	private boolean getError() {
+	private boolean hasError() {
 		return error;
 	}
 }
