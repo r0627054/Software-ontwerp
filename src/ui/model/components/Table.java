@@ -6,42 +6,45 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Table extends Component {
 
 	private HorizontalComponentList columns;
 
-	public Table(int x, int y, int width, int height, boolean hidden, Map<String, List<Object>> values) {
+	public Table(int x, int y, int width, int height, boolean hidden,
+			Map<Map<UUID, String>, Map<UUID, Object>> values) {
 		super(x, y, width, height, false);
 		initTable(values);
 	}
 
-	public Table(int x, int y, int width, int height, Map<String, List<Object>> values) {
+	public Table(int x, int y, int width, int height, Map<Map<UUID, String>, Map<UUID, Object>> values) {
 		this(x, y, width, height, false, values);
-		
 	}
 
-	private void initTable(Map<String, List<Object>> values) {
-	
-	/*	List<Component> columnList = new ArrayList<Component>();
-		for (String columnKey : values.keySet()) {
-			
-			List<Object> columnValues = values.get(columnKey);
-			
+	private void initTable(Map<Map<UUID, String>, Map<UUID, Object>> values) {
+
+		List<Component> columnList = new ArrayList<Component>();
+		for (Map<UUID, String> columnIdMap : values.keySet()) {
+
+			Map<UUID, Object> columnCellsMap = values.get(columnIdMap);
+
 			List<Component> cells = new ArrayList<Component>();
-			
-			ColumnHeader header = new ColumnHeader(columnKey);
+
+			String headerName = (String) columnIdMap.values().toArray()[0];
+			UUID headerId = (UUID) columnIdMap.keySet().toArray()[0];
+
+			ColumnHeader header = new ColumnHeader(headerName, headerId);
 			cells.add(header);
 
-			for (Object obj : columnValues) {
-				cells.add(new Cell(0, 0, obj));
+			for (UUID cellId : columnCellsMap.keySet()) {
+				cells.add(new Cell(0, 0, columnCellsMap.get(cellId), cellId));
 			}
 			columnList.add(new Column(0, 0, cells));
 		}
-		columns = new HorizontalComponentList(this.getX(), getY(), columnList);*/
-		
-	}
+		columns = new HorizontalComponentList(this.getX(), getY(), columnList);
 
+	}
 
 	@Override
 	public void paint(Graphics2D g) {

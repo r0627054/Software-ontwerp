@@ -1,7 +1,10 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * A class of columns, containing a name, type and if the column allows blanks.
@@ -250,6 +253,21 @@ public class Column extends ObjectIdentifier {
 	 */
 	public Cell getCellAtIndex(int index) {
 		return this.cells.get(index);
+	}
+
+	public Map<UUID, Object> getCellsWithId() {
+		Map<UUID, Object> columnMap = new HashMap<>();
+
+		for (Cell c : getCells()) {
+			columnMap.put(c.getId(), c.getValue());
+		}
+		return columnMap;
+	}
+
+	public Map<UUID, String> getNameWithId() {
+		Map<UUID, String> singlePairMap = new HashMap<UUID,String>();
+		singlePairMap.put(this.getId(), this.getName());
+		return singlePairMap;
 	}
 
 }

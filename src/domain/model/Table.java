@@ -1,7 +1,10 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * A class of Tables containing a name, columns and rows.
@@ -116,6 +119,16 @@ public class Table extends ObjectIdentifier {
 		List<Cell> result = new ArrayList<Cell>();
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
 		return result;
+	}
+	
+	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds(){
+		Map<Map<UUID, String>, Map<UUID, Object>> tableMap = new HashMap<>();
+		
+		for(Column c: getColumns()) {
+			tableMap.put(c.getNameWithId(), c.getCellsWithId());
+		}
+		
+		return tableMap;		
 	}
 
 	public void addColumn(String name, ValueType type) {

@@ -143,5 +143,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		return exists;
 	}
+	
+	@Override
+	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds(UUID id) {
+		return this.getTable(id).getTableWithIds();
+	}
 
 }
