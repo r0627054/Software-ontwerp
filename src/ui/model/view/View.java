@@ -182,6 +182,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		if(keyCode == KeyEvent.VK_ESCAPE) {
+			//if escape pressed the application will go the tablesViewMode if it currently at tableDesign or tableRowsViewMode
 			ViewModeType currentType = this.getCurrentViewModeType();
 			if(ViewModeType.TABLEDESIGNVIEWMODE.equals(currentType) || ViewModeType.TABLEROWSVIEWMODE.equals(currentType))  {
 				this.changeToTablesViewMode();
