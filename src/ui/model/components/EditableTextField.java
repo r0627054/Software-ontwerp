@@ -89,7 +89,7 @@ public class EditableTextField extends TextField {
 	}
 
 	@Override
-	public void outsideClick() {
+	public void outsideClick(int id, int x, int y, int clickCount) {
 		unselect();
 	}
 

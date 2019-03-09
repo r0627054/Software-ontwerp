@@ -1,7 +1,10 @@
 package ui.model.components;
 
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import controller.handlers.ChangeEventType;
 
 public class TableList extends VerticalComponentList {
 
@@ -19,6 +22,15 @@ public class TableList extends VerticalComponentList {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		// TODO Auto-generated method stub
 		super.mouseClicked(id, x, y, clickCount);
+	}
+	
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		if(id == MouseEvent.MOUSE_CLICKED && clickCount == 2) {
+			if(y > this.getSumHeightFromChildren()+ this.getY()){
+				propertyChanged(this.toString(), ChangeEventType.CREATE_TABLE.getEventString(), null, null);
+			}
+		}
 	}
 	
 }

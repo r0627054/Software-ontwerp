@@ -63,8 +63,13 @@ public class Container extends Component {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		for(Component c: getComponentsList()) {
-			if (c.isWithinComponent(x, y))
+			if (c.isWithinComponent(x, y)) {
 				c.mouseClicked(id, x, y, clickCount);
+			} else {
+				System.out.println("sf");
+				c.outsideClick(id, x, y, clickCount);
+			}
+				
 		}
 	}
 
@@ -78,8 +83,9 @@ public class Container extends Component {
 		if (c == null) {
 			throw new IllegalArgumentException("Null component cannot be added to a container");
 		}
-
 		this.components.add(c);
+		
+		
 	}
 	
 	@Override

@@ -268,7 +268,7 @@ public abstract class Component {
 
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
-	public void outsideClick() {
+	public void outsideClick(int id, int x, int y, int clickCount) {
 
 	}
 

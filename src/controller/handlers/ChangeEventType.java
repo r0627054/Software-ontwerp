@@ -5,7 +5,8 @@ public enum ChangeEventType {
 	CHECKED("checked"),
 	VALUE("value"),
 	DEFAULT_VALUE("defaultValue"),
-	DOUBLEClICK("doubleClick");
+	DOUBLEClICK("doubleClick"),
+	CREATE_TABLE("createTable");
 	
 	private final String eventString;
 	

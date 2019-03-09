@@ -42,7 +42,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	
 	//UUID of the table can have multiple (currently max 2 viewmodes: TableRows and TableDesign) viewmode 
 	private Map<UUID, List<ViewMode>> viewModes = new HashMap<UUID, List<ViewMode>>();
-	private ViewMode tablesViewMode;
+	private TablesViewMode tablesViewMode;
 	
 	
 	/**
@@ -136,7 +136,7 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		this.setCurrentMode(this.getTablesViewMode());
 	}
 	
-	public ViewMode getTablesViewMode() {
+	public TablesViewMode getTablesViewMode() {
 		return this.tablesViewMode;
 	}
 	
@@ -218,6 +218,10 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with tableName or table equals null.");
 		}
 		return new TableRowsViewMode(tableName, table);
+	}
+
+	public void updateTablesViewMode(Map<UUID, String> map) {
+		getTablesViewMode().updateTables(map);
 	}
 
 }

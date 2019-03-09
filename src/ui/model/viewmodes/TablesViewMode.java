@@ -39,11 +39,24 @@ public class TablesViewMode extends ViewMode {
 			this.addKeyListener(textField);
 			tablesList.add(textField);
 		}
-		container.addComponent(new VerticalComponentList(0, 0, 600, 600, tablesList));
+		TableList tableList = new TableList(0, 0, 600, 600,tablesList);
+		tableList.addPropertyChangeListener(this);
+		this.addClickListener(tableList);
+		//container.addComponent(new VerticalComponentList(0, 0, 600, 600, tablesList));
+		container.addComponent(tableList);
 		this.addComponent(container);
 	}
-
+	
+	
+	
+	
 	@Override
 	void registerWindowChangeListeners() {
+	}
+
+	public void updateTables(Map<UUID, String> map) {
+		//System.out.println("update in tablesViewMode");
+		this.removeComponent(container);
+		this.createTableList(map);
 	}
 }
