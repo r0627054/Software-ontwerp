@@ -22,6 +22,11 @@ public class EditableTextField extends TextField {
 	private boolean selected = false;
 
 	/**
+	 * Variable to determine if the texfield is selected for delete
+	 */
+	private boolean selectedForDelete = false;
+
+	/**
 	 * Variable to show if the user caused an error
 	 */
 	private boolean error = false;
@@ -50,8 +55,10 @@ public class EditableTextField extends TextField {
 	@Override
 	public void paint(Graphics2D g) {
 
-		if (this.selected) {
+		if (this.isSelected()) {
 			g.setColor(Color.WHITE);
+		} else if(this.isSelectedForDelete()){
+			g.setColor(Color.RED);
 		} else {
 			g.setColor(Color.LIGHT_GRAY);
 		}
@@ -90,14 +97,10 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (isSelected()) {
+		if (this.isSelected()) {
 			unselect();
-		} else {
-			if (x < this.getX() && y > this.getY() && y < this.getOffsetY()) {
-				this.select();
-				//TODO: Create 'deleteSelect'
-			}
 		}
+		this.setSelectedForDelete(x < this.getX() && y > this.getY() && y < this.getOffsetY());
 	}
 
 	@Override
@@ -121,10 +124,10 @@ public class EditableTextField extends TextField {
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
 				}
-				if (keyCode == KeyEvent.VK_DELETE) {
-					delete();
-				}
 			}
+		}
+		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
+			delete();
 		}
 	}
 
@@ -246,5 +249,14 @@ public class EditableTextField extends TextField {
 
 	private boolean hasError() {
 		return error;
+	}
+
+	private void setSelectedForDelete(boolean selected) {
+		this.selectedForDelete = selected;
+		propertyChanged();
+	}
+
+	private boolean isSelectedForDelete() {
+		return this.selectedForDelete;
 	}
 }
