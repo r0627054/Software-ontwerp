@@ -127,7 +127,7 @@ public class Column extends ObjectIdentifier {
 	 * Returns a boolean whether the column allows blank values.
 	 */
 	public boolean isAllowsBlanks() {
-		return allowsBlanks;
+		return allowsBlanks; 
 	}
 
 	/**
@@ -136,11 +136,14 @@ public class Column extends ObjectIdentifier {
 	 * allows blank values. Otherwise the column does not allow blank values.
 	 *
 	 * @param allowsBlanks Whether the column allows blank spaces.
-	 * @post The allowsblanks variable is set, with the given value. |
+	 * @post The allowsBlanks variable is set, with the given value. |
 	 
 	 *       new.getAllowsBlanks.equals(allowsBlanks)
 	 */
 	public void setAllowsBlanks(boolean allowsBlanks) {
+		if((this.getDefaultValue() == null) && !allowsBlanks && (this.isAllowsBlanks())) { // disallow blanks but blank was set throws error.
+			throw new DomainException("Default value is still empty.");
+		}
 		this.allowsBlanks = allowsBlanks;
 	}
 

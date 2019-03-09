@@ -30,9 +30,8 @@ public class ColumnTest {
 	@Test
 	public void test1ConstructorCorrectParamsNoBlanksSetsNoBlankDefaultValue(){
 		allowBlanks = false;
-
-		new Column(columnName, stringType, allowBlanks);
-		assertNotEquals(column.getDefaultValue(), "TODO: add non empty defaults");
+		column = new Column(columnName, stringType, allowBlanks);
+		assertEquals(column.getDefaultValue(), stringType.getDefaultValue());
 	}
 
 	/**
@@ -42,6 +41,8 @@ public class ColumnTest {
 	@Test
 	public void test2ConstructorCorrectParamsWithBlanksSetsBlankDefaultValue(){
 		allowBlanks = true;
+		
+		column = new Column(columnName, stringType, allowBlanks);
 
 		//assertDoesNotThrow(() -> column = new Column(columnName, stringType, allowBlanks));
 		assertEquals(column.getDefaultValue(), "");
@@ -54,7 +55,19 @@ public class ColumnTest {
 	@Test
 	public void test3ConstructorCorrectParamsNoBlanksSpecifiedSetsDefaultValue(){
 		//assertDoesNotThrow(() -> column = new Column(columnName, stringType));
+		column = new Column(columnName, stringType);
 		assertEquals(column.getDefaultValue(), "");
+	}
+	
+	/**
+	 * Test 3b: Testing the constructor (type = BOOL)
+	 * With no blanks not specified should return a blank default value
+	 */
+	@Test
+	public void test3bConstructorCorrectParamsNoBlanksSpecifiedSetsDefaultValue(){
+		//assertDoesNotThrow(() -> column = new Column(columnName, stringType));
+		column = new Column(columnName, boolType);
+		assertEquals(column.getDefaultValue(), boolType.getDefaultValue());
 	}
 
 	/**
@@ -64,10 +77,11 @@ public class ColumnTest {
 	@Test
 	public void test4SetToNoBlanksAllowedWhenDefaultIsBlankShouldThrowException(){
 		correctStringColumn.setDefaultValue(null);
-
+		
 		DomainException e = assertThrows(DomainException.class, () -> correctStringColumn.setAllowsBlanks(false));
 		assertEquals(e.getMessage(), "Default value is still empty.");
 	}
+	
 
 	/**
 	 * Test 5: Testing the behaviour of default values

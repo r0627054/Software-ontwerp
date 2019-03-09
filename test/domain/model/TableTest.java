@@ -34,7 +34,7 @@ class TableTest {
 	@Test
 	void test2ConstructorNullNameParamShouldThrowException() {		
 		DomainException e = assertThrows(DomainException.class, () -> table = new Table(null));
-		assertEquals(e.getMessage(),"Invalid Table name!");
+		assertEquals(e.getMessage(),"Invalid table name!");
 	}
 	
 	
