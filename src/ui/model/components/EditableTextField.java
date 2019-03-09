@@ -78,24 +78,19 @@ public class EditableTextField extends TextField {
 //		System.out.println("X= " + getX() + "|y= " + getY() + "| xClick = " + x + "| yClick= " + y);
 //		System.out.println("ISWITHIN: " + isWithinComponent(x, y));
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			if (!this.selected && clickCount == 1 ) {
+			if (!this.selected && clickCount == 1) {
 				resetCursorPosition();
 				this.setDefaultValue(this.getText());
 				select();
-			}else if(clickCount == 2) {
-				//double clicked
+			} else if (clickCount == 2) {
 				this.doubleClicked();
 			}
 		}
-		
-		
 	}
 
 	@Override
 	public void outsideClick() {
 		unselect();
-		if (hasError())
-			this.setError(false);
 	}
 
 	@Override
@@ -129,10 +124,10 @@ public class EditableTextField extends TextField {
 		this.selected = false;
 		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
 	}
-	
+
 	private void doubleClicked() {
 		this.selected = false;
-		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(),null,null);
+		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, null);
 	}
 
 	private void select() {
@@ -143,6 +138,7 @@ public class EditableTextField extends TextField {
 	private void unselect() {
 		this.selected = false;
 		propertyChanged();
+		textChangeSubmit();
 	}
 
 	public boolean isSelected() {
@@ -182,7 +178,6 @@ public class EditableTextField extends TextField {
 		if (this.position > 0) {
 			this.setPosition(getPosition() - 1);
 		}
-
 	}
 
 	private void resetCursorPosition() {
@@ -220,7 +215,7 @@ public class EditableTextField extends TextField {
 			this.select();
 			this.setError(true);
 			this.setText(getDefaultValue());
-			this.resetCursorPosition();;
+			this.resetCursorPosition();
 		}
 	}
 
