@@ -20,6 +20,10 @@ public class ChangeHandlerFactory {
 			handler = new DoubleClickChangeHandler();
 		}else if(value.equals(ChangeEventType.CREATE_TABLE.getEventString())) {
 			handler = new CreateTableChangeHandler();
+		}else if(value.equals(ChangeEventType.DELETE_TABLE.getEventString())) {
+			handler = new DeleteTableChangeHandler();
+		}else if(value.equals(ChangeEventType.SWITCH_VIEWMODE.getEventString())) {
+			handler = new SwitchViewModeChangeHandler();
 		}
 		
 		if(handler != null) {

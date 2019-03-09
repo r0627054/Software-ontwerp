@@ -14,7 +14,6 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		if(uifacade.getCurrentViewModeType().equals(ViewModeType.TABLESVIEWMODE)) {
 			try {
-				System.out.println("double clicked");
 				UUID id = (UUID) evt.getSource();
 				String tableName = domainfacade.getTableNameOfId(id);
 				Map<Map<UUID, String>, Map<UUID, Object>> table = domainfacade.getTableWithIds(id);

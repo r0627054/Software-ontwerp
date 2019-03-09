@@ -58,14 +58,11 @@ public class Cell extends Component {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// TODO Auto-generated method stub
-
 	}
 
 }

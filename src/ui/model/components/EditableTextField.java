@@ -90,7 +90,14 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		unselect();
+		if (isSelected()) {
+			unselect();
+		} else {
+			if (x < this.getX() && y > this.getY() && y < this.getOffsetY()) {
+				this.select();
+				//TODO: Create 'deleteSelect'
+			}
+		}
 	}
 
 	@Override
@@ -99,8 +106,6 @@ public class EditableTextField extends TextField {
 			if (id == KeyEvent.KEY_PRESSED) {
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
-					if (hasError())
-						this.setError(false);
 				}
 				if (keyCode == KeyEvent.VK_LEFT) {
 					moveCursorLocationLeft();
@@ -116,17 +121,24 @@ public class EditableTextField extends TextField {
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
 				}
+				if (keyCode == KeyEvent.VK_DELETE) {
+					delete();
+				}
 			}
 		}
 	}
 
+	private void delete() {
+		propertyChanged(this.getId(), ChangeEventType.DELETE_TABLE.getEventString(), null, null);
+	}
+
 	private void textChangeSubmit() {
-		this.selected = false;
+		this.setSelected(false);
 		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
 	}
 
 	private void doubleClicked() {
-		this.selected = false;
+		this.setSelected(false);
 		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, null);
 	}
 
@@ -137,15 +149,19 @@ public class EditableTextField extends TextField {
 
 	private void unselect() {
 		if (this.isSelected()) {
-			this.selected = false;
-			propertyChanged();
-			this.setText(getDefaultValue());
+			this.setSelected(false);
 			this.setError(false);
+			this.setText(getDefaultValue());
+			propertyChanged();
 		}
 	}
 
 	public boolean isSelected() {
 		return this.selected;
+	}
+
+	private void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	private void deleteChar() {
@@ -154,7 +170,10 @@ public class EditableTextField extends TextField {
 			String right = getText().substring(position, getText().length());
 			setText(left + right);
 			moveCursorLocationLeft();
+			if (hasError())
+				this.setError(false);
 		}
+
 	}
 
 	private void setPosition(int pos) {
@@ -174,7 +193,6 @@ public class EditableTextField extends TextField {
 		if (this.position < this.getText().length()) {
 			this.setPosition(getPosition() + 1);
 		}
-
 	}
 
 	private void moveCursorLocationLeft() {

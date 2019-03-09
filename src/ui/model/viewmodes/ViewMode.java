@@ -27,7 +27,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public ViewMode(String name) {
 		this.setName(name);
 		support = new PropertyChangeSupport(this);
-		registerWindowChangeListeners();
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -81,7 +80,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public void removeComponent(int index) {
 		components.remove(index);
 	}
-	
+
 	public void removeComponent(Component component) {
 		components.remove(component);
 	}
@@ -106,8 +105,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 		this.keyListeners.add(c);
 	}
 
+	//We create a copy to make sure we're not editing the list while we are still looping through it
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		for (Component c : clickListeners) {
+		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
+		for (Component c : currentClickListeners) {
 			if (c.isWithinComponent(x, y)) {
 				c.mouseClicked(id, x, y, clickCount);
 			} else {
@@ -115,9 +116,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 			}
 		}
 	}
-
+	
+	//We create a copy to make sure we're not editing the list while we are still looping through it
 	public void keyPressed(int id, int keyCode, char keyChar) {
-		for (Component c : keyListeners) {
+		List<Component> currentKeyListeners = new ArrayList<>(getKeyListeners());
+		for (Component c : currentKeyListeners) {
 			c.keyPressed(id, keyCode, keyChar);
 		}
 	}
@@ -125,11 +128,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public ViewModeType getViewModeType() {
 		return type;
 	}
-	
+
 	public boolean hasComponent(Component component) {
 		return this.getComponents().contains(component);
 	}
-	
+
 	protected void setType(ViewModeType type) {
 		if (type == null) {
 			throw new IllegalArgumentException("ViewModeType cannot be null in a viewmode.");
@@ -143,12 +146,23 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	}
 
-	abstract void registerWindowChangeListeners();
-
 	public void throwError(UUID id) {
 		for (Component c : getComponents()) {
 			c.throwError(id);
 		}
 	}
+
+	protected void removeAllClickAndKeyListeners() {
+		this.clickListeners.clear();
+		this.keyListeners.clear();
+	}
+
+	private List<Component> getClickListeners() {
+		return this.clickListeners;
+	}
+	
+	private List<Component> getKeyListeners() {
+		return this.keyListeners;
+	} 
 
 }

@@ -17,5 +17,7 @@ public interface DomainFacadeInterface {
 	public String getTableNameOfId(UUID id);
 	
 	public void createNewTable();
+
+	public void deleteTable(UUID id);
 	
 }

@@ -185,5 +185,13 @@ public class DomainFacade implements DomainFacadeInterface {
 		System.out.println(tableName);
 		this.addTable(tableName);
 	}
+
+	@Override
+	public void deleteTable(UUID id) {
+		if(id == null) {
+			throw new DomainException("Cannot delete a table with a null index");
+		}
+		this.getTableMap().remove(id);
+	}
 	
 }

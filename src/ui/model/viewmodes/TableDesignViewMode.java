@@ -1,17 +1,19 @@
 package ui.model.viewmodes;
 
+import java.util.UUID;
 
-public class TableDesignViewMode extends ViewMode {
+import ui.model.components.Container;
 
-	public TableDesignViewMode(String name) {
-		super(name);
+public class TableDesignViewMode extends TableViewMode {
+	private Container container;
+
+	public TableDesignViewMode(String name, UUID id) {
+		super(name, id);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
 	}
 	
-	@Override
-	void registerWindowChangeListeners() {
-		// TODO Auto-generated method stub
+	private Container getContainer() {
+		return container;
 	}
-
 
 }
