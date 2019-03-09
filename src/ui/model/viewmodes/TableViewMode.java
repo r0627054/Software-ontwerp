@@ -6,8 +6,8 @@ public abstract class TableViewMode extends ViewMode {
 
 	private UUID id;
 
-	public TableViewMode(String name, UUID id) {
-		super(name);
+	public TableViewMode(UUID id) {
+		super();
 		this.setId(id);
 	}
 

@@ -120,15 +120,15 @@ public class Table extends ObjectIdentifier {
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
 		return result;
 	}
-	
-	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds(){
+
+	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds() {
 		Map<Map<UUID, String>, Map<UUID, Object>> tableMap = new HashMap<>();
-		
-		for(Column c: getColumns()) {
+
+		for (Column c : getColumns()) {
 			tableMap.put(c.getNameWithId(), c.getCellsWithId());
 		}
-		
-		return tableMap;		
+
+		return tableMap;
 	}
 
 	public void addColumn(String name, ValueType type) {
@@ -167,6 +167,16 @@ public class Table extends ObjectIdentifier {
 			throw new DomainException("A new row cannot be null when adding a row");
 		}
 		this.rows.add(r);
+	}
+
+	public Map<UUID, Map<String, Object>> getColumnCharacteristics() {
+		Map<UUID, Map<String, Object>> characteristics = new HashMap<>();
+
+		for (Column c : getColumns()) {
+			characteristics.put(c.getId(), c.getCharacteristics());
+		}
+
+		return characteristics;
 	}
 
 }

@@ -9,8 +9,8 @@ import ui.model.components.Table;
 public class TableRowsViewMode extends TableViewMode {
 	private Container container;
 	
-	public TableRowsViewMode(String name, UUID id, Map<Map<UUID, String>, Map<UUID, Object>> table) {
-		super(name, id);
+	public TableRowsViewMode(UUID id, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		super(id);
 		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		updateTable(table);
 	}

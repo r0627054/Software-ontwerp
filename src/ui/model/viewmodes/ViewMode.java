@@ -22,10 +22,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private PropertyChangeSupport support;
 
 	private ViewModeType type;
-	private String name;
 
-	public ViewMode(String name) {
-		this.setName(name);
+	public ViewMode() {
 		support = new PropertyChangeSupport(this);
 	}
 
@@ -35,17 +33,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	public void removePropertyChangeListener(PropertyChangeListener pcl) {
 		support.removePropertyChangeListener(pcl);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	private void setName(String name) {
-		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("The name of a view cannot be null or empty");
-		}
-		this.name = name;
 	}
 
 	public List<Component> getComponents() {

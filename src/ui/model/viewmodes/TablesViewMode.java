@@ -23,8 +23,8 @@ public class TablesViewMode extends ViewMode {
 
 	private Container container;
 
-	public TablesViewMode(String name, Map<UUID, String> map) {
-		super(name);
+	public TablesViewMode(Map<UUID, String> map) {
+		super();
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
 	}

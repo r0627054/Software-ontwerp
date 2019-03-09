@@ -15,9 +15,9 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 		if(uifacade.getCurrentViewModeType().equals(ViewModeType.TABLESVIEWMODE)) {
 			try {
 				UUID id = (UUID) evt.getSource();
-				String tableName = domainfacade.getTableNameOfId(id);
+				//String tableName = domainfacade.getTableNameOfId(id);
 				Map<Map<UUID, String>, Map<UUID, Object>> table = domainfacade.getTableWithIds(id);
-				uifacade.openTableRowsViewMode(id, tableName, table);
+				uifacade.openTableRowsViewMode(id, table);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

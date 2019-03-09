@@ -144,7 +144,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		return exists;
 	}
-	
+
 	private boolean tableNameAlreadyExists(String name) {
 		boolean exists = false;
 		for (Table t : getTableMap().values()) {
@@ -155,7 +155,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		return exists;
 	}
-	
+
 	/**
 	 * The first inner map, the key: UUID of the column and value: columnname
 	 * The second inner map, the key: UUID of cell and the value: the value of the cell in the column
@@ -175,10 +175,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		int i = 1;
 		boolean newIndexIsFound = false;
 		String tableName = null;
-		while(!newIndexIsFound) {
+		while (!newIndexIsFound) {
 			tableName = "Table" + i++;
-			
-			if(!this.tableNameAlreadyExists(tableName)) {
+
+			if (!this.tableNameAlreadyExists(tableName)) {
 				newIndexIsFound = true;
 			}
 		}
@@ -188,10 +188,24 @@ public class DomainFacade implements DomainFacadeInterface {
 
 	@Override
 	public void deleteTable(UUID id) {
-		if(id == null) {
+		if (id == null) {
 			throw new DomainException("Cannot delete a table with a null index");
 		}
 		this.getTableMap().remove(id);
 	}
-	
+
+	@Override
+	public Map<UUID, Map<String, Object>> getColumnCharacteristics(UUID id) {
+		if (id == null) {
+			throw new DomainException("Cannot get column characteristiscs with a null id");
+		}
+		Table table = this.getTable(id);
+
+		if (table == null) {
+			throw new DomainException("No table could be found with given id.");
+		}
+		
+		return table.getColumnCharacteristics();
+	}
+
 }

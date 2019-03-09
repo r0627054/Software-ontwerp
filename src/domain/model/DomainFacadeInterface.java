@@ -1,5 +1,6 @@
 package domain.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,5 +20,7 @@ public interface DomainFacadeInterface {
 	public void createNewTable();
 
 	public void deleteTable(UUID id);
+
+	public Map<UUID, Map<String, Object>> getColumnCharacteristics(UUID id);
 	
 }

@@ -76,13 +76,18 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	@Override
-	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
-		this.getView().openTableRowsViewMode(tableId, tableName, table);
+	public void openTableRowsViewMode(UUID tableId, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		this.getView().openTableRowsViewMode(tableId, table);
 	}
 
 	@Override
 	public void updateTablesViewMode(Map<UUID, String> map) {
-		view.updateTablesViewMode(map);
+		this.getView().updateTablesViewMode(map);
+	}
+
+	@Override
+	public void openTableDesignViewMode(UUID id, Map<UUID, Map<String, Object>> columnCharacteristics) {
+		this.getView().openTableDesignViewMode(id, columnCharacteristics);
 	}
 
 }

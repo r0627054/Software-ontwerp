@@ -127,7 +127,7 @@ public class Column extends ObjectIdentifier {
 	 * Returns a boolean whether the column allows blank values.
 	 */
 	public boolean isAllowsBlanks() {
-		return allowsBlanks; 
+		return allowsBlanks;
 	}
 
 	/**
@@ -141,7 +141,8 @@ public class Column extends ObjectIdentifier {
 	 *       new.getAllowsBlanks.equals(allowsBlanks)
 	 */
 	public void setAllowsBlanks(boolean allowsBlanks) {
-		if((this.getDefaultValue() == null) && !allowsBlanks && (this.isAllowsBlanks())) { // disallow blanks but blank was set throws error.
+		if ((this.getDefaultValue() == null) && !allowsBlanks && (this.isAllowsBlanks())) { // disallow blanks but blank
+																							// was set throws error.
 			throw new DomainException("Default value is still empty.");
 		}
 		this.allowsBlanks = allowsBlanks;
@@ -268,9 +269,20 @@ public class Column extends ObjectIdentifier {
 	}
 
 	public Map<UUID, String> getNameWithId() {
-		Map<UUID, String> singlePairMap = new HashMap<UUID,String>();
+		Map<UUID, String> singlePairMap = new HashMap<UUID, String>();
 		singlePairMap.put(this.getId(), this.getName());
 		return singlePairMap;
+	}
+
+	public Map<String, Object> getCharacteristics() {
+		Map<String, Object> characteristics = new HashMap<>();
+
+		characteristics.put("name", getName());
+		characteristics.put("type", getType().getTypeClass());
+		characteristics.put("allowBlanks", new Boolean(isAllowsBlanks()));
+		characteristics.put("defaultValue", getDefaultValue());
+
+		return characteristics;
 	}
 
 }

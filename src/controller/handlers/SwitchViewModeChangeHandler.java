@@ -1,6 +1,7 @@
 package controller.handlers;
 
 import java.beans.PropertyChangeEvent;
+import java.util.Map;
 import java.util.UUID;
 
 import domain.model.DomainFacadeInterface;
@@ -17,9 +18,10 @@ public class SwitchViewModeChangeHandler implements ChangeHandlerInterface {
 			ViewModeType newViewMode = (ViewModeType) evt.getNewValue();
 
 			if (oldViewMode == ViewModeType.TABLEDESIGNVIEWMODE && newViewMode == ViewModeType.TABLEROWSVIEWMODE) {
+				uifacade.openTableRowsViewMode(id, domainfacade.getTableWithIds(id));
 				
 			} else if (oldViewMode == ViewModeType.TABLEROWSVIEWMODE && newViewMode == ViewModeType.TABLEDESIGNVIEWMODE) {
-				
+				uifacade.openTableDesignViewMode(id, domainfacade.getColumnCharacteristics(id));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
