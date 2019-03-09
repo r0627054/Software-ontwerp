@@ -18,6 +18,8 @@ public class ChangeHandlerFactory {
 			 handler = new ValueChangeHandler();
 		}else if(value.equals(ChangeEventType.DOUBLEClICK.getEventString())) {
 			handler = new DoubleClickChangeHandler();
+		}else if(value.equals(ChangeEventType.CREATE_TABLE.getEventString())) {
+			handler = new CreateTableChangeHandler();
 		}
 		
 		if(handler != null) {

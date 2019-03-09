@@ -8,6 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import ui.model.components.Component;
@@ -110,7 +111,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 			if (c.isWithinComponent(x, y)) {
 				c.mouseClicked(id, x, y, clickCount);
 			} else {
-				c.outsideClick();
+				c.outsideClick(id, x, y, clickCount);
 			}
 		}
 	}

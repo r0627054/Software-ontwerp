@@ -16,5 +16,6 @@ public interface UIFacadeInterface {
 	public ViewModeType getCurrentViewModeType();
 	public void throwError(UUID id);
 	public void openTableRowsViewMode(UUID tableId, String tableName,  Map<Map<UUID, String>, Map<UUID, Object>> table);
+	public void updateTablesViewMode(Map<UUID, String> map);
 	
 }

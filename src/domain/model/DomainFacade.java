@@ -128,17 +128,29 @@ public class DomainFacade implements DomainFacadeInterface {
 
 	@Override
 	public void updateTableName(UUID id, String newName) {
-		if (newName == null || newName.isEmpty() || tableNameAlreadyExists(id, newName)) {
+		if (newName == null || newName.isEmpty() || tableAlreadyExists(id, newName)) {
 			throw new DomainException("Table name already exists in another table or is empty.");
 		}
 		this.getTable(id).setName(newName);
 	}
 
-	public boolean tableNameAlreadyExists(UUID id, String name) {
+	private boolean tableAlreadyExists(UUID id, String name) {
 		boolean exists = false;
 		for (Map.Entry<UUID, Table> entry : getTableMap().entrySet()) {
 			if (!(entry.getKey().equals(id)) && entry.getValue().getName().equals(name)) {
 				exists = true;
+				break;
+			}
+		}
+		return exists;
+	}
+	
+	private boolean tableNameAlreadyExists(String name) {
+		boolean exists = false;
+		for (Table t : getTableMap().values()) {
+			if (t.getName().equals(name)) {
+				exists = true;
+				break;
 			}
 		}
 		return exists;
@@ -156,6 +168,22 @@ public class DomainFacade implements DomainFacadeInterface {
 	@Override
 	public String getTableNameOfId(UUID id) {
 		return this.getTable(id).getName();
+	}
+
+	@Override
+	public void createNewTable() {
+		int i = 1;
+		boolean newIndexIsFound = false;
+		String tableName = null;
+		while(!newIndexIsFound) {
+			tableName = "Table" + i++;
+			
+			if(!this.tableNameAlreadyExists(tableName)) {
+				newIndexIsFound = true;
+			}
+		}
+		System.out.println(tableName);
+		this.addTable(tableName);
 	}
 	
 }
