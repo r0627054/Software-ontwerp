@@ -15,6 +15,7 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 		if (uifacade.getCurrentViewModeType().equals(ViewModeType.TABLESVIEWMODE)) {
 			try {
 				UUID id = (UUID) evt.getSource();
+				String tableName = domainfacade.getTableNameOfId(id);
 
 				// First map: 'singleton' map of one UUID of the column and one String of the
 				// ColumnName
@@ -24,9 +25,9 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 				Map<Map<UUID, String>, Map<UUID, Object>> table = domainfacade.getTableWithIds(id);
 
 				if (table.isEmpty()) {
-					uifacade.openTableDesignViewMode(id, domainfacade.getColumnCharacteristics(id));
+					uifacade.openTableDesignViewMode(id, tableName, domainfacade.getColumnCharacteristics(id));
 				} else {
-					uifacade.openTableRowsViewMode(id, table);
+					uifacade.openTableRowsViewMode(id, tableName, table);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

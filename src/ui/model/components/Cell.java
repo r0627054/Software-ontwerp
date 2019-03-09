@@ -14,7 +14,7 @@ public class Cell extends Component {
 		createComponent(value, id);
 		setComponentCoordinates(x, y, width, height);
 	}
-	
+
 	public Cell(int x, int y, Object value, UUID id) {
 		this(x, y, defaultWidth, defaultHeight, value, id);
 	}
@@ -24,22 +24,23 @@ public class Cell extends Component {
 		component.setY(y);
 		component.setWidth(width);
 		component.setHeight(height);
-		
+
 	}
-	
+
 	private void refreshComponentCoordinates() {
 		setComponentCoordinates(getX(), getY(), getWidth(), getHeight());
 	}
 
 	private void createComponent(Object value, UUID id) {
 		if (value instanceof String || value instanceof Integer) {
-			this.setComponent(new EditableTextField((String) value.toString(),id));
+			this.setComponent(new EditableTextField((String) value.toString(), id));
 		} else if (value instanceof Boolean) {
-			this.setComponent(new CheckBox((boolean) value,id));
+			this.setComponent(new CheckBox((boolean) value, id));
+		} else if (value instanceof Object) {
+			this.setComponent(new EditableTextField(value.toString(), id));
 		}
 
 	}
-	
 
 	public Component getComponent() {
 		return component;
@@ -52,7 +53,8 @@ public class Cell extends Component {
 	@Override
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
-		//System.out.println("Cell painted at:" + getComponent().getX() + "| y= " + getComponent().getY());
+		// System.out.println("Cell painted at:" + getComponent().getX() + "| y= " +
+		// getComponent().getY());
 		component.paint(g);
 	}
 

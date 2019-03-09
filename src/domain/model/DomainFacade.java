@@ -3,6 +3,7 @@ package domain.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -195,7 +196,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public Map<UUID, Map<String, Object>> getColumnCharacteristics(UUID id) {
+	public Map<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics(UUID id) {
 		if (id == null) {
 			throw new DomainException("Cannot get column characteristiscs with a null id");
 		}

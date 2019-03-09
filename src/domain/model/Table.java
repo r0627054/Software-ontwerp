@@ -2,6 +2,7 @@ package domain.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -169,8 +170,8 @@ public class Table extends ObjectIdentifier {
 		this.rows.add(r);
 	}
 
-	public Map<UUID, Map<String, Object>> getColumnCharacteristics() {
-		Map<UUID, Map<String, Object>> characteristics = new HashMap<>();
+	public Map<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics() {
+		Map<UUID, LinkedHashMap<String, Object>> characteristics = new HashMap<>();
 
 		for (Column c : getColumns()) {
 			characteristics.put(c.getId(), c.getCharacteristics());

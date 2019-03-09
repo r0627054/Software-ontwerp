@@ -7,6 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -263,7 +264,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.setCurrentMode(this.getTablesViewMode());
 	}
 
-	public void openTableRowsViewMode(UUID tableId, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
 		if (tableId == null || table == null) {
 			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id or table equals null.");
 		}
@@ -271,21 +272,21 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		TableViewMode tableRowsViewMode = (TableViewMode) this.getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
 		
 		if (tableRowsViewMode == null) {
-			tableRowsViewMode = createTableRowsViewMode(tableId, table);
+			tableRowsViewMode = createTableRowsViewMode(tableId, tableName, table);
 			this.addTableViewMode(tableId, tableRowsViewMode);
 		}
 		
 		this.setCurrentMode(tableRowsViewMode);
 	}
 
-	public TableViewMode createTableRowsViewMode(UUID id, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+	public TableViewMode createTableRowsViewMode(UUID id, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}
-		return new TableRowsViewMode(id, table);
+		return new TableRowsViewMode(id, tableName, table);
 	}
 
-	public void openTableDesignViewMode(UUID id, Map<UUID, Map<String, Object>> columnCharacteristics) {
+	public void openTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot open TableRowsViewMode with columnCharacteristics or id equals null.");
@@ -293,19 +294,19 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 		TableViewMode tableDesignViewMode = (TableViewMode) this.getViewMode(id, ViewModeType.TABLEDESIGNVIEWMODE);
 		if (tableDesignViewMode == null) {
-			tableDesignViewMode = createTableDesignViewMode(id, columnCharacteristics);
+			tableDesignViewMode = createTableDesignViewMode(id, tableName, columnCharacteristics);
 			this.addTableViewMode(id, tableDesignViewMode);
 		}
 		System.out.println("Opening tableDesignVM");
 		this.setCurrentMode(tableDesignViewMode);
 	}
 
-	private TableViewMode createTableDesignViewMode(UUID id, Map<UUID, Map<String, Object>> columnCharacteristics) {
+	private TableViewMode createTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot create TableRowsViewMode with columnCharacteristics or id equals null.");
 		}
-		return new TableDesignViewMode(id, columnCharacteristics);
+		return new TableDesignViewMode(id, tableName, columnCharacteristics);
 	}
 
 	public void updateTablesViewMode(Map<UUID, String> map) {

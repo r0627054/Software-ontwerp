@@ -3,6 +3,7 @@ package ui.model.view;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -76,8 +77,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	@Override
-	public void openTableRowsViewMode(UUID tableId, Map<Map<UUID, String>, Map<UUID, Object>> table) {
-		this.getView().openTableRowsViewMode(tableId, table);
+	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		this.getView().openTableRowsViewMode(tableId, tableName, table);
 	}
 
 	@Override
@@ -86,8 +87,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	@Override
-	public void openTableDesignViewMode(UUID id, Map<UUID, Map<String, Object>> columnCharacteristics) {
-		this.getView().openTableDesignViewMode(id, columnCharacteristics);
+	public void openTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+		this.getView().openTableDesignViewMode(id, tableName, columnCharacteristics);
 	}
 
 }

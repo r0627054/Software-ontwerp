@@ -2,6 +2,7 @@ package domain.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -274,8 +275,8 @@ public class Column extends ObjectIdentifier {
 		return singlePairMap;
 	}
 
-	public Map<String, Object> getCharacteristics() {
-		Map<String, Object> characteristics = new HashMap<>();
+	public LinkedHashMap<String, Object> getCharacteristics() {
+		LinkedHashMap<String, Object> characteristics = new LinkedHashMap<>();
 
 		characteristics.put("name", getName());
 		characteristics.put("type", getType().getTypeClass());

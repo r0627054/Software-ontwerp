@@ -14,14 +14,15 @@ public class SwitchViewModeChangeHandler implements ChangeHandlerInterface {
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
 			UUID id = (UUID) evt.getSource();
+			String tableName = domainfacade.getTableNameOfId(id);
 			ViewModeType oldViewMode = (ViewModeType) evt.getOldValue();
 			ViewModeType newViewMode = (ViewModeType) evt.getNewValue();
 
 			if (oldViewMode == ViewModeType.TABLEDESIGNVIEWMODE && newViewMode == ViewModeType.TABLEROWSVIEWMODE) {
-				uifacade.openTableRowsViewMode(id, domainfacade.getTableWithIds(id));
+				uifacade.openTableRowsViewMode(id, tableName, domainfacade.getTableWithIds(id));
 				
 			} else if (oldViewMode == ViewModeType.TABLEROWSVIEWMODE && newViewMode == ViewModeType.TABLEDESIGNVIEWMODE) {
-				uifacade.openTableDesignViewMode(id, domainfacade.getColumnCharacteristics(id));
+				uifacade.openTableDesignViewMode(id, tableName, domainfacade.getColumnCharacteristics(id));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
