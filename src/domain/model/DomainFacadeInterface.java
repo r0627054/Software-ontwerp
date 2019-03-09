@@ -14,4 +14,6 @@ public interface DomainFacadeInterface {
 	
 	public void addTable(String name);
 
+	public String getTableNameOfId(UUID id);
+	
 }

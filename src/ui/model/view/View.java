@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,13 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	/**
 	 * Variable storing all the different viewModes. With a String as key.
 	 */
-	private Map<String, ViewMode> viewModes = new HashMap<String, ViewMode>();
-
+	//private Map<String, ViewMode> viewModes = new HashMap<String, ViewMode>();
+	
+	//UUID of the table can have multiple (currently max 2 viewmodes: TableRows and TableDesign) viewmode 
+	private Map<UUID, List<ViewMode>> viewModes = new HashMap<UUID, List<ViewMode>>();
+	private ViewMode tablesViewMode;
+	
+	
 	/**
 	 * Initialise this new view component with the given title.
 	 * 
@@ -50,14 +56,16 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	}
 
 	public void startup(Map<UUID, String> map) {
-		TablesViewMode tablesViewMode = new TablesViewMode("TablesViewMode", map);
+		tablesViewMode = new TablesViewMode("TablesViewMode", map);
 		tablesViewMode.addPropertyChangeListener(this);
-		addViewMode(tablesViewMode);
+		//addViewMode(tablesViewMode);
+		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
 		
-		TableRowsViewMode tableRowsViewMode = new TableRowsViewMode("TableRowsViewMode");
+		
+		/*TableRowsViewMode tableRowsViewMode = new TableRowsViewMode("TableRowsViewMode");
 		tableRowsViewMode.addPropertyChangeListener(this);
-		addViewMode(tableRowsViewMode);
-		changeModeTo("TablesViewMode");
+		addViewMode(tableRowsViewMode);*/
+		//changeModeTo("TablesViewMode");
 	}
 	
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -87,21 +95,22 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 		return currentMode;
 	}
 	
-	/**
-	 * Returns the view mode associated with the given String.
-	 * 
-	 * @param name
-	 *        The name (key) of the view mode.
-	 * @return The ViewMode associated with the given String.
-	 * @throws IllegalArgumentException
-	 *         The name is null.
-	 *         | name == null
-	 */
-	public ViewMode getViewMode(String name) {
-		if(name == null) {
+	public ViewMode getViewMode(UUID id, ViewModeType viewModeType) {
+		if(id == null && viewModeType.equals(ViewModeType.TABLESVIEWMODE)) {
+			return tablesViewMode;
+		}else if(id == null || viewModeType == null) {
 			throw new IllegalArgumentException("Cannot get ViewMode for null string");
+		} else {
+			List<ViewMode> listOfViewModes = this.getAllViewModes().get(id);
+			if(listOfViewModes != null) {
+				for (ViewMode viewMode : this.getAllViewModes().get(id)) {
+					if(viewModeType.equals(viewMode.getViewModeType())) {
+						return viewMode;
+					}
+				}
+			}
 		}
-		return this.viewModes.get(name);
+		return null;
 	}
 
 	/**
@@ -114,21 +123,38 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	 * @post The current mode is switched with the mode associated with the given key.
 	 *         | new.getCurrentMode == viewModes.get(key) 
 	 */
-	public void changeModeTo(String key) {
-		ViewMode newCurrentMode = viewModes.get(key);
+	public void changeModeTo(UUID id, ViewModeType viewModeType) {
+		ViewMode newCurrentMode = this.getViewMode(id, viewModeType);
 		if (newCurrentMode == null) {
 			throw new IllegalArgumentException("No mode found for key");
 		} else
 			this.setCurrentMode(newCurrentMode);
-
 	}
-
 	
-	public void addViewMode(ViewMode mode) {
-		if (this.viewModes.containsKey(mode.getName())) {
-			throw new IllegalArgumentException("Mode with duplicate name already exists");
-		} else
-			this.viewModes.put(mode.getName(), mode);
+	public void addViewMode(UUID id, ViewMode viewMode) {
+		if(this.getAllViewModes().containsKey(id)) {
+			
+			List<ViewMode> viewModesOfId = this.getAllViewModes().get(id);
+			boolean containsViewModeOfType =false;
+			for (ViewMode v : viewModesOfId) {
+				if(v.getViewModeType().equals(viewMode.getViewModeType())) {
+					containsViewModeOfType = true;
+				}
+			}
+			if(!containsViewModeOfType) {
+				viewModesOfId.add(viewMode);
+				this.getAllViewModes().replace(id, viewModesOfId);
+			}
+		}else {
+			List<ViewMode> list = new ArrayList<>();
+			list.add(viewMode);
+			this.viewModes.put(id, list);
+		}
+	}
+	
+
+	private Map<UUID, List<ViewMode>> getAllViewModes() {
+		return viewModes;
 	}
 
 	private void setCurrentMode(ViewMode currentMode) {
@@ -136,35 +162,21 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 	}
 	
 	public ViewModeType getCurrentViewModeType() {
-		return this.getCurrentViewMode().getType();
+		return this.getCurrentViewMode().getViewModeType();
 	}
 
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
 		currentMode.mouseClicked(id, x, y, clickCount);
-
-		//this.repaint();
-		// Steven: Ik denk niet dat dit de juiste plaats is om te repainten?
-		// Weet niet goed hoe ik terug vanaf de Components naar de View kan callen om te
-		// repainten.
-		// Eventueel Observer gebruiken?
-
-		// Dit zorgt momenteel voor elke mouse click/drag/release voor een volledige
-		// repaint
 	}
 
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		currentMode.keyPressed(id, keyCode, keyChar);
-		
-		//this.repaint();
-		//Same as handleMouseEvent
-		//Dit is enkel om te testen/tonen dat EditableTextField werkt!
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		//System.out.println("View PropertyChange called");
 		this.support.firePropertyChange(evt);
 		this.repaint();
 		
@@ -172,6 +184,23 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 
 	public void throwErrorOnCurrentViewMode(UUID id) {
 		getCurrentViewMode().throwError(id);
+	}
+	
+	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		ViewMode tableRowsViewMode = this.getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
+		if(tableRowsViewMode == null) {
+			//the tableRowsViewMode does not exist
+			tableRowsViewMode = createTableRowsViewMode(tableName, table);
+			this.addViewMode(tableId, tableRowsViewMode);
+		}
+		this.setCurrentMode(tableRowsViewMode);
+	}
+	
+	public ViewMode createTableRowsViewMode(String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		if(tableName == null || table == null) {
+			throw new IllegalArgumentException("Cannot create TableRowsViewMode with tableName or table equals null.");
+		}
+		return new TableRowsViewMode(tableName, table);
 	}
 
 }

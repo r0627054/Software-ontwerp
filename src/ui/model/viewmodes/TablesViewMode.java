@@ -26,22 +26,12 @@ public class TablesViewMode extends ViewMode {
 	public TablesViewMode(String name, Map<UUID, String> map) {
 		super(name);
 		this.setType(ViewModeType.TABLESVIEWMODE);
+		this.createTableList(map);
+	}
+	
+	private void createTableList(Map<UUID, String> map) {
 		container = new Container(0, 0, 600, 600);
-
-
-		List<Component> tablesList = new ArrayList<>();
-		
-		
-		
-		//LAST MODIFIED
-		/*map.forEach(tableName -> {
-			TextField textField = new EditableTextField(50, 50, 200, 30, tableName);
-			textField.addPropertyChangeListener(this);
-			this.addClickListener(textField);
-			this.addKeyListener(textField);
-			tablesList.add(textField);
-		});*/
-		
+		List<Component> tablesList = new ArrayList<>();		
 		for(Map.Entry<UUID, String> entry: map.entrySet()) {
 			TextField textField = new EditableTextField(50, 50, 200, 30, entry.getValue(), entry.getKey());
 			textField.addPropertyChangeListener(this);
@@ -49,31 +39,11 @@ public class TablesViewMode extends ViewMode {
 			this.addKeyListener(textField);
 			tablesList.add(textField);
 		}
-		
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		container.addComponent(new VerticalComponentList(0, 0, 600, 600, tablesList));
-		
-		
-
 		this.addComponent(container);
-
-
 	}
-
 
 	@Override
 	void registerWindowChangeListeners() {
 	}
-
 }

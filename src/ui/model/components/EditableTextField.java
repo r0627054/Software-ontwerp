@@ -78,12 +78,17 @@ public class EditableTextField extends TextField {
 //		System.out.println("X= " + getX() + "|y= " + getY() + "| xClick = " + x + "| yClick= " + y);
 //		System.out.println("ISWITHIN: " + isWithinComponent(x, y));
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			if (!this.selected) {
+			if (!this.selected && clickCount == 1 ) {
 				resetCursorPosition();
 				this.setDefaultValue(this.getText());
 				select();
+			}else if(clickCount == 2) {
+				//double clicked
+				this.doubleClicked();
 			}
 		}
+		
+		
 	}
 
 	@Override
@@ -123,6 +128,11 @@ public class EditableTextField extends TextField {
 	private void textChangeSubmit() {
 		this.selected = false;
 		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
+	}
+	
+	private void doubleClicked() {
+		this.selected = false;
+		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(),null,null);
 	}
 
 	private void select() {

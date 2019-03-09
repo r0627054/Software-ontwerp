@@ -74,5 +74,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener{
 	public void throwError(UUID id) {
 		this.getView().throwErrorOnCurrentViewMode(id);		
 	}
+	@Override
+	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+		this.getView().openTableRowsViewMode(tableId,tableName,table);
+	}
 
 }

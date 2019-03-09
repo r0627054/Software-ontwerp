@@ -4,7 +4,8 @@ public enum ChangeEventType {
 
 	CHECKED("checked"),
 	VALUE("value"),
-	DEFAULT_VALUE("defaultValue");
+	DEFAULT_VALUE("defaultValue"),
+	DOUBLEClICK("doubleClick");
 	
 	private final String eventString;
 	
