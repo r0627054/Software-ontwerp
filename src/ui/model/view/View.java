@@ -1,6 +1,7 @@
 package ui.model.view;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -131,6 +132,14 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 			this.setCurrentMode(newCurrentMode);
 	}
 	
+	public void changeToTablesViewMode() {
+		this.setCurrentMode(this.getTablesViewMode());
+	}
+	
+	public ViewMode getTablesViewMode() {
+		return this.tablesViewMode;
+	}
+	
 	public void addViewMode(UUID id, ViewMode viewMode) {
 		if(this.getAllViewModes().containsKey(id)) {
 			
@@ -172,6 +181,13 @@ public class View extends CanvasWindow implements PropertyChangeListener{
 
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
+		if(keyCode == KeyEvent.VK_ESCAPE) {
+			ViewModeType currentType = this.getCurrentViewModeType();
+			if(ViewModeType.TABLEDESIGNVIEWMODE.equals(currentType) || ViewModeType.TABLEROWSVIEWMODE.equals(currentType))  {
+				this.changeToTablesViewMode();
+				this.repaint();
+			}
+		}
 		currentMode.keyPressed(id, keyCode, keyChar);
 	}
 

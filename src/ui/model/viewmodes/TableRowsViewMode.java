@@ -33,7 +33,6 @@ public class TableRowsViewMode extends ViewMode {
 		return container;
 	}
 
-
 	@Override
 	void registerWindowChangeListeners() {
 		// TODO Auto-generated method stub
