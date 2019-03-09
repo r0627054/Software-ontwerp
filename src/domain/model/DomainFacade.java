@@ -144,9 +144,18 @@ public class DomainFacade implements DomainFacadeInterface {
 		return exists;
 	}
 	
+	/**
+	 * The first inner map, the key: UUID of the column and value: columnname
+	 * The second inner map, the key: UUID of cell and the value: the value of the cell in the column
+	 */
 	@Override
 	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds(UUID id) {
 		return this.getTable(id).getTableWithIds();
 	}
 
+	@Override
+	public String getTableNameOfId(UUID id) {
+		return this.getTable(id).getName();
+	}
+	
 }

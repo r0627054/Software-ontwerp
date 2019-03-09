@@ -15,5 +15,6 @@ public interface UIFacadeInterface {
 	public void removePropertyChangeListener(PropertyChangeListener pcl);
 	public ViewModeType getCurrentViewModeType();
 	public void throwError(UUID id);
+	public void openTableRowsViewMode(UUID tableId, String tableName,  Map<Map<UUID, String>, Map<UUID, Object>> table);
 	
 }

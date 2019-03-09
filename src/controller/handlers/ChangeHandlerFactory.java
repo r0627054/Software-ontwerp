@@ -16,6 +16,8 @@ public class ChangeHandlerFactory {
 		ChangeHandlerInterface handler= null;
 		if(value.equals(ChangeEventType.VALUE.getEventString())) {
 			 handler = new ValueChangeHandler();
+		}else if(value.equals(ChangeEventType.DOUBLEClICK.getEventString())) {
+			handler = new DoubleClickChangeHandler();
 		}
 		
 		if(handler != null) {

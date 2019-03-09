@@ -77,12 +77,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return components.addAll(c);
 	}
 
-	public Component removeComponent(int index) {
-		return components.remove(index);
+	public void removeComponent(int index) {
+		components.remove(index);
 	}
-
-	public boolean removeComponent(Component component) {
-		return components.remove(component);
+	
+	public void removeComponent(Component component) {
+		components.remove(component);
 	}
 
 	public void paint(Graphics g) {
@@ -121,10 +121,14 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
-	public ViewModeType getType() {
+	public ViewModeType getViewModeType() {
 		return type;
 	}
-
+	
+	public boolean hasComponent(Component component) {
+		return this.getComponents().contains(component);
+	}
+	
 	protected void setType(ViewModeType type) {
 		if (type == null) {
 			throw new IllegalArgumentException("ViewModeType cannot be null in a viewmode.");
@@ -134,7 +138,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// System.out.println("ViewMode propertyChange called");
 		this.support.firePropertyChange(evt);
 
 	}
