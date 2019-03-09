@@ -136,9 +136,12 @@ public class EditableTextField extends TextField {
 	}
 
 	private void unselect() {
-		this.selected = false;
-		propertyChanged();
-		textChangeSubmit();
+		if (this.isSelected()) {
+			this.selected = false;
+			propertyChanged();
+			this.setText(getDefaultValue());
+			this.setError(false);
+		}
 	}
 
 	public boolean isSelected() {
