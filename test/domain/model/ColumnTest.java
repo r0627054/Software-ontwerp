@@ -12,11 +12,17 @@ public class ColumnTest {
 	private final String columnName = "TestColumnName";
 	private final ValueType stringType = ValueType.STRING;
 	private final ValueType boolType = ValueType.BOOLEAN;
+	private final ValueType intType = ValueType.INTEGER;
+	private final ValueType emailType = ValueType.EMAIL;
+	
 	
 	private boolean allowBlanks = true;
 
 	private Column column;
 	private Column correctStringColumn = new Column("String column", stringType);
+	
+	
+
 
 	@BeforeEach
 	public void setup() {
@@ -49,7 +55,7 @@ public class ColumnTest {
 	}
 
 	/**
-	 * Test 3: Testing the constructor
+	 * Test 3: Testing the constructor ( type = STRING)
 	 * With no blanks not specified should return a blank default value
 	 */
 	@Test
@@ -68,6 +74,28 @@ public class ColumnTest {
 		//assertDoesNotThrow(() -> column = new Column(columnName, stringType));
 		column = new Column(columnName, boolType);
 		assertEquals(column.getDefaultValue(), boolType.getDefaultValue());
+	}
+	
+	/**
+	 * Test 3c: Testing the constructor (type = INTEGER)
+	 * With no blanks not specified should return a blank default value
+	 */
+	@Test
+	public void test3cConstructorCorrectParamsNoBlanksSpecifiedSetsDefaultValue(){
+		//assertDoesNotThrow(() -> column = new Column(columnName, stringType));
+		column = new Column(columnName, intType);
+		assertEquals(column.getDefaultValue(), intType.getDefaultValue());
+	}
+	
+	/**
+	 * Test 3d: Testing the constructor (type = EMAIL)
+	 * With no blanks not specified should return a blank default value
+	 */
+	@Test
+	public void test3dConstructorCorrectParamsNoBlanksSpecifiedSetsDefaultValue(){
+		//assertDoesNotThrow(() -> column = new Column(columnName, stringType));
+		column = new Column(columnName, emailType);
+		assertEquals(column.getDefaultValue(), emailType.getDefaultValue());
 	}
 
 	/**
