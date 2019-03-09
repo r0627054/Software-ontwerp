@@ -49,9 +49,9 @@ public class Container extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(new Color(226, 226, 226));
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
-		g.setColor(Color.BLACK);
+		//g.setColor(new Color(226, 226, 226));
+		//g.fillRect(getX(), getY(), getWidth(), getHeight());
+
 		g.clipRect(getX(), getY(), getWidth(), getHeight());
 
 		for (Component c : components) {

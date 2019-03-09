@@ -20,8 +20,8 @@ public class TableRowsViewMode extends TableViewMode {
 			this.removeComponent(this.getContainer());
 			this.removeAllClickAndKeyListeners();
 		}
-		container = new Container(0, 0, 600, 500);
-		Table table = new Table(60, 60, 200, 200, tableInformation);
+		container = new Container(0, 0, 600, 600);
+		Table table = new Table(50, 30, 200, 200, tableInformation);
 		this.addClickListener(table);
 		container.addComponent(table);
 		this.addComponent(container);

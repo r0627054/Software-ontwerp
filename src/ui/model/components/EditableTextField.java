@@ -57,10 +57,10 @@ public class EditableTextField extends TextField {
 
 		if (this.isSelected()) {
 			g.setColor(Color.WHITE);
-		} else if(this.isSelectedForDelete()){
+		} else if (this.isSelectedForDelete()) {
 			g.setColor(Color.RED);
 		} else {
-			g.setColor(Color.LIGHT_GRAY);
+			g.setColor(new Color(226, 226, 226));
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());
@@ -107,9 +107,7 @@ public class EditableTextField extends TextField {
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		if (isSelected()) {
 			if (id == KeyEvent.KEY_PRESSED) {
-				if (keyCode == KeyEvent.VK_BACK_SPACE) {
-					deleteChar();
-				}
+
 				if (keyCode == KeyEvent.VK_LEFT) {
 					moveCursorLocationLeft();
 				}
@@ -120,6 +118,11 @@ public class EditableTextField extends TextField {
 					String text = getText();
 					setText(text + keyChar);
 					moveCursorLocationRight();
+					textChanged();
+				}
+				if (keyCode == KeyEvent.VK_BACK_SPACE) {
+					deleteChar();
+					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
@@ -135,9 +138,17 @@ public class EditableTextField extends TextField {
 		propertyChanged(this.getId(), ChangeEventType.DELETE_TABLE.getEventString(), null, null);
 	}
 
+	private void textChanged() {
+		this.setError(false);
+		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
+		this.setDefaultValue(getText());
+	}
+
 	private void textChangeSubmit() {
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
+		textChanged();
+		// propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(),
+		// this.getDefaultValue(), this.getText());
 	}
 
 	private void doubleClicked() {
@@ -216,7 +227,8 @@ public class EditableTextField extends TextField {
 		if (defaultValue == null) {
 			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
 		}
-		this.defaultValue = defaultValue;
+		if (!hasError())
+			this.defaultValue = defaultValue;
 	}
 
 	@Override
@@ -238,7 +250,7 @@ public class EditableTextField extends TextField {
 			super.throwError(id);
 			this.select();
 			this.setError(true);
-			this.setText(getDefaultValue());
+			// this.setText(getDefaultValue());
 			this.resetCursorPosition();
 		}
 	}

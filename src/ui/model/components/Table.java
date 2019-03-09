@@ -48,9 +48,6 @@ public class Table extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-//		g.setColor(Color.WHITE);
-//		g.fillRect(getX(), getY(), getWidth(), getHeight());
-
 		this.columns.paint((Graphics2D) g.create());
 	}
 
@@ -63,8 +60,6 @@ public class Table extends Component {
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
