@@ -264,7 +264,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.setCurrentMode(this.getTablesViewMode());
 	}
 
-	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		if (tableId == null || table == null) {
 			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id or table equals null.");
 		}
@@ -279,7 +279,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.setCurrentMode(tableRowsViewMode);
 	}
 
-	public TableViewMode createTableRowsViewMode(UUID id, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table) {
+	public TableViewMode createTableRowsViewMode(UUID id, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -13,16 +14,16 @@ public class Table extends Component {
 	private HorizontalComponentList columns;
 
 	public Table(int x, int y, int width, int height, boolean hidden,
-			Map<Map<UUID, String>, Map<UUID, Object>> values) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values) {
 		super(x, y, width, height, false);
 		initTable(values);
 	}
 
-	public Table(int x, int y, int width, int height, Map<Map<UUID, String>, Map<UUID, Object>> values) {
-		this(x, y, width, height, false, values);
+	public Table(int x, int y, int width, int height, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation) {
+		this(x, y, width, height, false, tableInformation);
 	}
 
-	private void initTable(Map<Map<UUID, String>, Map<UUID, Object>> values) {
+	private void initTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values) {
 
 		List<Component> columnList = new ArrayList<Component>();
 		for (Map<UUID, String> columnIdMap : values.keySet()) {

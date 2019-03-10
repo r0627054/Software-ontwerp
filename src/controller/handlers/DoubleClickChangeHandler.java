@@ -1,6 +1,7 @@
 package controller.handlers;
 
 import java.beans.PropertyChangeEvent;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 				// Second map: For each 'singleton' columnKey map: a map of ID's and objects of
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
-				Map<Map<UUID, String>, Map<UUID, Object>> table = domainfacade.getTableWithIds(id);
+				Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(id);
 
 				if (table.isEmpty()) {
 					uifacade.openTableDesignViewMode(id, tableName, domainfacade.getColumnCharacteristics(id));

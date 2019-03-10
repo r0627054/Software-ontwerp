@@ -12,7 +12,7 @@ public interface DomainFacadeInterface {
 	
 	public Map<UUID, String> getTableNames();
 	
-	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds(UUID tableId);
+	public Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID tableId);
 	
 	public void addTable(String name);
 

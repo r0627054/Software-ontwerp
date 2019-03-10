@@ -265,8 +265,8 @@ public class Column extends ObjectIdentifier {
 		return this.cells.get(index);
 	}
 
-	public Map<UUID, Object> getCellsWithId() {
-		Map<UUID, Object> columnMap = new HashMap<>();
+	public LinkedHashMap<UUID, Object> getCellsWithId() {
+		LinkedHashMap<UUID, Object> columnMap = new LinkedHashMap<>();
 
 		for (Cell c : getCells()) {
 			columnMap.put(c.getId(), c.getValue());

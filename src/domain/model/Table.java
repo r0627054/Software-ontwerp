@@ -116,14 +116,16 @@ public class Table extends ObjectIdentifier {
 	 * @return 
 	 *         A List of all the cells of the tables, these cells are all copies.
 	 */
-	public List<Cell> getAllCells() {
+	/*public List<Cell> getAllCells() {
 		List<Cell> result = new ArrayList<Cell>();
 		columns.stream().forEach(c -> result.addAll(c.getCells()));
 		return result;
-	}
+	}*/
 
-	public Map<Map<UUID, String>, Map<UUID, Object>> getTableWithIds() {
-		Map<Map<UUID, String>, Map<UUID, Object>> tableMap = new HashMap<>();
+	public LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds() {
+		//the first inner map: UUID is column ID and the string is the columnname
+		//the second inner map: UUID is the cell ID and the Object is the value
+		LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableMap = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
 			tableMap.put(c.getNameWithId(), c.getCellsWithId());
@@ -170,8 +172,8 @@ public class Table extends ObjectIdentifier {
 		this.rows.add(r);
 	}
 
-	public Map<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics() {
-		Map<UUID, LinkedHashMap<String, Object>> characteristics = new HashMap<>();
+	public LinkedHashMap<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics() {
+		LinkedHashMap<UUID, LinkedHashMap<String, Object>> characteristics = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
 			characteristics.put(c.getId(), c.getCharacteristics());
