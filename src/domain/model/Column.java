@@ -278,10 +278,10 @@ public class Column extends ObjectIdentifier {
 	public LinkedHashMap<String, Object> getCharacteristics() {
 		LinkedHashMap<String, Object> characteristics = new LinkedHashMap<>();
 
-		characteristics.put("name", getName());
-		characteristics.put("type", getType().getTypeClass());
-		characteristics.put("allowBlanks", new Boolean(isAllowsBlanks()));
-		characteristics.put("defaultValue", getDefaultValue());
+		characteristics.put("Column Name", getName());
+		characteristics.put("Type", getType().toString());
+		characteristics.put("Allow Blanks", new Boolean(isAllowsBlanks()));
+		characteristics.put("Default Value", getDefaultValue());
 
 		return characteristics;
 	}

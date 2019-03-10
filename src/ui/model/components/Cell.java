@@ -36,10 +36,9 @@ public class Cell extends Component {
 			this.setComponent(new EditableTextField((String) value.toString(), id));
 		} else if (value instanceof Boolean) {
 			this.setComponent(new CheckBox((boolean) value, id));
-		} else if (value instanceof Object) {
+		} else {
 			this.setComponent(new EditableTextField(value.toString(), id));
 		}
-
 	}
 
 	public Component getComponent() {

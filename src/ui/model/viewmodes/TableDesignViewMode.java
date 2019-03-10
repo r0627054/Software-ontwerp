@@ -34,10 +34,6 @@ public class TableDesignViewMode extends TableViewMode {
 	private Container getContainer() {
 		return container;
 	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-	}
+
 
 }

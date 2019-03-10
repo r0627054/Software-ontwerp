@@ -9,10 +9,10 @@ package domain.model;
  */
 public enum ValueType {
 
-	EMAIL("", String.class),
-	STRING("", String.class),
-	BOOLEAN(new Boolean(true),Boolean.class),
-	INTEGER(new Integer(0),Integer.class);
+	EMAIL("", String.class, "Type: Email"),
+	STRING("", String.class, "Type: String"),
+	BOOLEAN(new Boolean(true),Boolean.class, "Type: Bool"),
+	INTEGER(new Integer(0),Integer.class, "Type: Int");
 	
 	/**
 	 * Variable storing the default value.
@@ -23,6 +23,8 @@ public enum ValueType {
 	 * Variable storing the Class of the type.
 	 */
 	private Class cl;
+	
+	private String displayValue;
 	
 	/**
 	 * Initialise the type with the given default value and class object.
@@ -35,9 +37,10 @@ public enum ValueType {
 	 *        | new.getTypeClass() == cl
 	 *        | new.getDefaultValue() == defaultValue
 	 */
-	private ValueType(Object defaultValue, Class cl) {
+	private ValueType(Object defaultValue, Class cl, String displayValue) {
 		this.defaultValue = defaultValue;
 		this.cl = cl;
+		this.displayValue = displayValue;
 	}
 	 
 	/**
@@ -67,6 +70,11 @@ public enum ValueType {
 	 */
 	public Object getDefaultValue() {
 		return this.defaultValue;	
+	}
+	
+	@Override
+	public String toString() {
+		return displayValue;
 	}
 	
 }

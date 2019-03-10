@@ -11,7 +11,7 @@ public class ColumnHeader extends TextField {
 	}
 	//TODO replace with default values
 	public ColumnHeader(String text, UUID id) {
-		super(0, 0, 100, 50, text,id);
+		super(30, 50, 100, 50, text,id);
 	}
 	
 	@Override

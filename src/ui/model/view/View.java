@@ -297,7 +297,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			tableDesignViewMode = createTableDesignViewMode(id, tableName, columnCharacteristics);
 			this.addTableViewMode(id, tableDesignViewMode);
 		}
-		System.out.println("Opening tableDesignVM");
 		this.setCurrentMode(tableDesignViewMode);
 	}
 

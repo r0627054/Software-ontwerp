@@ -25,23 +25,20 @@ public class DesignTable extends Component {
 			List<Component> cells = new ArrayList<>();
 			UUID id = entry.getKey();
 
-			cells.add(new Cell(0,0, "", id));
+			cells.add(new Cell(0, 0, "", id));
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
-				System.out.println("----" + obj.getKey() + " == " + obj.getValue().toString());
 				cells.add(new Cell(0, 0, obj.getValue(), id));
 			}
 			rowList.add(new HorizontalComponentList(0, 0, cells));
 		}
 
-		this.setRows(new VerticalComponentList(0, 0, 200, 200, rowList));
+		this.setRows(new VerticalComponentList(this.getX(), this.getY(), 200, 200, rowList));
 	}
 
 	private HorizontalComponentList createHeader(String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> headerList = new ArrayList<>();
 		headerList.add(new ColumnHeader(tableName, UUID.randomUUID()));
-
-		System.out.println(columnCharacteristics);
 
 		Iterator<LinkedHashMap<String, Object>> it = columnCharacteristics.values().iterator();
 
@@ -50,11 +47,10 @@ public class DesignTable extends Component {
 
 			for (String entry : firstEntry.keySet()) {
 				headerList.add(new ColumnHeader(entry, UUID.randomUUID()));
-				System.out.println(entry);
 			}
 		}
 
-		return new HorizontalComponentList(0, 0, headerList);
+		return new HorizontalComponentList(getX(), getY(), headerList);
 	}
 
 	@Override
