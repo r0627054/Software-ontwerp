@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import ui.model.components.Container;
 import ui.model.components.DesignTable;
+import ui.model.components.TextField;
 
 public class TableDesignViewMode extends TableViewMode {
 	private Container container;
@@ -14,6 +15,7 @@ public class TableDesignViewMode extends TableViewMode {
 		super(id, tableName);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
 		this.createDesignTable(columnCharacteristics);
+		this.addComponent(new TextField(50, 3, 200, 25, "Designing table: "+tableName, id));
 	}
 	
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
@@ -22,7 +24,7 @@ public class TableDesignViewMode extends TableViewMode {
 		table.addPropertyChangeListener(this);
 		this.addClickListener(table);
 		getContainer().addComponent(table);
-		this.addComponent(container);		
+		this.addComponent(container);	
 	}
 	
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {

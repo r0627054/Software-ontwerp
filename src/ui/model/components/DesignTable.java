@@ -29,7 +29,6 @@ public class DesignTable extends IdentifiableComponent {
 			List<Component> cells = new ArrayList<>();
 			UUID id = entry.getKey();
 
-			cells.add(new Cell(0, 0, "", id));
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
 				cells.add(new Cell(0, 0, obj.getValue(), id));
 			}
@@ -42,7 +41,6 @@ public class DesignTable extends IdentifiableComponent {
 	private HorizontalComponentList createHeader(String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> headerList = new ArrayList<>();
-		headerList.add(new ColumnHeader(tableName, UUID.randomUUID()));
 
 		Iterator<LinkedHashMap<String, Object>> it = columnCharacteristics.values().iterator();
 
