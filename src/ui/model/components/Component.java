@@ -110,7 +110,7 @@ public abstract class Component {
 	 *        | this(width,height,true)      
 	 */
 	public Component(int width, int height) {
-		this(width, height, true);
+		this(width, height, false);
 	}
 
 	/**

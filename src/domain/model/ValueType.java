@@ -9,10 +9,10 @@ package domain.model;
  */
 public enum ValueType {
 
-	EMAIL("", String.class, "Type: Email"),
-	STRING("", String.class, "Type: String"),
-	BOOLEAN(new Boolean(true),Boolean.class, "Type: Bool"),
-	INTEGER(new Integer(0),Integer.class, "Type: Int");
+	EMAIL("", String.class, "Email"),
+	STRING("", String.class, "String"),
+	BOOLEAN(new Boolean(true),Boolean.class, "Bool"),
+	INTEGER(new Integer(0),Integer.class, "Int");
 	
 	/**
 	 * Variable storing the default value.

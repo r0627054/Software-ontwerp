@@ -106,7 +106,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @return
 	 * the table corresponding to the tableName in the tableMap.
 	 **/
-	public Table getTable(UUID id) {
+	private Table getTable(UUID id) {
 		return this.tableMap.get(id);
 	}
 
@@ -183,7 +183,7 @@ public class DomainFacade implements DomainFacadeInterface {
 				newIndexIsFound = true;
 			}
 		}
-		System.out.println(tableName);
+		//System.out.println(tableName);
 		this.addTable(tableName);
 	}
 
@@ -207,6 +207,14 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		
 		return table.getColumnCharacteristics();
+	}
+
+	@Override
+	public void addColumnToTable(UUID id) {
+		if(id == null) {
+			throw new DomainException("Cannot add a column to a table with a null id.");
+		}
+		this.getTable(id).createNewColumn();
 	}
 
 }

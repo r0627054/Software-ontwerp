@@ -1,6 +1,5 @@
 package ui.model.viewmodes;
 
-import java.awt.Graphics;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,7 +18,8 @@ public class TableDesignViewMode extends TableViewMode {
 	
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		container = new Container(0, 0, 600, 600);
-		DesignTable table = new DesignTable(50, 30, getTableName(), columnCharacteristics);
+		DesignTable table = new DesignTable(50, 30, 200, 200, getTableName(), this.getId(), columnCharacteristics);
+		table.addPropertyChangeListener(this);
 		this.addClickListener(table);
 		getContainer().addComponent(table);
 		this.addComponent(container);		

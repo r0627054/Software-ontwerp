@@ -18,5 +18,7 @@ public interface UIFacadeInterface {
 	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, Map<UUID, Object>> table);
 	public void updateTablesViewMode(Map<UUID, String> map);
 	public void openTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
+	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
+			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
 	
 }

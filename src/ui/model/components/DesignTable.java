@@ -1,6 +1,7 @@
 package ui.model.components;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -8,11 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class DesignTable extends Component {
+import controller.handlers.ChangeEventType;
+
+public class DesignTable extends IdentifiableComponent {
 	private VerticalComponentList rows;
 
-	public DesignTable(int x, int y, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		super(x, y);
+	public DesignTable(int x, int y, int width, int height, String tableName, UUID tableId, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+		super(x, y, width, height, false, tableId);
+		
 		createTable(tableName, columnCharacteristics);
 	}
 
@@ -69,6 +73,15 @@ public class DesignTable extends Component {
 		// TODO Auto-generated method stub
 
 	}
+	
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		if(id == MouseEvent.MOUSE_CLICKED) {
+			if(clickCount == 2 && y > this.getOffsetY() ) {
+				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN.getEventString(), null, null);
+			}
+		}
+	}
 
 	private VerticalComponentList getRows() {
 		return rows;
@@ -76,6 +89,10 @@ public class DesignTable extends Component {
 
 	private void setRows(VerticalComponentList rows) {
 		this.rows = rows;
+		this.setWidth(rows.getSumWidthFromChildren());
+		this.setHeight(rows.getSumHeightFromChildren());
+		this.setX(rows.getX());
+		this.setY(this.getY());
 	}
 
 }

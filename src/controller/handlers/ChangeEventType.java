@@ -8,7 +8,8 @@ public enum ChangeEventType {
 	DOUBLEClICK("doubleClick"),
 	CREATE_TABLE("createTable"), 
 	DELETE_TABLE("deleteTable"),
-	SWITCH_VIEWMODE("switchViewMode");
+	SWITCH_VIEWMODE("switchViewMode"),
+	CREATE_COLUMN("createColumn");
 	
 	private final String eventString;
 

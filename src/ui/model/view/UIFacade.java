@@ -91,4 +91,10 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().openTableDesignViewMode(id, tableName, columnCharacteristics);
 	}
 
+	@Override
+	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
+			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+		this.getView().updateTableDesignViewMode(id, tableNameOfId, columnCharacteristics);
+	}
+
 }

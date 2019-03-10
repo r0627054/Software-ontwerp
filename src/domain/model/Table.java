@@ -180,4 +180,29 @@ public class Table extends ObjectIdentifier {
 		return characteristics;
 	}
 
+	private boolean columnAlreadyExists(String columnName) {
+		if(columnName == null) {
+			throw new DomainException("ColumnName cannot be null to check whether the name already exists.");
+		}
+		for (Column column : this.getColumns()) {
+			if(column.getName().equals(columnName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void createNewColumn() {
+		int i = 1;
+		boolean newIndexIsFound = false;
+		String columnName = null;
+		while(!newIndexIsFound) {
+			columnName = "Column" + i++;
+			if(!this.columnAlreadyExists(columnName)) {
+				newIndexIsFound = true;
+			}
+		}
+		this.addColumn(new Column(columnName));
+	}
+
 }

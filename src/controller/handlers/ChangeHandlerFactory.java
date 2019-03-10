@@ -24,6 +24,8 @@ public class ChangeHandlerFactory {
 			handler = new DeleteTableChangeHandler();
 		} else if (value.equals(ChangeEventType.SWITCH_VIEWMODE.getEventString())) {
 			handler = new SwitchViewModeChangeHandler();
+		} else if (value.equals(ChangeEventType.CREATE_COLUMN.getEventString())) {
+			handler = new CreateColumnChangeHandler();
 		}
 
 		if (handler != null) {

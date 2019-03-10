@@ -41,6 +41,11 @@ public class Column extends ObjectIdentifier {
 	 */
 	private Object defaultValue;
 
+
+	public Column(String columnName) {
+		this(columnName, ValueType.STRING);
+	}	
+	
 	/**
 	 * Initialise a new column with the given name and valueType and by default it
 	 * allows blank spaces.

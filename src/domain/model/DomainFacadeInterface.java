@@ -23,5 +23,7 @@ public interface DomainFacadeInterface {
 	public void deleteTable(UUID id);
 
 	public Map<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics(UUID id);
+
+	public void addColumnToTable(UUID id);
 	
 }
