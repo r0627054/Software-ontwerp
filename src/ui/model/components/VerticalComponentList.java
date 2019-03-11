@@ -55,6 +55,6 @@ public class VerticalComponentList extends ContainerList {
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		positionChildren();
-	}
+	};
 
 }
