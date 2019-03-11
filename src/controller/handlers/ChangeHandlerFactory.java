@@ -26,6 +26,8 @@ public class ChangeHandlerFactory {
 			handler = new SwitchViewModeChangeHandler();
 		} else if (value.equals(ChangeEventType.CREATE_COLUMN.getEventString())) {
 			handler = new CreateColumnChangeHandler();
+		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_NAME.getEventString())){
+			handler = new ColumnNameChangeHandler();
 		}
 
 		if (handler != null) {

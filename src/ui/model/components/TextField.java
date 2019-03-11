@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.UUID;
 
-public class TextField extends IdentifiableComponent {
+public class TextField extends EditableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
 
@@ -16,9 +16,13 @@ public class TextField extends IdentifiableComponent {
 	}
 
 	public TextField(int x, int y, int width, int height, boolean hidden, String text, UUID id) {
-		super(x, y, width, height, hidden,id);
+		super(x, y, width, height, hidden, id);
 		this.setText(text);
 		this.setFont(new Font("NewTimesRoman", Font.PLAIN, 12));
+	}
+
+	public TextField(int x, int y, int width, int height, String text) {
+		this(x, y, width, height, text, UUID.randomUUID());
 	}
 
 	private void setFont(Font font) {
@@ -48,14 +52,14 @@ public class TextField extends IdentifiableComponent {
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
-		g.setClip(getX() + MARGIN, getY() + MARGIN, getWidth() - 2 * MARGIN, getHeight() - 2 * MARGIN);
+		g.setClip(getX(), getY(), getWidth(), getHeight());
 
 		g.setFont(this.getFont());
-		//g.getFontMetrics().stringWidth("breedte van deze string");
-		
+		// g.getFontMetrics().stringWidth("breedte van deze string");
+
 		drawString(g);
 	}
-	
+
 	protected void drawString(Graphics2D g) {
 		g.drawString(getText(), getX() + MARGIN, getOffsetY() - MARGIN);
 	}

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import ui.model.components.Cell;
 import ui.model.components.Component;
 import ui.model.view.View;
 
@@ -53,13 +54,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return components.add(component);
 	}
 
-	public void addComponent(int index, Component component) {
-		if (component == null) {
-			throw new IllegalArgumentException("Cannot add null as component to the view mode.");
-		}
-		components.add(index, component);
-	}
-
 	public boolean addAllComponents(Collection<? extends Component> c) {
 		return components.addAll(c);
 	}
@@ -92,7 +86,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 		this.keyListeners.add(c);
 	}
 
-	//We create a copy to make sure we're not editing the list while we are still looping through it
+	// We create a copy to make sure we're not editing the list while we are still
+	// looping through it
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 		for (Component c : currentClickListeners) {
@@ -103,8 +98,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 			}
 		}
 	}
-	
-	//We create a copy to make sure we're not editing the list while we are still looping through it
+
+	// We create a copy to make sure we're not editing the list while we are still
+	// looping through it
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		List<Component> currentKeyListeners = new ArrayList<>(getKeyListeners());
 		for (Component c : currentKeyListeners) {
@@ -130,7 +126,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.support.firePropertyChange(evt);
-
 	}
 
 	public void throwError(UUID id) {
@@ -144,12 +139,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 		this.keyListeners.clear();
 	}
 
-	private List<Component> getClickListeners() {
+	protected List<Component> getClickListeners() {
 		return this.clickListeners;
 	}
-	
-	private List<Component> getKeyListeners() {
+
+	protected List<Component> getKeyListeners() {
 		return this.keyListeners;
-	} 
+	}
 
 }

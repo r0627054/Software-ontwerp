@@ -49,9 +49,6 @@ public class Container extends Component {
 
 	@Override
 	public void paint(Graphics2D g) {
-		//g.setColor(new Color(226, 226, 226));
-		//g.fillRect(getX(), getY(), getWidth(), getHeight());
-
 		g.clipRect(getX(), getY(), getWidth(), getHeight());
 
 		for (Component c : components) {
@@ -91,15 +88,22 @@ public class Container extends Component {
 			c.throwError(id);
 		}
 	}
-	
+
 	@Override
 	public int getOffsetX() {
 		return this.getX() + this.getSumWidthFromChildren();
 	}
-	
+
 	@Override
 	public int getOffsetY() {
 		return this.getY() + this.getSumHeightFromChildren();
+	}
+
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		for (Component c : getComponentsList()) {
+			c.outsideClick(id, x, y, clickCount);
+		}
 	}
 
 }

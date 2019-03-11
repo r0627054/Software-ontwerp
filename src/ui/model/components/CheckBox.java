@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 
-public class CheckBox extends IdentifiableComponent {
+public class CheckBox extends EditableComponent {
 	private final static int SIZE = 18;
 	private final static int STROKE_WIDTH_BOX = 3;
 	private final static int STROKE_WIDTH_CROSS = 2;
@@ -28,7 +28,7 @@ public class CheckBox extends IdentifiableComponent {
 
 	private void setChecked(boolean checked) {
 		this.checked = checked;
-		//System.out.println("new Checked value! =" + checked);
+//		System.out.println("new Checked value! =" + checked);
 		propertyChanged();
 	}
 
@@ -58,7 +58,7 @@ public class CheckBox extends IdentifiableComponent {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			//System.out.println("Checkbox clicked");
+			System.out.println("Checkbox clicked");
 			this.setChecked(!isChecked());
 		}
 	}
@@ -67,6 +67,12 @@ public class CheckBox extends IdentifiableComponent {
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import ui.model.components.Container;
 import ui.model.components.Table;
+import ui.model.components.TextField;
 
 public class TableRowsViewMode extends TableViewMode {
 	private Container container;
@@ -14,11 +15,13 @@ public class TableRowsViewMode extends TableViewMode {
 		super(id, tableName);
 		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		createTable(table);
+		this.addComponent(new TextField(50, 5, 200, 25, "Table: " + tableName, id));
 	}
 
 	private void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation) {
 		container = new Container(0, 0, 600, 600);
-		Table table = new Table(50, 30, 200, 200, tableInformation);
+		Table table = new Table(50, 50, 200, 200);
+		table.createTable(tableInformation);
 		this.addClickListener(table);
 		getContainer().addComponent(table);
 		this.addComponent(container);

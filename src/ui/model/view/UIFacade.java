@@ -97,4 +97,21 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().updateTableDesignViewMode(id, tableNameOfId, columnCharacteristics);
 	}
 
+	@Override
+	public void pauseApplication(int i, UUID id) {
+		this.getView().pauseApplication(i, id);
+		
+	}
+
+	@Override
+	public void unpause(int i, UUID columnId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public UUID getCurrentTableId() {
+		return this.getView().getCurrentViewModeId();
+	}
+
 }

@@ -98,9 +98,9 @@ public class Column extends ObjectIdentifier {
 	 * @post The name of the column equals the given name.
 	 * 			| new.getName().equals(name)
 	 */
-	private void setName(String name) {
-		if (name == null) {
-			throw new DomainException("The column name cannot be null.");
+	public void setName(String name) {
+		if (name == null || name.isEmpty()) {
+			throw new DomainException("The column name cannot be empty.");
 		}
 		this.name = name;
 	}

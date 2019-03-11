@@ -74,6 +74,18 @@ public class Table extends ObjectIdentifier {
 		return new ArrayList<>(this.columns);
 	}
 
+	public Column getColumn(UUID columnId) {
+		if (columnId == null) {
+			throw new DomainException("Cannot get a column with a null columnId.");
+		}
+		for (Column col : getColumns()) {
+			if (col.getId().equals(columnId)) {
+				return col;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Sets the columns of the Table.
 	 * 
@@ -116,15 +128,14 @@ public class Table extends ObjectIdentifier {
 	 * @return 
 	 *         A List of all the cells of the tables, these cells are all copies.
 	 */
-	/*public List<Cell> getAllCells() {
-		List<Cell> result = new ArrayList<Cell>();
-		columns.stream().forEach(c -> result.addAll(c.getCells()));
-		return result;
-	}*/
+	/*
+	 * public List<Cell> getAllCells() { List<Cell> result = new ArrayList<Cell>();
+	 * columns.stream().forEach(c -> result.addAll(c.getCells())); return result; }
+	 */
 
 	public LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds() {
-		//the first inner map: UUID is column ID and the string is the columnname
-		//the second inner map: UUID is the cell ID and the Object is the value
+		// the first inner map: UUID is column ID and the string is the columnname
+		// the second inner map: UUID is the cell ID and the Object is the value
 		LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableMap = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
@@ -182,29 +193,61 @@ public class Table extends ObjectIdentifier {
 		return characteristics;
 	}
 
-	private boolean columnAlreadyExists(String columnName) {
-		if(columnName == null) {
+	private boolean columnAlreadyExists(UUID id, String columnName) {
+		if (columnName == null) {
 			throw new DomainException("ColumnName cannot be null to check whether the name already exists.");
 		}
 		for (Column column : this.getColumns()) {
-			if(column.getName().equals(columnName)) {
+			if (column.getName().equals(columnName) && !column.getId().equals(id)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public void createNewColumn() {
 		int i = 1;
 		boolean newIndexIsFound = false;
 		String columnName = null;
-		while(!newIndexIsFound) {
+		while (!newIndexIsFound) {
 			columnName = "Column" + i++;
-			if(!this.columnAlreadyExists(columnName)) {
+			if (!this.columnNameAlreadyExists(columnName)) {
 				newIndexIsFound = true;
 			}
 		}
 		this.addColumn(new Column(columnName));
+	}
+
+	private boolean columnNameAlreadyExists(String columnName) {
+		if (columnName == null) {
+			throw new DomainException("ColumnName cannot be null to check whether the name already exists.");
+		}
+		for (Column column : this.getColumns()) {
+			if (column.getName().equals(columnName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean hasColumn(UUID id) {
+		for (Column col : this.getColumns()) {
+			if (col.getId() == id) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void updateColumnName(UUID id, String newName) {
+		if (columnAlreadyExists(id, newName)) {
+			throw new DomainException("This column name already exists!");
+		}
+		for (Column col : this.getColumns()) {
+			if (col.getId() == id) {
+				col.setName(newName);
+			}
+		}
 	}
 
 }

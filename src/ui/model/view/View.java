@@ -181,8 +181,16 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
-		checkEscapeKeyPress(id, keyCode);
-		checkCtrlEnterKeyPress(id, keyCode);
+		if (!(this.getCurrentViewMode() instanceof TableDesignViewMode)) {
+			checkEscapeKeyPress(id, keyCode);
+			checkCtrlEnterKeyPress(id, keyCode);
+		} else {
+			TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
+			if (!currentViewMode.isPauzed()) {
+				checkEscapeKeyPress(id, keyCode);
+				checkCtrlEnterKeyPress(id, keyCode);
+			}
+		}
 		currentMode.keyPressed(id, keyCode, keyChar);
 	}
 
@@ -259,27 +267,29 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void throwErrorOnCurrentViewMode(UUID id) {
 		getCurrentViewMode().throwError(id);
 	}
-	
+
 	public void openTablesViewMode() {
 		this.setCurrentMode(this.getTablesViewMode());
 	}
 
-	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+	public void openTableRowsViewMode(UUID tableId, String tableName,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		if (tableId == null || table == null) {
 			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id or table equals null.");
 		}
-		
+
 		TableViewMode tableRowsViewMode = (TableViewMode) this.getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
-		
+
 		if (tableRowsViewMode == null) {
 			tableRowsViewMode = createTableRowsViewMode(tableId, tableName, table);
 			this.addTableViewMode(tableId, tableRowsViewMode);
 		}
-		
+
 		this.setCurrentMode(tableRowsViewMode);
 	}
 
-	public TableViewMode createTableRowsViewMode(UUID id, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+	public TableViewMode createTableRowsViewMode(UUID id, String tableName,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}
@@ -288,7 +298,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return newTableRowsViewMode;
 	}
 
-	public void openTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public void openTableDesignViewMode(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot open TableRowsViewMode with columnCharacteristics or id equals null.");
@@ -302,14 +313,15 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.setCurrentMode(tableDesignViewMode);
 	}
 
-	private TableViewMode createTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	private TableViewMode createTableDesignViewMode(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot create TableRowsViewMode with columnCharacteristics or id equals null.");
 		}
 		TableViewMode newTableDesignViewMode = new TableDesignViewMode(id, tableName, columnCharacteristics);
 		newTableDesignViewMode.addPropertyChangeListener(this);
-		
+
 		return newTableDesignViewMode;
 	}
 
@@ -319,7 +331,23 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		TableDesignViewMode tableDesignViewMode = (TableDesignViewMode) getViewMode(id, ViewModeType.TABLEDESIGNVIEWMODE);
+		TableDesignViewMode tableDesignViewMode = (TableDesignViewMode) getViewMode(id,
+				ViewModeType.TABLEDESIGNVIEWMODE);
 		tableDesignViewMode.updateDesignTable(columnCharacteristics);
+	}
+
+	public void pauseApplication(int i, UUID id) {
+		TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
+		currentViewMode.pauseViewMode(i, id);
+	}
+
+	public UUID getCurrentViewModeId() {
+		ViewMode current = getCurrentViewMode();
+
+		if (current instanceof TableViewMode) {
+			TableViewMode currentTableViewMode = (TableViewMode) current;
+			return currentTableViewMode.getId();
+		}
+		return null;
 	}
 }

@@ -2,6 +2,7 @@ package ui.model.components;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -10,36 +11,77 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+import ui.model.viewmodes.TableDesignViewMode;
 
-public class DesignTable extends IdentifiableComponent {
+public class DesignTable extends EditableComponent {
 	private VerticalComponentList rows;
 
-	public DesignTable(int x, int y, int width, int height, String tableName, UUID tableId, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public DesignTable(int x, int y, int width, int height, String tableName, UUID tableId) {
 		super(x, y, width, height, false, tableId);
-		
-		createTable(tableName, columnCharacteristics);
 	}
 
-	private void createTable(String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public List<Cell> createTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> rowList = new ArrayList<>();
+		List<Cell> cellList = new ArrayList<>();
 
-		rowList.add(createHeader(tableName, columnCharacteristics));
+		rowList.add(createHeader(columnCharacteristics));
 
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnCharacteristics.entrySet()) {
 			List<Component> cells = new ArrayList<>();
 			UUID id = entry.getKey();
 
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
-				cells.add(new Cell(0, 0, obj.getValue(), id));
+				Cell newCell = null;
+
+				// TODO: create a function (createTextFieldCell/createCheckBoxCell/...) to
+				// create these cells
+				switch (obj.getKey()) {
+				case "Type":
+					TextField textField = new TextField(0, 0, 100, 100, obj.getValue().toString(), id);
+					newCell = new Cell(0, 0, textField, id);
+					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
+					break;
+				case "Column Name":
+					EditableTextField nameTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
+							id);
+					newCell = new Cell(0, 0, nameTextField, id);
+					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_NAME);
+					break;
+				case "Allow Blanks":
+					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), id);
+					newCell = new Cell(0, 0, blanksCheckBox, id);
+					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
+					break;
+				case "Default Value":
+					if (obj.getValue() == null) {
+						TextField valueTextField = new TextField(0, 0, 100, 100, "", id);
+						newCell = new Cell(0, 0, valueTextField, id);
+					} else if (obj.getValue() instanceof String || obj.getValue() instanceof Integer) {
+						Component valueTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(), id);
+						newCell = new Cell(0, 0, valueTextField, id);
+						newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+					} else if (obj.getValue() instanceof Boolean) {
+						CheckBox valueCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), id);
+						newCell = new Cell(0, 0, valueCheckBox, id);
+						newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+					}
+
+					break;
+				default:
+					newCell = new Cell(0, 0, obj.getValue(), id);
+					break;
+				}
+				cellList.add(newCell);
+				cells.add(newCell);
 			}
+
 			rowList.add(new HorizontalComponentList(0, 0, cells));
 		}
-
 		this.setRows(new VerticalComponentList(this.getX(), this.getY(), 200, 200, rowList));
+		return cellList;
 	}
 
-	private HorizontalComponentList createHeader(String tableName,
-			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public HorizontalComponentList createHeader(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> headerList = new ArrayList<>();
 
 		Iterator<LinkedHashMap<String, Object>> it = columnCharacteristics.values().iterator();
@@ -51,7 +93,6 @@ public class DesignTable extends IdentifiableComponent {
 				headerList.add(new ColumnHeader(entry, UUID.randomUUID()));
 			}
 		}
-
 		return new HorizontalComponentList(getX(), getY(), headerList);
 	}
 
@@ -62,35 +103,53 @@ public class DesignTable extends IdentifiableComponent {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
+		// getRows().mouseClicked(id, x, y, clickCount);
 	}
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
-		// TODO Auto-generated method stub
-
+		getRows().keyPressed(id, keyCode, keyChar);
 	}
-	
+
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if(id == MouseEvent.MOUSE_CLICKED) {
-			if(clickCount == 2 && y > this.getOffsetY() ) {
+		if (id == MouseEvent.MOUSE_CLICKED) {
+			if (clickCount == 2 && y > this.getOffsetY()) {
 				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN.getEventString(), null, null);
 			}
 		}
+		getRows().outsideClick(id, x, y, clickCount);
 	}
 
 	private VerticalComponentList getRows() {
-		return rows;
+		return this.rows;
 	}
 
 	private void setRows(VerticalComponentList rows) {
+		if (rows == null) {
+			throw new IllegalArgumentException("Cannot set an empty VerticalComponentList as rows in DesignTable.");
+		}
 		this.rows = rows;
 		this.setWidth(rows.getSumWidthFromChildren());
 		this.setHeight(rows.getSumHeightFromChildren());
-		this.setX(rows.getX());
-		this.setY(this.getY());
+		//this.setX(rows.getX());
+		//this.setY(this.getY());
+	}
+
+	public Cell getCell(int index, UUID columnId) {
+		for (Component comp : rows.getComponentsList()) {
+			HorizontalComponentList list = (HorizontalComponentList) comp;
+
+			if (list.getComponentsList().get(index) instanceof Cell) {
+
+				Cell cell = (Cell) list.getComponentsList().get(index);
+
+				if (cell.getId() == columnId) {
+					return cell;
+				}
+			}
+		}
+		return null;
 	}
 
 }

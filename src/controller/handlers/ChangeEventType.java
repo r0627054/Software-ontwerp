@@ -2,6 +2,7 @@ package controller.handlers;
 
 public enum ChangeEventType {
 
+	REPAINT("repaint"),
 	CHECKED("checked"),
 	VALUE("value"),
 	DEFAULT_VALUE("defaultValue"),
@@ -9,7 +10,11 @@ public enum ChangeEventType {
 	CREATE_TABLE("createTable"), 
 	DELETE_TABLE("deleteTable"),
 	SWITCH_VIEWMODE("switchViewMode"),
-	CREATE_COLUMN("createColumn");
+	CREATE_COLUMN("createColumn"), 
+	COLUMN_CHANGE_TYPE("columnChangeType"), 
+	COLUMN_CHANGE_DEFAULT_VALUE("columnChangeDefaultValue"), 
+	COLUMN_CHANGE_ALLOW_BLANKS("columnChangeAllowBlanks"), 
+	COLUMN_CHANGE_NAME("columnChangeName");
 	
 	private final String eventString;
 

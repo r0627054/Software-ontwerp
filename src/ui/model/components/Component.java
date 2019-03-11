@@ -4,7 +4,10 @@ import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.List;
 import java.util.UUID;
+
+import controller.handlers.ChangeEventType;
 
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
@@ -261,7 +264,7 @@ public abstract class Component {
 	public abstract void paint(Graphics2D g);
 
 	public boolean isWithinComponent(int x, int y) {
-		return x >= getX() && x <= getOffsetX() && y >= getY() && y <= getOffsetY();
+		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
 	}
 
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
@@ -269,21 +272,28 @@ public abstract class Component {
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
 	public void outsideClick(int id, int x, int y, int clickCount) {
-
 	}
 
 	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
 		// System.out.println("Custom propertychanged fired from: " + source.toString()
 		// + " " + propertyName + " new val: " + newValue);
-		support.firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
+		getSupport().firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
 	}
 
 	protected void propertyChanged() {
-		// System.out.println("Component PropertyChanged called");
-		support.firePropertyChange(new PropertyChangeEvent(this, "repaint", null, null));
+		getSupport().firePropertyChange(
+				new PropertyChangeEvent(this, ChangeEventType.REPAINT.getEventString(), null, null));
 	}
 
 	public void throwError(UUID id) {
+	}
+
+	protected PropertyChangeSupport getSupport() {
+		return support;
+	}
+
+	private void setSupport(PropertyChangeSupport support) {
+		this.support = support;
 	};
 
 }

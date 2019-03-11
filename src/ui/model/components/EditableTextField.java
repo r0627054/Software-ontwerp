@@ -26,11 +26,6 @@ public class EditableTextField extends TextField {
 	 */
 	private boolean selectedForDelete = false;
 
-	/**
-	 * Variable to show if the user caused an error
-	 */
-	private boolean error = false;
-
 	private String defaultValue;
 
 	/**
@@ -56,16 +51,16 @@ public class EditableTextField extends TextField {
 	public void paint(Graphics2D g) {
 
 		if (this.isSelected()) {
-			g.setColor(Color.WHITE);
+			g.setColor(new Color(226, 226, 226));
 		} else if (this.isSelectedForDelete()) {
 			g.setColor(Color.RED);
 		} else {
-			g.setColor(new Color(226, 226, 226));
+			g.setColor(Color.WHITE);
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());
 
-		if (hasError())
+		if (isError())
 			displayError(g);
 
 	}
@@ -97,17 +92,16 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (this.isSelected()) {
+		if (this.isSelected() && !this.isError()) {
+//			System.out.println("ETF Unselect");
 			unselect();
 		}
-		this.setSelectedForDelete(x < this.getX() && y > this.getY() && y < this.getOffsetY());
 	}
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		if (isSelected()) {
 			if (id == KeyEvent.KEY_PRESSED) {
-
 				if (keyCode == KeyEvent.VK_LEFT) {
 					moveCursorLocationLeft();
 				}
@@ -127,6 +121,12 @@ public class EditableTextField extends TextField {
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
 				}
+				if (keyCode == KeyEvent.VK_ESCAPE) {
+					this.setText(defaultValue);
+					this.setError(false);
+					this.setSelected(false);
+					propertyChanged();
+				}
 			}
 		}
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
@@ -141,17 +141,16 @@ public class EditableTextField extends TextField {
 	private void textChanged() {
 		this.setError(false);
 		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
-		this.setDefaultValue(getText());
 	}
 
 	private void textChangeSubmit() {
+//		System.out.println("Submit ETF");
 		this.setSelected(false);
 		textChanged();
-		// propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(),
-		// this.getDefaultValue(), this.getText());
 	}
 
 	private void doubleClicked() {
+//		System.out.println("Double Click ETF");
 		this.setSelected(false);
 		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, null);
 	}
@@ -163,10 +162,10 @@ public class EditableTextField extends TextField {
 
 	private void unselect() {
 		if (this.isSelected()) {
+//			System.out.println("unselect ETF");
+			this.setText(getDefaultValue());
 			this.setSelected(false);
 			this.setError(false);
-			this.setText(getDefaultValue());
-			propertyChanged();
 		}
 	}
 
@@ -176,6 +175,7 @@ public class EditableTextField extends TextField {
 
 	private void setSelected(boolean selected) {
 		this.selected = selected;
+		propertyChanged();
 	}
 
 	private void deleteChar() {
@@ -184,7 +184,7 @@ public class EditableTextField extends TextField {
 			String right = getText().substring(position, getText().length());
 			setText(left + right);
 			moveCursorLocationLeft();
-			if (hasError())
+			if (isError())
 				this.setError(false);
 		}
 
@@ -227,7 +227,7 @@ public class EditableTextField extends TextField {
 		if (defaultValue == null) {
 			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
 		}
-		if (!hasError())
+		if (!isError())
 			this.defaultValue = defaultValue;
 	}
 
@@ -248,27 +248,26 @@ public class EditableTextField extends TextField {
 	public void throwError(UUID id) {
 		if (this.getId().equals(id)) {
 			super.throwError(id);
-			this.select();
 			this.setError(true);
-			// this.setText(getDefaultValue());
+		}
+	}
+
+	@Override
+	public void setError(boolean error) {
+		super.setError(error);;
+		
+		if (error) {
+			this.select();
 			this.resetCursorPosition();
 		}
 	}
 
-	public void setError(boolean error) {
-		this.error = error;
-	}
-
-	private boolean hasError() {
-		return error;
-	}
-
-	private void setSelectedForDelete(boolean selected) {
+	public void setSelectedForDelete(boolean selected) {
 		this.selectedForDelete = selected;
 		propertyChanged();
 	}
 
-	private boolean isSelectedForDelete() {
+	public boolean isSelectedForDelete() {
 		return this.selectedForDelete;
 	}
 }
