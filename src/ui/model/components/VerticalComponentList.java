@@ -34,7 +34,7 @@ public class VerticalComponentList extends ContainerList {
 		}
 	}
 
-	private void positionSelfCenter() {
+	private void positionSelfCenter() { //TODO gebruiken we die method? NEEN >> ofwel deleten ofwel public zetten dat er testen voor kunnen geschreven worden.
 		int selfWidth = this.getWidth();
 		int selfHeight = this.getHeight();
 		int childrenWidth = getMaxWidthFromChildren();
