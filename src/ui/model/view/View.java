@@ -186,7 +186,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			checkCtrlEnterKeyPress(id, keyCode);
 		} else {
 			TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
-			if (!currentViewMode.isPauzed()) {
+			if (!currentViewMode.isPaused()) {
 				checkEscapeKeyPress(id, keyCode);
 				checkCtrlEnterKeyPress(id, keyCode);
 			}
@@ -349,5 +349,16 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			return currentTableViewMode.getId();
 		}
 		return null;
+	}
+
+	public void unpause(int columnIndex, UUID columnId) {
+		ViewMode current = this.getCurrentViewMode();
+
+		if (current instanceof TableViewMode) {
+			if (current instanceof TableDesignViewMode) {
+				TableDesignViewMode currentTableViewMode = (TableDesignViewMode) current;
+				currentTableViewMode.unpauseViewMode(columnIndex, columnId);
+			}
+		}
 	}
 }

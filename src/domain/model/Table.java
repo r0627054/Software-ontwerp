@@ -249,5 +249,10 @@ public class Table extends ObjectIdentifier {
 			}
 		}
 	}
+	
+	public int getIndexOfColumnCharacteristic(UUID columnId, String string) {
+		Column column = this.getColumn(columnId);
+		return column.getIndexOfCharacteristic(string);
+	}
 
 }

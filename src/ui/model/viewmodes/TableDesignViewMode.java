@@ -1,6 +1,7 @@
 package ui.model.viewmodes;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,13 @@ import ui.model.components.TextField;
 
 public class TableDesignViewMode extends TableViewMode {
 	private Container container;
-	private boolean pauzed = false;
+	private List<Component> storedListeners;
 
 	public TableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		super(id, tableName);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
+		this.storedListeners = new ArrayList<>();
 
 		this.createDesignTable(columnCharacteristics);
 		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + tableName, id));
@@ -31,27 +33,33 @@ public class TableDesignViewMode extends TableViewMode {
 
 		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
 		List<Cell> cellList = table.createTable(columnCharacteristics);
-
 		for (Cell c : cellList) {
-			this.addClickListener(c);
-			this.addKeyListener(c);
+			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
 		}
 
-//		this.addKeyListener(table);
+		this.addStoredListener(table);
 		table.addPropertyChangeListener(this);
-		this.addComponent(table);
-		this.addClickListener(table);
+		// this.addComponent(table);
 
 		getContainer().addComponent(table);
 		this.addComponent(container);
+		this.addAllListeners();
+		
 	}
+	
+	private void addAllListeners() {
+		this.removeAllClickAndKeyListeners();
+		this.addAllClickListeners(this.getStoredListeners());
+		this.addAllKeyListeners(this.getStoredListeners());
+	}
+
 
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.removeAllClickAndKeyListeners();
 		this.removeComponent(getContainer());
 		this.removeComponent(getDesignTable());
-		this.setPauzed(false);
+		this.setPaused(false);
 		this.createDesignTable(columnCharacteristics);
 	}
 
@@ -59,25 +67,22 @@ public class TableDesignViewMode extends TableViewMode {
 		return container;
 	}
 
-	public boolean isPauzed() {
-		return pauzed;
-	}
-
-	private void setPauzed(boolean pauzed) {
-		this.pauzed = pauzed;
-	}
-
 	private DesignTable getDesignTable() {
-		for (Component c : getComponents()) {
-			if (c instanceof DesignTable) {
-				return (DesignTable) c;
+		for (Component container : getComponents()) {
+			if (container instanceof Container) {
+				Container containerCasted = (Container) container; 
+				for (Component c : containerCasted.getComponentsList()) {
+					if (c instanceof DesignTable) {
+						return (DesignTable) c;
+					}
+				}
 			}
 		}
 		return null;
 	}
 
 	public void pauseViewMode(int columnIndex, UUID columnId) {
-		this.setPauzed(true);
+		this.setPaused(true);
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
 		this.removeAllClickListenersButOne(errorCell);
 		this.removeAllKeyListenersButOne(errorCell);
@@ -85,11 +90,22 @@ public class TableDesignViewMode extends TableViewMode {
 	}
 
 	public void unpauseViewMode(int columnIndex, UUID columnId) {
-		this.setPauzed(false);
+		this.setPaused(false);
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
-		this.addAllClickListenersDifferentFrom(errorCell);
-		this.addAllKeyListenersDifferentFrom(errorCell);
+		System.out.println(errorCell);
+		this.addAllListeners();
 		errorCell.setError(false);
 	}
-	
+
+	private List<Component> getStoredListeners() {
+		return storedListeners;
+	}
+
+	private void addStoredListener(Component listener) {
+		if(listener == null) {
+			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
+		}
+		this.storedListeners.add(listener);
+	}
+
 }

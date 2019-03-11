@@ -218,13 +218,21 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public void updateColumnName(UUID tableId, UUID id, String newName) {
-		if (id == null) {
+	public void updateColumnName(UUID tableId, UUID columnId, String newName) {
+		if (columnId == null || tableId == null) {
 			throw new DomainException("Cannot update a column name with a null id.");
 		} else if (newName == null || newName.isEmpty()) {
 			throw new DomainException("Cannot set a new column name with a null or empty name.");
 		}
-		getTable(tableId).updateColumnName(id, newName);
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.updateColumnName(columnId, newName);
+		}
+	}
+
+	public int getIndexOfColumnCharacteristic(UUID tableId, UUID columnId, String characteristic) {
+		Table table = getTable(tableId);
+		return table.getIndexOfColumnCharacteristic(columnId, characteristic);
 	}
 
 //	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {
@@ -237,32 +245,32 @@ public class DomainFacade implements DomainFacadeInterface {
 //		this.getTable(tableId).getColumn(columnId)
 //	}
 
-	public String getTableNameOfColumnId(UUID columnId) {
-		if (columnId == null) {
-			throw new IllegalArgumentException(
-					"Cannot check which table name belongs to a table with a null column id");
-		}
+//	public String getTableNameOfColumnId(UUID columnId) {
+//		if (columnId == null) {
+//			throw new IllegalArgumentException(
+//					"Cannot check which table name belongs to a table with a null column id");
+//		}
+//
+//		for (Table table : getTableMap().values()) {
+//			if (table.hasColumn(columnId)) {
+//				return table.getName();
+//			}
+//		}
+//		return null;
+//	}
 
-		for (Table table : getTableMap().values()) {
-			if (table.hasColumn(columnId)) {
-				return table.getName();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public UUID getTableIdOfColumnId(UUID columnId) {
-		if (columnId == null) {
-			throw new IllegalArgumentException("Cannot check which table id belongs to a table with a null column id");
-		}
-
-		for (Table table : getTableMap().values()) {
-			if (table.hasColumn(columnId)) {
-				return table.getId();
-			}
-		}
-		return null;
-	}
+//	@Override
+//	public UUID getTableIdOfColumnId(UUID columnId) {
+//		if (columnId == null) {
+//			throw new IllegalArgumentException("Cannot check which table id belongs to a table with a null column id");
+//		}
+//
+//		for (Table table : getTableMap().values()) {
+//			if (table.hasColumn(columnId)) {
+//				return table.getId();
+//			}
+//		}
+//		return null;
+//	}
 
 }

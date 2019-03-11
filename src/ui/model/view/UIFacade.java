@@ -77,7 +77,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	@Override
-	public void openTableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+	public void openTableRowsViewMode(UUID tableId, String tableName,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		this.getView().openTableRowsViewMode(tableId, tableName, table);
 	}
 
@@ -87,7 +88,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	@Override
-	public void openTableDesignViewMode(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public void openTableDesignViewMode(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.getView().openTableDesignViewMode(id, tableName, columnCharacteristics);
 	}
 
@@ -100,13 +102,12 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	@Override
 	public void pauseApplication(int i, UUID id) {
 		this.getView().pauseApplication(i, id);
-		
+
 	}
 
 	@Override
-	public void unpause(int i, UUID columnId) {
-		// TODO Auto-generated method stub
-		
+	public void unpause(int columnIndex, UUID columnId) {
+		this.getView().unpause(columnIndex, columnId);
 	}
 
 	@Override

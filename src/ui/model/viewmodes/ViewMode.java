@@ -75,15 +75,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 	protected void addClickListener(Component c) {
 		if (c == null)
 			throw new IllegalArgumentException("A new click listener cannot be null");
-
-		this.clickListeners.add(c);
+		if (!this.getClickListeners().contains(c))
+			this.clickListeners.add(c);
 	}
 
 	protected void addKeyListener(Component c) {
 		if (c == null)
 			throw new IllegalArgumentException("A new key listener cannot be null");
-
-		this.keyListeners.add(c);
+		if (!this.getKeyListeners().contains(c))
+			this.keyListeners.add(c);
 	}
 
 	// We create a copy to make sure we're not editing the list while we are still

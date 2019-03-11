@@ -150,9 +150,9 @@ public class EditableTextField extends TextField {
 	}
 
 	private void doubleClicked() {
-//		System.out.println("Double Click ETF");
+		System.out.println("Double Click ETF");
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, null);
+		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, this.getText());
 	}
 
 	private void select() {

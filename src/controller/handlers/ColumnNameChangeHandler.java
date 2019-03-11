@@ -14,18 +14,12 @@ public class ColumnNameChangeHandler implements ChangeHandlerInterface {
 		UUID columnId = (UUID) evt.getSource();
 		try {
 			String newName = (String) evt.getNewValue();
-			Object oldValue = evt.getOldValue();
-			domainfacade.updateColumnName(uifacade.getCurrentTableId(), columnId, newName);
-
-			//TODO 11/03 BEGIN HIER
-			uifacade.unpause(0, columnId);
-//			System.out.println("ColName updated to: " + newName);
-
-//			String tableName = domainfacade.getTableNameOfColumnId(columnId);
-//			UUID tableId = domainfacade.getTableIdOfColumnId(columnId);
-//			uifacade.updateTableDesignViewMode(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
+			UUID tableId = uifacade.getCurrentTableId();
+			domainfacade.updateColumnName(tableId, columnId, newName);
+			
+			int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Column Name");
+			uifacade.unpause(columnIndex, columnId);
 		} catch (DomainException e) {
-			System.out.println("ColName change error!");
 			uifacade.pauseApplication(0, columnId);
 		}
 

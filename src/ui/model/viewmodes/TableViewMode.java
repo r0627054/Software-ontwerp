@@ -11,6 +11,7 @@ public abstract class TableViewMode extends ViewMode {
 
 	private UUID id;
 	private String tableName;
+	private boolean paused = false;
 
 	public TableViewMode(UUID id, String tableName) {
 		super();
@@ -58,20 +59,32 @@ public abstract class TableViewMode extends ViewMode {
 		}
 	}
 
-	protected void addAllClickListenersDifferentFrom(Cell errorCell) {
-		for (Component component : getComponents()) {
-			if (!component.equals(errorCell)) {
-				this.addClickListener(component);
-			}
+	protected void addAllKeyListeners(List<Component> keyListeners) {
+		if (keyListeners == null) {
+			throw new IllegalArgumentException("Cannot set a null list as a list of keyListeners");
+		}
+		
+		for (Component c : keyListeners) {
+			this.addKeyListener(c);
 		}
 	}
 
-	protected void addAllKeyListenersDifferentFrom(Cell errorCell) {
-		for (Component component : getComponents()) {
-			if (!component.equals(errorCell)) {
-				this.addKeyListener(component);
-			}
+	protected void addAllClickListeners(List<Component> clickListeners) {
+		if (clickListeners == null) {
+			throw new IllegalArgumentException("Cannot set a null list as a list of clickListeners");
 		}
+		
+		for (Component c : clickListeners) {
+			this.addClickListener(c);
+		}
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	protected void setPaused(boolean paused) {
+		this.paused = paused;
 	}
 
 }

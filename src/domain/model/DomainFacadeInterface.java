@@ -27,8 +27,10 @@ public interface DomainFacadeInterface {
 
 	public void addColumnToTable(UUID id);
 
-	public String getTableNameOfColumnId(UUID columnId);
+	public int getIndexOfColumnCharacteristic(UUID tableId, UUID columnId, String characteristic);
 
-	public UUID getTableIdOfColumnId(UUID columnId);
+//	public String getTableNameOfColumnId(UUID columnId);
+
+//	public UUID getTableIdOfColumnId(UUID columnId);
 
 }

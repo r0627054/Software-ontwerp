@@ -41,11 +41,10 @@ public class Column extends ObjectIdentifier {
 	 */
 	private Object defaultValue;
 
-
 	public Column(String columnName) {
 		this(columnName, ValueType.STRING);
-	}	
-	
+	}
+
 	/**
 	 * Initialise a new column with the given name and valueType and by default it
 	 * allows blank spaces.
@@ -289,6 +288,20 @@ public class Column extends ObjectIdentifier {
 		characteristics.put("Default Value", getDefaultValue());
 
 		return characteristics;
+	}
+
+	public int getIndexOfCharacteristic(String characteristic) {
+		LinkedHashMap<String, Object> list = getCharacteristics();
+
+		int index = 0;
+
+		for (String s : list.keySet()) {
+			if (s.equals(characteristic)) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
 	}
 
 }

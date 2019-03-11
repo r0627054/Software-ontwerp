@@ -102,16 +102,6 @@ public class DesignTable extends EditableComponent {
 	}
 
 	@Override
-	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// getRows().mouseClicked(id, x, y, clickCount);
-	}
-
-	@Override
-	public void keyPressed(int id, int keyCode, char keyChar) {
-		getRows().keyPressed(id, keyCode, keyChar);
-	}
-
-	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
 			if (clickCount == 2 && y > this.getOffsetY()) {
@@ -150,6 +140,16 @@ public class DesignTable extends EditableComponent {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void mouseClicked(int id, int x, int y, int clickCount) {
+		// Don't call the mouseClicked on the children!
+	}
+
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		// Don't call the keyPressed on the children!
 	}
 
 }
