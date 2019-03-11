@@ -65,6 +65,18 @@ class HorizontalComponentListTest {
 		
 	}
 	
+	/**
+	 * Test 5 : Add component to Horizontal Component List
+	 */
+	@Test
+	void test5AddComponentToComponentList() {
+		listItems.add(comp1);
+		listItems.add(comp2);
+		hcl = new HorizontalComponentList(x, y, listItems);
+		hcl.addComponent(comp3);
+		assertEquals(comp3.hashCode(), hcl.getComponentsList().get(hcl.getComponentsList().size() -1).hashCode());
+	}
+	
 	
 
 }
