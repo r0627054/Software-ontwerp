@@ -125,7 +125,16 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 			toggleTextField.setError(b);
 			toggleTextField.setText(newValue.toString());
 		} // TODO Add checkbox
+	}
 
+	public boolean hasSelectedEditableTextField() {
+		if (this.getComponent() instanceof EditableTextField) {
+			EditableTextField editableTextField = (EditableTextField) getComponent();
+			if (editableTextField.isSelected()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

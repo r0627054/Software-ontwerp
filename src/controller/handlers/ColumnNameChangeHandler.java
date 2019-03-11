@@ -12,17 +12,14 @@ public class ColumnNameChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		UUID columnId = (UUID) evt.getSource();
+		UUID tableId = uifacade.getCurrentTableId();
+		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Column Name");
+		String newName = (String) evt.getNewValue();
 
 		try {
-			String newName = (String) evt.getNewValue();
-			UUID tableId = uifacade.getCurrentTableId();
 			domainfacade.updateColumnName(tableId, columnId, newName);
-			
-			int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Column Name");
 			uifacade.unpause(columnIndex, columnId);
 		} catch (DomainException e) {
-			UUID tableId = uifacade.getCurrentTableId();
-			int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Column Name");
 			uifacade.pauseApplication(columnIndex, columnId);
 		}
 

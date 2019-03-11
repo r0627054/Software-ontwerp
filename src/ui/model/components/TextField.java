@@ -10,7 +10,6 @@ public class TextField extends EditableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
 
-
 	private String text;
 
 	public TextField(int x, int y, int width, int height, String text, UUID id) {
@@ -73,7 +72,6 @@ public class TextField extends EditableComponent {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
 		
 	}
 

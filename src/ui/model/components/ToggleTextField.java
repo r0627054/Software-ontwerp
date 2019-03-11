@@ -6,8 +6,12 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
+
 public class ToggleTextField extends TextField {
 
+	
+	
 	public ToggleTextField(int x, int y, int width, int height, String text, UUID id) {
 		super(x, y, width, height, text, id);
 	}
@@ -15,7 +19,7 @@ public class ToggleTextField extends TextField {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
-			this.propertyChanged(this.getId(), null, getText(), null);
+			this.propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), getText(), null);
 		}
 	}
 

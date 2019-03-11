@@ -33,7 +33,7 @@ public class TableDesignViewMode extends TableViewMode {
 
 		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
 		List<Cell> cellList = table.createTable(columnCharacteristics);
-		
+
 		this.clearStoredListeners();
 		for (Cell c : cellList) {
 			this.addStoredListener(c);
@@ -47,7 +47,7 @@ public class TableDesignViewMode extends TableViewMode {
 		getContainer().addComponent(table);
 		this.addComponent(container);
 		this.addAllListeners();
-		
+
 	}
 
 	private void addAllListeners() {
@@ -123,4 +123,15 @@ public class TableDesignViewMode extends TableViewMode {
 		errorCell.setErrorWithNewValue(true, newValue);
 	}
 
+	public boolean hasASelectedCell() {
+		for (Component comp : getStoredListeners()) {
+			if (comp instanceof Cell) {
+				Cell compCell = (Cell) comp;
+				if (compCell.hasSelectedEditableTextField()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 }

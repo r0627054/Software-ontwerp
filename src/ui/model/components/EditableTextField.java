@@ -76,9 +76,8 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (this.isSelected() && !this.isError()) {
-//			System.out.println("ETF Unselect");
-			unselect();
+		if (this.isSelected()) {
+			this.textChangeSubmit();
 		}
 	}
 
@@ -92,7 +91,7 @@ public class EditableTextField extends TextField {
 				if (keyCode == KeyEvent.VK_RIGHT) {
 					moveCursorLocationRight();
 				}
-				if (Character.isLetterOrDigit(keyChar)) {
+				if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
 					String text = getText();
 					setText(text + keyChar);
 					moveCursorLocationRight();
@@ -106,16 +105,20 @@ public class EditableTextField extends TextField {
 					textChangeSubmit();
 				}
 				if (keyCode == KeyEvent.VK_ESCAPE) {
-					this.setText(defaultValue);
-					this.setError(false);
-					this.setSelected(false);
-					propertyChanged();
+					this.setText(getDefaultValue());
+					textResetSubmit();
 				}
 			}
 		}
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
 			delete();
 		}
+	}
+
+	private void textResetSubmit() {
+		this.setError(false);
+		this.setSelected(false);
+		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), "", this.getDefaultValue());
 	}
 
 	private void delete() {
@@ -238,8 +241,8 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void setError(boolean error) {
-		super.setError(error);;
-		
+		super.setError(error);
+
 		if (error) {
 			this.select();
 			this.resetCursorPosition();

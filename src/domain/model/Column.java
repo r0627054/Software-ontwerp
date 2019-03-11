@@ -216,7 +216,7 @@ public class Column extends ObjectIdentifier {
 	public void setDefaultValue(Object value) {
 		if (value == null && !this.allowsBlanks)
 			throw new DomainException("Blanks are not allowed as default value.");
-		if (!type.canHaveAsValue(value) && value != null)
+		if (!getType().canHaveAsValue(value) && value != null)
 			throw new DomainException("Invalid default column value.");
 		this.defaultValue = value;
 	}
@@ -354,6 +354,30 @@ public class Column extends ObjectIdentifier {
 			}
 		}
 		this.setAllowsBlanks(newBool);
+
+	}
+
+	public void updateDefaultValue(Object newDefaultValue) {
+		if (!this.isAllowsBlanks() && newDefaultValue == null) {
+			throw new DomainException("Default value is still blank");
+		}
+		if (!canBeCastedTo(newDefaultValue, this.getType())) {
+			throw new DomainException("Default value cannot be changed to the columnType");
+		}
+
+		if (newDefaultValue != null && newDefaultValue instanceof String) {
+			String defaultValueString = (String) newDefaultValue;
+			if (defaultValueString.isEmpty()
+					&& (this.getType().equals(ValueType.STRING) || this.getType().equals(ValueType.EMAIL))) {
+				setDefaultValue(null);
+			} else if (this.getType().equals(ValueType.INTEGER)) {
+				this.setDefaultValue(Integer.parseInt(defaultValueString));
+			} else {
+				setDefaultValue(newDefaultValue);
+			}
+		} else {
+			setDefaultValue(newDefaultValue);
+		}
 
 	}
 

@@ -9,7 +9,7 @@ package domain.model;
  */
 public enum ValueType {
 
-	EMAIL("TRUE", String.class, "Email"), STRING("@", String.class, "String"),
+	EMAIL("email@", String.class, "Email"), STRING("", String.class, "String"),
 	BOOLEAN(new Boolean(true), Boolean.class, "Boolean"), INTEGER(new Integer(0), Integer.class, "Integer");
 
 	/**

@@ -181,17 +181,19 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
-		if (!(this.getCurrentViewMode() instanceof TableDesignViewMode)) {
-			checkEscapeKeyPress(id, keyCode);
-			checkCtrlEnterKeyPress(id, keyCode);
-		} else {
-			TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
-			if (!currentViewMode.isPaused()) {
+		if (id == KeyEvent.KEY_PRESSED) {
+			if (!(this.getCurrentViewMode() instanceof TableDesignViewMode)) {
 				checkEscapeKeyPress(id, keyCode);
 				checkCtrlEnterKeyPress(id, keyCode);
+			} else {
+				TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
+				if (!currentViewMode.isPaused() && !currentViewMode.hasASelectedCell()) {
+					checkEscapeKeyPress(id, keyCode);
+					checkCtrlEnterKeyPress(id, keyCode);
+				}
 			}
+			getCurrentViewMode().keyPressed(id, keyCode, keyChar);
 		}
-		currentMode.keyPressed(id, keyCode, keyChar);
 	}
 
 	private void checkCtrlEnterKeyPress(int id, int keyCode) {
@@ -230,26 +232,9 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
-	private boolean isCtrlPressed() {
-		return ctrlPressed;
-	}
-
-	private void setCtrlPressed(boolean ctrlPressed) {
-		this.ctrlPressed = ctrlPressed;
-	}
-
-	private boolean isEntrPressed() {
-		return entrPressed;
-	}
-
-	private void setEntrPressed(boolean entrPressed) {
-		this.entrPressed = entrPressed;
-	}
-
 	private void checkEscapeKeyPress(int id, int keyCode) {
-		if (id == KeyEvent.KEY_PRESSED && keyCode == KeyEvent.VK_ESCAPE) {
-			// if escape pressed the application will go the tablesViewMode if it currently
-			// at tableDesign or tableRowsViewMode
+		if (keyCode == KeyEvent.VK_ESCAPE) {
+			System.out.println("Escape pressed in view!");
 			ViewModeType currentType = this.getCurrentViewModeType();
 			if (ViewModeType.TABLEDESIGNVIEWMODE.equals(currentType)
 					|| ViewModeType.TABLEROWSVIEWMODE.equals(currentType)) {
@@ -375,5 +360,21 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			TableDesignViewMode currentDesignViewMode = (TableDesignViewMode) current;
 			currentDesignViewMode.setErrorDesignTableCell(columnIndex, columnId, newValue);
 		}
+	}
+
+	private boolean isCtrlPressed() {
+		return ctrlPressed;
+	}
+
+	private void setCtrlPressed(boolean ctrlPressed) {
+		this.ctrlPressed = ctrlPressed;
+	}
+
+	private boolean isEntrPressed() {
+		return entrPressed;
+	}
+
+	private void setEntrPressed(boolean entrPressed) {
+		this.entrPressed = entrPressed;
 	}
 }

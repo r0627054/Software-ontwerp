@@ -265,4 +265,20 @@ public class Table extends ObjectIdentifier {
 		column.updateAllowBlanks(newBool);
 	}
 
+	public void updateColumnDefaultValue(UUID columnId, Object newDefaultValue) {
+		Column column = this.getColumn(columnId);
+		column.updateDefaultValue(newDefaultValue);		
+	}
+
+	public ValueType getValueTypeOfColumn(UUID columnId) {
+		Column column = this.getColumn(columnId);
+		return column.getType();
+		
+	}
+
+	public boolean getColumnAllowBlanks(UUID columnId) {
+		Column column = this.getColumn(columnId);
+		return column.isAllowsBlanks();
+	}
+
 }

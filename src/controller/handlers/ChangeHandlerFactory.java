@@ -32,6 +32,8 @@ public class ChangeHandlerFactory {
 			handler = new ColumnTypeChangeHandler();
 		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS.getEventString())){
 			handler = new ColumnAllowBlanksChangeHandler();
+		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE.getEventString())){
+			handler = new ColumnDefaulValueChangeHandler();
 		}
 
 		if (handler != null) {

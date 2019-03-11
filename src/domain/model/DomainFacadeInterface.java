@@ -33,6 +33,12 @@ public interface DomainFacadeInterface {
 
 	public void setAllowBlanks(UUID tableId, UUID columnId, boolean newBool);
 
+	public void setColumnDefaultValue(UUID tableId, UUID columnId, Object newDefaultValue);
+
+	public ValueType getValueTypeOfColumn(UUID tableId, UUID columnId);
+
+	public boolean getColumnAllowBlanks(UUID tableId, UUID columnId);
+
 //	public String getTableNameOfColumnId(UUID columnId);
 
 //	public UUID getTableIdOfColumnId(UUID columnId);

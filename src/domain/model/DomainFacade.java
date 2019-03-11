@@ -28,14 +28,14 @@ public class DomainFacade implements DomainFacadeInterface {
 
 		Cell c11 = new Cell(ValueType.BOOLEAN, true);
 		Cell c12 = new Cell(ValueType.BOOLEAN, true);
-		Cell c13 = new Cell(ValueType.BOOLEAN, null);
+		Cell c13 = new Cell(ValueType.BOOLEAN, false);
 		Cell c14 = new Cell(ValueType.BOOLEAN, false);
 
 		Cell c21 = new Cell(ValueType.INTEGER, 10);
-		Cell c22 = new Cell(ValueType.INTEGER, null);
+		Cell c22 = new Cell(ValueType.INTEGER, 20);
 		Cell c23 = new Cell(ValueType.INTEGER, 30);
 		Cell c24 = new Cell(ValueType.INTEGER, 40);
-		
+
 		Cell c31 = new Cell(ValueType.EMAIL, null);
 		Cell c32 = new Cell(ValueType.EMAIL, "M@");
 		Cell c33 = new Cell(ValueType.EMAIL, "D@");
@@ -69,7 +69,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		Table persons = new Table("Persons");
 		Table table2 = new Table("Second");
 		Table table3 = new Table("Third");
-		
+
 		persons.addColumn(col1);
 		persons.addColumn(col2);
 		persons.addColumn(col3);
@@ -245,7 +245,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		} else if (newType == null) {
 			throw new DomainException("Cannot set a new column type with a null type.");
 		}
-		
+
 		Table table = getTable(tableId);
 		if (table != null) {
 			table.updateColumnType(columnId, newType);
@@ -256,13 +256,49 @@ public class DomainFacade implements DomainFacadeInterface {
 	public void setAllowBlanks(UUID tableId, UUID columnId, boolean newBool) {
 		if (columnId == null || tableId == null) {
 			throw new DomainException("Cannot update a column type with a null id.");
-		} 
-		
+		}
+
 		Table table = getTable(tableId);
 		if (table != null) {
 			table.updateColumnAllowBlanks(columnId, newBool);
 		}
-		
+
+	}
+
+	@Override
+	public void setColumnDefaultValue(UUID tableId, UUID columnId, Object newDefaultValue) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot update a column default value with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.updateColumnDefaultValue(columnId, newDefaultValue);
+		}
+
+	}
+
+	@Override
+	public ValueType getValueTypeOfColumn(UUID tableId, UUID columnId) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot get a column type with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getValueTypeOfColumn(columnId);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean getColumnAllowBlanks(UUID tableId, UUID columnId) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot get a column type with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getColumnAllowBlanks(columnId);
+		}
+		throw new DomainException("No column found to return the allowBlanks value.");
 	}
 
 //	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {

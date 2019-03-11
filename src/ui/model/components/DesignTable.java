@@ -37,7 +37,8 @@ public class DesignTable extends EditableComponent {
 				// create these cells
 				switch (obj.getKey()) {
 				case "Type":
-					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(), id);
+					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(),
+							id);
 					newCell = new Cell(0, 0, toggleTextField, id);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
@@ -54,18 +55,16 @@ public class DesignTable extends EditableComponent {
 					break;
 				case "Default Value":
 					if (obj.getValue() == null) {
-						TextField valueTextField = new TextField(0, 0, 100, 100, "", id);
+						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, "", id);
 						newCell = new Cell(0, 0, valueTextField, id);
 					} else if (obj.getValue() instanceof String || obj.getValue() instanceof Integer) {
 						Component valueTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(), id);
 						newCell = new Cell(0, 0, valueTextField, id);
-						newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					} else if (obj.getValue() instanceof Boolean) {
-						CheckBox valueCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), id);
-						newCell = new Cell(0, 0, valueCheckBox, id);
-						newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+						TextField valueTextField = new ToggleTextField(0, 0, 100,100, obj.getValue().toString(), id);
+						newCell = new Cell(0, 0, valueTextField, id);
 					}
-
+					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					break;
 				default:
 					newCell = new Cell(0, 0, obj.getValue(), id);
@@ -122,8 +121,8 @@ public class DesignTable extends EditableComponent {
 		this.rows = rows;
 		this.setWidth(rows.getSumWidthFromChildren());
 		this.setHeight(rows.getSumHeightFromChildren());
-		//this.setX(rows.getX());
-		//this.setY(this.getY());
+		// this.setX(rows.getX());
+		// this.setY(this.getY());
 	}
 
 	public Cell getCell(int index, UUID columnId) {
