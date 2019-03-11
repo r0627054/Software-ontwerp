@@ -13,16 +13,16 @@ public class SwitchViewModeChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID id = (UUID) evt.getSource();
-			String tableName = domainfacade.getTableNameOfId(id);
+			UUID tableId = (UUID) evt.getSource();
+			String tableName = domainfacade.getTableNameOfId(tableId);
 			ViewModeType oldViewMode = (ViewModeType) evt.getOldValue();
 			ViewModeType newViewMode = (ViewModeType) evt.getNewValue();
 
 			if (oldViewMode == ViewModeType.TABLEDESIGNVIEWMODE && newViewMode == ViewModeType.TABLEROWSVIEWMODE) {
-				uifacade.openTableRowsViewMode(id, tableName, domainfacade.getTableWithIds(id));
+				uifacade.openTableRowsViewMode(tableId, tableName, domainfacade.getTableWithIds(tableId));
 				
 			} else if (oldViewMode == ViewModeType.TABLEROWSVIEWMODE && newViewMode == ViewModeType.TABLEDESIGNVIEWMODE) {
-				uifacade.openTableDesignViewMode(id, tableName, domainfacade.getColumnCharacteristics(id));
+				uifacade.openTableDesignViewMode(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

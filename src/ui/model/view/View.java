@@ -274,26 +274,29 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	public void openTableRowsViewMode(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
-		if (tableId == null || table == null) {
-			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id or table equals null.");
+		if (tableId == null || table == null || tableName == null) {
+			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id/table/name equals null.");
 		}
 
-		TableViewMode tableRowsViewMode = (TableViewMode) this.getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
+		TableRowsViewMode tableRowsViewMode = (TableRowsViewMode) this.getViewMode(tableId,
+				ViewModeType.TABLEROWSVIEWMODE);
 
 		if (tableRowsViewMode == null) {
 			tableRowsViewMode = createTableRowsViewMode(tableId, tableName, table);
 			this.addTableViewMode(tableId, tableRowsViewMode);
+		} else {
+			tableRowsViewMode.updateTable(table);
 		}
 
 		this.setCurrentMode(tableRowsViewMode);
 	}
 
-	public TableViewMode createTableRowsViewMode(UUID id, String tableName,
+	public TableRowsViewMode createTableRowsViewMode(UUID id, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}
-		TableViewMode newTableRowsViewMode = new TableRowsViewMode(id, tableName, table);
+		TableRowsViewMode newTableRowsViewMode = new TableRowsViewMode(id, tableName, table);
 		newTableRowsViewMode.addPropertyChangeListener(this);
 		return newTableRowsViewMode;
 	}
@@ -305,21 +308,24 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 					"Cannot open TableRowsViewMode with columnCharacteristics or id equals null.");
 		}
 
-		TableViewMode tableDesignViewMode = (TableViewMode) this.getViewMode(id, ViewModeType.TABLEDESIGNVIEWMODE);
+		TableDesignViewMode tableDesignViewMode = (TableDesignViewMode) this.getViewMode(id,
+				ViewModeType.TABLEDESIGNVIEWMODE);
 		if (tableDesignViewMode == null) {
 			tableDesignViewMode = createTableDesignViewMode(id, tableName, columnCharacteristics);
 			this.addTableViewMode(id, tableDesignViewMode);
+		} else {
+			tableDesignViewMode.updateDesignTable(columnCharacteristics);
 		}
 		this.setCurrentMode(tableDesignViewMode);
 	}
 
-	private TableViewMode createTableDesignViewMode(UUID id, String tableName,
+	private TableDesignViewMode createTableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot create TableRowsViewMode with columnCharacteristics or id equals null.");
 		}
-		TableViewMode newTableDesignViewMode = new TableDesignViewMode(id, tableName, columnCharacteristics);
+		TableDesignViewMode newTableDesignViewMode = new TableDesignViewMode(id, tableName, columnCharacteristics);
 		newTableDesignViewMode.addPropertyChangeListener(this);
 
 		return newTableDesignViewMode;

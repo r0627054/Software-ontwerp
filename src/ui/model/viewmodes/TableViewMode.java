@@ -1,7 +1,9 @@
 package ui.model.viewmodes;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import ui.model.components.Cell;
@@ -86,5 +88,6 @@ public abstract class TableViewMode extends ViewMode {
 	protected void setPaused(boolean paused) {
 		this.paused = paused;
 	}
+
 
 }
