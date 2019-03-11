@@ -50,6 +50,7 @@ public class ColumnTest {
 		
 		column = new Column(columnName, stringType, allowBlanks);
 
+
 		//assertDoesNotThrow(() -> column = new Column(columnName, stringType, allowBlanks));
 		assertEquals(column.getDefaultValue(), "");
 	}

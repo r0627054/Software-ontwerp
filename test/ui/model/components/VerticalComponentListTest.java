@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import static org.junit.Assume.assumeNoException;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import sun.net.www.content.audio.x_aiff;
 
-class VerticalComponentTest {
+class VerticalComponentListTest {
 	private VerticalComponentList vc;
 	private int x = 20;
 	private int y = 10;
@@ -61,5 +62,30 @@ class VerticalComponentTest {
 		Exception e = assertThrows(IllegalArgumentException.class, () -> vc = new VerticalComponentList(-1, y, width, height));
 		assertEquals("The x-coordinate of the component cannot be negative.", e.getMessage());
 	}
-
+	
+	/**
+	 * Test 3 : Add component to verticalComponentList
+	 * | the hashcode from the component should match the hashcode of the most recently added component
+	 */
+	@Test
+	void test4AddComponentToList() {
+		listItems.add(comp1);
+		listItems.add(comp2);
+		vc = new VerticalComponentList(x, y, width, height, listItems);
+		vc.addComponent(comp3);
+		assertEquals(comp3.hashCode(), vc.getComponentsList().get(vc.getComponentsList().size() -1).hashCode());
+	}
+	
+	/**
+	 * Test 4 : Add null component to the verticalComponetList
+	 * | should throw an exception from the super container class
+	 */
+	@Test
+	void testAddNullComponentToList() {
+		listItems.add(comp1);
+		listItems.add(comp2);
+		vc = new VerticalComponentList(x, y, width, height, listItems);
+		Exception e = assertThrows(IllegalArgumentException.class, () -> vc.addComponent(null));
+		assertEquals("Null component cannot be added to a container", e.getMessage());
+	}
 }
