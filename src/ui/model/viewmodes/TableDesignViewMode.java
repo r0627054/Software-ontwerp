@@ -25,14 +25,16 @@ public class TableDesignViewMode extends TableViewMode {
 		this.storedListeners = new ArrayList<>();
 
 		this.createDesignTable(columnCharacteristics);
-		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + tableName, id));
 	}
 
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		container = new Container(0, 0, 600, 600);
+		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + getTableName(), getId()));
 
 		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
 		List<Cell> cellList = table.createTable(columnCharacteristics);
+		
+		this.clearStoredListeners();
 		for (Cell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
@@ -47,18 +49,16 @@ public class TableDesignViewMode extends TableViewMode {
 		this.addAllListeners();
 		
 	}
-	
+
 	private void addAllListeners() {
 		this.removeAllClickAndKeyListeners();
 		this.addAllClickListeners(this.getStoredListeners());
 		this.addAllKeyListeners(this.getStoredListeners());
 	}
 
-
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.removeAllClickAndKeyListeners();
-		this.removeComponent(getContainer());
-		this.removeComponent(getDesignTable());
+		this.removeAllComponents();
 		this.setPaused(false);
 		this.createDesignTable(columnCharacteristics);
 	}
@@ -70,7 +70,7 @@ public class TableDesignViewMode extends TableViewMode {
 	private DesignTable getDesignTable() {
 		for (Component container : getComponents()) {
 			if (container instanceof Container) {
-				Container containerCasted = (Container) container; 
+				Container containerCasted = (Container) container;
 				for (Component c : containerCasted.getComponentsList()) {
 					if (c instanceof DesignTable) {
 						return (DesignTable) c;
@@ -100,8 +100,19 @@ public class TableDesignViewMode extends TableViewMode {
 		return storedListeners;
 	}
 
+	private void setStoredListeners(List<Component> listeners) {
+		if (listeners == null) {
+			throw new IllegalArgumentException("Cannot set null stored listeners");
+		}
+		this.storedListeners = listeners;
+	}
+
+	private void clearStoredListeners() {
+		this.setStoredListeners(new ArrayList<Component>());
+	}
+
 	private void addStoredListener(Component listener) {
-		if(listener == null) {
+		if (listener == null) {
 			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
 		}
 		this.storedListeners.add(listener);

@@ -21,25 +21,30 @@ public class DomainFacade implements DomainFacadeInterface {
 	private void addDummyTable() {
 		List<Cell> cellList = new ArrayList<>();
 
-		Cell c01 = new Cell(ValueType.STRING, "Steven@");
-		Cell c02 = new Cell(ValueType.STRING, "Mauro@");
-		Cell c03 = new Cell(ValueType.STRING, "Dries@");
-		Cell c04 = new Cell(ValueType.STRING, "Laurens@");
+		Cell c01 = new Cell(ValueType.STRING, "Steven");
+		Cell c02 = new Cell(ValueType.STRING, "Mauro");
+		Cell c03 = new Cell(ValueType.STRING, "Dries");
+		Cell c04 = new Cell(ValueType.STRING, "Laurens");
 
 		Cell c11 = new Cell(ValueType.BOOLEAN, true);
 		Cell c12 = new Cell(ValueType.BOOLEAN, true);
-		Cell c13 = new Cell(ValueType.BOOLEAN, true);
-		Cell c14 = new Cell(ValueType.BOOLEAN, true);
+		Cell c13 = new Cell(ValueType.BOOLEAN, null);
+		Cell c14 = new Cell(ValueType.BOOLEAN, false);
 
 		Cell c21 = new Cell(ValueType.INTEGER, 10);
-		Cell c22 = new Cell(ValueType.INTEGER, 20);
+		Cell c22 = new Cell(ValueType.INTEGER, null);
 		Cell c23 = new Cell(ValueType.INTEGER, 30);
 		Cell c24 = new Cell(ValueType.INTEGER, 40);
+		
+		Cell c31 = new Cell(ValueType.EMAIL, null);
+		Cell c32 = new Cell(ValueType.EMAIL, "M@");
+		Cell c33 = new Cell(ValueType.EMAIL, "D@");
+		Cell c34 = new Cell(ValueType.EMAIL, "L@");
 
-		Cell c1[] = { c01, c11, c21 };
-		Cell c2[] = { c02, c12, c22 };
-		Cell c3[] = { c03, c13, c23 };
-		Cell c4[] = { c04, c14, c24 };
+		Cell c1[] = { c01, c11, c21, c31 };
+		Cell c2[] = { c02, c12, c22, c32 };
+		Cell c3[] = { c03, c13, c23, c33 };
+		Cell c4[] = { c04, c14, c24, c34 };
 
 		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(c1)));
 		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(c2)));
@@ -49,37 +54,35 @@ public class DomainFacade implements DomainFacadeInterface {
 		Cell colCells1[] = { c01, c02, c03, c04 };
 		Cell colCells2[] = { c11, c12, c13, c14 };
 		Cell colCells3[] = { c21, c22, c23, c24 };
+		Cell colCells4[] = { c31, c32, c33, c34 };
 
 		Column col1 = new Column("Name", ValueType.STRING, false);
-		Column col2 = new Column("Nerd", ValueType.BOOLEAN, false);
+		Column col2 = new Column("Baas", ValueType.BOOLEAN, true);
 		Column col3 = new Column("Age", ValueType.INTEGER, true);
+		Column col4 = new Column("Email", ValueType.EMAIL, true);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));
 		col3.addCells(Arrays.asList(colCells3));
+		col4.addCells(Arrays.asList(colCells4));
 
 		Table persons = new Table("Persons");
 		Table table2 = new Table("Second");
 		Table table3 = new Table("Third");
+		
 		persons.addColumn(col1);
 		persons.addColumn(col2);
 		persons.addColumn(col3);
+		persons.addColumn(col4);
 
 		persons.addRow(r1);
 		persons.addRow(r2);
 		persons.addRow(r3);
 		persons.addRow(r4);
 
-		/*
-		 * this.tableMap.put(persons.getName(), persons);
-		 * this.tableMap.put(table2.getName(), table2);
-		 * this.tableMap.put(table3.getName(), table3);
-		 */
-
 		this.tableMap.put(persons.getId(), persons);
 		this.tableMap.put(table2.getId(), table2);
 		this.tableMap.put(table3.getId(), table3);
-
 	}
 
 	/**
@@ -247,6 +250,19 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (table != null) {
 			table.updateColumnType(columnId, newType);
 		}
+	}
+
+	@Override
+	public void setAllowBlanks(UUID tableId, UUID columnId, boolean newBool) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot update a column type with a null id.");
+		} 
+		
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.updateColumnAllowBlanks(columnId, newBool);
+		}
+		
 	}
 
 //	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {

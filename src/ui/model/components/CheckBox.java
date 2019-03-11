@@ -1,6 +1,7 @@
 package ui.model.components;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -43,6 +44,10 @@ public class CheckBox extends EditableComponent {
 		int x1 = getX() + (getWidth() - SIZE) / 2;
 		int y1 = getY() + (getHeight() - SIZE) / 2;
 
+		if (this.isError()) {
+			this.displayError((Graphics2D) g.create());
+		}
+
 		if (getWidth() != SIZE) {
 			g.drawRect(getX(), getY(), getWidth(), getHeight());
 		}
@@ -74,7 +79,7 @@ public class CheckBox extends EditableComponent {
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

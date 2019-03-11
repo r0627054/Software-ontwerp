@@ -14,8 +14,10 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		
+
 		UUID columnId = (UUID) evt.getSource();
+		UUID tableId = uifacade.getCurrentTableId();
+		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Type");
 		ValueType currentType = ValueType.getValueTypeForString((String) evt.getOldValue());
 		ValueType newType = null;
 
@@ -24,7 +26,7 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 		rotation.add(ValueType.EMAIL);
 		rotation.add(ValueType.BOOLEAN);
 		rotation.add(ValueType.INTEGER);
-		
+
 		int currentRotationIndex = rotation.indexOf(currentType);
 
 		if (currentRotationIndex == rotation.size() - 1) {
@@ -32,17 +34,13 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 		} else {
 			newType = rotation.get(currentRotationIndex + 1);
 		}
-		
-		try {
-			UUID tableId = uifacade.getCurrentTableId();
-			int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Type");
 
+		try {
 			domainfacade.setColumnType(tableId, columnId, newType);
-			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId), domainfacade.getColumnCharacteristics(tableId));
+			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
+					domainfacade.getColumnCharacteristics(tableId));
 			uifacade.unpause(columnIndex, columnId);
 		} catch (DomainException e) {
-			UUID tableId = uifacade.getCurrentTableId();
-			int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Type");
 			uifacade.setErrorDesignTableCell(columnIndex, columnId, newType);
 			uifacade.pauseApplication(columnIndex, columnId);
 		}

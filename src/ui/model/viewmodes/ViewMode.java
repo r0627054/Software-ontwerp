@@ -40,7 +40,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return new ArrayList<>(components);
 	}
 
-	private void setComponents(List<Component> components) {
+	protected void setComponents(List<Component> components) {
 		if (components == null) {
 			throw new IllegalArgumentException("The components of a view mode cannot be null");
 		}

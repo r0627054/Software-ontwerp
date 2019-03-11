@@ -9,7 +9,6 @@ import java.util.UUID;
 public class TextField extends EditableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
-	private final static int ERROR_RECT_SIZE = 2;
 
 
 	private String text;
@@ -61,16 +60,6 @@ public class TextField extends EditableComponent {
 		if(this.isError()) {
 			displayError((Graphics2D) g.create());
 		}
-	}
-	
-	private void displayError(Graphics2D g) {
-		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-		g.setColor(Color.RED);
-
-		// -1 & +/- Error_rect_size zodat rode kader niet overlapped met zwarte kader
-		// van TextField
-		g.drawRect(getX() + ERROR_RECT_SIZE, getY() + ERROR_RECT_SIZE, getWidth() - ERROR_RECT_SIZE - 1,
-				getHeight() - ERROR_RECT_SIZE - 1);
 	}
 
 

@@ -9,10 +9,8 @@ package domain.model;
  */
 public enum ValueType {
 
-	EMAIL("TRUE", String.class, "Email"), 
-	STRING("@", String.class, "String"),
-	BOOLEAN(new Boolean(true), Boolean.class, "Boolean"), 
-	INTEGER(new Integer(0), Integer.class, "Integer");
+	EMAIL("TRUE", String.class, "Email"), STRING("@", String.class, "String"),
+	BOOLEAN(new Boolean(true), Boolean.class, "Boolean"), INTEGER(new Integer(0), Integer.class, "Integer");
 
 	/**
 	 * Variable storing the default value.
@@ -52,7 +50,7 @@ public enum ValueType {
 	 *         | result == (value != null) && (value.getClass().equals( this.getTypeClass()))
 	 */
 	public boolean canHaveAsValue(Object value) {
-		if ((value != null) && (value.getClass().equals(this.getTypeClass()))) {
+		if (value == null || value.getClass().equals(this.getTypeClass())) {
 			return true;
 		}
 		return false;

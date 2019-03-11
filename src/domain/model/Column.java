@@ -342,4 +342,19 @@ public class Column extends ObjectIdentifier {
 		return -1;
 	}
 
+	public void updateAllowBlanks(boolean newBool) {
+		if (!newBool) {
+			if (this.getDefaultValue() == null || this.getDefaultValue().equals("")) {
+				throw new DomainException("Default value isnt blank.");
+			}
+			for (Cell c : getCells()) {
+				if (c.getValue() == null) {
+					throw new DomainException("Cell isn't null.");
+				}
+			}
+		}
+		this.setAllowsBlanks(newBool);
+
+	}
+
 }

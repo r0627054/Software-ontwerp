@@ -260,4 +260,9 @@ public class Table extends ObjectIdentifier {
 		column.updateType(newType);
 	}
 
+	public void updateColumnAllowBlanks(UUID columnId, boolean newBool) {
+		Column column = this.getColumn(columnId);
+		column.updateAllowBlanks(newBool);
+	}
+
 }

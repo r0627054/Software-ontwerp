@@ -10,7 +10,7 @@ import controller.handlers.ChangeEventType;
 public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	private Component component;
-	private ChangeEventType actionType = ChangeEventType.CHECKED;
+	private ChangeEventType actionType;
 
 	private static int defaultHeight = 50;
 	private static int defaultWidth = 100;
@@ -93,7 +93,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (!ChangeEventType.REPAINT.getEventString().equals(evt.getPropertyName())) {
+		if (this.getActionType() != null && !ChangeEventType.REPAINT.getEventString().equals(evt.getPropertyName())) {
 			this.getSupport().firePropertyChange(new PropertyChangeEvent(getId(), this.actionType.getEventString(),
 					evt.getOldValue(), evt.getNewValue()));
 		} else {
@@ -113,9 +113,9 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	}
 
 	public void setError(boolean error) {
-		if (getComponent() instanceof EditableTextField) {
-			EditableTextField editableTextField = (EditableTextField) getComponent();
-			editableTextField.setError(error);
+		if (getComponent() instanceof EditableComponent) {
+			EditableComponent editable = (EditableComponent) getComponent();
+			editable.setError(error);
 		}
 	}
 

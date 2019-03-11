@@ -65,7 +65,7 @@ public abstract class TableViewMode extends ViewMode {
 		if (keyListeners == null) {
 			throw new IllegalArgumentException("Cannot set a null list as a list of keyListeners");
 		}
-		
+
 		for (Component c : keyListeners) {
 			this.addKeyListener(c);
 		}
@@ -75,10 +75,14 @@ public abstract class TableViewMode extends ViewMode {
 		if (clickListeners == null) {
 			throw new IllegalArgumentException("Cannot set a null list as a list of clickListeners");
 		}
-		
+
 		for (Component c : clickListeners) {
 			this.addClickListener(c);
 		}
+	}
+
+	protected void removeAllComponents() {
+		this.setComponents(new ArrayList<Component>());
 	}
 
 	public boolean isPaused() {
@@ -88,6 +92,5 @@ public abstract class TableViewMode extends ViewMode {
 	protected void setPaused(boolean paused) {
 		this.paused = paused;
 	}
-
 
 }
