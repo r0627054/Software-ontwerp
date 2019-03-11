@@ -44,7 +44,6 @@ class ComponentTest { // testing component methods with cell;
 	/**
 	 * Test 3 : The offset of x should be greater than the x coordinate.
 	 */
-	
 	@Test
 	void test3GetOffsetX() {
 		assertTrue(correctComponent.getOffsetX() > this.correctX);
@@ -53,11 +52,33 @@ class ComponentTest { // testing component methods with cell;
 	/**
 	 * Test 4 : The offset of y should be greater than the y coordinate.
 	 */
-	
 	@Test
 	void test4GetOffsetY() {
 		assertTrue(correctComponent.getOffsetY() > this.correctX);
 	}
 	
-
+	/**
+	 * Test 5 : The width cannot be negative
+	 */
+	@Test
+	void test5GetWidthNotNegative() {
+		assertTrue(correctComponent.getWidth() > 0);
+	}
+	
+	/**
+	 * Test 6 : The height cannot be negative
+	 */
+	@Test
+	void test6GetHeightNotNegative() {
+		assertTrue(correctComponent.getHeight() > 0);
+	}
+	
+	/**
+	 * Test 7 : +1 on each coordinate should be within the component.
+	 */
+	@Test
+	void test7IsWithinComponent() {
+		assertTrue(correctComponent.isWithinComponent(correctComponent.getX() + 1, correctComponent.getY() +1));
+	}
+	
 }
