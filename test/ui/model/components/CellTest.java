@@ -52,10 +52,9 @@ class CellTest {
 	 * | should create an editable textfield by defaultvalue
 	 */
 	@Test
-	void test4CreateCellWithDefaultValue() {  // ging de steven nog aanpassen (( null.string zie cell))
-		cell = new Cell(100,400, null, id);
-		System.out.println(cell.getComponent());
-		assertNull(cell.getComponent());
+	void test4CreateCellWithDefaultValue() {  
+		Exception e = assertThrows(IllegalArgumentException.class, () -> cell = new Cell(100,400,null,id));
+		assertEquals("Cannot add a null component to a cell.", e.getMessage());
 	}
 	
 	/**
