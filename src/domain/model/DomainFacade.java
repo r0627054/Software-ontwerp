@@ -21,10 +21,10 @@ public class DomainFacade implements DomainFacadeInterface {
 	private void addDummyTable() {
 		List<Cell> cellList = new ArrayList<>();
 
-		Cell c01 = new Cell(ValueType.STRING, "Steven");
-		Cell c02 = new Cell(ValueType.STRING, "Mauro");
-		Cell c03 = new Cell(ValueType.STRING, "Dries");
-		Cell c04 = new Cell(ValueType.STRING, "Laurens");
+		Cell c01 = new Cell(ValueType.STRING, "Steven@");
+		Cell c02 = new Cell(ValueType.STRING, "Mauro@");
+		Cell c03 = new Cell(ValueType.STRING, "Dries@");
+		Cell c04 = new Cell(ValueType.STRING, "Laurens@");
 
 		Cell c11 = new Cell(ValueType.BOOLEAN, true);
 		Cell c12 = new Cell(ValueType.BOOLEAN, true);
@@ -233,6 +233,20 @@ public class DomainFacade implements DomainFacadeInterface {
 	public int getIndexOfColumnCharacteristic(UUID tableId, UUID columnId, String characteristic) {
 		Table table = getTable(tableId);
 		return table.getIndexOfColumnCharacteristic(columnId, characteristic);
+	}
+
+	@Override
+	public void setColumnType(UUID tableId, UUID columnId, ValueType newType) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot update a column type with a null id.");
+		} else if (newType == null) {
+			throw new DomainException("Cannot set a new column type with a null type.");
+		}
+		
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.updateColumnType(columnId, newType);
+		}
 	}
 
 //	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {

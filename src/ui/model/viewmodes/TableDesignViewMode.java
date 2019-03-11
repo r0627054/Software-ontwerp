@@ -92,7 +92,6 @@ public class TableDesignViewMode extends TableViewMode {
 	public void unpauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
-		System.out.println(errorCell);
 		this.addAllListeners();
 		errorCell.setError(false);
 	}
@@ -106,6 +105,11 @@ public class TableDesignViewMode extends TableViewMode {
 			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
 		}
 		this.storedListeners.add(listener);
+	}
+
+	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
+		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
+		errorCell.setErrorWithNewValue(true, newValue);
 	}
 
 }

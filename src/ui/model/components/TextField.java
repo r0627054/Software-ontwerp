@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -8,6 +9,8 @@ import java.util.UUID;
 public class TextField extends EditableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
+	private final static int ERROR_RECT_SIZE = 2;
+
 
 	private String text;
 
@@ -51,25 +54,38 @@ public class TextField extends EditableComponent {
 	public void paint(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
-
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-
 		g.setFont(this.getFont());
-		// g.getFontMetrics().stringWidth("breedte van deze string");
-
 		drawString(g);
+		
+		if(this.isError()) {
+			displayError((Graphics2D) g.create());
+		}
 	}
+	
+	private void displayError(Graphics2D g) {
+		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
+		g.setColor(Color.RED);
+
+		// -1 & +/- Error_rect_size zodat rode kader niet overlapped met zwarte kader
+		// van TextField
+		g.drawRect(getX() + ERROR_RECT_SIZE, getY() + ERROR_RECT_SIZE, getWidth() - ERROR_RECT_SIZE - 1,
+				getHeight() - ERROR_RECT_SIZE - 1);
+	}
+
 
 	protected void drawString(Graphics2D g) {
 		g.drawString(getText(), getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	@Override
-	public void mouseClicked(int id, int x, int y, int clickCount) {
+	public void keyPressed(int id, int keyCode, char keyChar) {
 	}
 
 	@Override
-	public void keyPressed(int id, int keyCode, char keyChar) {
+	public void mouseClicked(int id, int x, int y, int clickCount) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

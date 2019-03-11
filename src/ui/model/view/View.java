@@ -367,4 +367,13 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			}
 		}
 	}
+
+	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
+		ViewMode current = this.getCurrentViewMode();
+
+		if (current instanceof TableDesignViewMode) {
+			TableDesignViewMode currentDesignViewMode = (TableDesignViewMode) current;
+			currentDesignViewMode.setErrorDesignTableCell(columnIndex, columnId, newValue);
+		}
+	}
 }

@@ -9,23 +9,23 @@ package domain.model;
  */
 public enum ValueType {
 
-	EMAIL("", String.class, "Email"),
-	STRING("", String.class, "String"),
-	BOOLEAN(new Boolean(true),Boolean.class, "Bool"),
-	INTEGER(new Integer(0),Integer.class, "Int");
-	
+	EMAIL("TRUE", String.class, "Email"), 
+	STRING("@", String.class, "String"),
+	BOOLEAN(new Boolean(true), Boolean.class, "Boolean"), 
+	INTEGER(new Integer(0), Integer.class, "Integer");
+
 	/**
 	 * Variable storing the default value.
 	 */
 	private Object defaultValue;
-	
+
 	/**
 	 * Variable storing the Class of the type.
 	 */
 	private Class cl;
-	
+
 	private String displayValue;
-	
+
 	/**
 	 * Initialise the type with the given default value and class object.
 	 *  
@@ -42,7 +42,7 @@ public enum ValueType {
 		this.cl = cl;
 		this.displayValue = displayValue;
 	}
-	 
+
 	/**
 	 * Checks whether the given value is of the right type.
 	 * 
@@ -52,29 +52,45 @@ public enum ValueType {
 	 *         | result == (value != null) && (value.getClass().equals( this.getTypeClass()))
 	 */
 	public boolean canHaveAsValue(Object value) {
-		if( (value != null) && (value.getClass().equals( this.getTypeClass())) ){
+		if ((value != null) && (value.getClass().equals(this.getTypeClass()))) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	public static ValueType getValueTypeForString(String name) {
+		for (ValueType type : ValueType.values()) {
+			if (type.getDisplayValue().equals(name))
+				return type;
+		}
+		return null;
+	}
+
 	/**
 	 * Returns the class Object of the ValueType.
 	 */
 	public Class getTypeClass() {
 		return this.cl;
 	}
-	
+
 	/**
 	 * Returns the default value of the ValueType.
 	 */
 	public Object getDefaultValue() {
-		return this.defaultValue;	
+		return this.defaultValue;
 	}
-	
+
 	@Override
 	public String toString() {
 		return displayValue;
 	}
-	
+
+	private String getDisplayValue() {
+		return displayValue;
+	}
+
+	private void setDisplayValue(String displayValue) {
+		this.displayValue = displayValue;
+	}
+
 }

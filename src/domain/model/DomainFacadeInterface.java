@@ -29,6 +29,8 @@ public interface DomainFacadeInterface {
 
 	public int getIndexOfColumnCharacteristic(UUID tableId, UUID columnId, String characteristic);
 
+	public void setColumnType(UUID tableId, UUID columnId, ValueType newType);
+
 //	public String getTableNameOfColumnId(UUID columnId);
 
 //	public UUID getTableIdOfColumnId(UUID columnId);

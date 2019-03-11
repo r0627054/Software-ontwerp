@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
+
 public class CheckBox extends EditableComponent {
 	private final static int SIZE = 18;
 	private final static int STROKE_WIDTH_BOX = 3;
@@ -29,7 +31,7 @@ public class CheckBox extends EditableComponent {
 	private void setChecked(boolean checked) {
 		this.checked = checked;
 //		System.out.println("new Checked value! =" + checked);
-		propertyChanged();
+		propertyChanged(this.getId(), ChangeEventType.VALUE.toString(), !this.isChecked(), this.isChecked());
 	}
 
 	public boolean isChecked() {
@@ -58,7 +60,7 @@ public class CheckBox extends EditableComponent {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
-			System.out.println("Checkbox clicked");
+//			System.out.println("Checkbox clicked");
 			this.setChecked(!isChecked());
 		}
 	}

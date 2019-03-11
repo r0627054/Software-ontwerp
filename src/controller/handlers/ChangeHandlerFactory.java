@@ -28,6 +28,10 @@ public class ChangeHandlerFactory {
 			handler = new CreateColumnChangeHandler();
 		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_NAME.getEventString())){
 			handler = new ColumnNameChangeHandler();
+		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_TYPE.getEventString())){
+			handler = new ColumnTypeChangeHandler();
+		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS.getEventString())){
+			handler = new ColumnAllowBlanksChangeHandler();
 		}
 
 		if (handler != null) {

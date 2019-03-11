@@ -115,4 +115,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		return this.getView().getCurrentViewModeId();
 	}
 
+	@Override
+	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
+		this.getView().setErrorDesignTableCell(columnIndex, columnId, newValue);
+	}
+
 }
