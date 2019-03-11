@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+
 /**
  * A class of columns, containing a name, type and if the column allows blanks.
  *
@@ -126,6 +128,42 @@ public class Column extends ObjectIdentifier {
 			throw new DomainException("Invalid column type for the column.");
 		}
 		this.type = type;
+	}
+
+	public void updateType(ValueType type) {
+		if (type == null) {
+			throw new DomainException("Invalid column type for the column.");
+		}
+		if (!canBeCastedTo(getDefaultValue(), type)) {
+			throw new DomainException("Default value cannot be cast to the new type.");
+		}
+		for (Cell c : getCells()) {
+			if (!canBeCastedTo(c.getValue(), type)) {
+				throw new DomainException("Cell value cannot be cast to the new type.");
+			}
+		}
+		this.setType(type);
+	}
+
+	private boolean canBeCastedTo(Object value, ValueType castType) {
+		try {
+			if (castType.equals(ValueType.BOOLEAN)) {
+				Boolean casted = (Boolean) value;
+				return true;
+			} else if (castType.equals(ValueType.EMAIL)) {
+				String casted = (String) value;
+				return casted.contains("@");
+			} else if (castType.equals(ValueType.STRING)) {
+				String casted = (String) value;
+				return true;
+			} else if (castType.equals(ValueType.INTEGER)) {
+				Integer casted = (Integer) value;
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	/**

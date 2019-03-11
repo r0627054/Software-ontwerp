@@ -37,8 +37,8 @@ public class DesignTable extends EditableComponent {
 				// create these cells
 				switch (obj.getKey()) {
 				case "Type":
-					TextField textField = new TextField(0, 0, 100, 100, obj.getValue().toString(), id);
-					newCell = new Cell(0, 0, textField, id);
+					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(), id);
+					newCell = new Cell(0, 0, toggleTextField, id);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
 				case "Column Name":

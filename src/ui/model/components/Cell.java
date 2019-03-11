@@ -93,7 +93,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (!evt.getPropertyName().equals(ChangeEventType.REPAINT.getEventString())) {
+		if (!ChangeEventType.REPAINT.getEventString().equals(evt.getPropertyName())) {
 			this.getSupport().firePropertyChange(new PropertyChangeEvent(getId(), this.actionType.getEventString(),
 					evt.getOldValue(), evt.getNewValue()));
 		} else {
@@ -116,7 +116,16 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 		if (getComponent() instanceof EditableTextField) {
 			EditableTextField editableTextField = (EditableTextField) getComponent();
 			editableTextField.setError(error);
-		}//TODO: Add CheckBox
+		}
+	}
+
+	public void setErrorWithNewValue(boolean b, Object newValue) {
+		if (getComponent() instanceof ToggleTextField) {
+			ToggleTextField toggleTextField = (ToggleTextField) getComponent();
+			toggleTextField.setError(b);
+			toggleTextField.setText(newValue.toString());
+		} // TODO Add checkbox
+
 	}
 
 }

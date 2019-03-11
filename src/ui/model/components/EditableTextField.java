@@ -14,8 +14,6 @@ import controller.handlers.ChangeEventType;
 
 public class EditableTextField extends TextField {
 
-	private final static int ERROR_RECT_SIZE = 2;
-
 	/**
 	 * Variable to determine if the textfield is selected
 	 */
@@ -59,20 +57,6 @@ public class EditableTextField extends TextField {
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());
-
-		if (isError())
-			displayError(g);
-
-	}
-
-	private void displayError(Graphics2D g) {
-		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
-		g.setColor(Color.RED);
-
-		// -1 & +/- Error_rect_size zodat rode kader niet overlapped met zwarte kader
-		// van TextField
-		g.drawRect(getX() + ERROR_RECT_SIZE, getY() + ERROR_RECT_SIZE, getWidth() - ERROR_RECT_SIZE - 1,
-				getHeight() - ERROR_RECT_SIZE - 1);
 	}
 
 	@Override
@@ -150,7 +134,7 @@ public class EditableTextField extends TextField {
 	}
 
 	private void doubleClicked() {
-		System.out.println("Double Click ETF");
+//		System.out.println("Double Click ETF");
 		this.setSelected(false);
 		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, this.getText());
 	}

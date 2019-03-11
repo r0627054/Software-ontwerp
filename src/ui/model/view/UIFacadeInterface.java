@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import domain.model.ValueType;
 import ui.model.viewmodes.ViewModeType;
 
 public interface UIFacadeInterface {
@@ -23,5 +24,6 @@ public interface UIFacadeInterface {
 	public void pauseApplication(int i, UUID id);
 	public void unpause(int i, UUID columnId);
 	public UUID getCurrentTableId();
+	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue);
 	
 }

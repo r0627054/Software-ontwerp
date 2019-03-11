@@ -255,4 +255,9 @@ public class Table extends ObjectIdentifier {
 		return column.getIndexOfCharacteristic(string);
 	}
 
+	public void updateColumnType(UUID columnId, ValueType newType) {		
+		Column column = this.getColumn(columnId);
+		column.updateType(newType);
+	}
+
 }
