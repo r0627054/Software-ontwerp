@@ -1,14 +1,10 @@
 package ui.model.components;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
-
-import javax.swing.event.ChangeEvent;
 
 import controller.handlers.ChangeEventType;
 

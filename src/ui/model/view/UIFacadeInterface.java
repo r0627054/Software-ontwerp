@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import domain.model.ValueType;
 import ui.model.viewmodes.ViewModeType;
 
 public interface UIFacadeInterface {

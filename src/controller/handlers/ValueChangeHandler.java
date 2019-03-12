@@ -3,7 +3,6 @@ package controller.handlers;
 import java.beans.PropertyChangeEvent;
 import java.util.UUID;
 
-import domain.model.DomainException;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 import ui.model.viewmodes.ViewModeType;

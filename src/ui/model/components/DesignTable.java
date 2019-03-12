@@ -1,11 +1,8 @@
 package ui.model.components;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -14,7 +11,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
-import ui.model.viewmodes.TableDesignViewMode;
 
 public class DesignTable extends EditableComponent {
 	private VerticalComponentList rows;

@@ -2,7 +2,6 @@ package controller.handlers;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 import domain.model.DomainException;

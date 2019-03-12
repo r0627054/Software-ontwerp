@@ -1,12 +1,9 @@
 package ui.model.viewmodes;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import ui.model.components.Cell;
 import ui.model.components.Component;
 
 public abstract class TableViewMode extends ViewMode {

@@ -1,9 +1,7 @@
 package ui.model.components;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;

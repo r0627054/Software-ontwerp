@@ -8,12 +8,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-import ui.model.components.Cell;
 import ui.model.components.Component;
-import ui.model.view.View;
 
 public abstract class ViewMode implements PropertyChangeListener {
 	private List<Component> components = new ArrayList<>();

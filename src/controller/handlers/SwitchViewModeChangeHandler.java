@@ -1,7 +1,6 @@
 package controller.handlers;
 
 import java.beans.PropertyChangeEvent;
-import java.util.Map;
 import java.util.UUID;
 
 import domain.model.DomainFacadeInterface;

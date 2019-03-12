@@ -1,13 +1,11 @@
 package ui.model.viewmodes;
 
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import controller.handlers.ChangeEventType;
 import ui.model.components.Cell;
 import ui.model.components.Component;
 import ui.model.components.Container;
