@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import sun.net.www.content.audio.x_aiff;
 
 class VerticalComponentListTest {
 	private VerticalComponentList vc;

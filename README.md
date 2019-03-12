@@ -1,5 +1,13 @@
 # Software-ontwerp
 
+NEW:
+Class diagram: edit: https://creately.com/app?diagid=jt5ucv541
+               view: https://creately.com/diagram/jt5ucv541
+
+
+
+
+OLD:
 domain.model : https://creately.com/diagram/jsmbnb3b2/Qvwf82to9yGRjXDHSXkiQTgFjsc%3D
 
 ui.model : https://creately.com/diagram/jsom4dp21/TZ6Fvy2uSQYEVxPkdzT3zDQ7yA%3D

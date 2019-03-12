@@ -10,7 +10,7 @@ class CheckBoxTest {
 	private UUID id = UUID.randomUUID();
 	private int correctX = 100;
 	private int correctY = 400;
-	private Component correctComponent = new Cell(correctX, correctY, "test", id);
+	
 
 
 	@BeforeEach

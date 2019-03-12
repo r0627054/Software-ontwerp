@@ -75,6 +75,7 @@ public class EditableTextField extends TextField {
 		}
 	}
 
+	
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 //		System.out.println("ETF KeyPressed");
@@ -193,7 +194,7 @@ public class EditableTextField extends TextField {
 	}
 
 	private void setDefaultValue(String defaultValue) {
-		if (defaultValue == null) {
+		if (defaultValue == null) { //TODO hier kom je nooit omdat superklasse reeds checkt op nullvalues
 			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
 		}
 		if (!isError())
