@@ -43,6 +43,7 @@ public class CheckBox extends EditableComponent {
 	public void paint(Graphics2D g) {
 		int x1 = getX() + (getWidth() - SIZE) / 2;
 		int y1 = getY() + (getHeight() - SIZE) / 2;
+		g.setColor(Color.BLACK);
 
 		if (this.isError()) {
 			this.displayError((Graphics2D) g.create());

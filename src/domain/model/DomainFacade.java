@@ -297,8 +297,22 @@ public class DomainFacade implements DomainFacadeInterface {
 		Table table = getTable(tableId);
 		if (table != null) {
 			return table.getColumnAllowBlanks(columnId);
+		} else {
+			throw new DomainException("No table found to return the allowBlanks value.");
 		}
-		throw new DomainException("No column found to return the allowBlanks value.");
+	}
+
+	@Override
+	public void deleteColumn(UUID tableId, UUID columnId) {
+		if (columnId == null || tableId == null) {
+			throw new DomainException("Cannot delete a column type with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.deleteColumn(columnId);
+		} else {
+			throw new DomainException("No table found to return the allowBlanks value.");
+		}
 	}
 
 //	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {

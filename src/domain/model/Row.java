@@ -96,5 +96,12 @@ public class Row extends ObjectIdentifier {
 		}
 		cells.add(cell);
 	}
+
+	public void deleteCell(int columnIndex) {
+		List<Cell> currentCells = this.getCells();
+		currentCells.remove(columnIndex);
+		this.setCells(currentCells);
+		System.out.println("Removed cell in rows");
+	}
 	
 }

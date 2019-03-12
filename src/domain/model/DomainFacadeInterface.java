@@ -39,6 +39,8 @@ public interface DomainFacadeInterface {
 
 	public boolean getColumnAllowBlanks(UUID tableId, UUID columnId);
 
+	public void deleteColumn(UUID tableId, UUID columnId);
+
 //	public String getTableNameOfColumnId(UUID columnId);
 
 //	public UUID getTableIdOfColumnId(UUID columnId);

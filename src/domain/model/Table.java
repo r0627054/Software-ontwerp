@@ -249,13 +249,13 @@ public class Table extends ObjectIdentifier {
 			}
 		}
 	}
-	
+
 	public int getIndexOfColumnCharacteristic(UUID columnId, String string) {
 		Column column = this.getColumn(columnId);
 		return column.getIndexOfCharacteristic(string);
 	}
 
-	public void updateColumnType(UUID columnId, ValueType newType) {		
+	public void updateColumnType(UUID columnId, ValueType newType) {
 		Column column = this.getColumn(columnId);
 		column.updateType(newType);
 	}
@@ -267,13 +267,13 @@ public class Table extends ObjectIdentifier {
 
 	public void updateColumnDefaultValue(UUID columnId, Object newDefaultValue) {
 		Column column = this.getColumn(columnId);
-		column.updateDefaultValue(newDefaultValue);		
+		column.updateDefaultValue(newDefaultValue);
 	}
 
 	public ValueType getValueTypeOfColumn(UUID columnId) {
 		Column column = this.getColumn(columnId);
 		return column.getType();
-		
+
 	}
 
 	public boolean getColumnAllowBlanks(UUID columnId) {
@@ -281,4 +281,17 @@ public class Table extends ObjectIdentifier {
 		return column.isAllowsBlanks();
 	}
 
+	public void deleteColumn(UUID columnId) {
+		Column column = this.getColumn(columnId);
+		int columnIndex = getColumns().indexOf(column);
+		
+		List<Column> currentColumns = getColumns();
+		currentColumns.remove(column);
+		
+		this.setColumns(currentColumns);
+		for (Row r : getRows()) {
+			r.deleteCell(columnIndex);
+		}
+	}
+	
 }

@@ -197,6 +197,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	private void checkCtrlEnterKeyPress(int id, int keyCode) {
+		ViewModeType tableDVM = ViewModeType.TABLEDESIGNVIEWMODE;
+		ViewModeType tableRVM = ViewModeType.TABLEROWSVIEWMODE;
 
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
@@ -213,20 +215,18 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 			ViewMode currentViewMode = this.getCurrentViewMode();
 
-			if (ViewModeType.TABLEDESIGNVIEWMODE.equals(currentViewMode.getViewModeType())) {
+			if (tableDVM.equals(currentViewMode.getViewModeType())) {
 				TableViewMode currentTableViewMode = (TableViewMode) currentViewMode;
 				PropertyChangeEvent evt = new PropertyChangeEvent(currentTableViewMode.getId(),
-						ChangeEventType.SWITCH_VIEWMODE.getEventString(), ViewModeType.TABLEDESIGNVIEWMODE,
-						ViewModeType.TABLEROWSVIEWMODE);
+						ChangeEventType.SWITCH_VIEWMODE.getEventString(), tableDVM, tableRVM);
 
 				this.support.firePropertyChange(evt);
 
-			} else if (ViewModeType.TABLEROWSVIEWMODE.equals(currentViewMode.getViewModeType())) {
+			} else if (tableRVM.equals(currentViewMode.getViewModeType())) {
 				TableViewMode currentTableViewMode = (TableViewMode) currentViewMode;
 
 				PropertyChangeEvent evt = new PropertyChangeEvent(currentTableViewMode.getId(),
-						ChangeEventType.SWITCH_VIEWMODE.getEventString(), ViewModeType.TABLEROWSVIEWMODE,
-						ViewModeType.TABLEDESIGNVIEWMODE);
+						ChangeEventType.SWITCH_VIEWMODE.getEventString(), tableRVM, tableDVM);
 				this.support.firePropertyChange(evt);
 			}
 		}

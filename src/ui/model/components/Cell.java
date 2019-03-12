@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -14,6 +15,8 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	private static int defaultHeight = 50;
 	private static int defaultWidth = 100;
+
+	boolean redBackground = false;
 
 	public Cell(int x, int y, int width, int height, Object value, UUID id) {
 		super(x, y, width, height, false, id);
@@ -59,9 +62,13 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	@Override
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
-		// System.out.println("Cell painted at:" + getComponent().getX() + "| y= " +
-		// getComponent().getY());
-		getComponent().paint(g);
+
+		if (this.isRedBackground()) {
+			g.setColor(Color.RED);
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
+		}
+
+		getComponent().paint((Graphics2D) g.create());
 	}
 
 	@Override
@@ -135,6 +142,15 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 			}
 		}
 		return false;
+	}
+
+	public void setRedBackground(boolean b) {
+		System.out.println("Set red background to : " + b);
+		this.redBackground = b;
+	}
+
+	private boolean isRedBackground() {
+		return redBackground;
 	}
 
 }

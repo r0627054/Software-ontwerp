@@ -50,12 +50,11 @@ public class EditableTextField extends TextField {
 
 		if (this.isSelected()) {
 			g.setColor(new Color(226, 226, 226));
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
 		} else if (this.isSelectedForDelete()) {
 			g.setColor(Color.RED);
-		} else {
-			g.setColor(Color.WHITE);
+			g.fillRect(getX(), getY(), getWidth(), getHeight());
 		}
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());
 	}
 

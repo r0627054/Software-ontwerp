@@ -48,4 +48,9 @@ public class VerticalComponentList extends ContainerList {
 		positionChildren();
 	};
 
+	@Override
+	public int getOffsetX() {
+		return this.getX() + getMaxWidthFromChildren();
+	}
+	
 }

@@ -1,6 +1,9 @@
 package ui.model.components;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -15,9 +18,11 @@ import ui.model.viewmodes.TableDesignViewMode;
 
 public class DesignTable extends EditableComponent {
 	private VerticalComponentList rows;
+	private List<Cell> deleteCells;
 
 	public DesignTable(int x, int y, int width, int height, String tableName, UUID tableId) {
 		super(x, y, width, height, false, tableId);
+		this.deleteCells = new ArrayList<>();
 	}
 
 	public List<Cell> createTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
@@ -28,7 +33,7 @@ public class DesignTable extends EditableComponent {
 
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnCharacteristics.entrySet()) {
 			List<Component> cells = new ArrayList<>();
-			UUID id = entry.getKey();
+			UUID columnId = entry.getKey();
 
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
 				Cell newCell = null;
@@ -38,36 +43,37 @@ public class DesignTable extends EditableComponent {
 				switch (obj.getKey()) {
 				case "Type":
 					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(),
-							id);
-					newCell = new Cell(0, 0, toggleTextField, id);
+							columnId);
+					newCell = new Cell(0, 0, toggleTextField, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
 				case "Column Name":
 					EditableTextField nameTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
-							id);
-					newCell = new Cell(0, 0, nameTextField, id);
+							columnId);
+					newCell = new Cell(0, 0, nameTextField, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_NAME);
 					break;
 				case "Allow Blanks":
-					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), id);
-					newCell = new Cell(0, 0, blanksCheckBox, id);
+					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), columnId);
+					newCell = new Cell(0, 0, blanksCheckBox, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
 					break;
 				case "Default Value":
-					if (obj.getValue() == null) {
-						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, "", id);
-						newCell = new Cell(0, 0, valueTextField, id);
+					if (obj.getValue() == null || obj.getValue() instanceof Boolean) {
+						String value = obj.getValue() == null ? "" : obj.getValue().toString();
+
+						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, value, columnId);
+						newCell = new Cell(0, 0, valueTextField, columnId);
+
 					} else if (obj.getValue() instanceof String || obj.getValue() instanceof Integer) {
-						Component valueTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(), id);
-						newCell = new Cell(0, 0, valueTextField, id);
-					} else if (obj.getValue() instanceof Boolean) {
-						TextField valueTextField = new ToggleTextField(0, 0, 100,100, obj.getValue().toString(), id);
-						newCell = new Cell(0, 0, valueTextField, id);
+						Component valueTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
+								columnId);
+						newCell = new Cell(0, 0, valueTextField, columnId);
 					}
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					break;
 				default:
-					newCell = new Cell(0, 0, obj.getValue(), id);
+					newCell = new Cell(0, 0, obj.getValue(), columnId);
 					break;
 				}
 				cellList.add(newCell);
@@ -97,6 +103,7 @@ public class DesignTable extends EditableComponent {
 
 	@Override
 	public void paint(Graphics2D g) {
+		checkPaintDeleteSelectedColumn();
 		getRows().paint(g);
 	}
 
@@ -106,6 +113,29 @@ public class DesignTable extends EditableComponent {
 			if (clickCount == 2 && y > this.getOffsetY()) {
 				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN.getEventString(), null, null);
 			}
+
+			boolean isLeftClickOfARow = false;
+			for (Component c : getRows().getComponentsList()) {
+				HorizontalComponentList horizComponentList = (HorizontalComponentList) c;
+
+				if (y > c.getY() && y < c.getOffsetY()) {
+					isLeftClickOfARow = true;
+					this.resetDeleteCells();
+					for (Component componentOfList : horizComponentList.getComponentsList()) {
+						if (componentOfList instanceof Cell) {
+							Cell cell = (Cell) componentOfList;
+							this.addDeleteCell(cell);
+						}
+					}
+					propertyChanged();
+					break;
+				}
+			}
+
+			if (!isLeftClickOfARow) {
+				this.resetDeleteCells();
+			}
+
 		}
 		getRows().outsideClick(id, x, y, clickCount);
 	}
@@ -123,6 +153,12 @@ public class DesignTable extends EditableComponent {
 		this.setHeight(rows.getSumHeightFromChildren());
 		// this.setX(rows.getX());
 		// this.setY(this.getY());
+	}
+
+	private void checkPaintDeleteSelectedColumn() {
+		for (Cell c : getDeleteCells()) {
+			c.setRedBackground(true);
+		}
 	}
 
 	public Cell getCell(int index, UUID columnId) {
@@ -149,6 +185,29 @@ public class DesignTable extends EditableComponent {
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// Don't call the keyPressed on the children!
+		if (keyCode == KeyEvent.VK_DELETE) {
+			if (!this.getDeleteCells().isEmpty()) {
+				UUID columnId = getDeleteCells().get(0).getId();
+				propertyChanged(columnId, ChangeEventType.DELETE_COLUMN.getEventString(), null, null);
+			}
+		}
+	}
+
+	private List<Cell> getDeleteCells() {
+		return deleteCells;
+	}
+
+	private void addDeleteCell(Cell deleteCell) {
+		this.getDeleteCells().add(deleteCell);
+
+	}
+
+	private void resetDeleteCells() {
+		for (Cell c : getDeleteCells()) {
+			c.setRedBackground(false);
+		}
+		propertyChanged();
+		this.deleteCells = new ArrayList<>();
 	}
 
 }

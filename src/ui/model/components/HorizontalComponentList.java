@@ -47,5 +47,11 @@ public class HorizontalComponentList extends ContainerList {
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		positionChildren();
-	};
+	}
+	
+	@Override
+	public int getOffsetY() {
+		return this.getY() + getMaxHeightFromChildren();
+	}
+
 }
