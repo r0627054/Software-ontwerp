@@ -16,11 +16,6 @@ public abstract class EditableComponent extends Component {
 		this.id = id;
 	}
 
-	public EditableComponent(int width, int height, boolean hidden, UUID id) { //TODO hier kom je nooit?
-		super(width, height, hidden);
-		this.id = id;
-	}
-
 	public EditableComponent(int x, int y, int width, int height, boolean hidden, UUID id) {
 		super(x, y, width, height, hidden);
 		this.id = id;

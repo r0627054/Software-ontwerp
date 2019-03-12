@@ -14,13 +14,11 @@ import ui.model.components.TextField;
 
 public class TableDesignViewMode extends TableViewMode {
 	private Container container;
-	private List<Component> storedListeners;
 
 	public TableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		super(id, tableName);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
-		this.storedListeners = new ArrayList<>();
 
 		this.createDesignTable(columnCharacteristics);
 	}
@@ -40,18 +38,10 @@ public class TableDesignViewMode extends TableViewMode {
 
 		this.addStoredListener(table);
 		table.addPropertyChangeListener(this);
-		// this.addComponent(table);
 
 		getContainer().addComponent(table);
-		this.addComponent(container);
+		this.addComponent(getContainer());
 		this.addAllListeners();
-
-	}
-
-	private void addAllListeners() {
-		this.removeAllClickAndKeyListeners();
-		this.addAllClickListeners(this.getStoredListeners());
-		this.addAllKeyListeners(this.getStoredListeners());
 	}
 
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
@@ -94,27 +84,6 @@ public class TableDesignViewMode extends TableViewMode {
 		errorCell.setError(false);
 	}
 
-	private List<Component> getStoredListeners() {
-		return storedListeners;
-	}
-
-	private void setStoredListeners(List<Component> listeners) {
-		if (listeners == null) {
-			throw new IllegalArgumentException("Cannot set null stored listeners");
-		}
-		this.storedListeners = listeners;
-	}
-
-	private void clearStoredListeners() {
-		this.setStoredListeners(new ArrayList<Component>());
-	}
-
-	private void addStoredListener(Component listener) {
-		if (listener == null) {
-			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
-		}
-		this.storedListeners.add(listener);
-	}
 
 	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
@@ -132,4 +101,5 @@ public class TableDesignViewMode extends TableViewMode {
 		}
 		return false;
 	}
+	
 }

@@ -77,7 +77,7 @@ public class Cell extends ObjectIdentifier {
 	public Object getValue() {
 		return value;
 	}
-	
+
 	/**
 	 * Sets the value of the cell.
 	 * 
@@ -86,8 +86,8 @@ public class Cell extends ObjectIdentifier {
 	 * @post The value of the cell equals the given value. 
 	 * 			| new.getValue().equals(value)
 	 */
-	private void setValue(Object value) {
-		if(!type.canHaveAsValue(value))
+	public void setValue(Object value) {
+		if (!type.canHaveAsValue(value))
 			throw new DomainException("Invalid value for this cell.");
 		this.value = value;
 	}

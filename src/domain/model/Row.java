@@ -2,6 +2,7 @@ package domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A class of rows; a row contains multiple cells.
@@ -102,6 +103,10 @@ public class Row extends ObjectIdentifier {
 		currentCells.remove(columnIndex);
 		this.setCells(currentCells);
 		System.out.println("Removed cell in rows");
+	}
+
+	public boolean getCellAtIndexEqualsId(int index, UUID cellId) {
+		return this.getCellAtIndex(index).getId().equals(cellId);
 	}
 	
 }

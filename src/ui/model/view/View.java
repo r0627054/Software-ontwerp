@@ -64,7 +64,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	public void startup(Map<UUID, String> map) {
 		tablesViewMode = new TablesViewMode(map);
-		tablesViewMode.addPropertyChangeListener(this);		
+		tablesViewMode.addPropertyChangeListener(this);
 		// addViewMode(tablesViewMode);
 		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
 
@@ -258,7 +258,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void openTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
 		if (tableId == null || table == null || tableName == null) {
 			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id/table/name equals null.");
 		}
@@ -267,21 +267,21 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 				ViewModeType.TABLEROWSVIEWMODE);
 
 		if (tableRowsViewMode == null) {
-			tableRowsViewMode = createTableRowsViewMode(tableId, tableName, table);
+			tableRowsViewMode = createTableRowsViewMode(tableId, tableName, table, columnTypes);
 			this.addTableViewMode(tableId, tableRowsViewMode);
 		} else {
-			tableRowsViewMode.updateRowsTable(table);
+			tableRowsViewMode.updateRowsTable(table, columnTypes);
 		}
 
 		this.setCurrentMode(tableRowsViewMode);
 	}
 
 	public TableRowsViewMode createTableRowsViewMode(UUID id, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}
-		TableRowsViewMode newTableRowsViewMode = new TableRowsViewMode(id, tableName, table);
+		TableRowsViewMode newTableRowsViewMode = new TableRowsViewMode(id, tableName, table, columnTypes);
 		newTableRowsViewMode.addPropertyChangeListener(this);
 		return newTableRowsViewMode;
 	}
@@ -328,14 +328,17 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void updateTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
 		TableRowsViewMode tableRowsViewMode = (TableRowsViewMode) getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
-		tableRowsViewMode.updateRowsTable(table);
+		tableRowsViewMode.updateRowsTable(table, columnTypes);
 	}
 
-	public void pauseApplication(int i, UUID id) {
-		TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
-		currentViewMode.pauseViewMode(i, id);
+	public void pauseApplication(int indexOfCell, UUID columnId) {
+		ViewMode currentMode = getCurrentViewMode();
+		if (currentMode instanceof TableViewMode) {
+			TableViewMode currentViewMode = (TableViewMode) currentMode;
+			currentViewMode.pauseViewMode(indexOfCell, columnId);
+		}
 	}
 
 	public UUID getCurrentViewModeId() {
@@ -352,10 +355,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		ViewMode current = this.getCurrentViewMode();
 
 		if (current instanceof TableViewMode) {
-			if (current instanceof TableDesignViewMode) {
-				TableDesignViewMode currentTableViewMode = (TableDesignViewMode) current;
-				currentTableViewMode.unpauseViewMode(columnIndex, columnId);
-			}
+			TableViewMode currentTableViewMode = (TableViewMode) current;
+			currentTableViewMode.unpauseViewMode(columnIndex, columnId);
 		}
 	}
 

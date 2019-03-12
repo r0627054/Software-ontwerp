@@ -34,7 +34,6 @@ public class EditableTextField extends TextField {
 	public EditableTextField(int x, int y, int width, int height, boolean hidden, String defaultValue, UUID id) {
 		super(x, y, width, height, hidden, defaultValue, id);
 		this.resetCursorPosition();
-		this.setDefaultValue(defaultValue);
 	}
 
 	public EditableTextField(String string, UUID id) {
@@ -62,7 +61,7 @@ public class EditableTextField extends TextField {
 			if (!this.selected && clickCount == 1) {
 				resetCursorPosition();
 				this.setDefaultValue(this.getText());
-				select();
+				this.setSelected(true);
 			} else if (clickCount == 2) {
 				this.doubleClicked();
 			}
@@ -78,6 +77,7 @@ public class EditableTextField extends TextField {
 
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
+//		System.out.println("ETF KeyPressed");
 		if (isSelected()) {
 			if (id == KeyEvent.KEY_PRESSED) {
 				if (keyCode == KeyEvent.VK_LEFT) {
@@ -137,26 +137,13 @@ public class EditableTextField extends TextField {
 		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, this.getText());
 	}
 
-	private void select() {
-		this.selected = true;
-		propertyChanged();
-	}
-
-	private void unselect() {
-		if (this.isSelected()) {
-//			System.out.println("unselect ETF");
-			this.setText(getDefaultValue());
-			this.setSelected(false);
-			this.setError(false);
-		}
-	}
-
 	public boolean isSelected() {
 		return this.selected;
 	}
 
 	private void setSelected(boolean selected) {
 		this.selected = selected;
+//		System.out.println("SET SELECTED TO: " + selected);
 		propertyChanged();
 	}
 
@@ -237,9 +224,8 @@ public class EditableTextField extends TextField {
 	@Override
 	public void setError(boolean error) {
 		super.setError(error);
-
 		if (error) {
-			this.select();
+			this.setSelected(true);
 			this.resetCursorPosition();
 		}
 	}

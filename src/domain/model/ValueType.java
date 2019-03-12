@@ -50,10 +50,13 @@ public enum ValueType {
 	 *         | result == (value != null) && (value.getClass().equals( this.getTypeClass()))
 	 */
 	public boolean canHaveAsValue(Object value) {
-		if (value == null || value.getClass().equals(this.getTypeClass())) {
-			return true;
+		if (this.equals(EMAIL)) {
+			if (value instanceof String) {
+				String valueString = (String) value;
+				return value.getClass().equals(this.getTypeClass()) && valueString.contains("@");
+			}
 		}
-		return false;
+		return (value == null || value.getClass().equals(this.getTypeClass()));
 	}
 
 	public static ValueType getValueTypeForString(String name) {

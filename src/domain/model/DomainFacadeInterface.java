@@ -42,6 +42,14 @@ public interface DomainFacadeInterface {
 
 	public void createNewRow(UUID tableId);
 
+	public void editCellInTable(UUID tableId, UUID columnId, UUID cellId, Object newValue);
+
+	public UUID getColumnId(UUID tableId, UUID cellId);
+
+	Map<UUID, Class> getColumnTypes(UUID tableId);
+
+	public int getIndexOfCellInColumnId(UUID tableId, UUID columnId, UUID cellId);
+
 //	public String getTableNameOfColumnId(UUID columnId);
 
 //	public UUID getTableIdOfColumnId(UUID columnId);

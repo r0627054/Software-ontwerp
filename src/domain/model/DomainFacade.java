@@ -327,4 +327,56 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("No table found to return the allowBlanks value.");
 		}
 	}
+
+	@Override
+	public void editCellInTable(UUID tableId, UUID columnId, UUID cellId, Object newValue) {
+		if (tableId == null || columnId == null || cellId == null) {
+			throw new DomainException("Cannot edit a cell on a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.editCell(columnId, cellId, newValue);
+		} else {
+			throw new DomainException("No table found to edit the cell.");
+		}
+	}
+
+	@Override
+	public UUID getColumnId(UUID tableId, UUID cellId) {
+		if (tableId == null || cellId == null) {
+			throw new DomainException("Cannot get a column of a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getcolumnId(cellId);
+		} else {
+			throw new DomainException("No table found to return the column.");
+		}
+	}
+
+	@Override
+	public Map<UUID, Class> getColumnTypes(UUID tableId) {
+		if (tableId == null) {
+			throw new DomainException("Cannot get column types of a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getColumnTypes();
+		} else {
+			throw new DomainException("No table found to return the column types.");
+		}
+	}
+
+	@Override
+	public int getIndexOfCellInColumnId(UUID tableId, UUID columnId, UUID cellId) {
+		if (tableId == null || columnId == null || cellId == null) {
+			throw new DomainException("Cannot get column index of a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getIndexOfCellInColumnId(columnId, cellId);
+		} else {
+			throw new DomainException("No table found to return the column index.");
+		}
+	}
 }

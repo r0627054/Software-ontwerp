@@ -274,8 +274,6 @@ public abstract class Component {
 	}
 
 	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
-		// System.out.println("Custom propertychanged fired from: " + source.toString()
-		// + " " + propertyName + " new val: " + newValue);
 		getSupport().firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
 	}
 

@@ -379,4 +379,33 @@ public class Column extends ObjectIdentifier {
 
 	}
 
+	public boolean containsCell(UUID cellId) {
+		for (int i = 0; i < this.getCells().size(); i++) {
+			Cell cell = this.getCellAtIndex(i);
+			if (cell.getId().equals(cellId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void updateCellValue(UUID cellId, Object newValue) {
+		Cell cell = this.getCellWithId(cellId);
+		if (cell == null)
+			throw new DomainException("No cell found for cellId.");
+		cell.setValue(newValue);
+	}
+
+	private Cell getCellWithId(UUID cellId) {
+		for (Cell c : getCells()) {
+			if (c.getId().equals(cellId))
+				return c;
+		}
+		return null;
+	}
+
+	public int getIndexOfCell(UUID cellId) {
+		return this.getCells().indexOf(getCellWithId(cellId));
+	}
+
 }

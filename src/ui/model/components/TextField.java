@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
+
 public class TextField extends EditableComponent {
 	public Font font;
 	public static final int MARGIN = 3;
@@ -71,7 +73,7 @@ public class TextField extends EditableComponent {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		
+		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), null, null);
 	}
 
 }

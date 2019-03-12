@@ -3,7 +3,7 @@ package ui.model.components;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContainerList extends Container {
+public abstract class ContainerList extends Container {
 
 	public ContainerList(int x, int y, int width, int height, List<Component> listItems) {
 		super(x, y, width, height, listItems);

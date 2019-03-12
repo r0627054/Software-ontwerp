@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -293,6 +294,35 @@ public class Table extends ObjectIdentifier {
 		for (Row r : getRows()) {
 			r.deleteCell(columnIndex);
 		}
+	}
+
+	public void editCell(UUID columnId, UUID cellId, Object newValue) {
+		Column column = this.getColumn(columnId);
+		column.updateCellValue(cellId, newValue);
+	}
+
+	public UUID getcolumnId(UUID cellId) {
+		for (Column col : getColumns()) {
+			if (col.containsCell(cellId)) {
+				return col.getId();
+			}
+		}
+		throw new DomainException("No column id found for given cellId");
+	}
+
+	public Map<UUID, Class> getColumnTypes() {
+		Map<UUID, Class> columnTypesMap = new HashMap<>();
+
+		for (Column c : getColumns()) {
+			columnTypesMap.put(c.getId(), c.getType().getTypeClass());
+		}
+
+		return columnTypesMap;
+	}
+
+	public int getIndexOfCellInColumnId(UUID columnId, UUID cellId) {
+		Column column = this.getColumn(columnId);
+		return column.getIndexOfCell(cellId);
 	}
 
 }

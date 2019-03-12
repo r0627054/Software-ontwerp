@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ui.model.components.Cell;
 import ui.model.components.Component;
 
 public abstract class TableViewMode extends ViewMode {
@@ -11,12 +12,18 @@ public abstract class TableViewMode extends ViewMode {
 	private UUID id;
 	private String tableName;
 	private boolean paused = false;
+	private List<Component> storedListeners;
 
 	public TableViewMode(UUID id, String tableName) {
 		super();
 		this.setId(id);
 		this.setTableName(tableName);
+		this.setStoredListeners(new ArrayList<>());
 	}
+
+	public abstract void pauseViewMode(int columnIndex, UUID columnId);
+
+	public abstract void unpauseViewMode(int columnIndex, UUID columnId);
 
 	public String getTableName() {
 		return tableName;
@@ -76,6 +83,34 @@ public abstract class TableViewMode extends ViewMode {
 		for (Component c : clickListeners) {
 			this.addClickListener(c);
 		}
+	}
+
+	protected List<Component> getStoredListeners() {
+		return storedListeners;
+	}
+
+	protected void setStoredListeners(List<Component> listeners) {
+		if (listeners == null) {
+			throw new IllegalArgumentException("Cannot set null stored listeners");
+		}
+		this.storedListeners = listeners;
+	}
+
+	protected void clearStoredListeners() {
+		this.setStoredListeners(new ArrayList<Component>());
+	}
+
+	protected void addStoredListener(Component listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
+		}
+		this.storedListeners.add(listener);
+	}
+
+	protected void addAllListeners() {
+		this.removeAllClickAndKeyListeners();
+		this.addAllClickListeners(getStoredListeners());
+		this.addAllKeyListeners(getStoredListeners());
 	}
 
 	protected void removeAllComponents() {

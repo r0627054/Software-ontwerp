@@ -2,6 +2,7 @@ package ui.model.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.UUID;
@@ -16,13 +17,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	private static int defaultHeight = 50;
 	private static int defaultWidth = 100;
 
-	boolean redBackground = false;
-
-	public Cell(int x, int y, int width, int height, Object value, UUID id) {
-		super(x, y, width, height, false, id);
-		createComponent(value, id);
-		setComponentCoordinates(x, y, width, height);
-	}
+	private boolean redBackground = false;
 
 	public Cell(int x, int y, Component cellComponent, UUID id) {
 		super(x, y, defaultWidth, defaultHeight, false, id);
@@ -31,7 +26,12 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	}
 
 	public Cell(int x, int y, Object value, UUID id) {
-		this(x, y, defaultWidth, defaultHeight, value, id);
+		this(x, y, value, id, null);
+	}
+
+	public Cell(int x, int y, Object value, UUID id, Class<?> cellType) {
+		super(x, y, defaultWidth, defaultHeight, false, id);
+		createComponent(value, id, cellType);
 	}
 
 	private void setComponentCoordinates(int x, int y, int width, int height) {
@@ -46,11 +46,15 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 		setComponentCoordinates(getX(), getY(), getWidth(), getHeight());
 	}
 
-	private void createComponent(Object value, UUID id) {
+	private void createComponent(Object value, UUID id, Class<?> cellType) {
 		Component component;
 
-		if (value instanceof Boolean) {
-			component = new CheckBox((boolean) value, id);
+		if (cellType == Boolean.class) {
+			if (value == null) {
+				component = new TextField(0, 0, 100, 50, "", id);
+			} else {
+				component = new CheckBox((boolean) value, id);
+			}
 		} else if (value != null) {
 			component = new EditableTextField(value.toString(), id);
 		} else {
@@ -73,7 +77,9 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		getComponent().mouseClicked(id, x, y, clickCount);
+		if (id == MouseEvent.MOUSE_CLICKED) {
+			getComponent().mouseClicked(id, x, y, clickCount);
+		}
 	}
 
 	@Override

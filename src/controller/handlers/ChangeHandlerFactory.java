@@ -33,11 +33,13 @@ public class ChangeHandlerFactory {
 		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS.getEventString())){
 			handler = new ColumnAllowBlanksChangeHandler();
 		}else if (value.equals(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE.getEventString())){
-			handler = new ColumnDefaulValueChangeHandler();
+			handler = new ColumnDefaultValueChangeHandler();
 		}else if (value.equals(ChangeEventType.DELETE_COLUMN.getEventString())){
 			handler = new DeleteColumnChangeHandler();
 		}else if (value.equals(ChangeEventType.CREATE_ROW.getEventString())){
 			handler = new CreateRowChangeHandler();
+		}else if (value.equals(ChangeEventType.ROW_EDITED.getEventString())){
+			handler = new RowEditedChangeHandler();
 		}
 
 		if (handler != null) {

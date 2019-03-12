@@ -18,7 +18,8 @@ public class SwitchViewModeChangeHandler implements ChangeHandlerInterface {
 			ViewModeType newViewMode = (ViewModeType) evt.getNewValue();
 
 			if (oldViewMode == ViewModeType.TABLEDESIGNVIEWMODE && newViewMode == ViewModeType.TABLEROWSVIEWMODE) {
-				uifacade.openTableRowsViewMode(tableId, tableName, domainfacade.getTableWithIds(tableId));
+				uifacade.openTableRowsViewMode(tableId, tableName, domainfacade.getTableWithIds(tableId),
+						domainfacade.getColumnTypes(tableId));
 				
 			} else if (oldViewMode == ViewModeType.TABLEROWSVIEWMODE && newViewMode == ViewModeType.TABLEDESIGNVIEWMODE) {
 				uifacade.openTableDesignViewMode(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));

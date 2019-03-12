@@ -17,7 +17,7 @@ public class TablesViewMode extends ViewMode {
 		this.createTableList(map);
 		this.addComponent(new TextField(50, 5, 200, 25, "TABLES LIST:"));
 	}
-	
+
 	private void createTableList(Map<UUID, String> map) {
 		container = new Container(0, 0, 600, 600);
 		this.addComponent(getContainer());
@@ -27,8 +27,8 @@ public class TablesViewMode extends ViewMode {
 		this.addClickListener(tableList);
 		this.addKeyListener(tableList);
 		tableList.addPropertyChangeListener(this);
-		
-		getContainer().addComponent(tableList);	
+
+		getContainer().addComponent(tableList);
 	}
 
 	public void updateTables(Map<UUID, String> map) {
@@ -36,7 +36,7 @@ public class TablesViewMode extends ViewMode {
 		this.removeComponent(getContainer());
 		this.createTableList(map);
 	}
-	
+
 	private Container getContainer() {
 		return container;
 	}

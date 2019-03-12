@@ -23,12 +23,12 @@ public class DesignTable extends EditableComponent {
 
 	public List<Cell> createTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> rowList = new ArrayList<>();
-		List<Cell> cellList = new ArrayList<>();
+		List<Cell> allCellsList = new ArrayList<>();
 
 		rowList.add(createHeader(columnCharacteristics));
 
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnCharacteristics.entrySet()) {
-			List<Component> cells = new ArrayList<>();
+			List<Component> rowCells = new ArrayList<>();
 			UUID columnId = entry.getKey();
 
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
@@ -72,14 +72,14 @@ public class DesignTable extends EditableComponent {
 					newCell = new Cell(0, 0, obj.getValue(), columnId);
 					break;
 				}
-				cellList.add(newCell);
-				cells.add(newCell);
+				allCellsList.add(newCell);
+				rowCells.add(newCell);
 			}
 
-			rowList.add(new HorizontalComponentList(0, 0, cells));
+			rowList.add(new HorizontalComponentList(0, 0, rowCells));
 		}
-		this.setRows(new VerticalComponentList(this.getX(), this.getY(), 200, 200, rowList));
-		return cellList;
+		this.setRows(new VerticalComponentList(this.getX(), this.getY(), rowList));
+		return allCellsList;
 	}
 
 	public HorizontalComponentList createHeader(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {

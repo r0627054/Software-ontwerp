@@ -16,7 +16,8 @@ public enum ChangeEventType {
 	COLUMN_CHANGE_TYPE("columnChangeType"), 
 	COLUMN_CHANGE_DEFAULT_VALUE("columnChangeDefaultValue"), 
 	COLUMN_CHANGE_ALLOW_BLANKS("columnChangeAllowBlanks"), 
-	COLUMN_CHANGE_NAME("columnChangeName");
+	COLUMN_CHANGE_NAME("columnChangeName"),
+	ROW_EDITED("rowEdited");
 	
 	private final String eventString;
 

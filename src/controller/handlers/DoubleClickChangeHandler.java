@@ -15,20 +15,20 @@ public class DoubleClickChangeHandler implements ChangeHandlerInterface {
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		if (uifacade.getCurrentViewModeType().equals(ViewModeType.TABLESVIEWMODE)) {
 			try {
-				UUID id = (UUID) evt.getSource();
-				String tableName = domainfacade.getTableNameOfId(id);
+				UUID tableId = (UUID) evt.getSource();
+				String tableName = domainfacade.getTableNameOfId(tableId);
 
 				// First map: 'singleton' map of one UUID of the column and one String of the
 				// ColumnName
 				// Second map: For each 'singleton' columnKey map: a map of ID's and objects of
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
-				Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(id);
+				Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(tableId);
 
 				if (table.isEmpty()) {
-					uifacade.openTableDesignViewMode(id, tableName, domainfacade.getColumnCharacteristics(id));
+					uifacade.openTableDesignViewMode(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
 				} else {
-					uifacade.openTableRowsViewMode(id, tableName, table);
+					uifacade.openTableRowsViewMode(tableId, tableName, table, domainfacade.getColumnTypes(tableId));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
