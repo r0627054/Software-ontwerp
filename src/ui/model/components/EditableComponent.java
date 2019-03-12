@@ -11,12 +11,12 @@ public abstract class EditableComponent extends Component {
 	private final UUID id;
 	private boolean error;
 
-	public EditableComponent(int width, int height, UUID id) {
+	public EditableComponent(int width, int height, UUID id) { // TODO hier kom je nooit?
 		super(width, height);
 		this.id = id;
 	}
 
-	public EditableComponent(int width, int height, boolean hidden, UUID id) {
+	public EditableComponent(int width, int height, boolean hidden, UUID id) { //TODO hier kom je nooit?
 		super(width, height, hidden);
 		this.id = id;
 	}

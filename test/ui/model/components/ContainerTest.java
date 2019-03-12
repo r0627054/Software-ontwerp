@@ -72,6 +72,7 @@ class ContainerTest {
 	@Test
 	void test5AddNullComponentToContainer() {
 		Exception e = assertThrows(IllegalArgumentException.class, () -> correctContainer.addComponent(null));
+		assertEquals("Null component cannot be added to a container", e.getMessage());
 	}
 	
 	
