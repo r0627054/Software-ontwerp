@@ -36,6 +36,8 @@ public class ChangeHandlerFactory {
 			handler = new ColumnDefaulValueChangeHandler();
 		}else if (value.equals(ChangeEventType.DELETE_COLUMN.getEventString())){
 			handler = new DeleteColumnChangeHandler();
+		}else if (value.equals(ChangeEventType.CREATE_ROW.getEventString())){
+			handler = new CreateRowChangeHandler();
 		}
 
 		if (handler != null) {

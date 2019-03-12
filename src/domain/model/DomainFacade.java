@@ -315,42 +315,16 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 	}
 
-//	public int getColumnIndexOf(UUID tableId, UUID columnId, String newName) {
-//		if (tableId == null || columnId == null) {
-//			throw new DomainException("Cannot get a column index with a null id.");
-//		} else if (newName == null || newName.isEmpty()) {
-//			throw new DomainException("Cannot get a new column name with a null or empty name.");
-//		}
-//		
-//		this.getTable(tableId).getColumn(columnId)
-//	}
-
-//	public String getTableNameOfColumnId(UUID columnId) {
-//		if (columnId == null) {
-//			throw new IllegalArgumentException(
-//					"Cannot check which table name belongs to a table with a null column id");
-//		}
-//
-//		for (Table table : getTableMap().values()) {
-//			if (table.hasColumn(columnId)) {
-//				return table.getName();
-//			}
-//		}
-//		return null;
-//	}
-
-//	@Override
-//	public UUID getTableIdOfColumnId(UUID columnId) {
-//		if (columnId == null) {
-//			throw new IllegalArgumentException("Cannot check which table id belongs to a table with a null column id");
-//		}
-//
-//		for (Table table : getTableMap().values()) {
-//			if (table.hasColumn(columnId)) {
-//				return table.getId();
-//			}
-//		}
-//		return null;
-//	}
-
+	@Override
+	public void createNewRow(UUID tableId) {
+		if (tableId == null) {
+			throw new DomainException("Cannot add a row on a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.addRow();
+		} else {
+			throw new DomainException("No table found to return the allowBlanks value.");
+		}
+	}
 }

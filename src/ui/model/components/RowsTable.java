@@ -10,16 +10,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class Table extends Component {
+import controller.handlers.ChangeEventType;
+
+public class RowsTable extends EditableComponent {
 
 	private HorizontalComponentList columns;
 
-	public Table(int x, int y, int width, int height, boolean hidden) {
-		super(x, y, width, height, false);
-	}
-
-	public Table(int x, int y, int width, int height) {
-		this(x, y, width, height, false);
+	public RowsTable(int x, int y, int width, int height, UUID id) {
+		super(x, y, width, height, false, id);
 	}
 
 	public void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values) {
@@ -42,8 +40,7 @@ public class Table extends Component {
 			}
 			columnList.add(new Column(0, 0, cells));
 		}
-		columns = new HorizontalComponentList(this.getX(), getY(), columnList);
-
+		this.setColumns(new HorizontalComponentList(this.getX(), getY(), columnList));
 	}
 
 	@Override
@@ -62,4 +59,20 @@ public class Table extends Component {
 	public void keyPressed(int id, int keyCode, char keyChar) {
 	}
 
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		if (id == MouseEvent.MOUSE_CLICKED) {
+			if (clickCount == 2 && y > getColumns().getOffsetY()) {
+				propertyChanged(getId(), ChangeEventType.CREATE_ROW.getEventString(), null, null);
+			}
+		}
+	}
+
+	private HorizontalComponentList getColumns() {
+		return columns;
+	}
+
+	private void setColumns(HorizontalComponentList columns) {
+		this.columns = columns;
+	}
 }

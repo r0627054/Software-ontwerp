@@ -169,8 +169,10 @@ public class Table extends ObjectIdentifier {
 	public void addRow() {
 		ArrayList<Cell> newCells = new ArrayList<Cell>();
 
-		for (Column c : this.columns) {
-			newCells.add(new Cell(c.getType()));
+		for (Column col : this.getColumns()) {
+			Cell newCell = new Cell(col.getType(), col.getDefaultValue());
+			newCells.add(newCell);
+			col.addCell(newCell);
 		}
 
 		this.rows.add(new Row(newCells));
@@ -284,14 +286,14 @@ public class Table extends ObjectIdentifier {
 	public void deleteColumn(UUID columnId) {
 		Column column = this.getColumn(columnId);
 		int columnIndex = getColumns().indexOf(column);
-		
+
 		List<Column> currentColumns = getColumns();
 		currentColumns.remove(column);
-		
+
 		this.setColumns(currentColumns);
 		for (Row r : getRows()) {
 			r.deleteCell(columnIndex);
 		}
 	}
-	
+
 }

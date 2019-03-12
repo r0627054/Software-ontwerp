@@ -41,6 +41,8 @@ public interface DomainFacadeInterface {
 
 	public void deleteColumn(UUID tableId, UUID columnId);
 
+	public void createNewRow(UUID tableId);
+
 //	public String getTableNameOfColumnId(UUID columnId);
 
 //	public UUID getTableIdOfColumnId(UUID columnId);
