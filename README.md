@@ -1,7 +1,8 @@
 # Software-ontwerp
 
 NEW:
-Class diagram: https://creately.com/app?diagid=jt5ucv541
+Class diagram: edit: https://creately.com/app?diagid=jt5ucv541
+               view: https://creately.com/diagram/jt5ucv541
 
 
 
