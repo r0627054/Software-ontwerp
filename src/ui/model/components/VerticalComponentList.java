@@ -34,15 +34,6 @@ public class VerticalComponentList extends ContainerList {
 		}
 	}
 
-	private void positionSelfCenter() { //TODO gebruiken we die method? NEEN >> ofwel deleten ofwel public zetten dat er testen voor kunnen geschreven worden.
-		int selfWidth = this.getWidth();
-		int selfHeight = this.getHeight();
-		int childrenWidth = getMaxWidthFromChildren();
-		int childrenHeight = getComponentsList().stream().mapToInt(c -> c.getHeight()).sum();
-		this.setX((selfWidth - childrenWidth) / 2);
-		this.setY((selfHeight - childrenHeight) / 2);
-	}
-
 	@Override
 	public void paint(Graphics2D g) {
 		positionChildren();
