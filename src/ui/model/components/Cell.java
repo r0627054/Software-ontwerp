@@ -151,7 +151,6 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	}
 
 	public void setRedBackground(boolean b) {
-		System.out.println("Set red background to : " + b);
 		this.redBackground = b;
 	}
 

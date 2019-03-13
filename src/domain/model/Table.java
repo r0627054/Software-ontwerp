@@ -289,8 +289,8 @@ public class Table extends ObjectIdentifier {
 
 		List<Column> currentColumns = getColumns();
 		currentColumns.remove(column);
-
 		this.setColumns(currentColumns);
+
 		for (Row r : getRows()) {
 			r.deleteCell(columnIndex);
 		}
@@ -310,8 +310,8 @@ public class Table extends ObjectIdentifier {
 		throw new DomainException("No column id found for given cellId");
 	}
 
-	public Map<UUID, Class> getColumnTypes() {
-		Map<UUID, Class> columnTypesMap = new HashMap<>();
+	public Map<UUID, Class<?>> getColumnTypes() {
+		Map<UUID, Class<?>> columnTypesMap = new HashMap<>();
 
 		for (Column c : getColumns()) {
 			columnTypesMap.put(c.getId(), c.getType().getTypeClass());
@@ -325,4 +325,33 @@ public class Table extends ObjectIdentifier {
 		return column.getIndexOfCell(cellId);
 	}
 
+	public void deleteRow(UUID rowId) {
+		int rowIndex = getIndexOfRow(rowId);
+		List<Row> rows = getRows();
+		rows.remove(rowIndex);
+		this.setRows(rows);
+
+		for (Column c : getColumns()) {
+			c.deleteCell(rowIndex);
+		}
+
+	}
+
+	public int getIndexOfRow(UUID rowId) {
+		for (Row r : this.getRows()) {
+			if (r.getId().equals(rowId)) {
+				return this.getRows().indexOf(r);
+			}
+		}
+		return -1;
+	}
+
+	public UUID getRowId(UUID cellIdOfFirstElement) {
+		for (Row row : getRows()) {
+			if (row.containsCell(cellIdOfFirstElement)) {
+				return row.getId();
+			}
+		}
+		throw new DomainException("No column id found for given cellId");
+	}
 }

@@ -22,10 +22,10 @@ public interface UIFacadeInterface {
 	public void throwError(UUID id);
 
 	public void openTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes);
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
 
 	public void updateTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes);
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
 
 	public void updateTablesViewMode(Map<UUID, String> map);
 

@@ -17,12 +17,12 @@ public class Row extends ObjectIdentifier {
 	 * Variable storing all the cells.
 	 */
 	private List<Cell> cells = new ArrayList<>();
-	
+
 	/**
 	 * Initialises a new row without cells. 
 	 */
 	public Row() {
-		
+
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class Row extends ObjectIdentifier {
 	public Row(ArrayList<Cell> cells) {
 		this.setCells(cells);
 	}
-	
+
 	/**
 	 * Returns a copy of the ArrayList of cells.
 	 * 
@@ -52,19 +52,19 @@ public class Row extends ObjectIdentifier {
 	 * 
 	 * @param cells
 	 *        an ArrayList which contains cells.
-     * @throws DomainException
+	 * @throws DomainException
 	 *         The cells equals null.
 	 *         | cells == null
 	 * @post The ArrayList of cells equals the given cells
 	 *         | new.getCells().equals(cells)      
 	 */
 	private void setCells(List<Cell> cells) {
-		if(cells == null) {
+		if (cells == null) {
 			throw new DomainException("The List of cells cannot be null for a column.");
 		}
 		this.cells = cells;
 	}
-	
+
 	/**
 	 * Returns the cell at the requested index of the row.
 	 * 
@@ -74,12 +74,12 @@ public class Row extends ObjectIdentifier {
 	 *          | this.cells.get(index)
 	 */
 	public Cell getCellAtIndex(int index) {
-		if(index < 0) {
+		if (index < 0) {
 			throw new DomainException("Index of cell cannot be negative.");
 		}
 		return this.cells.get(index);
 	}
-	
+
 	/**
 	 * Adds at the end of the row.
 	 * 
@@ -92,7 +92,7 @@ public class Row extends ObjectIdentifier {
 	 *         | cells.add(cell)
 	 */
 	public void addCell(Cell cell) {
-		if(cell == null) {
+		if (cell == null) {
 			throw new DomainException("A cell cannot be null in a column.");
 		}
 		cells.add(cell);
@@ -102,11 +102,20 @@ public class Row extends ObjectIdentifier {
 		List<Cell> currentCells = this.getCells();
 		currentCells.remove(columnIndex);
 		this.setCells(currentCells);
-		System.out.println("Removed cell in rows");
 	}
 
 	public boolean getCellAtIndexEqualsId(int index, UUID cellId) {
 		return this.getCellAtIndex(index).getId().equals(cellId);
 	}
-	
+
+	public boolean containsCell(UUID cellId) {
+		for (int i = 0; i < this.getCells().size(); i++) {
+			Cell cell = this.getCellAtIndex(i);
+			if (cell.getId().equals(cellId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

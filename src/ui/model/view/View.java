@@ -234,7 +234,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	private void checkEscapeKeyPress(int id, int keyCode) {
 		if (keyCode == KeyEvent.VK_ESCAPE) {
-			System.out.println("Escape pressed in view!");
 			ViewModeType currentType = this.getCurrentViewModeType();
 			if (ViewModeType.TABLEDESIGNVIEWMODE.equals(currentType)
 					|| ViewModeType.TABLEROWSVIEWMODE.equals(currentType)) {
@@ -258,7 +257,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void openTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		if (tableId == null || table == null || tableName == null) {
 			throw new IllegalArgumentException("Cannot open TableRowsViewMode with id/table/name equals null.");
 		}
@@ -277,7 +276,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public TableRowsViewMode createTableRowsViewMode(UUID id, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsViewMode with id or table equals null.");
 		}
@@ -328,7 +327,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void updateTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		TableRowsViewMode tableRowsViewMode = (TableRowsViewMode) getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
 		tableRowsViewMode.updateRowsTable(table, columnTypes);
 	}

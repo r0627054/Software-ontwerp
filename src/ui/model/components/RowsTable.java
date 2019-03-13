@@ -19,9 +19,11 @@ public class RowsTable extends EditableComponent {
 
 	public RowsTable(int x, int y, UUID id) {
 		super(x, y, 0, 0, false, id);
+		this.deleteCells = new ArrayList<>();
 	}
 
-	public List<Cell> createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values, Map<UUID, Class> columnTypes) {
+	public List<Cell> createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values,
+			Map<UUID, Class<?>> columnTypes) {
 		List<Component> columnList = new ArrayList<>();
 		List<Cell> allCellsList = new ArrayList<>();
 
@@ -63,6 +65,7 @@ public class RowsTable extends EditableComponent {
 
 	@Override
 	public void paint(Graphics2D g) {
+		checkPaintDeleteSelectedColumn();
 		this.getColumns().paint((Graphics2D) g.create());
 	}
 
@@ -71,52 +74,41 @@ public class RowsTable extends EditableComponent {
 		// Don't call the mouseClicked on the children!
 	}
 
-
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
 			if (clickCount == 2 && y > getColumns().getOffsetY()) {
 				propertyChanged(getId(), ChangeEventType.CREATE_ROW.getEventString(), null, null);
 			}
-//
-//			boolean isLeftClickOfARow = false;
-//			for (Component c : getColumns().getComponentsList()) {
-//				VerticalComponentList vertComponentList = (VerticalComponentList) c;
-//
-//				for (Component componentOfList : vertComponentList.getComponentsList()) {
-//					if (componentOfList instanceof Cell) {
-//						Cell cell = (Cell) componentOfList;
-//						this.addDeleteCell(cell);
-//					}
-//				}
-//
-//				if (y > c.getY() && y < c.getOffsetY()) {
-//					isLeftClickOfARow = true;
-//					this.resetDeleteCells();
-//					for (Component componentOfList : vertComponentList.getComponentsList()) {
-//						if (componentOfList instanceof Cell) {
-//							Cell cell = (Cell) componentOfList;
-//							this.addDeleteCell(cell);
-//						}
-//					}
-//					propertyChanged();
-//					break;
-//				}
-//			}
-//
-//			if (!isLeftClickOfARow) {
-//				this.resetDeleteCells();
-//			}
+
+			this.resetDeleteCells();
+
+			if (y > this.getY() && y < this.getOffsetY()) {
+
+				for (Component c : getColumns().getComponentsList()) {
+					VerticalComponentList vertComponentList = (VerticalComponentList) c;
+
+					for (Component componentOfList : vertComponentList.getComponentsList()) {
+						if (y > componentOfList.getY() && y < componentOfList.getOffsetY()) {
+							if (componentOfList instanceof Cell) {
+								Cell cell = (Cell) componentOfList;
+								this.addDeleteCell(cell);
+							}
+						}
+					}
+				}
+			}
 		}
+
 	}
-	
+
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// Don't call the keyPressed on the children!
 		if (keyCode == KeyEvent.VK_DELETE) {
 			if (!this.getDeleteCells().isEmpty()) {
-				UUID columnId = getDeleteCells().get(0).getId();
-				propertyChanged(columnId, ChangeEventType.DELETE_COLUMN.getEventString(), null, null);
+				UUID cellId = getDeleteCells().get(0).getId();
+				propertyChanged(cellId, ChangeEventType.DELETE_ROW.getEventString(), null, null);
 			}
 		}
 	}
@@ -144,6 +136,12 @@ public class RowsTable extends EditableComponent {
 		}
 		propertyChanged();
 		this.deleteCells = new ArrayList<>();
+	}
+
+	private void checkPaintDeleteSelectedColumn() {
+		for (Cell c : getDeleteCells()) {
+			c.setRedBackground(true);
+		}
 	}
 
 	public Cell getCell(int columnIndex, UUID columnId) {

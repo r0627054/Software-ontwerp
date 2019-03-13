@@ -186,7 +186,6 @@ public class DomainFacade implements DomainFacadeInterface {
 				newIndexIsFound = true;
 			}
 		}
-		// System.out.println(tableName);
 		this.addTable(tableName);
 	}
 
@@ -355,7 +354,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public Map<UUID, Class> getColumnTypes(UUID tableId) {
+	public Map<UUID, Class<?>> getColumnTypes(UUID tableId) {
 		if (tableId == null) {
 			throw new DomainException("Cannot get column types of a table with a null id.");
 		}
@@ -377,6 +376,32 @@ public class DomainFacade implements DomainFacadeInterface {
 			return table.getIndexOfCellInColumnId(columnId, cellId);
 		} else {
 			throw new DomainException("No table found to return the column index.");
+		}
+	}
+
+	@Override
+	public void deleteRow(UUID tableId, UUID rowId) {
+		if (rowId == null || tableId == null) {
+			throw new DomainException("Cannot delete a row with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			table.deleteRow(rowId);
+		} else {
+			throw new DomainException("No table found to delete a row.");
+		}
+	}
+
+	@Override
+	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement) {
+		if (tableId == null || cellIdOfFirstElement == null) {
+			throw new DomainException("Cannot get a column of a table with a null id.");
+		}
+		Table table = getTable(tableId);
+		if (table != null) {
+			return table.getRowId(cellIdOfFirstElement);
+		} else {
+			throw new DomainException("No table found to return the column.");
 		}
 	}
 }

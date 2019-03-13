@@ -16,20 +16,21 @@ public class TableRowsViewMode extends TableViewMode {
 	private Container container;
 
 	public TableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
-			Map<UUID, Class> columnTypes) {
+			Map<UUID, Class<?>> columnTypes) {
 		super(tableId, tableName);
 		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		createTable(table, columnTypes);
 	}
 
 	private void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
-			Map<UUID, Class> columnTypes) {
+			Map<UUID, Class<?>> columnTypes) {
 		container = new Container(0, 0, 600, 600);
 		this.addComponent(new TextField(50, 5, 200, 25, "Table rows of: " + getTableName(), getId()));
 
 		RowsTable rowsTable = new RowsTable(50, 50, getId());
 		List<Cell> cellList = rowsTable.createTable(tableInformation, columnTypes);
- 
+		
+		this.clearStoredListeners();
 		for (Cell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
@@ -44,7 +45,7 @@ public class TableRowsViewMode extends TableViewMode {
 	}
 
 	public void updateRowsTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
-			Map<UUID, Class> columnTypes) {
+			Map<UUID, Class<?>> columnTypes) {
 		this.removeAllComponents();
 		this.removeAllClickAndKeyListeners();
 		this.createTable(tableInformation, columnTypes);

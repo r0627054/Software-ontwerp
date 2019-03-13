@@ -46,9 +46,13 @@ public interface DomainFacadeInterface {
 
 	public UUID getColumnId(UUID tableId, UUID cellId);
 
-	Map<UUID, Class> getColumnTypes(UUID tableId);
+	Map<UUID, Class<?>> getColumnTypes(UUID tableId);
 
 	public int getIndexOfCellInColumnId(UUID tableId, UUID columnId, UUID cellId);
+
+	public void deleteRow(UUID tableId, UUID rowId);
+
+	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement);
 
 //	public String getTableNameOfColumnId(UUID columnId);
 

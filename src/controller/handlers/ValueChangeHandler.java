@@ -19,7 +19,6 @@ public class ValueChangeHandler implements ChangeHandlerInterface {
 			try {
 				domainfacade.updateTableName(id, newTableName);
 			} catch (Exception e) {
-				System.out.println("Couldn't update the value!");
 				uifacade.throwError(id);
 			}
 		}

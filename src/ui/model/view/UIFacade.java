@@ -77,13 +77,13 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	@Override
 	public void openTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		this.getView().openTableRowsViewMode(tableId, tableName, table, columnTypes);
 	}
 
 	@Override
 	public void updateTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class> columnTypes) {
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		this.getView().updateTableRowsViewMode(tableId, tableName, table, columnTypes);
 	}
 

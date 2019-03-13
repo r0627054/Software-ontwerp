@@ -11,8 +11,8 @@ public class DeleteTableChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID id = (UUID) evt.getSource();
-			domainfacade.deleteTable(id);
+			UUID tableId = (UUID) evt.getSource();
+			domainfacade.deleteTable(tableId);
 			uifacade.updateTablesViewMode(domainfacade.getTableNames());
 		} catch (Exception e) {
 			e.printStackTrace();

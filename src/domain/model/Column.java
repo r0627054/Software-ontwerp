@@ -408,4 +408,10 @@ public class Column extends ObjectIdentifier {
 		return this.getCells().indexOf(getCellWithId(cellId));
 	}
 
+	public void deleteCell(int rowIndex) {
+		List<Cell> cells = this.getCells();
+		cells.remove(rowIndex);
+		this.setCells(cells);
+	}
+
 }
