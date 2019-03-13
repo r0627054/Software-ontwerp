@@ -65,17 +65,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	public void startup(Map<UUID, String> map) {
 		tablesViewMode = new TablesViewMode(map);
-		tablesViewMode.addPropertyChangeListener(this);
-		// addViewMode(tablesViewMode);
+		getTablesViewMode().addPropertyChangeListener(this);
 		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
-
-		/*
-		 * TableRowsViewMode tableRowsViewMode = new
-		 * TableRowsViewMode("TableRowsViewMode");
-		 * tableRowsViewMode.addPropertyChangeListener(this);
-		 * addViewMode(tableRowsViewMode);
-		 */
-		// changeModeTo("TablesViewMode");
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
@@ -392,4 +383,27 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void emulateKeyPress(int keyCode) {
 		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
 	}
+
+	public void resetViewModes() {
+		this.setTablesViewMode(new TablesViewMode(new HashMap<UUID, String>()));
+		this.setCurrentMode(getTablesViewMode());
+		getTablesViewMode().addPropertyChangeListener(this);
+		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
+		this.setViewModesMap(new HashMap<UUID, List<TableViewMode>>());
+	}
+
+	private void setViewModesMap(Map<UUID, List<TableViewMode>> map) {
+		if (map == null) {
+			throw new IllegalArgumentException("Cannot set View ViewModes map to null.");
+		}
+		this.viewModes = map;
+	}
+
+	private void setTablesViewMode(TablesViewMode newTablesViewMode) {
+		if (newTablesViewMode == null) {
+			throw new IllegalArgumentException("Cannot set a null TablesViewMode");
+		}
+		this.tablesViewMode = newTablesViewMode;
+	}
+
 }

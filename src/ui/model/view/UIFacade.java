@@ -144,4 +144,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		}
 	}
 
+	public void resetViewModes() {
+		this.getView().resetViewModes();		
+	}
+
 }

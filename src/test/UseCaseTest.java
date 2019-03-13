@@ -26,6 +26,7 @@ public abstract class UseCaseTest {
 	@BeforeEach
 	public void resetDomain() {
 		this.getDomainFacade().resetTables();
+		this.getUiFacade().resetViewModes();
 	}
 
 	protected void addDummyTable(String tableName) {
