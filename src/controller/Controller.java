@@ -14,13 +14,21 @@ public class Controller implements PropertyChangeListener {
 	private ChangeHandlerFactory changeHandler;
 
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
+		this(uiFacade, domainFacade, true);
+	}
+
+	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade, boolean show) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
 		setChangeHandler(new ChangeHandlerFactory());
 
 		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
-		this.getUiFacade().show();
+
+		if (show) {
+			//Testing purposes (use cases)
+			this.getUiFacade().show();
+		}
 	}
 
 	private void handleChange(PropertyChangeEvent evt) {

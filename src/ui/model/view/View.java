@@ -2,6 +2,7 @@ package ui.model.view;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -172,7 +173,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
-		currentMode.mouseClicked(id, x, y, clickCount);
+		getCurrentViewMode().mouseClicked(id, x, y, clickCount);
 	}
 
 	@Override
@@ -336,7 +337,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
-	public UUID getCurrentViewModeId() {
+	public UUID getCurrentTableViewModeTableId() {
 		ViewMode current = getCurrentViewMode();
 
 		if (current instanceof TableViewMode) {
@@ -380,11 +381,15 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.entrPressed = entrPressed;
 	}
 
-	public void emulateMouseClick(int id, int x, int y, int clickCount) {
-		this.handleMouseEvent(id, x, y, clickCount);
+	public void emulateClickClicked(int x, int y, int clickCount) {
+		this.handleMouseEvent(MouseEvent.MOUSE_CLICKED, x, y, clickCount);
 	}
 
-	public void emulateKeypress(int id, int keyCode, char keyChar) {
-		this.handleKeyEvent(id, keyCode, keyChar);
+	public void emulateKeyPress(char keyChar) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
+	}
+
+	public void emulateKeyPress(int keyCode) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
 	}
 }

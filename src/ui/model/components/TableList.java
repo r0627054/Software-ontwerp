@@ -13,33 +13,13 @@ public class TableList extends VerticalComponentList {
 		super(x, y, width, height);
 	}
 
-	@Override
-	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (!hasCurrentError())
-			if (id == MouseEvent.MOUSE_CLICKED) {
-				if (clickCount == 2 && y > this.getOffsetY()) {
-					propertyChanged(this.toString(), ChangeEventType.CREATE_TABLE.getEventString(), null, null);
-				}
-
-				for (Component c : getComponentsList()) {
-					EditableTextField textField = (EditableTextField) c;
-					c.outsideClick(id, x, y, clickCount);
-
-					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
-						textField.setSelectedForDelete(true);
-					} else {
-						textField.setSelectedForDelete(false);
-					}
-				}
-			}
-	}
-
 	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
 		for (Map.Entry<UUID, String> entry : map.entrySet()) {
-			TextField textField = new EditableTextField(50, 50, 200, 30, entry.getValue(), entry.getKey());
+			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey());
 			textField.addPropertyChangeListener(pcl);
 			this.addComponent(textField);
 		}
+		this.positionChildren();
 	}
 
 	@Override
@@ -64,6 +44,28 @@ public class TableList extends VerticalComponentList {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (!hasCurrentError()) {
 			super.mouseClicked(id, x, y, clickCount);
+		}
+	}
+
+	@Override
+	public void outsideClick(int id, int x, int y, int clickCount) {
+		if (!hasCurrentError()) {
+			if (id == MouseEvent.MOUSE_CLICKED) {
+				if (clickCount == 2 && y > this.getOffsetY()) {
+					propertyChanged(this.toString(), ChangeEventType.CREATE_TABLE.getEventString(), null, null);
+				}
+
+				for (Component c : getComponentsList()) {
+					EditableTextField textField = (EditableTextField) c;
+					c.outsideClick(id, x, y, clickCount);
+
+					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
+						textField.setSelectedForDelete(true);
+					} else {
+						textField.setSelectedForDelete(false);
+					}
+				}
+			}
 		}
 	}
 

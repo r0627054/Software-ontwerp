@@ -75,7 +75,6 @@ public class EditableTextField extends TextField {
 		}
 	}
 
-	
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 //		System.out.println("ETF KeyPressed");
@@ -123,7 +122,8 @@ public class EditableTextField extends TextField {
 
 	private void textChanged() {
 		this.setError(false);
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), this.getDefaultValue(), this.getText());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), this.getDefaultValue(),
+				this.getText());
 	}
 
 	private void textChangeSubmit() {
@@ -144,7 +144,10 @@ public class EditableTextField extends TextField {
 
 	private void setSelected(boolean selected) {
 		this.selected = selected;
-//		System.out.println("SET SELECTED TO: " + selected);
+		
+		if (this.isSelectedForDelete()) {
+			this.setSelectedForDelete(false);
+		}
 		propertyChanged();
 	}
 
@@ -194,7 +197,7 @@ public class EditableTextField extends TextField {
 	}
 
 	private void setDefaultValue(String defaultValue) {
-		if (defaultValue == null) { //TODO hier kom je nooit omdat superklasse reeds checkt op nullvalues
+		if (defaultValue == null) { // TODO hier kom je nooit omdat superklasse reeds checkt op nullvalues
 			throw new IllegalArgumentException("The default value cannot be null in an editable textfield.");
 		}
 		if (!isError())

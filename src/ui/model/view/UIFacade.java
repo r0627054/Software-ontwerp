@@ -1,5 +1,6 @@
 package ui.model.view;
 
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -66,7 +67,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		return this.getView().getCurrentViewModeType();
 	}
 
-	private View getView() {
+	public View getView() {
 		return this.view;
 	}
 
@@ -117,7 +118,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	@Override
 	public UUID getCurrentTableId() {
-		return this.getView().getCurrentViewModeId();
+		return this.getView().getCurrentTableViewModeTableId();
 	}
 
 	@Override
@@ -125,12 +126,22 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().setErrorDesignTableCell(columnIndex, columnId, newValue);
 	}
 
-	public void emulateClick(int id, int x, int y, int clickCount) {
-		this.getView().emulateMouseClick(id, x, y, clickCount);
+	public void emulateClickClicked(int x, int y, int clickCount) {
+		this.getView().emulateClickClicked(x, y, clickCount);
 	}
 
-	public void emulateKeyPress(int id, int keyCode, char keyChar) {
-		this.getView().emulateKeypress(id, keyCode, keyChar);
+	public void emulateKeyPress(char keyChar) {
+		this.getView().emulateKeyPress(keyChar);
+	}
+	
+	public void emulateKeyPress(int keyCode) {
+		this.getView().emulateKeyPress(keyCode);
+	}
+
+	public void emulateMultipleKeyPresses(char keyChar, int amount) {
+		for (int i = 0; i < amount; i++) {
+			this.getView().emulateKeyPress(keyChar);
+		}
 	}
 
 }

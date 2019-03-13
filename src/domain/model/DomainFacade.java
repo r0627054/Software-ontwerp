@@ -10,14 +10,13 @@ import java.util.UUID;
 public class DomainFacade implements DomainFacadeInterface {
 
 	private static DomainFacade dfInstance = null;
-	// private Map<String, Table> tableMap = new HashMap<>();
 	private Map<UUID, Table> tableMap = new HashMap<>();
 
 	private DomainFacade() {
-		addDummyTable();
+//		addDummyTable();
 	}
 
-	private void addDummyTable() {
+	public void addDummyTable(String tableName) {
 		Cell c01 = new Cell(ValueType.STRING, "Steven");
 		Cell c02 = new Cell(ValueType.STRING, "Mauro");
 		Cell c03 = new Cell(ValueType.STRING, "Dries");
@@ -63,9 +62,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		col3.addCells(Arrays.asList(colCells3));
 		col4.addCells(Arrays.asList(colCells4));
 
-		Table persons = new Table("Persons");
-		Table table2 = new Table("Second");
-		Table table3 = new Table("Third");
+		Table persons = new Table(tableName != null ? tableName : "Persons");
 
 		persons.addColumn(col1);
 		persons.addColumn(col2);
@@ -78,8 +75,6 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addRow(r4);
 
 		this.tableMap.put(persons.getId(), persons);
-		this.tableMap.put(table2.getId(), table2);
-		this.tableMap.put(table3.getId(), table3);
 	}
 
 	/**
@@ -400,5 +395,9 @@ public class DomainFacade implements DomainFacadeInterface {
 		} else {
 			throw new DomainException("No table found to return the column.");
 		}
+	}
+
+	public void resetTables() {
+		this.tableMap = new HashMap<>();
 	}
 }
