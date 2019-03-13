@@ -36,8 +36,17 @@ public enum ValueType {
 	 *        | new.getDefaultValue() == defaultValue
 	 */
 	private ValueType(Object defaultValue, Class<?> cl, String displayValue) {
+		setDefaultValue(defaultValue);
 		setDisplayValue(displayValue);
+		setCl(cl);
+	}
+
+	private void setCl(Class<?> cl) {
 		this.cl = cl;
+	}
+
+	private void setDefaultValue(Object defaultValue) {
+		this.defaultValue = defaultValue;
 	}
 
 	/**
@@ -52,7 +61,8 @@ public enum ValueType {
 		if (this.equals(EMAIL)) {
 			if (value instanceof String) {
 				String valueString = (String) value;
-				return value.getClass().equals(this.getTypeClass()) && valueString.contains("@");
+				return value.getClass().equals(this.getTypeClass())
+						&& (valueString.indexOf("@") == valueString.lastIndexOf("@"));
 			}
 		}
 		return (value == null || value.getClass().equals(this.getTypeClass()));

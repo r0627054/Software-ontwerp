@@ -213,8 +213,10 @@ public class Column extends ObjectIdentifier {
 	 * 			| new.getDefaultValue().equals(value)
 	 */
 	public void setDefaultValue(Object value) {
-		if (value == null && !this.allowsBlanks)
+		if (value == null && !this.allowsBlanks) {
+			System.out.println(value);
 			throw new DomainException("Blanks are not allowed as default value.");
+		}
 		if (!getType().canHaveAsValue(value) && value != null)
 			throw new DomainException("Invalid default column value.");
 		this.defaultValue = value;

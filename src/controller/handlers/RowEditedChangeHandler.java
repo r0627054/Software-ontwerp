@@ -41,7 +41,6 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeCover
 			uifacade.unpause(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		} catch (DomainException | NumberFormatException e) {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
-			e.printStackTrace();
 			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}
 

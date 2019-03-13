@@ -25,7 +25,7 @@ public class TableList extends VerticalComponentList {
 					EditableTextField textField = (EditableTextField) c;
 					c.outsideClick(id, x, y, clickCount);
 
-					if (y > c.getY() && y < c.getOffsetY()) {
+					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
 						textField.setSelectedForDelete(true);
 					} else {
 						textField.setSelectedForDelete(false);

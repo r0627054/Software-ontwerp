@@ -25,13 +25,13 @@ public class DomainFacade implements DomainFacadeInterface {
 
 		Cell c11 = new Cell(ValueType.BOOLEAN, true);
 		Cell c12 = new Cell(ValueType.BOOLEAN, true);
-		Cell c13 = new Cell(ValueType.BOOLEAN, false);
+		Cell c13 = new Cell(ValueType.BOOLEAN, null);
 		Cell c14 = new Cell(ValueType.BOOLEAN, false);
 
 		Cell c21 = new Cell(ValueType.INTEGER, 10);
 		Cell c22 = new Cell(ValueType.INTEGER, 20);
 		Cell c23 = new Cell(ValueType.INTEGER, 30);
-		Cell c24 = new Cell(ValueType.INTEGER, 40);
+		Cell c24 = new Cell(ValueType.INTEGER, null);
 
 		Cell c31 = new Cell(ValueType.EMAIL, null);
 		Cell c32 = new Cell(ValueType.EMAIL, "M@");
@@ -53,10 +53,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		Cell colCells3[] = { c21, c22, c23, c24 };
 		Cell colCells4[] = { c31, c32, c33, c34 };
 
-		Column col1 = new Column("Name", ValueType.STRING, false);
-		Column col2 = new Column("Baas", ValueType.BOOLEAN, true);
-		Column col3 = new Column("Age", ValueType.INTEGER, true);
-		Column col4 = new Column("Email", ValueType.EMAIL, true);
+		Column col1 = new Column("Name", ValueType.STRING);
+		Column col2 = new Column("Baas", ValueType.BOOLEAN);
+		Column col3 = new Column("Age", ValueType.INTEGER);
+		Column col4 = new Column("Email", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));

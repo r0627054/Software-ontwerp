@@ -217,7 +217,13 @@ public class Table extends ObjectIdentifier {
 				newIndexIsFound = true;
 			}
 		}
-		this.addColumn(new Column(columnName));
+
+		Column newColumn = new Column(columnName);
+		for (int j = 0; j < this.getRows().size(); j++) {
+			newColumn.addCell(new Cell(newColumn.getType(), newColumn.getDefaultValue()));
+		}
+
+		this.addColumn(newColumn);
 	}
 
 	private boolean columnNameAlreadyExists(String columnName) {

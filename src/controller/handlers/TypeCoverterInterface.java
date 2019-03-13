@@ -9,7 +9,7 @@ public interface TypeCoverterInterface {
 
 	default Integer getNewIntegerDefaultValue(Object newDefaultValue) {
 		String defaultValueString = (String) newDefaultValue;
-		if (defaultValueString.trim().isEmpty()) {
+		if (defaultValueString == null || defaultValueString.trim().isEmpty()) {
 			return null;
 		} else if (defaultValueString.length() > 1 && defaultValueString.startsWith("0")) {
 			throw new DomainException("Leading zeroes on the integer.");
