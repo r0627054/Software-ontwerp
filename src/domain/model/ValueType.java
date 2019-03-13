@@ -20,7 +20,7 @@ public enum ValueType {
 	/**
 	 * Variable storing the Class of the type.
 	 */
-	private Class cl;
+	private Class<?> cl;
 
 	private String displayValue;
 
@@ -35,10 +35,9 @@ public enum ValueType {
 	 *        | new.getTypeClass() == cl
 	 *        | new.getDefaultValue() == defaultValue
 	 */
-	private ValueType(Object defaultValue, Class cl, String displayValue) {
-		this.defaultValue = defaultValue;
+	private ValueType(Object defaultValue, Class<?> cl, String displayValue) {
+		setDisplayValue(displayValue);
 		this.cl = cl;
-		this.displayValue = displayValue;
 	}
 
 	/**
@@ -70,7 +69,7 @@ public enum ValueType {
 	/**
 	 * Returns the class Object of the ValueType.
 	 */
-	public Class getTypeClass() {
+	public Class<?> getTypeClass() {
 		return this.cl;
 	}
 

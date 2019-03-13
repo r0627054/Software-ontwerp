@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,8 +18,6 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	private void addDummyTable() {
-		List<Cell> cellList = new ArrayList<>();
-
 		Cell c01 = new Cell(ValueType.STRING, "Steven");
 		Cell c02 = new Cell(ValueType.STRING, "Mauro");
 		Cell c03 = new Cell(ValueType.STRING, "Dries");

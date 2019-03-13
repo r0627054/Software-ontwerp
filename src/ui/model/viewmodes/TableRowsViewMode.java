@@ -8,7 +8,6 @@ import java.util.UUID;
 import ui.model.components.Cell;
 import ui.model.components.Component;
 import ui.model.components.Container;
-import ui.model.components.DesignTable;
 import ui.model.components.RowsTable;
 import ui.model.components.TextField;
 

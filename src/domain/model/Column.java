@@ -143,6 +143,7 @@ public class Column extends ObjectIdentifier {
 		this.setType(type);
 	}
 
+	@SuppressWarnings("unused")
 	private boolean canBeCastedTo(Object value, ValueType castType) {
 		try {
 			if (castType.equals(ValueType.BOOLEAN)) {

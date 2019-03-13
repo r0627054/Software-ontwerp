@@ -71,7 +71,7 @@ public abstract class Component {
 		this.setHeight(height);
 		this.setWidth(width);
 		this.setHidden(hidden);
-		this.support = new PropertyChangeSupport(this);
+		this.setSupport(new PropertyChangeSupport(this));
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {

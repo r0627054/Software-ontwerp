@@ -10,6 +10,11 @@ package domain.model;
 public class DomainException extends RuntimeException {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * Creates new DomainException without parameters
 	 * 
 	 */

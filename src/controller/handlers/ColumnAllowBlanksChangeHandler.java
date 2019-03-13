@@ -14,7 +14,6 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 		UUID columnId = (UUID) evt.getSource();
 		
 		boolean newBool = (boolean) evt.getNewValue();
-		boolean oldBool = (boolean) evt.getOldValue();
 		UUID tableId = uifacade.getCurrentTableId();
 		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Allow Blanks");		
 		
