@@ -10,7 +10,7 @@ package domain.model;
 public class DomainException extends RuntimeException {
 
 	/**
-	 * 
+	 * The serial version unique ID variable.
 	 */
 	private static final long serialVersionUID = 1L;
 
