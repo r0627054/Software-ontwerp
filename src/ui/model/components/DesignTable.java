@@ -147,8 +147,6 @@ public class DesignTable extends EditableComponent {
 		this.rows = rows;
 		this.setWidth(rows.getSumWidthFromChildren());
 		this.setHeight(rows.getSumHeightFromChildren());
-		// this.setX(rows.getX());
-		// this.setY(this.getY());
 	}
 
 	private void checkPaintDeleteSelectedColumn() {
@@ -176,6 +174,7 @@ public class DesignTable extends EditableComponent {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		// Don't call the mouseClicked on the children!
+		this.resetDeleteCells();
 	}
 
 	@Override

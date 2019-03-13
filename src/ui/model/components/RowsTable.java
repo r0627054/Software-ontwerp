@@ -71,6 +71,7 @@ public class RowsTable extends EditableComponent {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		// Don't call the mouseClicked on the children!
+		this.resetDeleteCells();
 	}
 
 	@Override
