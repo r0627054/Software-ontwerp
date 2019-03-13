@@ -26,7 +26,7 @@ class ContainerListTest {
 	 */
 	@Test
 	void test1CreateContainerWithoutComponents() {
-		contList = new ContainerList(x, y, width, height);
+		contList = new HorizontalComponentList(x, y);
 		assertTrue(this.width == contList.getWidth() && this.height == contList.getHeight());
 	}
 	
@@ -38,7 +38,7 @@ class ContainerListTest {
 		listItems.add(comp1);
 		listItems.add(comp2);
 		listItems.add(comp3);
-		contList = new ContainerList(x, y, width, height,listItems);
+		contList = new HorizontalComponentList(x, y, listItems);
 		assertEquals(listItems.hashCode(), contList.getComponentsList().hashCode());
 	}
 

@@ -29,7 +29,7 @@ public class TextField extends EditableComponent {
 
 	private void setFont(Font font) {
 		if (font == null)
-			throw new IllegalArgumentException("Font cannot be null inside a TextField.");
+			throw new IllegalArgumentException("Font cannot be null inside a TextField."); //TODO hier kom je nooit
 		this.font = font;
 	}
 
