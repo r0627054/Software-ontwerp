@@ -81,10 +81,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		support.addPropertyChangeListener(pcl);
 	}
 
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
-	}
-
 	/**
 	 * Paints the current mode.
 	 */
@@ -382,5 +378,13 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 
 	private void setEntrPressed(boolean entrPressed) {
 		this.entrPressed = entrPressed;
+	}
+
+	public void emulateMouseClick(int id, int x, int y, int clickCount) {
+		this.handleMouseEvent(id, x, y, clickCount);
+	}
+
+	public void emulateKeypress(int id, int keyCode, char keyChar) {
+		this.handleKeyEvent(id, keyCode, keyChar);
 	}
 }

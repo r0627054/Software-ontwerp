@@ -31,7 +31,7 @@ public class CheckBox extends EditableComponent {
 	private void setChecked(boolean checked) {
 		this.checked = checked;
 //		System.out.println("new Checked value! =" + checked);
-		propertyChanged(this.getId(), ChangeEventType.VALUE.toString(), !this.isChecked(), this.isChecked());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.toString(), !this.isChecked(), this.isChecked());
 	}
 
 	public boolean isChecked() {

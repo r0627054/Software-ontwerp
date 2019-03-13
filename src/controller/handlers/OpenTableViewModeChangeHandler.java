@@ -9,7 +9,7 @@ import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 import ui.model.viewmodes.ViewModeType;
 
-public class DoubleClickChangeHandler implements ChangeHandlerInterface {
+public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
 
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {

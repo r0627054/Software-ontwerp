@@ -16,7 +16,7 @@ public class ToggleTextField extends TextField {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
-			this.propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), getText(), null);
+			this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), getText(), null);
 		}
 	}
 

@@ -125,4 +125,12 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().setErrorDesignTableCell(columnIndex, columnId, newValue);
 	}
 
+	public void emulateClick(int id, int x, int y, int clickCount) {
+		this.getView().emulateMouseClick(id, x, y, clickCount);
+	}
+
+	public void emulateKeyPress(int id, int keyCode, char keyChar) {
+		this.getView().emulateKeypress(id, keyCode, keyChar);
+	}
+
 }

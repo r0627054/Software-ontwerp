@@ -3,14 +3,10 @@ package controller.handlers;
 public enum ChangeEventType {
 
 	REPAINT("repaint"),
-	CHECKED("checked"),
-	VALUE("value"),
-	DEFAULT_VALUE("defaultValue"),
-	DOUBLEClICK("doubleClick"),
+	
+	OPEN_TABLEVIEWMODE("openTableViewMode"),
 	SWITCH_VIEWMODE("switchViewMode"),
-	
-	ROW_EDITED("rowEdited"),
-	
+		
 	CREATE_TABLE("createTable"), 
 	CREATE_ROW("createRow"),
 	CREATE_COLUMN("createColumn"),
@@ -19,10 +15,13 @@ public enum ChangeEventType {
 	DELETE_ROW("deleteRow"),
 	DELETE_COLUMN("deleteColumn"), 
 	
+	COLUMN_CHANGE_NAME("columnChangeName"),
 	COLUMN_CHANGE_TYPE("columnChangeType"), 
 	COLUMN_CHANGE_DEFAULT_VALUE("columnChangeDefaultValue"), 
-	COLUMN_CHANGE_ALLOW_BLANKS("columnChangeAllowBlanks"), 
-	COLUMN_CHANGE_NAME("columnChangeName");
+	COLUMN_CHANGE_ALLOW_BLANKS("columnChangeAllowBlanks"),
+	
+	TABLE_CHANGE_NAME("tableChangeName"),
+	ROW_EDITED("rowEdited");
 	
 	private final String eventString;
 

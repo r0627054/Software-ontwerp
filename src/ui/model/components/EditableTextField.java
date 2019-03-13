@@ -114,7 +114,7 @@ public class EditableTextField extends TextField {
 	private void textResetSubmit() {
 		this.setError(false);
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), "", this.getDefaultValue());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), "", this.getDefaultValue());
 	}
 
 	private void delete() {
@@ -123,7 +123,7 @@ public class EditableTextField extends TextField {
 
 	private void textChanged() {
 		this.setError(false);
-		propertyChanged(this.getId(), ChangeEventType.VALUE.getEventString(), this.getDefaultValue(), this.getText());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), this.getDefaultValue(), this.getText());
 	}
 
 	private void textChangeSubmit() {
@@ -135,7 +135,7 @@ public class EditableTextField extends TextField {
 	private void doubleClicked() {
 //		System.out.println("Double Click ETF");
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.DOUBLEClICK.getEventString(), null, this.getText());
+		propertyChanged(this.getId(), ChangeEventType.OPEN_TABLEVIEWMODE.getEventString(), null, this.getText());
 	}
 
 	public boolean isSelected() {

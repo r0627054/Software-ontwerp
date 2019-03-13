@@ -49,7 +49,6 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	private void createComponent(Object value, UUID id, Class<?> cellType) {
 		Component component;
 		
-		System.out.println(cellType);
 		if (cellType == Boolean.class) {
 			if (value == null) {
 				component = new TextField(0, 0, 100, 50, "", id);

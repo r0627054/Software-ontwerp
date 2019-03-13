@@ -21,5 +21,4 @@ public class DeleteColumnChangeHandler implements ChangeHandlerInterface {
 			e.printStackTrace();
 		}
 	}
-
 }

@@ -3,11 +3,12 @@ package controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import controller.handlers.ChangeEventType;
 import controller.handlers.ChangeHandlerFactory;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
-public class Controller implements PropertyChangeListener{
+public class Controller implements PropertyChangeListener {
 	private UIFacadeInterface uiFacade;
 	private DomainFacadeInterface domainFacade;
 	private ChangeHandlerFactory changeHandler;
@@ -15,10 +16,15 @@ public class Controller implements PropertyChangeListener{
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
+		setChangeHandler(new ChangeHandlerFactory());
+
 		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 		this.getUiFacade().show();
-		changeHandler = new ChangeHandlerFactory();
+	}
+
+	private void handleChange(PropertyChangeEvent evt) {
+		changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
 	}
 
 	public UIFacadeInterface getUiFacade() {
@@ -26,6 +32,9 @@ public class Controller implements PropertyChangeListener{
 	}
 
 	private void setUiFacade(UIFacadeInterface uiFacade) {
+		if (uiFacade == null) {
+			throw new IllegalArgumentException("Cannot set a null uiFacade.");
+		}
 		this.uiFacade = uiFacade;
 	}
 
@@ -34,23 +43,24 @@ public class Controller implements PropertyChangeListener{
 	}
 
 	private void setDomainFacade(DomainFacadeInterface domainFacade) {
+		if (domainFacade == null) {
+			throw new IllegalArgumentException("Cannot set a null domainFacade.");
+		}
 		this.domainFacade = domainFacade;
 	}
-	
-	public void addTable(String name) {
-		this.domainFacade.addTable(name);
-	}
 
-	private void handleChange(PropertyChangeEvent evt) {
-		changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
+	private void setChangeHandler(ChangeHandlerFactory changeHandler) {
+		if (changeHandler == null) {
+			throw new IllegalArgumentException("Cannot set a null changeHandler.");
+		}
+		this.changeHandler = changeHandler;
 	}
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if(!evt.getPropertyName().equalsIgnoreCase("repaint")) {
+		if (!evt.getPropertyName().equalsIgnoreCase(ChangeEventType.REPAINT.getEventString())) {
 			handleChange(evt);
 		}
 	}
-
 
 }
