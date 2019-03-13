@@ -43,19 +43,33 @@ class EditableTextFieldTest {
 	}
 	
 	/**
-	 * Test 3 : Click the mouse twice
+	 * Test 3 : ClickOutsideComponent
+	 * | should not be selected
+	 */
+	
+	@Test
+	void test3MouseClickedCount1WithinComponent() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x, y, 1); 
+		assertFalse(etextf.isSelected());
+	}
+	
+	/**
+	 * Test 4 : Click the mouse twice
 	 * | in a component. The component should be unselected
 	 */
 	@Test
-	void test3MouseClickedCountTwiceWithinComponent() {
+	void test4MouseClickedCountTwiceWithinComponent() {
 		etextf = new EditableTextField(x, y, width, height, testValue, id);
 		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 2);
 		assertFalse(etextf.isSelected()); 
 	}
 	
-	
+	/**
+	 * Test 5 : //TODO
+	 */
 	@Test
-	void test4OnErrorSetSelectedAndReturnCursorPosition() {
+	void test5OnErrorSetSelectedAndReturnCursorPosition() {
 		etextf = new EditableTextField(x, y, width, height, testValue, id);
 		etextf.setError(true);
 		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
@@ -70,11 +84,11 @@ class EditableTextFieldTest {
 	}
 	
 	/**
-	 * Test 5 : On mouse actions different from mouseclick
+	 * Test 6 : On mouse actions different from mouseclick
 	 * | nothing should be changed or done.
 	 */
 	@Test
-	void test5MouseDraggedCountTwiceShouldResetCursorPosition() {
+	void test6MouseDraggedCountTwiceShouldResetCursorPosition() {
 		etextf = new EditableTextField(x, y, width, height, testValue, id);
 		int before = etextf.hashCode();
 		etextf.mouseClicked(MouseEvent.MOUSE_DRAGGED, x+1, y+1, 1);
@@ -228,27 +242,142 @@ class EditableTextFieldTest {
 				);
 	}
 	
-//	/**
-//	 * Test 15 : Press <BACKSPACE>
-//	 * | when the <BACKSPACE> is pressed and the component selected
-//	 * | the char right before the cursor should be removed
-//	 */
-//	@Test
-//	void test15PressBackSpaceWhenSelected() {
-//		etextf = new EditableTextField(x, y, width, height, testValue, id);
-//		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
-//		int positionBefore = etextf.getPosition();
-//		String textBefore = etextf.getText();
-//		char myChar = '.'; // maakt hier niet uit
-//		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_LEFT,'_');
-//		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_BACK_SPACE, myChar);
-//		assertAll(
-//				() -> assertNotEquals(textBefore, etextf.getText()),
-//				() -> assertEquals(positionBefore -1, etextf.getPosition())
-//				);
-//	}
+	/**
+	 * Test 15 : Press <ENTER>
+	 * | when the <ENTER> is pressed and the component selected
+	 * | the edited text is submitted.
+	 * | Text should be changed and component should unselect
+	 */
+	@Test
+	void test15PressEnterWhenSelected() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_ENTER, myChar);
+		assertFalse(etextf.isSelected());
+	}
 	
+	/**
+	 * Test 16 : Press <ESC>
+	 * | when the <ESC> is pressed and the component selected
+	 * | the text is set to defaultvalue and the component is unselect.
+	 */
+	@Test
+	void test16PressEscapeWhenSelected() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_N, myChar);
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_N, myChar);
+		String textBeforeEscape = etextf.getText();
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_ESCAPE, myChar);
+		assertAll(
+				() -> assertEquals(etextf.getDefaultValue(), etextf.getText()),
+				() -> assertFalse(etextf.isSelected())
+				);
+	}
 	
+	/**
+	 * Test 17 : Trigger anything other than MouseEvent.MOUSE_CLICKED
+	 */
+	@Test
+	void test17PressNoKeyWhenSelected() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		int hashCode = etextf.hashCode();
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.VK_B, KeyEvent.VK_N, myChar);
+		assertEquals(hashCode, etextf.hashCode());
+		
+	}
+	
+
+	/**
+	 * Test 18 : Press any key with unselected component
+	 * | nothing should be changed.
+	 */
+	@Test
+	void test18PressKeyWhenNotSelected() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		int hashCode = etextf.hashCode();
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_N, myChar);
+		assertEquals(hashCode, etextf.hashCode());
+	}
+	
+	/**
+	 * Test 19 : Delete component and press delete
+	 */
+	@Test
+	void test19DeleteComponent() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		etextf.setSelectedForDelete(true);
+		
+		int hashCode = etextf.hashCode();
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.KEY_PRESSED, KeyEvent.VK_DELETE, myChar);		
+	}
+
+	/**
+	 * Test 20 : Delete component and press delete
+	 */
+	@Test
+	void test20DeleteComponent() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		etextf.setSelectedForDelete(false);
+		
+		int hashCode = etextf.hashCode();
+		char myChar = 'p'; // maakt hier niks uit
+		etextf.keyPressed(KeyEvent.VK_D, KeyEvent.VK_DELETE, myChar);		
+	}
+	
+	/**
+	 * Test 21 : Outside click with nothing selected
+	 * | shoudl stay unselected
+	 */
+	@Test
+	void test21OutsideClick() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.outsideClick(MouseEvent.MOUSE_CLICKED, x -20, y -20, 1);
+		assertFalse(etextf.isSelected());
+		
+	}
+	
+	/**
+	 * Test 22 : Outside click with an item selected
+	 * | should unselect component
+	 */
+	@Test
+	void test22OutsideClick() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.mouseClicked(MouseEvent.MOUSE_CLICKED, x+1, y+1, 1); 
+		etextf.outsideClick(MouseEvent.MOUSE_CLICKED, x -20, y -20, 1);
+		assertFalse(etextf.isSelected());
+		
+	}
+	
+	/**
+	 * Test 23 : Throw when ids are the same.
+	 */
+	@Test
+	void test23ThrowError() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.throwError(id);
+		assertTrue(etextf.isError());
+	}
+	
+	/**
+	 * Test 24 : Dont throw when ids are different
+	 */
+	@Test
+	void test24ThrowErrorWithOtherId() {
+		etextf = new EditableTextField(x, y, width, height, testValue, id);
+		etextf.throwError(UUID.randomUUID());
+		assertFalse(etextf.isError());
+		
+	}
 	
 	
 	
