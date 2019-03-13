@@ -34,7 +34,12 @@ class VerticalComponentListTest {
 	@Test
 	void test1ConstructorWithInitParams() {
 	vc = new VerticalComponentList(x, y, width, height); 
-	assertTrue(x == vc.getX() && y == vc.getY() && 0 == vc.getWidth() && 0 == vc.getHeight());
+	assertAll(
+			() -> assertTrue(x == vc.getX()),
+			() -> assertTrue(y == vc.getY()),
+			() -> assertTrue(0 == vc.getWidth()),
+			() -> assertTrue(0 == vc.getHeight())
+			);
 	}
 	
 	
@@ -49,7 +54,8 @@ class VerticalComponentListTest {
 		comp3.setWidth(678);
 		listItems.add(comp2);
 		listItems.add(comp3);
-		vc = new VerticalComponentList(x, y, width, height, listItems);
+		vc = new VerticalComponentList(x, y, listItems);
+		assertEquals(comp3, vc.getComponentsList().get(2));
 		assertTrue(this.x == vc.getX() && this.y == vc.getY() && 678 == vc.getWidth() && (comp1.getHeight() + comp2.getHeight() + comp3.getHeight()) == vc.getHeight());
 	}
 	
@@ -70,7 +76,7 @@ class VerticalComponentListTest {
 	void test4AddComponentToList() {
 		listItems.add(comp1);
 		listItems.add(comp2);
-		vc = new VerticalComponentList(x, y, width, height, listItems);
+		vc = new VerticalComponentList(x, y, listItems);
 		vc.addComponent(comp3);
 		assertEquals(comp3.hashCode(), vc.getComponentsList().get(vc.getComponentsList().size() -1).hashCode());
 	}
@@ -80,11 +86,22 @@ class VerticalComponentListTest {
 	 * | should throw an exception from the super container class
 	 */
 	@Test
-	void testAddNullComponentToList() {
+	void test4AddNullComponentToList() {
 		listItems.add(comp1);
 		listItems.add(comp2);
-		vc = new VerticalComponentList(x, y, width, height, listItems);
+		vc = new VerticalComponentList(x, y, listItems);
 		Exception e = assertThrows(IllegalArgumentException.class, () -> vc.addComponent(null));
 		assertEquals("Null component cannot be added to a container", e.getMessage());
+	}
+	
+	/**
+	 * Test 5 :
+	 */
+	@Test
+	void test5GetOffsetX() {
+		listItems.add(comp1);
+		listItems.add(comp2);
+		vc = new VerticalComponentList(x, y, listItems);
+		assertEquals(vc.getX() + vc.getMaxWidthFromChildren(), vc.getOffsetX());
 	}
 }
