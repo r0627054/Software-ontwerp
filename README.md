@@ -4,6 +4,11 @@ NEW:
 Class diagram: edit: https://creately.com/app?diagid=jt5ucv541
                view: https://creately.com/diagram/jt5ucv541
 
+#sequence diagrams
+https://drive.google.com/open?id=1TU7be4tzfudrFzkHFQOawKa7VE5z5UXW
+
+
+
 
 
 
