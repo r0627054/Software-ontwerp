@@ -28,7 +28,6 @@ public abstract class UseCaseTest {
 
 	@BeforeAll
 	public static void init() {
-		System.out.println("TestInit");
 		setUiFacade(UIFacade.getInstance());
 		setDomainFacade(DomainFacade.getInstance());
 		setController(new Controller(uiFacade, domainFacade, false));
@@ -129,7 +128,7 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableEmailColumnEmailCellValues() {
-		Cell c1 = new Cell(ValueType.EMAIL, null);
+		Cell c1 = new Cell(ValueType.EMAIL, "A@");
 		Cell c2 = new Cell(ValueType.EMAIL, "M@");
 		Cell c3 = new Cell(ValueType.EMAIL, "D@");
 
@@ -236,4 +235,201 @@ public abstract class UseCaseTest {
 		getDomainFacade().addMockedTable(table);
 	}
 
+	protected void addDummyTableStringColumnNullCellValues() {
+		Cell c1 = new Cell(ValueType.STRING, null);
+		Cell c2 = new Cell(ValueType.STRING, null);
+		Cell c3 = new Cell(ValueType.STRING, null);
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("String", ValueType.STRING);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("Table");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+	
+	protected void addDummyTableEmailColumnNullCellValues() {
+		Cell c1 = new Cell(ValueType.EMAIL, null);
+		Cell c2 = new Cell(ValueType.EMAIL, null);
+		Cell c3 = new Cell(ValueType.EMAIL, null);
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Email", ValueType.EMAIL);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("Table");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+	
+	protected void addDummyTableBooleanColumnNullCellValues() {
+		Cell c1 = new Cell(ValueType.BOOLEAN, null);
+		Cell c2 = new Cell(ValueType.BOOLEAN, null);
+		Cell c3 = new Cell(ValueType.BOOLEAN, null);
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Boolean", ValueType.BOOLEAN);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("Table");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+	
+	protected void addDummyTableIntegerColumnNullCellValues() {
+		Cell c1 = new Cell(ValueType.INTEGER, null);
+		Cell c2 = new Cell(ValueType.INTEGER, null);
+		Cell c3 = new Cell(ValueType.INTEGER, null);
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Integer", ValueType.INTEGER);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("Table");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+
+
+	protected void addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue() {
+		Cell c1 = new Cell(ValueType.STRING, "@E");
+		Cell c2 = new Cell(ValueType.STRING, "M@");
+		Cell c3 = new Cell(ValueType.STRING, "D@");
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Email", ValueType.STRING);
+		col1.setDefaultValue("default@email");
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("DummyEmail");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+	
+	protected void addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed() {
+		Cell c1 = new Cell(ValueType.STRING, "@E");
+		Cell c2 = new Cell(ValueType.STRING, "M@");
+		Cell c3 = new Cell(ValueType.STRING, "D@");
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Email", ValueType.STRING);
+		col1.setDefaultValue("default@email");
+		col1.setAllowsBlanks(false);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("DummyEmail");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
+
+	public void addDummyEmptyTableBooleanColumnVariableAllowsBlank(boolean allowsBlank) {
+		Column col1 = new Column("EmptyBoolean", ValueType.BOOLEAN);
+		col1.setAllowsBlanks(allowsBlank);
+		
+		Table table = new Table("Table");
+		table.addColumn(col1);
+
+		getDomainFacade().addMockedTable(table);
+	}
+	
+	public void addDummyEmptyTableEmailColumnVariableAllowsBlank(boolean allowsBlank) {
+		Column col1 = new Column("EmptyEmail", ValueType.EMAIL);
+		col1.setAllowsBlanks(allowsBlank);
+		
+		Table table = new Table("Table");
+		table.addColumn(col1);
+
+		getDomainFacade().addMockedTable(table);
+	}
+	
+	public void addDummyEmptyIntegerColumnWithVariableAllowsBlank(boolean allowsBlank) {
+		Column col1 = new Column("EmptyInt", ValueType.INTEGER);
+		col1.setAllowsBlanks(allowsBlank);
+		
+		Table table = new Table("Table");
+		table.addColumn(col1);
+
+		getDomainFacade().addMockedTable(table);
+	}
+
+	
 }

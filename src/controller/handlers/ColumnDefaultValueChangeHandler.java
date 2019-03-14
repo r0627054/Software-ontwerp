@@ -8,7 +8,7 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
-public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeCoverterInterface {
+public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeConverterInterface {
 
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {

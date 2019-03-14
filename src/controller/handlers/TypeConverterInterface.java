@@ -5,7 +5,7 @@ import java.util.List;
 
 import domain.model.DomainException;
 
-public interface TypeCoverterInterface {
+public interface TypeConverterInterface {
 
 	default Integer getNewIntegerDefaultValue(Object newDefaultValue) {
 		String defaultValueString = (String) newDefaultValue;

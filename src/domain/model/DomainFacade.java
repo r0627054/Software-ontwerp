@@ -34,7 +34,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * This constructor is only called once.
 	 */
 	private DomainFacade() {
-		addDummyTable("String");
+//		addDummyTable("String");
 	}
 
 	/**
