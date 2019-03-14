@@ -1,4 +1,4 @@
-package test;
+package usecases;
 
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.suite.api.SelectClasses;

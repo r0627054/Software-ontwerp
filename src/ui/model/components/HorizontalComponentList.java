@@ -37,7 +37,7 @@ public class HorizontalComponentList extends ContainerList {
 	@Override
 	public void paint(Graphics2D g) {
 		positionChildren();
-		//System.out.println("HorizontalComponentList paint method");
+		// System.out.println("HorizontalComponentList paint method");
 		for (Component c : getComponentsList()) {
 			c.paint((Graphics2D) g.create());
 		}
@@ -48,10 +48,28 @@ public class HorizontalComponentList extends ContainerList {
 		super.addComponent(c);
 		positionChildren();
 	}
-	
+
 	@Override
 	public int getOffsetY() {
 		return this.getY() + getMaxHeightFromChildren();
+	}
+
+	@Override
+	protected void setY(int y) {
+		super.setY(y);
+
+		if (this.getComponentsList() != null) {
+			positionChildren();
+		}
+	}
+
+	@Override
+	protected void setX(int x) {
+		super.setX(x);
+
+		if (this.getComponentsList() != null) {
+			positionChildren();
+		}
 	}
 
 }

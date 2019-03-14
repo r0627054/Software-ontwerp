@@ -139,7 +139,6 @@ public class Column extends ObjectIdentifier {
 		this.type = type;
 	}
 
-	
 	/**
 	 * Updates the type of the column. It checks whether the default value and all the cells
 	 * of the table can be casted to this new type.
@@ -158,46 +157,23 @@ public class Column extends ObjectIdentifier {
 		if (type == null) {
 			throw new DomainException("Invalid column type for the column.");
 		}
-		if (!canBeCastedTo(getDefaultValue(), type)) {
+		if (!type.canHaveAsValue(getDefaultValue())) {
 			throw new DomainException("Default value cannot be cast to the new type.");
 		}
 		for (Cell c : getCells()) {
-			if (!canBeCastedTo(c.getValue(), type)) {
+			if (!type.canHaveAsValue(c.getValue())) {
 				throw new DomainException("Cell value cannot be cast to the new type.");
 			}
 		}
 		this.setType(type);
+		for (Cell c : getCells()) {
+			c.setType(type);
+		}
+		this.changeDefaultValueType(type);
 	}
 
-	/**
-	 * Checks whether the given value can be casted to the castType.
-	 * 
-	 * @param value
-	 *        | A possible value of which can be stored in the column. 
-	 * @param castType
-	 *        | The ValueType which the object is tried to be casted.
-	 * @return true if the value can be casted to the given castType, false otherwise.
-	 */
-	@SuppressWarnings("unused")
-	private boolean canBeCastedTo(Object value, ValueType castType) {
-		try {
-			if (castType.equals(ValueType.BOOLEAN)) {
-				Boolean casted = (Boolean) value;
-				return true;
-			} else if (castType.equals(ValueType.EMAIL)) {
-				String casted = (String) value;
-				return casted.contains("@");
-			} else if (castType.equals(ValueType.STRING)) {
-				String casted = (String) value;
-				return true;
-			} else if (castType.equals(ValueType.INTEGER)) {
-				Integer casted = (Integer) value;
-				return true;
-			}
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
+	private void changeDefaultValueType(ValueType type) {
+		this.setDefaultValue(type.castTo(getDefaultValue()));
 	}
 
 	/**
@@ -369,7 +345,7 @@ public class Column extends ObjectIdentifier {
 	 */
 	public LinkedHashMap<String, Object> getCharacteristics() {
 		LinkedHashMap<String, Object> characteristics = new LinkedHashMap<>();
-		
+
 		characteristics.put("Column Name", getName());
 		characteristics.put("Type", getType().toString());
 		characteristics.put("Allow Blanks", new Boolean(isAllowsBlanks()));
@@ -400,7 +376,6 @@ public class Column extends ObjectIdentifier {
 		return -1;
 	}
 
-	
 	/**
 	 * Updates the allowBlanks variable.
 	 * This functions first checks whether the given value can be set.
@@ -450,7 +425,7 @@ public class Column extends ObjectIdentifier {
 		if (!this.isAllowsBlanks() && newDefaultValue == null) {
 			throw new DomainException("Default value is still blank");
 		}
-		if (!canBeCastedTo(newDefaultValue, this.getType())) {
+		if (!this.getType().canHaveAsValue(newDefaultValue)) {
 			throw new DomainException("Default value cannot be changed to the columnType");
 		}
 
@@ -499,8 +474,14 @@ public class Column extends ObjectIdentifier {
 	 */
 	public void updateCellValue(UUID cellId, Object newValue) {
 		Cell cell = this.getCellWithId(cellId);
-		if (cell == null)
+		if (cell == null) {
 			throw new DomainException("No cell found for cellId.");
+		} else if (newValue == null && !this.allowsBlanks) {
+			throw new DomainException("Null values are not allowed");
+		} else if (String.valueOf(newValue).isEmpty() && !this.allowsBlanks) {
+			throw new DomainException("Empty values are not allowed");
+		}
+
 		cell.setValue(newValue);
 	}
 

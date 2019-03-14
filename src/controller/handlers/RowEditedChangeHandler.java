@@ -40,6 +40,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeCover
 			}		
 			uifacade.unpause(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		} catch (DomainException | NumberFormatException e) {
+//			System.out.println("Error handler");
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
 			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}

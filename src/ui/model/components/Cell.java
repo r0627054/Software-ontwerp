@@ -2,7 +2,6 @@ package ui.model.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.UUID;
@@ -48,11 +47,14 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	private void createComponent(Object value, UUID id, Class<?> cellType) {
 		Component component;
-		
+
 		if (cellType == Boolean.class) {
-			if (value == null) {
+			if (value == null || String.valueOf(value).isEmpty()) {
 				component = new TextField(0, 0, 100, 50, "", id);
 			} else {
+				if(value instanceof String) {
+					value = Boolean.parseBoolean((String) value);
+				}
 				component = new CheckBox((boolean) value, id);
 			}
 		} else if (value != null) {
@@ -77,9 +79,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED) {
-			getComponent().mouseClicked(id, x, y, clickCount);
-		}
+		getComponent().mouseClicked(id, x, y, clickCount);
 	}
 
 	@Override
@@ -156,6 +156,24 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 
 	private boolean isRedBackground() {
 		return redBackground;
+	}
+
+	@Override
+	protected void setX(int x) {
+		super.setX(x);
+
+		if (this.getComponent() != null) {
+			this.getComponent().setX(x);
+		}
+	}
+
+	@Override
+	protected void setY(int y) {
+		super.setY(y);
+
+		if (this.getComponent() != null) {
+			this.getComponent().setY(y);
+		}
 	}
 
 }

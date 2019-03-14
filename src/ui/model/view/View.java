@@ -170,10 +170,13 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		if (id == KeyEvent.KEY_PRESSED) {
-			if (!(this.getCurrentViewMode() instanceof TableDesignViewMode)) {
-				checkEscapeKeyPress(id, keyCode);
-				checkCtrlEnterKeyPress(id, keyCode);
-			} else {
+			if (this.getCurrentViewMode() instanceof TableRowsViewMode) {
+				TableRowsViewMode currentViewMode = (TableRowsViewMode) getCurrentViewMode();
+				if (!currentViewMode.isPaused()) {
+					checkEscapeKeyPress(id, keyCode);
+					checkCtrlEnterKeyPress(id, keyCode);
+				}
+			} else if (this.getCurrentViewMode() instanceof TableDesignViewMode) {
 				TableDesignViewMode currentViewMode = (TableDesignViewMode) getCurrentViewMode();
 				if (!currentViewMode.isPaused() && !currentViewMode.hasASelectedCell()) {
 					checkEscapeKeyPress(id, keyCode);

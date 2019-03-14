@@ -1,4 +1,4 @@
-package test;
+package usecases;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 
 import ui.model.components.Component;
 import ui.model.components.DesignTable;
+import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
 
-public class UseCase5Test extends UseCaseTest implements DesignTableConstants, TableListConstants {
-
+public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
 		this.addDummyTable(NEW_TABLE_NAME);
@@ -27,13 +27,14 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants, T
 		}
 		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade().getColumnCharacteristics(tableId);
+		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+				.getColumnCharacteristics(tableId);
 		VerticalComponentList rowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
 		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
+		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+				.getColumnCharacteristics(tableId);
 		getUiFacade().updateTableDesignViewMode(tableId, tableName, columnDataAfter);
 
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
@@ -45,12 +46,12 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants, T
 			UUID columnId = entry.getKey();
 
 			if (!columnDataAfter.containsKey(columnId)) {
-				
-				for(Map.Entry<String, Object> columnEntry: entry.getValue().entrySet()) {
-					
-					switch(columnEntry.getKey()) {
+
+				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+
+					switch (columnEntry.getKey()) {
 					case COLUMN_NAME:
-						String columnName = (String)columnEntry.getValue();
+						String columnName = (String) columnEntry.getValue();
 						assertTrue(columnName.contains(NEW_COLUMN_NAME));
 						break;
 					case COLUMN_TYPE:
@@ -64,10 +65,8 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants, T
 						break;
 					}
 				}
-				
 			}
 		}
-
 	}
 
 }
