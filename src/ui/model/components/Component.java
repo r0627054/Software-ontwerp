@@ -18,6 +18,9 @@ import controller.handlers.ChangeEventType;
  */
 public abstract class Component {
 
+	/**
+	 * Variable storing the PropertyChangeSupport.
+	 */
 	private PropertyChangeSupport support;
 
 	/**
@@ -64,6 +67,7 @@ public abstract class Component {
 	 *         |setHeight(height)
 	 *         |setWidth(width)
 	 *         |setHidden(hidden)
+	 *         |this.setSupport(new PropertyChangeSupport(this));
 	 */
 	public Component(int x, int y, int width, int height, boolean hidden) {
 		this.setX(x);
@@ -72,14 +76,6 @@ public abstract class Component {
 		this.setWidth(width);
 		this.setHidden(hidden);
 		this.setSupport(new PropertyChangeSupport(this));
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		support.removePropertyChangeListener(pcl);
 	}
 
 	/**
@@ -113,6 +109,28 @@ public abstract class Component {
 	 */
 	public Component(int width, int height) {
 		this(width, height, false);
+	}
+	
+	/**
+	 * Adds a propertyChangeListener to the PropertyChangeSupport.
+	 * @param pcl
+	 *        | The propertyChangeListener.
+	 * @effect Adds a propertyChangeListener to the PropertyChangeSupport.
+	 *        | support.addPropertyChangeListener(pcl);
+	 */
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	/**
+	 * Removes a propertyChangeListener from the PropertyChangeSupport.
+	 * @param pcl
+	 *        | The propertyChangeListener.
+	 * @effect Removes a propertyChangeListener from the PropertyChangeSupport.
+	 *        | support.addPropertyChangeListener(pcl);
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
 	}
 
 	/**
@@ -246,7 +264,7 @@ public abstract class Component {
 	 * Sets the hidden variable of the component.
 	 * 
 	 * @param hidden
-	 *        The variable showing whether or not the component is hidden.
+	 *       | The variable showing whether or not the component is hidden.
 	 * @post The hidden variable is set with the given value.
 	 *       | new.isHidden() == hidden
 	 */
@@ -262,33 +280,110 @@ public abstract class Component {
 	 */
 	public abstract void paint(Graphics2D g);
 
+	/**
+	 * Checks whether the x and y coordinates are within the component.
+	 * 
+	 * @param x
+	 *        The x-coordinate of the component.
+	 * @param y
+	 *        The y-coordinate of the component.
+	 * @return True if the x and y coordinates are within the component; otherwise false.
+	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	 */
 	public boolean isWithinComponent(int x, int y) {
 		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
 	}
 
+	/**
+	 * Handles the mouse Click.
+	 *   
+	 * @param id
+	 *        | The id of the mouse event.
+	 * @param x
+	 *        | The x-coordinate of the component.
+	 * @param y
+	 *        | The y-coordinate of the component.
+	 * @param clickCount
+	 *        | The count of clicks.
+	 */
 	public abstract void mouseClicked(int id, int x, int y, int clickCount);
 
+	/**
+	 * Handles the key pressed Event.
+	 * 
+	 * @param id
+	 *        | The id of the key pressed event. 
+	 * @param keyCode
+	 *        | The key code of the key pressed event.
+	 * @param keyChar
+	 *        | The key character of a key pressed event.
+	 */
 	public abstract void keyPressed(int id, int keyCode, char keyChar);
 
+	/**
+	 * Handles the outside mouse Click.
+	 *   
+	 * @param id
+	 *        | The id of the mouse event.
+	 * @param x
+	 *        | The x-coordinate of the component.
+	 * @param y
+	 *        | The y-coordinate of the component.
+	 * @param clickCount
+	 *        | The count of clicks.
+	 */
 	public void outsideClick(int id, int x, int y, int clickCount) {
 	}
 
+	/**
+	 * This method fires a propertyChange Event.
+	 * Because it used observer pattern a the observer will handle the firePropertyChange.
+	 * 
+	 * @param source
+	 *        | the source Object of the property.
+	 * @param propertyName
+	 *        | The name of the property. We use ChangeEventTypes.
+	 * @param oldValue
+	 *        | The old value of the property.
+	 * @param newValue
+	 *        | The new value of the property.
+	 */
 	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
 		getSupport().firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
 	}
 
+	/**
+	 * This method fires a propertyChange Event.
+	 * Because it used observer pattern a the observer will handle the firePropertyChange.
+	 */
 	protected void propertyChanged() {
 		getSupport().firePropertyChange(
 				new PropertyChangeEvent(this, ChangeEventType.REPAINT.getEventString(), null, null));
 	}
 
+	/**
+	 * Handles the throw error of a component with the given ID. 
+	 * @param id
+	 *        | The id of which element an error is thrown.
+	 */
 	public void throwError(UUID id) {
 	}
 
+	/**
+	 * Returns the PropertyChangeSupport.
+	 */
 	protected PropertyChangeSupport getSupport() {
 		return support;
 	}
 
+	/**
+	 * Sets the PropertyChangeSupport.
+	 * 
+	 * @param support
+	 *        | the propertyChangeSupport variable, used in the observer design pattern.
+	 * @post the support variable equals the given support.
+	 *        |new.getSupport() == support.
+	 */
 	private void setSupport(PropertyChangeSupport support) {
 		this.support = support;
 	};
