@@ -504,7 +504,7 @@ public class DomainFacade implements DomainFacadeInterface {
 
 	/**
 	 * The column with the given columnId is removed from the table with the given tableId.
-	 * And it removes the value for the deleted column from all of the table's rows.
+	 * And it removes the cells of the deleted column from all of the table's rows.
 	 * 
 	 * @param tableId
 	 *        | The id of the table.
@@ -606,7 +606,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 *        | The id of the table.
 	 * @return All the column id's with their corresponding types.
 	 * @throws DomainException when the tableId equals null
-	 *        | tableId ==null
+	 *        | tableId ==null || table == null
 	 */
 	@Override
 	public Map<UUID, Class<?>> getColumnTypes(UUID tableId) {
@@ -631,6 +631,8 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @param cellId
 	 *        | The id of the cell.
 	 * @return Returns the index of the cell in the column.
+	 * @throws DomainException when the tableId or columnId or cellId or table equals null
+	 *        | tableId ==null || table == null || cellId == null || columnId == null
 	 */
 	@Override
 	public int getIndexOfCellInColumnId(UUID tableId, UUID columnId, UUID cellId) {
@@ -653,6 +655,8 @@ public class DomainFacade implements DomainFacadeInterface {
 	 *        | The id of the table.
 	 * @param rowId
 	 *        | The id of the row.
+	 * @throws DomainException when the tableId or rowId or table equals null
+	 *        | tableId ==null || table == null || rowId == null
 	 */
 	@Override
 	public void deleteRow(UUID tableId, UUID rowId) {
@@ -675,6 +679,8 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @param cellIdOfFirstElement
 	 *        | The id of the first cell in a row in the table.
 	 * @return the id of the row which has a cell at the first position with the given cellId.
+	 * @throws DomainException when the tableId or cellIdOfFirstElement or table equals null
+	 *        | tableId ==null || table == null || cellIdOfFirstElement == null
 	 */
 	@Override
 	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement) {
