@@ -7,15 +7,42 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The actual implementation of the domainFacadeInterface.
+ * This handles all the controls defined in the domainFacadeInterface.
+ * It makes use of an in-memory map of tables.
+ * This class can only be created once, therefore it's made a singleton.
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class DomainFacade implements DomainFacadeInterface {
 
-	private static DomainFacade dfInstance = null;
+	/**
+	 * The instance variable of the DomainFacade. There can only be one unique instance after creation.
+	 */
+	private volatile static DomainFacade dfInstance = null;
+	
+	/**
+	 * Map variable storing all the tables with their corresponding Id.
+	 */
 	private Map<UUID, Table> tableMap = new HashMap<>();
 
+	/**
+	 * Initialises a new DomainFacade.
+	 * This constructor is only called once.
+	 */
 	private DomainFacade() {
 //		addDummyTable();
 	}
 
+	/**
+	 * This methode is used during development of the project.
+	 * Creates a dummyTable with dummy data.
+	 * @param tableName
+	 *        | the name of the table.
+	 */
 	public void addDummyTable(String tableName) {
 		Cell c01 = new Cell(ValueType.STRING, "Steven");
 		Cell c02 = new Cell(ValueType.STRING, "Mauro");
@@ -82,24 +109,32 @@ public class DomainFacade implements DomainFacadeInterface {
 	* Returns the only existing instance.
 	*
 	* @post dfInstance is instantiated
-	* | new.getInstance == domainFacadeInstance
+	*       | new.getInstance() == new DomainFacade()
 	*
 	* @notes
 	* synchronized makes sure that every thread is synchronized and
 	* prevents creating another instance in a other thread.
 	**/
-	public static synchronized DomainFacade getInstance() {
-		if (dfInstance == null)
-			dfInstance = new DomainFacade();
+	public static DomainFacade getInstance() {
+		if(dfInstance == null) {
+			synchronized (DomainFacade.class) {
+				if(dfInstance == null) {
+					dfInstance = new DomainFacade();
+				}
+			}
+		}
 		return dfInstance;
 	}
+	
+	
+	
 
 	/**
-	 * @param tableName
-	 * name of table
+	 * Returns the table corresponding to the tableId in the tableMap.
 	 * 
-	 * @return
-	 * the table corresponding to the tableName in the tableMap.
+	 * @param tableName
+	 *        | the name of table
+	 * @return the table corresponding to the tableId in the tableMap.
 	 **/
 	private Table getTable(UUID id) {
 		return this.tableMap.get(id);
