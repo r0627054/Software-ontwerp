@@ -59,7 +59,7 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 		Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
 
 		emulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 		emulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();

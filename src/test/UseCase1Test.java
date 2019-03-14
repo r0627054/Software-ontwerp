@@ -33,7 +33,7 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 
-			emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
 			int changedNamesCounter = 0;
@@ -84,8 +84,8 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 			
-			emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-			emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 

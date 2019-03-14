@@ -1,5 +1,7 @@
 package test;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -7,8 +9,10 @@ import controller.Controller;
 import domain.model.DomainFacade;
 import ui.model.components.Component;
 import ui.model.components.Container;
+import ui.model.components.DesignTable;
 import ui.model.components.TableList;
 import ui.model.view.UIFacade;
+import ui.model.viewmodes.ViewModeType;
 
 public abstract class UseCaseTest {
 	private static UIFacade uiFacade;
@@ -94,6 +98,22 @@ public abstract class UseCaseTest {
 				for (Component containerComponents : container.getComponentsList()) {
 					if (containerComponents instanceof TableList) {
 						return (TableList) containerComponents;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+
+	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
+		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE).getComponents()) {
+			if (c instanceof Container) {
+				Container container = (Container) c;
+
+				for (Component containerComponents : container.getComponentsList()) {
+					if (containerComponents instanceof DesignTable) {
+						return (DesignTable) containerComponents;
 					}
 				}
 			}

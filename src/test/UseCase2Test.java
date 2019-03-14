@@ -79,7 +79,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
 			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			emulateKeyPress(ADD_TABLE_NAME);
-			emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_X);
+			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_X);
 			
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -179,7 +179,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
 			emulateKeyPress(KeyEvent.VK_ENTER);
-			emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -255,7 +255,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			emulateKeyPress(KeyEvent.VK_BACK_SPACE);
 			emulateKeyPress(KeyEvent.VK_ENTER);
-			emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 

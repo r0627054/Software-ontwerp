@@ -136,7 +136,7 @@ public class DesignTable extends EditableComponent {
 		getRows().outsideClick(id, x, y, clickCount);
 	}
 
-	private VerticalComponentList getRows() {
+	public VerticalComponentList getRows() {
 		return this.rows;
 	}
 
