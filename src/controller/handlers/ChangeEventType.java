@@ -1,5 +1,13 @@
 package controller.handlers;
 
+/**
+ * An enumeration introducing the different types of change events.
+ *  These are events called by components in the UI and handled by the changeHandlers.
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public enum ChangeEventType {
 
 	REPAINT("repaint"),
@@ -23,12 +31,25 @@ public enum ChangeEventType {
 	TABLE_CHANGE_NAME("tableChangeName"),
 	ROW_EDITED("rowEdited");
 	
+	/**
+	 * Variable storing the event string.
+	 */
 	private final String eventString;
 
+	/**
+	 * Sets the eventString of the given ChangeEvent.
+	 * @param eventString
+	 *        | the eventString of the ChangeEvent.
+	 * @post the eventString equals the given eventString
+	 *        | this.eventString = eventString
+	 */
 	private ChangeEventType(String eventString) {
 		this.eventString = eventString;
 	}
 
+	/**
+	 * Returns the eventString of the ChangeEventType.
+	 */
 	public String getEventString() {
 		return this.eventString;
 	}
