@@ -34,6 +34,8 @@ public interface DomainFacadeInterface {
 	 *        The columnId of the column which name will be changed.
 	 * @param newName
 	 *        The new name of the column.
+	 * @throws DomainException when the tableId or columnId or newName equals null. Or when the newName is empty.
+	 *        | tableId ==null || columnId == null || newName == null || newName.isEmpty()
 	 */
 	public void updateColumnName(UUID tableId, UUID columnId, String newName);
 
