@@ -9,8 +9,35 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
+/**
+ * A ColumnTypeChangeHandler is a ChangeHandler,
+ * specifically made for handling the change of the type in a column. 
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 
+	/**
+	 * Updates the type of a column.
+	 * The handler tries to change the property.
+	 * If the property is successfully changed in the column, the UI is updated.
+	 * 
+	 * If the property couldn't be updated an error (red border) is shown in the UI and the next possible value is displayed
+	 * and the application is paused (only the current cell can be added).
+	 * 
+	 * If the type was String, it becomes Email. If it was Email, it becomes
+     * Boolean. If it was Boolean, it becomes Integer. If it was Integer, it
+     * becomes String
+	 * 
+	 * @param evt
+	 *        | The propertyChangeEvent containing all the information of the event.
+	 * @param uiFacade
+	 *        | The uiFacadeInterface used.
+	 * @param domainFacade
+	 *        | The domainFacadeInterface used.
+	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 

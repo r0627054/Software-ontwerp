@@ -7,8 +7,30 @@ import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 import ui.model.viewmodes.ViewModeType;
 
+/**
+* A SwitchViewModeChangeHandler is a ChangeHandler,
+* specifically made for switching between the different viewModes.
+* Currently it can switch form: a) TableDesignViewMode to TableRowsViewMode
+*                               b) TableRowsViewMode to TableDesignViewMode
+* 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class SwitchViewModeChangeHandler implements ChangeHandlerInterface {
 
+	/**
+	 * Switches between tablesViewMode of a table with the given id.
+	 * If the currentViewMode is TableDesignViewMode it switches to TableRowsViewMode.
+	 * If the currentViewMode is TableRowsViewMode it switches to TableDesignViewMode.
+	 * 
+	 * @param evt
+	 *        | The propertyChangeEvent containing all the information of the event.
+	 * @param uiFacade
+	 *        | The uiFacadeInterface used.
+	 * @param domainFacade
+	 *        | The domainFacadeInterface used.
+	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
