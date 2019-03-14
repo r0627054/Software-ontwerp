@@ -98,16 +98,35 @@ public class Row extends ObjectIdentifier {
 		cells.add(cell);
 	}
 
+	/**
+	 * Deletes the cell on the given index of the row.
+	 * 
+	 * @param columnIndex the index of the cell which will be deleted.
+	 * @effect the cell on the given index is removed.
+	 *         | this.cells.remove(rowIndex)
+	 */
 	public void deleteCell(int columnIndex) {
 		List<Cell> currentCells = this.getCells();
 		currentCells.remove(columnIndex);
 		this.setCells(currentCells);
 	}
 
+	/**
+	 * Checks whether the cell in the row, stored at the given index has the given UUID.
+	 * @param index the index of the cell in the row.
+	 * @param cellId the UUID of the cell in the row.
+	 * @return true if the row contains a cell with the given UUID at the given index, otherwise false.
+	 */
 	public boolean getCellAtIndexEqualsId(int index, UUID cellId) {
 		return this.getCellAtIndex(index).getId().equals(cellId);
 	}
 
+	/**
+	 * Checks whether the row contains a cell with the given UUID.
+	 * 
+	 * @param cellId an ID of a cell.
+	 * @return true if the row has cell with the given id, otherwise false.
+	 */
 	public boolean containsCell(UUID cellId) {
 		for (int i = 0; i < this.getCells().size(); i++) {
 			Cell cell = this.getCellAtIndex(i);
