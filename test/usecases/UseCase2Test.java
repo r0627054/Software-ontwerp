@@ -248,14 +248,21 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 	@Test
 	public void test5ChangeTableNameToExistingTableNameShouldConflict() {
 		try {
-			this.addDummyTable(NEW_TABLE_NAME + "A");
-			this.addDummyTable(NEW_TABLE_NAME);
+			this.addDummyTable("A");
+			this.addDummyTable("B");
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
 			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			emulateKeyPress(KeyEvent.VK_BACK_SPACE);
 			emulateKeyPress(KeyEvent.VK_ENTER);
 			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			emulateKeyPress('A');
+
+			emulateSingleClick(SECOND_TABLE_Y, FIRST_TABLE_Y);
+			emulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			emulateKeyPress(KeyEvent.VK_ENTER);
+			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			emulateKeyPress('A');
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -268,20 +275,6 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 			assertEquals(0, changedNamesCounter);
-
-			TableList tableList = this.getTablesViewModeTableList();
-			List<String> textFieldValues = new ArrayList<>();
-			changedNamesCounter = 0;
-			for (Component c : tableList.getComponentsList()) {
-				if (c instanceof EditableTextField) {
-					EditableTextField etf = (EditableTextField) c;
-
-					assertTrue(endTableNamesList.containsValue(etf.getText()));
-					textFieldValues.add(etf.getText());
-				}
-			}
-			assertNotSame(textFieldValues.indexOf(NEW_TABLE_NAME), textFieldValues.lastIndexOf(NEW_TABLE_NAME));
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);

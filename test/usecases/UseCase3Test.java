@@ -63,7 +63,22 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 		emulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+		
 		assertEquals(startTableNames, endTableNames);
+		
+		TableList tableList = getTablesViewModeTableList();
+
+		List<String> uiNamesList = new ArrayList<>();
+		for (Component c : tableList.getComponentsList()) {
+			if (c instanceof EditableTextField) {
+				EditableTextField etf = (EditableTextField) c;
+				uiNamesList.add(etf.getText());
+			}
+		}
+
+		for (String s : startTableNames.values()) {
+			assertTrue(uiNamesList.contains(s));
+		}
 	}
 	
 	/**
@@ -82,6 +97,20 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
 		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
 		assertEquals(startTableNames, endTableNames);
+		
+		TableList tableList = getTablesViewModeTableList();
+
+		List<String> uiNamesList = new ArrayList<>();
+		for (Component c : tableList.getComponentsList()) {
+			if (c instanceof EditableTextField) {
+				EditableTextField etf = (EditableTextField) c;
+				uiNamesList.add(etf.getText());
+			}
+		}
+
+		for (String s : startTableNames.values()) {
+			assertTrue(uiNamesList.contains(s));
+		}
 	}
 
 }

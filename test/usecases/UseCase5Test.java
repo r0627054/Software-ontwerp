@@ -17,7 +17,7 @@ import ui.model.components.VerticalComponentList;
 public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
-		this.addDummyTable(NEW_TABLE_NAME);
+		this.addDummyTableStringColumnStringBoolanValues();
 		String tableName = null;
 		UUID tableId = null;
 
@@ -29,7 +29,7 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
-		VerticalComponentList rowsBefore = getTableViewModeDesignTable(tableId).getRows();
+		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
 		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
@@ -39,8 +39,8 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		assertEquals(columnDataBefore.size(), columnDataAfter.size() - 1);
-		assertEquals(rowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size() - 1);
+		assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());
+		assertEquals(uiRowsBefore.getComponentsList().size() + 1, uiRowsAfter.getComponentsList().size());
 
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 			UUID columnId = entry.getKey();
@@ -55,13 +55,13 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 						assertTrue(columnName.contains(NEW_COLUMN_NAME));
 						break;
 					case COLUMN_TYPE:
-						assertEquals(columnEntry.getValue(), NEW_COLUMN_TYPE);
+						assertEquals(columnEntry.getValue(), COLUMN_TYPE);
 						break;
 					case COLUMN_ALLOW_BLANKS:
-						assertEquals(columnEntry.getValue(), NEW_COLUMN_ALLOW_BLANKS);
+						assertEquals(columnEntry.getValue(), COLUMN_ALLOW_BLANKS);
 						break;
 					case COLUMN_DEFAULT:
-						assertEquals(columnEntry.getValue(), NEW_COLUMN_DEFAULT);
+						assertEquals(columnEntry.getValue(), COLUMN_DEFAULT);
 						break;
 					}
 				}

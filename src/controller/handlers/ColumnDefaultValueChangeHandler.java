@@ -8,6 +8,7 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
+
 /**
  * A ColumnDefaultValueChangeHandler is a ChangeHandler,
  * specifically made for handling the change of the default value in a column. 

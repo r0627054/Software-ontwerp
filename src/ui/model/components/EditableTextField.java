@@ -144,7 +144,7 @@ public class EditableTextField extends TextField {
 
 	private void setSelected(boolean selected) {
 		this.selected = selected;
-		
+
 		if (this.isSelectedForDelete()) {
 			this.setSelectedForDelete(false);
 		}
