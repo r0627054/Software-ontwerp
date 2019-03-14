@@ -5,12 +5,34 @@ import java.beans.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
+/**
+ * The changeHandlerFactory is a factory class delegating the differentEventTypes to the corresponding handlers.
+ *  
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class ChangeHandlerFactory {
 
+	/**
+	 * Initialises a new ChangeHandlerFactory without any information.
+	 */
 	public ChangeHandlerFactory() {
 
 	}
 
+	/**
+	 * Method used for handling all the change events.
+	 * It delegates the different events to the corresponding changeHandler.
+	 * 
+	 * @param evt
+	 *        | The propertyChangeEvent containing the information about the event.
+	 * @param uifacade
+	 *        | The UIFacadeInterface used in the controller.
+	 * @param domainfacade
+	 *        | The DomainFacadeInterface used in the controller.
+	 * @effect The handler is created and all the information is passed to the specific handler.
+	 */
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		String value = evt.getPropertyName();
 		ChangeHandlerInterface handler = null;
