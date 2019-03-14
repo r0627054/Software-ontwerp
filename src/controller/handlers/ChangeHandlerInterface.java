@@ -16,6 +16,7 @@ import ui.model.view.UIFacadeInterface;
 public interface ChangeHandlerInterface {
 
 	/**
+	 * Handles the event with the given UIFacadeInterface and DomainFacadeInterface.
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
