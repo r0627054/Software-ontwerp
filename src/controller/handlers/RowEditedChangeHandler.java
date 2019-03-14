@@ -10,7 +10,7 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
-public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeCoverterInterface {
+public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConverterInterface {
 
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {

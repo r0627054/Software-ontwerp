@@ -8,7 +8,15 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
-public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeCoverterInterface {
+/**
+ * A ColumnDefaultValueChangeHandler is a ChangeHandler,
+ * specifically made for handling the change of the allow blanks option in a column. 
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
+public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeConverterInterface {
 
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
