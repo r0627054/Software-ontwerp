@@ -30,6 +30,7 @@ public class DesignTable extends EditableComponent {
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnCharacteristics.entrySet()) {
 			List<Component> rowCells = new ArrayList<>();
 			UUID columnId = entry.getKey();
+			String type = (String) entry.getValue().get("Type");
 
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
 				Cell newCell = null;
@@ -55,14 +56,16 @@ public class DesignTable extends EditableComponent {
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
 					break;
 				case "Default Value":
-					if (obj.getValue() == null || obj.getValue() instanceof Boolean) {
+					if (type.equals("Boolean")) {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
 						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, value, columnId);
 						newCell = new Cell(0, 0, valueTextField, columnId);
 
-					} else if (obj.getValue() instanceof String || obj.getValue() instanceof Integer) {
-						Component valueTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
+					} else {
+						String value = obj.getValue() == null ? "" : obj.getValue().toString();
+
+						Component valueTextField = new EditableTextField(0, 0, 100, 100, value,
 								columnId);
 						newCell = new Cell(0, 0, valueTextField, columnId);
 					}

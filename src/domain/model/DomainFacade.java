@@ -13,7 +13,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	private Map<UUID, Table> tableMap = new HashMap<>();
 
 	private DomainFacade() {
-//		addDummyTable();
+		addDummyTable("String");
 	}
 
 	public void addDummyTable(String tableName) {
@@ -62,7 +62,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		col3.addCells(Arrays.asList(colCells3));
 		col4.addCells(Arrays.asList(colCells4));
 
-		Table persons = new Table(tableName != null ? tableName : "Persons");
+		Table persons = new Table(tableName);
 
 		persons.addColumn(col1);
 		persons.addColumn(col2);
@@ -77,6 +77,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.tableMap.put(persons.getId(), persons);
 	}
 
+	public void addMockedTable(Table t) {
+		this.tableMap.put(t.getId(), t);
+	}
+	
 	/**
 	* Creates an domainFacade instance only once. 
 	* Returns the only existing instance.

@@ -1,4 +1,4 @@
-package test;
+package usecases;
 
 public interface TableListConstants {
 	public static final int FIRST_TABLE_X = 60;

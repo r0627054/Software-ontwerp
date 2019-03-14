@@ -58,14 +58,39 @@ public enum ValueType {
 	 *         | result == (value != null) && (value.getClass().equals( this.getTypeClass()))
 	 */
 	public boolean canHaveAsValue(Object value) {
-		if (this.equals(EMAIL)) {
-			if (value instanceof String) {
-				String valueString = (String) value;
-				return value.getClass().equals(this.getTypeClass())
-						&& (valueString.indexOf("@") == valueString.lastIndexOf("@"));
-			}
+		if (value == null) {
+			return true;
 		}
-		return (value == null || value.getClass().equals(this.getTypeClass()));
+		if (String.valueOf(value).isEmpty()) {
+			return true;
+		}
+		try {
+			if (this.equals(ValueType.STRING)) {
+				value = String.valueOf(value);
+				return value.getClass().equals(this.getTypeClass());
+
+			} else if (this.equals(ValueType.EMAIL)) {
+				String casted = (String) value;
+				return (casted.indexOf("@") >= 0 && (casted.indexOf("@") == casted.lastIndexOf("@"))
+						|| casted.isEmpty()) && casted.getClass().equals(this.getTypeClass());
+
+			} else if (this.equals(ValueType.BOOLEAN)) {
+				if (value instanceof String
+						&& (String.valueOf(value).contains("true") || String.valueOf(value).contains("false"))) {
+					value = Boolean.parseBoolean((String) value);
+				}
+				return value.getClass().equals(this.getTypeClass());
+
+			} else if (this.equals(ValueType.INTEGER)) {
+				if (!(value instanceof Integer)) {
+					value = Integer.parseInt((String) value);
+				}
+				return value.getClass().equals(this.getTypeClass());
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public static ValueType getValueTypeForString(String name) {
@@ -101,6 +126,27 @@ public enum ValueType {
 
 	private void setDisplayValue(String displayValue) {
 		this.displayValue = displayValue;
+	}
+
+	public Object castTo(Object value) {
+		if (value == null) {
+			return null;
+		}
+
+		if (this.equals(ValueType.STRING) || this.equals(ValueType.EMAIL)) {
+			value = String.valueOf(value);
+		} else if (this.equals(ValueType.BOOLEAN)) {
+			if (value instanceof String && !String.valueOf(value).isEmpty()) {
+				value = Boolean.parseBoolean((String) value);
+			} else if (String.valueOf(value).isEmpty()) {
+				value = null;
+			}
+		} else if (this.equals(ValueType.INTEGER)) {
+			if (!(value instanceof Integer)) {
+				value = Integer.parseInt((String) value);
+			}
+		}
+		return value;
 	}
 
 }
