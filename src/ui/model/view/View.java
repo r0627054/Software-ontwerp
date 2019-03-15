@@ -388,10 +388,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void resetViewModes() {
+		support = new PropertyChangeSupport(this);
 		this.setTablesViewMode(new TablesViewMode(new HashMap<UUID, String>()));
+		this.getTablesViewMode().addPropertyChangeListener(this);
+
 		this.setCurrentMode(getTablesViewMode());
-		getTablesViewMode().addPropertyChangeListener(this);
-		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
+		this.changeModeTo(null, ViewModeType.TABLESVIEWMODE);
 		this.setViewModesMap(new HashMap<UUID, List<TableViewMode>>());
 	}
 

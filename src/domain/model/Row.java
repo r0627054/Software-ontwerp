@@ -106,6 +106,9 @@ public class Row extends ObjectIdentifier {
 	 *         | this.cells.remove(rowIndex)
 	 */
 	public void deleteCell(int columnIndex) {
+		if (columnIndex < 0) {
+			throw new DomainException("Cannot delete a cell with negative index of rows.");
+		}
 		List<Cell> currentCells = this.getCells();
 		currentCells.remove(columnIndex);
 		this.setCells(currentCells);
