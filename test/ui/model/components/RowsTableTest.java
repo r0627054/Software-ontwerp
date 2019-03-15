@@ -1,6 +1,8 @@
 package ui.model.components;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -10,9 +12,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-
-import domain.model.Column;
-import domain.model.Table;
 
 class RowsTableTest {
 	private int x = 10;

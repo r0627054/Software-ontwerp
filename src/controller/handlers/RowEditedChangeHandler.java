@@ -52,17 +52,17 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 			if (columnValueType.equals(ValueType.INTEGER)) {
 				newValue = this.getNewIntegerDefaultValue(newValue);
 			} else if (columnValueType.equals(ValueType.BOOLEAN)) {
-				newValue = this.getNextBooleanDefaultValue(oldValue, domainfacade.getColumnAllowBlanks(tableId, columnId));
+				newValue = this.getNextBooleanDefaultValue(oldValue,
+						domainfacade.getColumnAllowBlanks(tableId, columnId));
 			}
 			domainfacade.editCellInTable(tableId, columnId, cellId, newValue);
 
 			if (columnValueType.equals(ValueType.BOOLEAN)) {
 				uifacade.updateTableRowsViewMode(tableId, domainfacade.getTableNameOfId(tableId),
 						domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
-			}		
+			}
 			uifacade.unpause(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		} catch (DomainException | NumberFormatException e) {
-//			System.out.println("Error handler");
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
 			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}

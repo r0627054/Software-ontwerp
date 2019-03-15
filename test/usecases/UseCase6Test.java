@@ -520,21 +520,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
@@ -579,21 +564,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
@@ -636,22 +606,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		cell = (Cell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
 
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
@@ -696,22 +650,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
-
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
@@ -752,22 +690,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		cell = (Cell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
 
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 
@@ -822,22 +744,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		cell = (Cell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		Boolean blanksBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksBefore = (Boolean) mapEntry.getValue();
-			}
-		}
-
-		Boolean blanksAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_ALLOW_BLANKS))
-					blanksAfter = (Boolean) mapEntry.getValue();
-			}
-		}
 
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 

@@ -26,8 +26,8 @@ class ContainerListTest {
 	 */
 	@Test
 	void test1CreateContainerWithoutComponents() {
-		contList = new HorizontalComponentList(x, y);
-		assertTrue(this.width == contList.getWidth() && this.height == contList.getHeight());
+		contList = new HorizontalComponentList(x, y, width, height);
+		assertTrue(0 == contList.getWidth() && 0 == contList.getHeight());
 	}
 	
 	/**

@@ -96,13 +96,13 @@ public enum ValueType {
 
 			} else if (this.equals(ValueType.BOOLEAN)) {
 				if (value instanceof String
-						&& (String.valueOf(value).contains("true") || String.valueOf(value).contains("false"))) {
+						&& (String.valueOf(value).equals("true") || String.valueOf(value).equals("false"))) {
 					value = Boolean.parseBoolean((String) value);
 				}
 				return value.getClass().equals(this.getTypeClass());
 
 			} else if (this.equals(ValueType.INTEGER)) {
-				if (!(value instanceof Integer)) {
+				if (!(value instanceof Integer) && String.valueOf(value).matches("[0-9]+")) {
 					value = Integer.parseInt((String) value);
 				}
 				return value.getClass().equals(this.getTypeClass());
