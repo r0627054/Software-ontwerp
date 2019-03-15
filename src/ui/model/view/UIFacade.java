@@ -11,10 +11,26 @@ import ui.model.viewmodes.ViewModeType;
 
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
+	/**
+	 * The only instance of the uiFacade
+	 */
 	private static UIFacade uifInstance = null;
+	
+	/**
+	 * The view, which handles changing view modes and the CanvasWindow.
+	 */
 	private View view;
+	
+	/**
+	 * The PropertyChangeSupport where the listeners of this class are registered
+	 * and where this class calls his propertyChange function to.
+	 */
 	private PropertyChangeSupport support;
 
+	/**
+	 * Initialises a new UIFacade.
+	 * This constructor is only called once.
+	 */
 	private UIFacade() {
 		this.view = new View("Tablr");
 		setSupport(new PropertyChangeSupport(this));
@@ -25,12 +41,12 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	* Creates an UIFacade instance only once.
 	* Returns the only existing instance.
 	*
-	* @post uifInstance is instanciated
-	* | new.getInstance == UIFacadeInstance
+	* @post uifInstance is instantiated
+	*      | new.getInstance() == new UIFacade()
 	*
 	* @notes
-	* synchronized makes sure that every thread is synchronized and
-	* prevents creating another instance in a other thread.
+	* Synchronised makes sure that every thread is synchronised and
+	* prevents creating another instance in another thread.
 	**/
 	public static synchronized UIFacade getInstance() {
 		if (uifInstance == null) {
