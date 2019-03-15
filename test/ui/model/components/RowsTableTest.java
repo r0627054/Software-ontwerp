@@ -215,7 +215,7 @@ class RowsTableTest {
 	}
 	
 	/**
-	 * Test 6 : Mouse click within table
+	 * Test 7 : Mouse click within table
 	 * | 
 	 * | should not do anything
 	 */
@@ -248,11 +248,11 @@ class RowsTableTest {
 	}
 	
 	/**
-	 * Test 7 : Mouse clicked
+	 * Test 8 : Mouse clicked
 	 * | should reset delete cells list
 	 */
 	@Test
-	void clickWithMouse() {
+	void test8clickWithMouse() {
 		rt = new RowsTable(x, y, id);
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
 		Map<UUID, String> columnIdMap = new HashMap<>();
@@ -281,17 +281,15 @@ class RowsTableTest {
 	
 	
 	/**
-	 * Test 8 : get cell at certain columnindex
+	 * Test 9 : get cell at certain columnindex
 	 */
 	@Test
-	void getCellAtCertainColumnIndex() {
+	void test9getCellAtCertainColumnIndex() {
 		rt = new RowsTable(x, y, id);
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
 		Map<UUID, String> columnIdMap = new HashMap<>();
 		UUID id1 = UUID.randomUUID();
-		UUID id2 = UUID.randomUUID();
 		columnIdMap.put(id1, "columnName1");
-		columnIdMap.put(id2, "columnName2");
 		
 		LinkedHashMap<UUID, Object> columnCellsMap = new LinkedHashMap<>(); // linked orde blijft
 		
@@ -300,10 +298,8 @@ class RowsTableTest {
 		UUID ccmId2 = UUID.randomUUID(); 
 		columnCellsMap.put(ccmId2, false);
 
-		 
 		Map<UUID, Class<?>> columnTypes = new HashMap<>();
 		columnTypes.put(id1, String.class);
-		columnTypes.put(id2, Boolean.class);
 		
 		values.put(columnIdMap, columnCellsMap);
 		cells = rt.createTable(values, columnTypes);
@@ -315,10 +311,10 @@ class RowsTableTest {
 	}
 	
 	/**
-	 * Test 9 : get columnheader at certain columnindex
+	 * Test 10 : get columnheader at certain columnindex
 	 */
 	@Test
-	void test9getCellAtCertainColumnIndex() {
+	void test10getCellAtCertainColumnIndex() {
 		rt = new RowsTable(x, y, id);
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
 		Map<UUID, String> columnIdMap = new HashMap<>();
@@ -348,38 +344,5 @@ class RowsTableTest {
 		
 	}
 	
-	/**
-	 * Test 10 : get cell at index of column
-	 */
-	@Test
-	void test10getCellAtCertainColumnIndex() {
-		rt = new RowsTable(x, y, id);
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
-		Map<UUID, String> columnIdMap = new HashMap<>();
-		UUID id1 = UUID.randomUUID();
-		UUID id2 = UUID.randomUUID();
-		columnIdMap.put(id1, "columnName1");
-		columnIdMap.put(id2, "columnName2");
-		
-		LinkedHashMap<UUID, Object> columnCellsMap = new LinkedHashMap<>(); // linked orde blijft
-		
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap.put(ccmId1, "");
-		UUID ccmId2 = UUID.randomUUID(); 
-		columnCellsMap.put(ccmId2, false);
-
-		 
-		Map<UUID, Class<?>> columnTypes = new HashMap<>();
-		columnTypes.put(id1, String.class);
-		columnTypes.put(id2, Boolean.class);
-		
-		values.put(columnIdMap, columnCellsMap);
-		cells = rt.createTable(values, columnTypes);
-
-		rt.outsideClick(MouseEvent.MOUSE_CLICKED, x-5, 70, 1);
-
-		assertTrue(rt.getCell(1, id2) instanceof Cell);
-		
-	}
 }
 	
