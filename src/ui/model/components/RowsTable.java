@@ -83,13 +83,13 @@ public class RowsTable extends EditableComponent {
 
 			this.resetDeleteCells();
 
-			if (y > this.getY() && y < this.getOffsetY()) {
-
+			if (y > this.getY() && y < this.getOffsetY() && x < this.getX()) {
 				for (Component c : getColumns().getComponentsList()) {
 					VerticalComponentList vertComponentList = (VerticalComponentList) c;
 
 					for (Component componentOfList : vertComponentList.getComponentsList()) {
-						if (y > componentOfList.getY() && y < componentOfList.getOffsetY() && x < componentOfList.getX()) {
+						if (y > componentOfList.getY() && y < componentOfList.getOffsetY()
+								&& x < componentOfList.getX()) {
 							if (componentOfList instanceof Cell) {
 								Cell cell = (Cell) componentOfList;
 								this.addDeleteCell(cell);
