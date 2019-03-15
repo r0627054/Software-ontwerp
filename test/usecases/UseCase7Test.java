@@ -1,6 +1,5 @@
 package usecases;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
@@ -14,9 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import ui.model.components.Cell;
 import ui.model.components.Component;
-import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
-import ui.model.components.TableList;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase7Test extends UseCaseTest implements DesignTableConstants {

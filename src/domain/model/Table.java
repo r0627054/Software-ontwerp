@@ -187,7 +187,7 @@ public class Table extends ObjectIdentifier {
 	 *		 |    newCells.add(newCell);
 	 *		 |    col.addCell(newCell);
 	 *		 | rows.add(new Row(newCells));
-     *
+	 *
 	 */
 	public void addRow() {
 		ArrayList<Cell> newCells = new ArrayList<Cell>();
@@ -224,7 +224,7 @@ public class Table extends ObjectIdentifier {
 	 * 
 	 * @return a map where the key is the id of the column, and the value is a linkedHashList of characteristics. (column name, type, allow Blanks, Default Value)
 	 *        | LinkedHashMap<UUID, LinkedHashMap<String, Object>> characteristics = new LinkedHashMap<>();
-     *        |    for (Column c : getColumns()) {
+	 *        |    for (Column c : getColumns()) {
 	 *		  |       characteristics.put(c.getId(), c.getCharacteristics());
 	 */
 	public LinkedHashMap<UUID, LinkedHashMap<String, Object>> getColumnCharacteristics() {
@@ -448,12 +448,14 @@ public class Table extends ObjectIdentifier {
 		Column column = this.getColumn(columnId);
 		int columnIndex = getColumns().indexOf(column);
 
-		List<Column> currentColumns = getColumns();
-		currentColumns.remove(column);
-		this.setColumns(currentColumns);
+		if (columnIndex >= 0) {
+			List<Column> currentColumns = getColumns();
+			currentColumns.remove(column);
+			this.setColumns(currentColumns);
 
-		for (Row r : getRows()) {
-			r.deleteCell(columnIndex);
+			for (Row r : getRows()) {
+				r.deleteCell(columnIndex);
+			}
 		}
 	}
 
@@ -484,7 +486,7 @@ public class Table extends ObjectIdentifier {
 	 *        | for (Column col : getColumns()) 
 	 *		  |   if (col.containsCell(cellId)) 
 	 *		  |  	return col.getId()
-     * @throws DomainException if the table does not have a cell with the given id.
+	 * @throws DomainException if the table does not have a cell with the given id.
 	 */
 	public UUID getcolumnId(UUID cellId) {
 		for (Column col : getColumns()) {

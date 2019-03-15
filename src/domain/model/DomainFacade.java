@@ -23,7 +23,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * The instance variable of the DomainFacade. There can only be one unique instance after creation.
 	 */
 	private volatile static DomainFacade dfInstance = null;
-	
+
 	/**
 	 * Map variable storing all the tables with their corresponding Id.
 	 */
@@ -34,7 +34,6 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * This constructor is only called once.
 	 */
 	private DomainFacade() {
-//		addDummyTable("String");
 	}
 
 	/**
@@ -80,7 +79,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		Cell colCells4[] = { c31, c32, c33, c34 };
 
 		Column col1 = new Column("Name", ValueType.STRING);
-		Column col2 = new Column("Baas", ValueType.BOOLEAN);
+		Column col2 = new Column("Student", ValueType.BOOLEAN);
 		Column col3 = new Column("Age", ValueType.INTEGER);
 		Column col4 = new Column("Email", ValueType.EMAIL);
 
@@ -107,7 +106,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	public void addMockedTable(Table t) {
 		this.tableMap.put(t.getId(), t);
 	}
-	
+
 	/**
 	* Creates an domainFacade instance only once. 
 	* Returns the only existing instance.
@@ -120,18 +119,15 @@ public class DomainFacade implements DomainFacadeInterface {
 	* prevents creating another instance in a other thread.
 	**/
 	public static DomainFacade getInstance() {
-		if(dfInstance == null) {
+		if (dfInstance == null) {
 			synchronized (DomainFacade.class) {
-				if(dfInstance == null) {
+				if (dfInstance == null) {
 					dfInstance = new DomainFacade();
 				}
 			}
 		}
 		return dfInstance;
 	}
-	
-	
-	
 
 	/**
 	 * Returns the table corresponding to the tableId in the tableMap.
@@ -255,12 +251,23 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @param id
 	 *        The id of the table.
 	 * @return The name of the table with the given id.
+	 * @throws DomainException if id is null.
+	 *        | id == null
+	 * @throws DomainException if no table is found for given id.
+	 *        | getTable(id) == null
 	 */
 	@Override
 	public String getTableNameOfId(UUID id) {
-		return this.getTable(id).getName();
+		if (id == null) {
+			throw new DomainException("Cannot get table name of a null id");
+		}
+		Table t = getTable(id);
+		if (t != null) {
+			return t.getName();
+		}
+		throw new DomainException("Cannot find table for id");
 	}
-	
+
 	/**
 	 * Creates a new Table with a unique name.
 	 * Its name is tableN, where N is a number, and it is different from the names of the existing tables.
@@ -337,7 +344,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (id == null) {
 			throw new DomainException("Cannot add a column to a table with a null id.");
 		}
-		this.getTable(id).createNewColumn();
+		Table table = getTable(id);
+		if (table != null) {
+			table.createNewColumn();
+		}
 	}
 
 	/**

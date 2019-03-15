@@ -17,6 +17,7 @@ import domain.model.ValueType;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.DesignTable;
+import ui.model.components.RowsTable;
 import ui.model.components.TableList;
 import ui.model.view.UIFacade;
 import ui.model.viewmodes.ViewModeType;
@@ -26,15 +27,26 @@ public abstract class UseCaseTest {
 	private static DomainFacade domainFacade;
 	private static Controller controller;
 
+	public static boolean setupIsDone = false;
+
 	@BeforeAll
 	public static void init() {
-		setUiFacade(UIFacade.getInstance());
-		setDomainFacade(DomainFacade.getInstance());
-		setController(new Controller(uiFacade, domainFacade, false));
+		setupSingleton();
+	}
+
+	public static void setupSingleton() {
+		if (setupIsDone) {
+			return;
+		} else {
+			setupIsDone = true;
+			setUiFacade(UIFacade.getInstance());
+			setDomainFacade(DomainFacade.getInstance());
+			setController(new Controller(uiFacade, domainFacade, false));
+		}
 	}
 
 	@BeforeEach
-	public void resetDomain() {
+	public void resetDomainAndUiFacade() {
 		this.getDomainFacade().resetTables();
 		this.getUiFacade().resetViewModes();
 	}
@@ -127,6 +139,22 @@ public abstract class UseCaseTest {
 		return null;
 	}
 
+	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
+		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE)
+				.getComponents()) {
+			if (c instanceof Container) {
+				Container container = (Container) c;
+
+				for (Component containerComponents : container.getComponentsList()) {
+					if (containerComponents instanceof RowsTable) {
+						return (RowsTable) containerComponents;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	protected void addDummyTableEmailColumnEmailCellValues() {
 		Cell c1 = new Cell(ValueType.EMAIL, "A@");
 		Cell c2 = new Cell(ValueType.EMAIL, "M@");
@@ -207,7 +235,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(table);
 	}
-	
+
 	protected void addDummyTableStringColumnStringBoolanValues() {
 		Cell c1 = new Cell(ValueType.STRING, null);
 		Cell c2 = new Cell(ValueType.STRING, "true");
@@ -261,7 +289,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
-	
+
 	protected void addDummyTableEmailColumnNullCellValues() {
 		Cell c1 = new Cell(ValueType.EMAIL, null);
 		Cell c2 = new Cell(ValueType.EMAIL, null);
@@ -288,7 +316,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
-	
+
 	protected void addDummyTableBooleanColumnNullCellValues() {
 		Cell c1 = new Cell(ValueType.BOOLEAN, null);
 		Cell c2 = new Cell(ValueType.BOOLEAN, null);
@@ -315,7 +343,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
-	
+
 	protected void addDummyTableIntegerColumnNullCellValues() {
 		Cell c1 = new Cell(ValueType.INTEGER, null);
 		Cell c2 = new Cell(ValueType.INTEGER, null);
@@ -342,7 +370,6 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
-
 
 	protected void addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue() {
 		Cell c1 = new Cell(ValueType.STRING, "@E");
@@ -371,7 +398,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
-	
+
 	protected void addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed() {
 		Cell c1 = new Cell(ValueType.STRING, "@E");
 		Cell c2 = new Cell(ValueType.STRING, "M@");
@@ -404,32 +431,31 @@ public abstract class UseCaseTest {
 	public void addDummyEmptyTableBooleanColumnVariableAllowsBlank(boolean allowsBlank) {
 		Column col1 = new Column("EmptyBoolean", ValueType.BOOLEAN);
 		col1.setAllowsBlanks(allowsBlank);
-		
+
 		Table table = new Table("Table");
 		table.addColumn(col1);
 
 		getDomainFacade().addMockedTable(table);
 	}
-	
+
 	public void addDummyEmptyTableEmailColumnVariableAllowsBlank(boolean allowsBlank) {
 		Column col1 = new Column("EmptyEmail", ValueType.EMAIL);
 		col1.setAllowsBlanks(allowsBlank);
-		
+
 		Table table = new Table("Table");
 		table.addColumn(col1);
 
 		getDomainFacade().addMockedTable(table);
 	}
-	
+
 	public void addDummyEmptyIntegerColumnWithVariableAllowsBlank(boolean allowsBlank) {
 		Column col1 = new Column("EmptyInt", ValueType.INTEGER);
 		col1.setAllowsBlanks(allowsBlank);
-		
+
 		Table table = new Table("Table");
 		table.addColumn(col1);
 
 		getDomainFacade().addMockedTable(table);
 	}
 
-	
 }

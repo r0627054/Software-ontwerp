@@ -1,6 +1,5 @@
 package usecases;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -9,15 +8,19 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Component;
-import ui.model.components.DesignTable;
-import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
+
+	/**
+	 * Test 1 : Double clicking below the design table creates a column.
+	 * | When you double click below the table a new row of column details should show
+	 * | where we can edit the newly created column.
+	 */
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
-		this.addDummyTableStringColumnStringBoolanValues();
+		this.addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
+		
 		String tableName = null;
 		UUID tableId = null;
 
@@ -35,38 +38,12 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
-		getUiFacade().updateTableDesignViewMode(tableId, tableName, columnDataAfter);
 
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
 		assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());
 		assertEquals(uiRowsBefore.getComponentsList().size() + 1, uiRowsAfter.getComponentsList().size());
 
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
-
-			if (!columnDataAfter.containsKey(columnId)) {
-
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-
-					switch (columnEntry.getKey()) {
-					case COLUMN_NAME:
-						String columnName = (String) columnEntry.getValue();
-						assertTrue(columnName.contains(NEW_COLUMN_NAME));
-						break;
-					case COLUMN_TYPE:
-						assertEquals(columnEntry.getValue(), COLUMN_TYPE);
-						break;
-					case COLUMN_ALLOW_BLANKS:
-						assertEquals(columnEntry.getValue(), COLUMN_ALLOW_BLANKS);
-						break;
-					case COLUMN_DEFAULT:
-						assertEquals(columnEntry.getValue(), COLUMN_DEFAULT);
-						break;
-					}
-				}
-			}
-		}
 	}
 
 }

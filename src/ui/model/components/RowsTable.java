@@ -113,7 +113,7 @@ public class RowsTable extends EditableComponent {
 		}
 	}
 
-	private HorizontalComponentList getColumns() {
+	public HorizontalComponentList getColumns() {
 		return columns;
 	}
 

@@ -1,7 +1,6 @@
 package usecases;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,7 +20,12 @@ import ui.model.components.ToggleTextField;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
-
+	
+	/**
+	 * Test 1 : Editing the column name
+	 * | When you select the column name and edit it without leaving a blank or writing the same column name twice,
+	 * | after pressing enter the name should be shown and saved correctly.
+	 */
 	@Test
 	public void test1clickingColumnNameAndEditingItCorrectlyAndPressingEnterShouldSetName() {
 		addDummyTable(NEW_TABLE_NAME);
@@ -70,6 +74,11 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
 	}
 
+	/**
+	 * Test 2 : Editing the column name
+	 * | When you select the column name and edit it without leaving a blank or writing the same column name twice,
+	 * | after clicking out of the text field the name should be shown and saved correctly.
+	 */
 	@Test
 	public void test2clickingColumnNameAndEditingItCorrectlyAndClickingOutOfTextFieldShouldSetName() {
 		addDummyTable(NEW_TABLE_NAME);
@@ -118,6 +127,12 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
 	}
 
+	/**
+	 * Test 3 : Editing the column name
+	 * | When you select the column name and clear the text field, the application should pause.
+	 * | You should only be able to edit the textfield or press escape to reset the value to the value when you clicked on the textfield.
+	 * | After pressing escape, the old value should be saved.
+	 */
 	@Test
 	public void test3clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
 		addDummyTable(NEW_TABLE_NAME);
@@ -176,65 +191,12 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
 	}
 
-	@Test
-	public void test4clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
-		addDummyTable(NEW_TABLE_NAME);
-
-		String tableName = null;
-		UUID tableId = null;
-
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
-
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
-		assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
-
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
-
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
-
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_NAME)) {
-						String columnName = (String) columnEntry.getValue();
-						assertEquals(1, columnName.length());
-					}
-				}
-			}
-		}
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(0);
-		EditableTextField firstCell = (EditableTextField) cell.getComponent();
-		assertEquals(0, firstCell.getText().length());
-
-		emulateKeyPress(KeyEvent.VK_ESCAPE);
-
-		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
-		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
-	}
-
-	public void test5clickingColumnTypeShouldPauseApplicationWhenConflictingValuesAndShouldNotChangeValueInDomain() {
+	/**
+	 * Test 4 : Editing the column name
+	 * | When you select the column name and change the text field to an already existing column name,
+	 * | the application should be paused. The newest value should not be saved but is still shown in the UI.
+	 */
+	public void test4clickingColumnTypeShouldPauseApplicationWhenConflictingValuesAndShouldNotChangeValueInDomain() {
 		addDummyTableEmailColumnEmailCellValues();
 
 		String tableName = null;
@@ -261,9 +223,16 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
 		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
 	}
-
+	
+	/**
+	 * Test 5 : Editing the column type (EMAIL -> STRING)
+	 * | When you select to edit the column type (with correct values in the table data)
+	 * | the column type should change to the next value. When all the table data and column default value
+	 * | can be set to this type, the type is saved and shown without error in the UI.
+	 * | 
+	 */
 	@Test
-	public void test6clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
+	public void test5clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
 		addDummyTableEmailColumnEmailCellValues();
 
 		String tableName = null;
@@ -319,8 +288,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(STRING, uiTypeAfter);
 	}
 
+	/**
+	 * Test 6 : Editing the column type (STRING -> EMAIL)
+	 * | When you select to edit the column type (with correct values in the table data)
+	 * | the column type should change to the next value. When all the table data and column default value
+	 * | can be set to this type, the type is saved and shown without error in the UI.
+	 * | 
+	 */
 	@Test
-	public void test7clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
+	public void test6clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
 		addDummyTableStringColumnEmailCellValues();
 
 		String tableName = null;
@@ -374,8 +350,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(EMAIL, uiTypeAfter);
 	}
 
+	/**
+	 * Test 7 : Editing the column type (INTEGER -> STRING)
+	 * | When you select to edit the column type (with correct values in the table data)
+	 * | the column type should change to the next value. When all the table data and column default value
+	 * | can be set to this type, the type is saved and shown without error in the UI.
+	 * | 
+	 */
 	@Test
-	public void test8clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
+	public void test7clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
 		addDummyTableIntColumnStringCellValues();
 
 		String tableName = null;
@@ -429,8 +412,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(STRING, uiTypeAfter);
 	}
 
+	/**
+	 * Test 8 : Editing the column type (STRING -> BOOLEAN)
+	 * | When you select to edit the column type (with correct values in the table data)
+	 * | the column type should change to the next value. When all the table data and column default value
+	 * | can be set to this type, the type is saved and shown without error in the UI.
+	 * | 
+	 */
 	@Test
-	public void test9clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
+	public void test8clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
 		addDummyTableStringColumnStringBoolanValues();
 
 		String tableName = null;
@@ -485,8 +475,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(BOOLEAN, uiTypeAfter);
 	}
 
+	/**
+	 * Test 9 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from true to false while you still have blank values
+	 * | inside the column default value or table data, an error should be shown and the application should be paused.
+	 * | You should only be able to click on the checkbox again to proceed.
+	 * | This test: table data has null String values.
+	 */
 	@Test
-	public void test10disablingAllowBlanksShouldNotSucceedAndPauseTheApplicationIfTableHasBlanks() {
+	public void test9disablingAllowBlanksShouldNotSucceedAndPauseTheApplicationIfTableHasBlanks() {
 		addDummyTableStringColumnNullCellValues();
 
 		String tableName = null;
@@ -538,17 +535,20 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 					blanksAfter = (Boolean) mapEntry.getValue();
 			}
 		}
-//		System.out.println(typeBefore);
-//		System.out.println(uiTypeBefore);
-//		System.out.println(typeAfter);
-//		System.out.println(uiTypeAfter);
-
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
 
+
+	/**
+	 * Test 10 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from true to false while you still have blank values
+	 * | inside the column default value or table data, an error should be shown and the application should be paused.
+	 * | You should only be able to click on the checkbox again to proceed.
+	 * | This test: table data has null email values.
+	 */
 	@Test
-	public void test11disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
+	public void test10disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
 		addDummyTableEmailColumnNullCellValues();
 
 		String tableName = null;
@@ -594,18 +594,19 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 					blanksAfter = (Boolean) mapEntry.getValue();
 			}
 		}
-
-//		System.out.println(typeBefore);
-//		System.out.println(uiTypeBefore);
-//		System.out.println(typeAfter);
-//		System.out.println(uiTypeAfter);
-
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
 
+	/**
+	 * Test 11 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from true to false while you still have blank values
+	 * | inside the column default value or table data, an error should be shown and the application should be paused.
+	 * | You should only be able to click on the checkbox again to proceed.
+	 * | This test: table data has null boolean values.
+	 */
 	@Test
-	public void test12disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
+	public void test11disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
 		addDummyTableBooleanColumnNullCellValues();
 
 		String tableName = null;
@@ -656,8 +657,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
 
+	/**
+	 * Test 12 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from true to false while you still have blank values
+	 * | inside the column default value or table data, an error should be shown and the application should be paused.
+	 * | You should only be able to click on the checkbox again to proceed.
+	 * | This test: table data has null integer values.
+	 */
 	@Test
-	public void test13disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
+	public void test12disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
 		addDummyTableIntegerColumnNullCellValues();
 
 		String tableName = null;
@@ -707,7 +715,12 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(uiAllowsBefore, !uiAllowsAfter);
 		assertEquals(columnDataBefore, columnDataAfter);
 	}
-
+	
+	/**
+	 * Test 13 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from false to true, this should always be possible
+	 * | since you're broadening the constraints. This should be shown in the ui and saved.
+	 */
 	@Test
 	public void test14disablingAllowBlanksSucceedIfTableHasNoBlanks() {
 		addDummyTableEmailColumnEmailCellValues();
@@ -773,8 +786,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		}
 	}
 
+	/**
+	 * Test 14 : Editing if the column allows blank values.
+	 * | When you toggle the allows blanks checkbox from false to true, this should always be possible
+	 * | since you're broadening the constraints. This should be shown in the ui and saved.
+	 */
 	@Test
-	public void test15disablingAllowBlanksSucceedIfTableHasNoBlanksAndDefaultValueIsNotBlank() {
+	public void test14disablingAllowBlanksSucceedIfTableHasNoBlanksAndDefaultValueIsNotBlank() {
 		addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue();
 
 		String tableName = null;
@@ -838,8 +856,14 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		}
 	}
 
+	/**
+	 * Test 15 : Editing the default value.
+	 * | When you select the column default value and clear the text field, the application should pause.
+	 * | You should only be able to edit the text field or press escape to reset the value to the value when you clicked on the text field.
+	 * | After pressing escape, the old value should be saved.
+	 */
 	@Test
-	public void test16changingTheDefaultValueToAnInvalidValueShouldPauseTheApplicationAndEscapeShouldResetTheValue() {
+	public void test15changingTheDefaultValueToAnInvalidValueShouldPauseTheApplicationAndEscapeShouldResetTheValue() {
 		addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed();
 
 		String tableName = null;
@@ -915,8 +939,14 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(uiDefaultBefore, uiDefaultAfter);
 	}
 
+	/**
+	 * Test 16 : Editing the default value.
+	 * | When the current column type is Boolean, the column default value should be a toggle on click.
+	 * | If you enabled blank values, a blank value should be possible to select. If not, only
+	 * | true and false should be selectable.
+	 */
 	@Test
-	public void test17changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksAllowed() {
+	public void test16changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksAllowed() {
 		addDummyEmptyTableBooleanColumnVariableAllowsBlank(true);
 
 		String tableName = null;
@@ -1007,8 +1037,14 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(uiDefaultBefore, uiDefaultAfter);
 	}
 
+	/**
+	 * Test 17 : Editing the default value.
+	 * | When the current column type is Boolean, the column default value should be a toggle on click.
+	 * | If you enabled blank values, a blank value should be possible to select. If not, only
+	 * | true and false should be selectable.
+	 */
 	@Test
-	public void test18changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksNotAllowed() {
+	public void test17changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksNotAllowed() {
 		addDummyEmptyTableBooleanColumnVariableAllowsBlank(false);
 
 		String tableName = null;
@@ -1079,8 +1115,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(uiDefaultBefore, uiDefaultAfter);
 	}
 
+	/**
+	 * Test 18 : Editing the default value.
+	 * | When the current column type is Integer, the column default should be editable in a textfield.
+	 * | When clicked, the user can edit the value and should be saved if it is a valid integer.
+	 * | If there are any non-numeric values or the textfield has a floating 0, 
+	 * | an error should be shown and the application should be paused.
+	 */
 	@Test
-	public void test19changingCorrectIntDefaultValueShouldChangeValuesCorrectlyToInt() {
+	public void test18changingCorrectIntDefaultValueShouldChangeValuesCorrectlyToInt() {
 		addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
 
 		String tableName = null;
@@ -1104,6 +1147,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 		emulateKeyPress(KeyEvent.VK_BACK_SPACE);
 		emulateKeyPress("123");
+		emulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1135,8 +1179,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals("123", uiDefaultAfter);
 	}
 
+	/**
+	 * Test 19 : Editing the default value.
+	 * | When the current column type is Integer, the column default should be editable in a textfield.
+	 * | When clicked, the user can edit the value and should be saved if it is a valid integer.
+	 * | If there are any non-numeric values or the textfield has a floating 0, 
+	 * | an error should be shown and the application should be paused.
+	 */
 	@Test
-	public void test20changingWrongIntegerDefaultValueShouldNotSetValue() {
+	public void test19changingWrongIntegerDefaultValueShouldNotSetValue() {
 		addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
 
 		String tableName = null;
@@ -1189,8 +1240,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals("0123", uiDefaultAfter);
 	}
 
+	/**
+	 * Test 20 : Editing the default value.
+	 * | When the current column type is Email, the column default should be editable in a textfield.
+	 * | When clicked, the user can edit the value and should be saved if it is a valid integer.
+	 * | Extactly one '@' should be required to be valid if the column does not allow blanks.
+	 * | Otherwise, an empty string is valid aswell.
+	 */
 	@Test
-	public void test21changingCorrectEmailDefaultValueShouldSetValue() {
+	public void test20changingCorrectEmailDefaultValueShouldSetValue() {
 		addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
 
 		String tableName = null;
@@ -1242,8 +1300,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(defaultAfter, uiDefaultAfter);
 	}
 
+	/**
+	 * Test 21 : Editing the default value.
+	 * | When the current column type is Email, the column default should be editable in a textfield.
+	 * | When clicked, the user can edit the value and should be saved if it is a valid integer.
+	 * | Extactly one '@' should be required to be valid if the column does not allow blanks.
+	 * | Otherwise, an empty string is valid aswell.
+	 */
 	@Test
-	public void test22changingInvalidEmailDefaultValueShouldNotSetValue() {
+	public void test21changingInvalidEmailDefaultValueShouldNotSetValue() {
 		addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
 
 		String tableName = null;
@@ -1291,8 +1356,15 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(NEW_COLUMN_NAME, uiDefaultAfter);
 	}
 
+	/**
+	 * Test 22 : Editing the default value.
+	 * | When the current column type is Email, the column default should be editable in a textfield.
+	 * | When clicked, the user can edit the value and should be saved if it is a valid integer.
+	 * | Extactly one '@' should be required to be valid if the column does not allow blanks.
+	 * | Otherwise, an empty string is valid aswell.
+	 */
 	@Test
-	public void test23changingBlankEmailDefaultValueShouldSetValueIfColumnAllowsBlanks() {
+	public void test22changingBlankEmailDefaultValueShouldSetValueIfColumnAllowsBlanks() {
 		addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
 
 		String tableName = null;

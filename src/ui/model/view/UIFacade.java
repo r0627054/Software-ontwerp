@@ -45,6 +45,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+//		System.out.println("event fired, size = " + support.getPropertyChangeListeners().length);
 		support.addPropertyChangeListener(pcl);
 	}
 
@@ -133,7 +134,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void emulateKeyPress(char keyChar) {
 		this.getView().emulateKeyPress(keyChar);
 	}
-	
+
 	public void emulateKeyPress(int keyCode) {
 		this.getView().emulateKeyPress(keyCode);
 	}
@@ -145,7 +146,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	public void resetViewModes() {
-		this.getView().resetViewModes();		
+		support.removePropertyChangeListener(this.getView());
+		this.getView().resetViewModes();
+		this.view.addPropertyChangeListener(this);
 	}
 
 }

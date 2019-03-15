@@ -15,7 +15,7 @@ public class TablesViewMode extends ViewMode {
 		super();
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
-		this.addComponent(new TextField(50, 5, 200, 25, "TABLES LIST:"));
+		this.addComponent(new TextField(50, 5, 200, 25, "TABLES LIST"));
 	}
 
 	private void createTableList(Map<UUID, String> map) {
