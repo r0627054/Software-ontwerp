@@ -220,7 +220,7 @@ public class Container extends Component {
 	 * Returns the offset y, this is the y-coordinate plus sum of the height of the children.
 	 * 
 	 * @return The y coordinate plus the sum of the heights of the children (components).
-	 *         | this.getX() + this.getSumHeightFromChildren()
+	 *         | this.getY() + this.getSumHeightFromChildren()
 	 */
 	@Override
 	public int getOffsetY() {
