@@ -344,38 +344,5 @@ class RowsTableTest {
 		
 	}
 	
-	/**
-	 * Test 11 : get cell at index of column
-	 */
-	@Test
-	void test11getCellAtCertainColumnIndex() {
-		rt = new RowsTable(x, y, id);
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
-		Map<UUID, String> columnIdMap = new HashMap<>();
-		UUID id1 = UUID.randomUUID();
-		UUID id2 = UUID.randomUUID();
-		columnIdMap.put(id1, "columnName1");
-		columnIdMap.put(id2, "columnName2");
-		
-		LinkedHashMap<UUID, Object> columnCellsMap = new LinkedHashMap<>(); // linked orde blijft
-		
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap.put(ccmId1, "");
-		UUID ccmId2 = UUID.randomUUID(); 
-		columnCellsMap.put(ccmId2, false);
-
-		 
-		Map<UUID, Class<?>> columnTypes = new HashMap<>();
-		columnTypes.put(id1, String.class);
-		columnTypes.put(id2, Boolean.class);
-		
-		values.put(columnIdMap, columnCellsMap);
-		cells = rt.createTable(values, columnTypes);
-
-		rt.outsideClick(MouseEvent.MOUSE_CLICKED, x-5, 70, 1);
-
-		assertTrue(rt.getCell(1, id2) instanceof Cell);
-		
-	}
 }
 	
