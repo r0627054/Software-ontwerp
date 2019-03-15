@@ -115,8 +115,8 @@ public class DomainFacade implements DomainFacadeInterface {
 	*       | new.getInstance() == new DomainFacade()
 	*
 	* @notes
-	* synchronized makes sure that every thread is synchronized and
-	* prevents creating another instance in a other thread.
+	* Synchronised makes sure that every thread is synchronised and
+	* prevents creating another instance in another thread.
 	**/
 	public static DomainFacade getInstance() {
 		if (dfInstance == null) {
