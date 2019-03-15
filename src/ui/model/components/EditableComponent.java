@@ -80,7 +80,7 @@ public abstract class EditableComponent extends Component {
 	}
 
 	/**
-	 * Returns wheter or not the EditableComponent contains an error.
+	 * Returns whether or not the EditableComponent contains an error.
 	 */
 	public boolean isError() {
 		return error;

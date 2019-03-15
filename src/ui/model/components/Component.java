@@ -276,7 +276,7 @@ public abstract class Component {
 	 * Containing all visualisation and paint methods of the component.
 	 * 
 	 * @param g 
-	 * 			This object offers the methods that allow you to paint on the canvas.
+	 * 		This object offers the methods that allow you to paint on the canvas.
 	 */
 	public abstract void paint(Graphics2D g);
 
