@@ -8,7 +8,6 @@ public class VerticalComponentList extends ContainerList {
 
 	public VerticalComponentList(int x, int y, List<Component> listItems) {
 		super(x, y, 0, 0, listItems);
-		// System.out.println("Constructor verticalComponentList x:" + x + "|getY" + y);
 
 		setHeight(this.getSumHeightFromChildren());
 		setWidth(this.getMaxWidthFromChildren());
@@ -21,7 +20,6 @@ public class VerticalComponentList extends ContainerList {
 	}
 
 	protected void positionChildren() {
-		// System.out.println(this.getX() + " " + this.getY());
 		int tempY = getY();
 		int width = getMaxWidthFromChildren();
 		for (Component c : getComponentsList()) {
@@ -29,8 +27,6 @@ public class VerticalComponentList extends ContainerList {
 			c.setX(this.getX());
 			c.setWidth(width);
 			tempY += c.getHeight();
-//			System.out.println(c.toString() + "Set x & y to: x=" + c.getX() + "| y= " + c.getY() + "| width="
-//					+ c.getWidth() + "|height =" + c.getHeight());
 		}
 	}
 
@@ -51,6 +47,24 @@ public class VerticalComponentList extends ContainerList {
 	@Override
 	public int getOffsetX() {
 		return this.getX() + getMaxWidthFromChildren();
+	}
+	
+	@Override
+	protected void setY(int y) {
+		super.setY(y);
+
+		if (this.getComponentsList() != null) {
+			positionChildren();
+		}
+	}
+
+	@Override
+	protected void setX(int x) {
+		super.setX(x);
+
+		if (this.getComponentsList() != null) {
+			positionChildren();
+		}
 	}
 
 }

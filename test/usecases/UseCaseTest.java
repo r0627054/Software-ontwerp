@@ -100,9 +100,6 @@ public abstract class UseCaseTest {
 		domainFacade = domainfacade;
 	}
 
-	protected Controller getController() {
-		return controller;
-	}
 
 	private static void setController(Controller controller) {
 		UseCaseTest.controller = controller;
@@ -210,12 +207,12 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableIntColumnStringCellValues() {
-		Cell c1 = new Cell(ValueType.INTEGER, null);
-		Cell c2 = new Cell(ValueType.INTEGER, 123);
-		Cell c3 = new Cell(ValueType.INTEGER, 5);
+		Cell c1 = new Cell(ValueType.INTEGER, 0);
+		Cell c2 = new Cell(ValueType.INTEGER, null);
+		Cell c3 = new Cell(ValueType.INTEGER, 123);
 
 		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
+		Cell row2cells[] = { c2 }; 
 		Cell row3cells[] = { c3 };
 
 		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
@@ -372,9 +369,9 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue() {
-		Cell c1 = new Cell(ValueType.STRING, "@E");
-		Cell c2 = new Cell(ValueType.STRING, "M@");
-		Cell c3 = new Cell(ValueType.STRING, "D@");
+		Cell c1 = new Cell(ValueType.STRING, "@EEE");
+		Cell c2 = new Cell(ValueType.STRING, "M@AAA");
+		Cell c3 = new Cell(ValueType.STRING, "D@FFF");
 
 		Cell row1cells[] = { c1 };
 		Cell row2cells[] = { c2 };
@@ -456,6 +453,35 @@ public abstract class UseCaseTest {
 		table.addColumn(col1);
 
 		getDomainFacade().addMockedTable(table);
+	}
+	
+	protected void addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed() {
+		Cell c1 = new Cell(ValueType.EMAIL, "@E");
+		Cell c2 = new Cell(ValueType.EMAIL, "M@");
+		Cell c3 = new Cell(ValueType.EMAIL, "D@");
+
+		Cell row1cells[] = { c1 };
+		Cell row2cells[] = { c2 };
+		Cell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+
+		Cell colCells1[] = { c1, c2, c3 };
+		Column col1 = new Column("Email", ValueType.EMAIL);
+		col1.setDefaultValue("default@email");
+		col1.setAllowsBlanks(false);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("DummyEmail");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
 	}
 
 }
