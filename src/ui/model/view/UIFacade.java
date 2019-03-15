@@ -9,6 +9,15 @@ import java.util.UUID;
 
 import ui.model.viewmodes.ViewModeType;
 
+/**
+ * The actual implementation of the uiFacadeInterface.
+ * This handles all the actions defined in the uiFacadeInterface.
+ * This class can only be created once, therefore it's made a singleton.
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	/**

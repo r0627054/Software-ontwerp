@@ -25,14 +25,19 @@ import ui.model.window.CanvasWindow;
 /**
  * 
  * A view is a subclass of CanvasWindow.
- * This is a frame which contains all the different viewModes. 
+ * This is a frame which contains all the different viewModes and contains
+ * the logic to change these viewModes. 
  * 
  * @version 1.0
- * @author Dries Janse
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
 public class View extends CanvasWindow implements PropertyChangeListener {
 
+	/**
+	 * The PropertyChangeSupport where the listeners of this class are registered
+	 * and where this class calls his propertyChange function to.
+	 */
 	private PropertyChangeSupport support;
 
 	/**
@@ -41,14 +46,18 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private ViewMode currentMode;
 
 	/**
-	 * Variable storing all the different viewModes. With a String as key.
+	 * Variable map storing the DesignViewMode and TableRowsViewMode for a certain tableId.
 	 */
-
-	// UUID of the table can have multiple (currently max 2 viewmodes: TableRows and
-	// TableDesign) viewmode
 	private Map<UUID, List<TableViewMode>> viewModes = new HashMap<>();
+
+	/**
+	 * Variable holding the single instance of TablesViewMode
+	 */
 	private TablesViewMode tablesViewMode;
 
+	/**
+	 * Variables to determine if the user pressed control & enter
+	 */
 	private boolean ctrlPressed = false;
 	private boolean entrPressed = false;
 
@@ -60,17 +69,46 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	public View(String title) {
 		super(title);
-		support = new PropertyChangeSupport(this);
+		setSupport(new PropertyChangeSupport(this));
 	}
 
+	/**
+	 * Startup method to initialise the tablesViewMode.
+	 * The view starts listening to this window for events and
+	 * the current viewMode is set to tablesViewMode.
+	 * 
+	 * @param map
+	 * 		  The Map of tableIds and tableNames used to create the tablesViewMode
+	 */
 	public void startup(Map<UUID, String> map) {
 		tablesViewMode = new TablesViewMode(map);
 		getTablesViewMode().addPropertyChangeListener(this);
 		changeModeTo(null, ViewModeType.TABLESVIEWMODE);
 	}
 
+
+	/**
+	 * Adds a propertyChangeListener to the PropertyChangeSupport.
+	 * 
+	 * @param pcl
+	 *        | The propertyChangeListener.
+	 * @effect Adds a propertyChangeListener to the PropertyChangeSupport.
+	 *        | support.addPropertyChangeListener(pcl);
+	 */
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		support.addPropertyChangeListener(pcl);
+		getSupport().addPropertyChangeListener(pcl);
+	}
+	
+	/**
+	 * Removes a propertyChangeListener from the PropertyChangeSupport.
+	 *
+	 * @param pcl
+	 *        | The propertyChangeListener.
+	 * @effect Removes a propertyChangeListener from the PropertyChangeSupport.
+	 *        | support.addPropertyChangeListener(pcl);
+	 */
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		getSupport().removePropertyChangeListener(pcl);
 	}
 
 	/**
@@ -88,6 +126,20 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return currentMode;
 	}
 
+	/**
+	 * Gets the ViewMode for a certain tableId and a certain ViewModeType.
+	 * The table id should be empty if the TablesViewMode is requested, otherwise
+	 * the table id is mandatory.
+	 *  
+	 * @throws IllegalArgumentException
+	 *         | the tableId is null and viewModeType is null
+	 * @param id
+	 *         | The table id of the requested view mode
+	 * @param viewModeType
+	 *         | The viewModeType enum to indicate which view mode is requested
+	 * @return ViewMode
+	 *         | The requested ViewMode
+	 */
 	public ViewMode getViewMode(UUID id, ViewModeType viewModeType) {
 		if (id == null && viewModeType.equals(ViewModeType.TABLESVIEWMODE)) {
 			return tablesViewMode;
@@ -124,10 +176,26 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			this.setCurrentMode(newCurrentMode);
 	}
 
+	/**
+	 * Gets the Tables overview.
+	 * 
+	 * @return TablesViewMode
+	 *         | Only instance of TablesViewMode.
+	 */
 	public TablesViewMode getTablesViewMode() {
 		return this.tablesViewMode;
 	}
 
+	/**
+	 * Adds a TableViewMode (TableRowViewMode or TableDesignViewMode) to the list of view modes.
+	 * If the corresponding view mode of the table table id exists, the new view mode is added to the same list.
+	 * Otherwise, a new value in the view modes map is created.
+	 * 
+	 * @param id
+	 *       | tableId of the new TableViewMode
+	 * @param viewMode
+	 *       | the new TableViewMode
+	 */
 	public void addTableViewMode(UUID id, TableViewMode viewMode) {
 		if (this.getAllTableViewModes().containsKey(id)) {
 
@@ -149,24 +217,67 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Gets the map of tableIds with their TableViewMode(s).
+	 * 
+	 * @return viewModes
+	 *         | The Map containing a list of TableViewModes for a certain tableId.
+	 */
 	private Map<UUID, List<TableViewMode>> getAllTableViewModes() {
 		return viewModes;
 	}
 
+	/**
+	 * Changes the current view mode to the given current view mode and repaints the window.
+	 * 
+	 * @param currentMode
+	 *        | the new set view mode
+	 * @post The currentMode is set
+	 *        | this.currentMode = currentMode
+	 * @post Window is repainted
+	 *        | repaint()
+	 */
 	private void setCurrentMode(ViewMode currentMode) {
 		this.currentMode = currentMode;
 		this.repaint();
 	}
 
+	/**
+	 * Gets the current ViewModeType
+	 * 
+	 * @return ViewModeType
+	 *         | the current type of the current view mode.
+	 */
 	public ViewModeType getCurrentViewModeType() {
 		return this.getCurrentViewMode().getViewModeType();
 	}
 
+	/**
+	 * Gives the raised mouse event details to the current shown view mode.
+	 * 
+	 * @param id
+	 *       | MouseEvent click id
+	 * @param x
+	 *       | x-coordinate clicked
+	 * @param y
+	 *       | y-coordinate clicked
+	 * @param clickCount
+	 *       | amount of times clicked in a short interval
+	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
 		getCurrentViewMode().mouseClicked(id, x, y, clickCount);
 	}
 
+	/**
+	 * Gives the raised key event details to the current shown view mode.
+	 * @param id
+	 *        | MouseEvent key id 
+	 * @param keyCode
+	 *        | MouseEvent Keycode (e.g.: KeyEvent.VK_ESCAPE)
+	 * @param keyChar
+	 *        | Character typed
+	 */
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
 		if (id == KeyEvent.KEY_PRESSED) {
@@ -187,6 +298,15 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Check if the control and enter keys were pressed after each other.
+	 * If not, reset the boolean values.
+	 * 
+	 * @param id
+	 *       | KeyEvent key id
+	 * @param keyCode
+	 *       | Button pressed
+	 */
 	private void checkCtrlEnterKeyPress(int id, int keyCode) {
 		ViewModeType tableDVM = ViewModeType.TABLEDESIGNVIEWMODE;
 		ViewModeType tableRVM = ViewModeType.TABLEROWSVIEWMODE;
@@ -223,6 +343,14 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Check if the escape key was pressed.
+	 * This should change view modes in the TableRowsViewMode and TableDesignViewMode.
+	 * @param id
+	 *       | KeyEvent key id
+	 * @param keyCode
+	 *       | Button pressed
+	 */
 	private void checkEscapeKeyPress(int id, int keyCode) {
 		if (keyCode == KeyEvent.VK_ESCAPE) {
 			ViewModeType currentType = this.getCurrentViewModeType();
@@ -233,20 +361,58 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Receives a propertyChangeEvent and fires a new event to its listeners.
+	 * Overrides from the PropertyChangeListener interface.
+	 * 
+	 * @param evt
+	 *       | the received event from a ViewMode
+	 *       
+	 * @post fires the event to its listeners
+	 *       | getSupport().firePropertyChange(evt); 
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.support.firePropertyChange(evt);
 		this.repaint();
 	}
 
+	/**
+	 * Throws an error to a component on the current view mode.
+	 * 
+	 * @param id
+	 *        | The id of component that needs to receive the error.
+	 */
 	public void throwErrorOnCurrentViewMode(UUID id) {
 		getCurrentViewMode().throwError(id);
 	}
 
+	/**
+	 * Opens the tables view mode
+	 * Changes the current mode to the tables view mode
+	 * 
+	 * @post changes current mode to tablesViewMode
+	 *       | this.setCurrentMode(this.getTablesViewMode())
+	 */
 	public void openTablesViewMode() {
 		this.setCurrentMode(this.getTablesViewMode());
 	}
 
+	/**
+	 * Opens the tableRowsViewMode
+	 * To open this mode, we need data to fetch the already existing view mode
+	 * and if this does not exist, we pass data to create a new tableRowsViewMode
+	 * 
+	 * @param tableId
+	 * 		   | The tableId of the table that should be shown.
+	 * @param tableName
+	 *         | The table name of the table that should be shown.
+	 * @param table
+	 *         | A map containing all the information of to show the table.
+	 * @param columnTypes
+	 * 		   | A map containing a class for each column, to determine if the value is null
+	 *         | What the column type should be.
+	 */
 	public void openTableRowsViewMode(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		if (tableId == null || table == null || tableName == null) {
@@ -276,6 +442,18 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return newTableRowsViewMode;
 	}
 
+	/**
+	 * Opens the tableDesignViewMode
+	 * To open this mode, we need data to fetch the already existing view mode
+	 * and if this does not exist, we pass data to create a new tableDesignViewMode
+	 * 
+	 * @param id
+	 * 		   | The tableId of the table that should be shown.
+	 * @param tableName
+	 *         | The table name of the table that should be shown.
+	 * @param columnCharacteristics
+	 *         | A map containing all the information of to show the table.
+	 */
 	public void openTableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || columnCharacteristics == null) {
@@ -306,10 +484,35 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return newTableDesignViewMode;
 	}
 
+	/**
+	 * Updates the tablesViewMode
+	 * Whenever a domain element is updated, the view needs to be updated as well.
+	 * 
+	 * @param tableId
+	 * 		   | The tableId of the table that should be shown.
+	 * @param tableName
+	 *         | The table name of the table that should be shown.
+	 * @param table
+	 *         | A map containing all the information of to show the table.
+	 * @param columnTypes
+	 * 		   | A map containing a class for each column, to determine if the value is null
+	 *         | What the column type should be.
+	 */
 	public void updateTablesViewMode(Map<UUID, String> map) {
 		getTablesViewMode().updateTables(map);
 	}
 
+	/**
+	 * Updates the tableDesignViewMode
+	 * Whenever a domain element is updated, the view needs to be updated as well.
+	 * 
+	 * @param tableId
+	 * 		   | The tableId of the table that should be shown.
+	 * @param tableName
+	 *         | The table name of the table that should be shown.
+	 * @param columnCharacteristics
+	 *         | A map containing all the information of to show the table.
+	 */
 	public void updateTableDesignViewMode(UUID tableId, String tableNameOfId,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		TableDesignViewMode tableDesignViewMode = (TableDesignViewMode) getViewMode(tableId,
@@ -317,12 +520,35 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		tableDesignViewMode.updateDesignTable(columnCharacteristics);
 	}
 
+	/**
+	 * Updates the tableRowsViewMode
+	 * Whenever a domain element is updated, the view needs to be updated as well.
+	 * 
+	 * @param tableId
+	 * 		   | The tableId of the table that should be shown.
+	 * @param tableName
+	 *         | The table name of the table that should be shown.
+	 * @param table
+	 *         | A map containing all the information of to show the table.
+	 * @param columnTypes
+	 * 		   | A map containing a class for each column, to determine if the value is null
+	 *         | What the column type should be.
+	 */
 	public void updateTableRowsViewMode(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
 		TableRowsViewMode tableRowsViewMode = (TableRowsViewMode) getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
 		tableRowsViewMode.updateRowsTable(table, columnTypes);
 	}
 
+	/**
+	 * Pauses the application.
+	 * Only one 'error' cell should be editable of a certain column with index
+	 * 
+	 * @param index
+	 *        | index of the cell of a column
+	 * @param id
+	 *        | columnId of the column
+	 */
 	public void pauseApplication(int indexOfCell, UUID columnId) {
 		ViewMode currentMode = getCurrentViewMode();
 		if (currentMode instanceof TableViewMode) {
@@ -341,6 +567,16 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return null;
 	}
 
+	/**
+	 * Resumes the application.
+	 * To make sure we don't add the error twice as actionListeners to 
+	 * clicks and keys, give the cell data to the view.
+	 * 
+	 * @param index
+	 *        | index of the cell of a column
+	 * @param id
+	 *        | columnId of the column
+	 */
 	public void unpause(int columnIndex, UUID columnId) {
 		ViewMode current = this.getCurrentViewMode();
 
@@ -349,7 +585,17 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			currentTableViewMode.unpauseViewMode(columnIndex, columnId);
 		}
 	}
-
+	
+	/**
+	 * Sets a specific error in a cell in the DesignTable.
+	 * 
+	 * @param columnIndex
+	 *        | index of the cell of a column
+	 * @param columnId
+	 *        | columnId of the column
+	 * @param newValue
+	 *        | the new value of this cell
+	 */
 	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
 		ViewMode current = this.getCurrentViewMode();
 
@@ -409,6 +655,32 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			throw new IllegalArgumentException("Cannot set a null TablesViewMode");
 		}
 		this.tablesViewMode = newTablesViewMode;
+	}
+
+	/**
+	 * Gets the PropertyChangeSupport
+	 * 
+	 * @return support
+	 */
+	private PropertyChangeSupport getSupport() {
+		return support;
+	}
+
+	/**
+	 * Sets the PropertyChangeSupport
+	 * 
+	 * @param support
+	 *        | the PropertyChangeSupport
+	 * @throws IllegalArgumentException
+	 *         | the support argument is null
+	 * @post The support given is set
+	 *       | this.support = support
+	 */
+	private void setSupport(PropertyChangeSupport support) {
+		if (support == null) {
+			throw new IllegalArgumentException("Cannot set a null support.");
+		}
+		this.support = support;
 	}
 
 }
