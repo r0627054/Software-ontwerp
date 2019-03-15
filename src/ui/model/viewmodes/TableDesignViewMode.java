@@ -10,10 +10,32 @@ import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.DesignTable;
 import ui.model.components.TextField;
-
+/**
+ * The tableDesignViewMode is a TableViewMode specifically used for designing the table.
+ *  The tableDesignViewMode can allow edits of the table and can handles pauses.
+ * 
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class TableDesignViewMode extends TableViewMode {
+	
+	/**
+	 * Variable storing the container.
+	 */
 	private Container container;
 
+	/**
+	 * Initialises a new TableDesignViewMode with the given information.
+	 * 
+	 * @param id
+	 *        | the id of the table.
+	 * @param tableName
+	 *        | the name of the table.
+	 * @param columnCharacteristics
+	 *        | the characteristics of a table (it contains all the information needed to edit and show the design.
+	 * @effect the viewMode is created with the given information and a designTable is created and added to the viewMode.
+	 */       
 	public TableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		super(id, tableName);
@@ -22,6 +44,12 @@ public class TableDesignViewMode extends TableViewMode {
 		this.createDesignTable(columnCharacteristics);
 	}
 
+	/**
+	 * Creates a DesignTable with all the given information.
+	 * ( all the listeners are registered )
+	 * @param columnCharacteristics
+	 *        | the information needed to create a designTable.
+	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		container = new Container(0, 0, 600, 600);
 		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + getTableName(), getId()));
@@ -43,6 +71,11 @@ public class TableDesignViewMode extends TableViewMode {
 		this.addAllListeners();
 	}
 
+	/**
+	 * Deletes the previous design table and updates the viewMode by creating a new DesignTable.
+	 * @param columnCharacteristics
+	 *        | the information needed to create a designTable.
+	 */
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.removeAllClickAndKeyListeners();
 		this.removeAllComponents();
@@ -50,10 +83,16 @@ public class TableDesignViewMode extends TableViewMode {
 		this.createDesignTable(columnCharacteristics);
 	}
 
+	/**
+	 * Returns the container variable of the TablesViewMode.
+	 */
 	private Container getContainer() {
 		return container;
 	}
 
+	/**
+	 * Returns the DesignTable stored in the container of the ViewMode.
+	 */
 	private DesignTable getDesignTable() {
 		for (Component container : getComponents()) {
 			if (container instanceof Container) {
@@ -68,6 +107,16 @@ public class TableDesignViewMode extends TableViewMode {
 		return null;
 	}
 
+	/**
+	 * Pauses the current viewMode, the only cell which can be edited is the one with the given
+	 * columnIndex and given columnId.
+	 * 
+	 * @param columnIndex
+	 *        | the index of the column where the cell is situated.
+	 * @param columnId
+	 *        | the columnId of the column where the cell is situated.
+	 * @effect All the keyListeners and clickListeners different from this one cell are removed. 
+	 */
 	public void pauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(true);
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
@@ -76,6 +125,15 @@ public class TableDesignViewMode extends TableViewMode {
 		errorCell.setError(true);
 	}
 
+	/**
+	 * UnPauses the current viewMode, adds all the key and click-listeners such that the user can edit again.
+	 * 
+	 * @param columnIndex
+	 *        | the index of the column where the cell is situated.
+	 * @param columnId
+	 *        | the columnId of the column where the cell is situated.
+	 * @effect All the keyListeners and clickListeners different from this one cell are added again. 
+	 */
 	public void unpauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
@@ -83,12 +141,26 @@ public class TableDesignViewMode extends TableViewMode {
 		errorCell.setError(false);
 	}
 
-
+	/**
+	 * Sets an error to the cell inside the design table and updates the value to the new value.
+	 * 
+	 * @param columnIndex
+	 *        | the index of the column where the cell is situated.
+	 * @param columnId
+	 *        | the columnId of the column where the cell is situated.
+	 * @param newValue
+	 *        | the new Value of the cell inside the DesignViewMode.
+	 * @effect the cell is updated to the newValue and the cell is in error state.
+	 */
 	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
 		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
 		errorCell.setErrorWithNewValue(true, newValue);
 	}
 
+	/**
+	 * Returns whether there is a cell in the viewMode that is selected.
+	 * @return true if there is a cell selected in the viewMode; otherwise false.
+	 */
 	public boolean hasASelectedCell() {
 		for (Component comp : getStoredListeners()) {
 			if (comp instanceof Cell) {

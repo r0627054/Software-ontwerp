@@ -245,4 +245,175 @@ class DomainFacadeTest {
 		Exception e = assertThrows(DomainException.class, () -> df.deleteTable(null));
 		assertEquals("Cannot delete a table with a null index", e.getMessage());
 	}
+	
+	/**
+	 * Test 16 : Get column characteristics
+	 * | should return the characteristics
+	 */
+	@Test
+	void test16GetColumnCharacteristics() {
+		df = DomainFacade.getInstance();
+		UUID id = UUID.randomUUID();
+		Table t = new Table("tableName");
+		df.getTableMap().put(id, t);
+		df.addColumnToTable(id);
+		df.getColumnCharacteristics(id);
+		assertTrue(df.getColumnCharacteristics(id) instanceof Map);
+	}
+	
+	/**
+	 * Test 17 : Get column characteristics
+	 * | given table id is null
+	 * | should throw an domain exception
+	 */
+	@Test
+	void test17GetColumnCharacteristicsWithNullAsTableId() {
+		df = DomainFacade.getInstance();
+		UUID id = UUID.randomUUID();
+		Table t = new Table("tableName");
+		df.getTableMap().put(id, t);
+		df.addColumnToTable(id);
+		Exception e = assertThrows(DomainException.class, () -> df.getColumnCharacteristics(null));
+		assertEquals("Cannot get column characteristiscs with a null id", e.getMessage());
+		
+	}
+	
+	/**
+	 * Test 18 : Get column characteristics
+	 * | given table id is not existing
+	 * | should throw an domain exception
+	 */
+	@Test
+	void test18GetColumnCharacteristicsWithNotExistingAsTableId() {
+		df = DomainFacade.getInstance();
+		UUID id = UUID.randomUUID();
+		Table t = new Table("tableName");
+		df.getTableMap().put(id, t);
+		df.addColumnToTable(id);
+		Exception e = assertThrows(DomainException.class, () -> df.getColumnCharacteristics(UUID.randomUUID()));
+		assertEquals("No table could be found with given id.", e.getMessage());	
+	}
+	
+	/**
+	 * Test 19 : Add column to table
+	 * | with null as table id
+	 * | should throw an domain exception
+	 */
+	@Test
+	void test19AddColumnToTableWithNullAsTableId() {
+		df = DomainFacade.getInstance();
+		UUID id = UUID.randomUUID();
+		Table t = new Table("tableName");
+		df.getTableMap().put(id,t);
+		Exception e = assertThrows(DomainException.class, () -> df.addColumnToTable(null));
+		assertEquals("Cannot add a column to a table with a null id.", e.getMessage());
+	}
+	
+	/**
+	 * Test 20 : Add column to table
+	 * | with an not existing table id
+	 * | table should not have been altered and hascode should remain the same
+	 */
+	@Test
+	void test20AddColumnToTableWithNotExistingAsTableId() {
+		df = DomainFacade.getInstance();
+		UUID id = UUID.randomUUID();
+		Table t = new Table("tableName");
+		df.getTableMap().put(id,t);
+		int hashBefore = df.hashCode();
+		df.addColumnToTable(UUID.randomUUID());
+		assertEquals(hashBefore, df.hashCode());
+	}
+	
+	/**
+	 * Test 21 : Update column name
+	 * | with table id as null
+	 * | should throw domain exception
+	 */
+	@Test
+	void test21UpdateColumnNameWithNullAsTableId() {
+		df = DomainFacade.getInstance();
+		UUID tableId = UUID.randomUUID();
+		Table table = new Table("tableName");
+		UUID columnId = UUID.randomUUID();
+		Column column = new Column("oldName");
+		table.addColumn(column);
+		df.getTableMap().put(tableId, table);
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(null, columnId, "newColumnName")); 
+		assertEquals("Cannot update a column name with a null id.", e.getMessage());
+	}
+	
+	/**
+	 * Test 22 : Update column name
+	 * | with column id as null
+	 * | should return domain exception
+	 */
+	@Test
+	void test22UpdateColumnNameWithNullAsColumnId() {
+		df = DomainFacade.getInstance();
+		UUID tableId = UUID.randomUUID();
+		Table table = new Table("tableName");
+		UUID columnId = UUID.randomUUID();
+		Column column = new Column("oldName");
+		table.addColumn(column);
+		df.getTableMap().put(tableId, table);
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, null, "newColumnName")); 
+		assertEquals("Cannot update a column name with a null id.", e.getMessage());
+	}
+	
+	/**
+	 * Test 23 : Update column name
+	 * | with valid parameters
+	 */
+	@Test
+	void test23UpdateColumnNameWithValidParams() {
+		df = DomainFacade.getInstance();
+		UUID tableId = UUID.randomUUID();
+		Table table = new Table("tableName");
+		UUID columnId = UUID.randomUUID();
+		Column column = new Column("oldName");
+		table.addColumn(column);
+		df.getTableMap().put(tableId, table);
+		int hashBefore = df.hashCode();
+		df.updateColumnName(tableId, columnId, "newColumnName");
+		assertTrue(hashBefore == df.hashCode());
+
+	}
+	
+	/**
+	 * Test 24 : Update column name
+	 * | with null as new column name
+	 * | should return domain exception
+	 */
+	@Test
+	void test24UpdateColumnNameWithNullAsNewColumnName() {
+		df = DomainFacade.getInstance();
+		UUID tableId = UUID.randomUUID();
+		Table table = new Table("tableName");
+		UUID columnId = UUID.randomUUID();
+		Column column = new Column("oldName");
+		table.addColumn(column);
+		df.getTableMap().put(tableId, table);
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, null)); 
+		assertEquals("Cannot set a new column name with a null or empty name.", e.getMessage());
+	}
+	
+	/**
+	 * Test 25 : Update column name
+	 * | with empty String as new column name
+	 * | should return domain exception
+	 */
+	@Test
+	void test25UpdateColumnNameWithEmptyStringAsNewColumnName() {
+		df = DomainFacade.getInstance();
+		UUID tableId = UUID.randomUUID();
+		Table table = new Table("tableName");
+		UUID columnId = UUID.randomUUID();
+		Column column = new Column("oldName");
+		table.addColumn(column);
+		df.getTableMap().put(tableId, table);
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, "")); 
+		assertEquals("Cannot set a new column name with a null or empty name.", e.getMessage());
+	}
+	
 }
