@@ -27,7 +27,6 @@ public class HorizontalComponentList extends ContainerList {
 	 * @effect All the variables are set/calculated and the children are automatically positioned.
 	 *        | super(x, y, 0, 0, listItems)
      *        | this.setWidth(getSumWidthFromChildren())
-	 *        |	this.setWidth(getSumWidthFromChildren())
 	 *        |	this.setHeight(getMaxHeightFromChildren())
      *        | positionChildren()
 	 */

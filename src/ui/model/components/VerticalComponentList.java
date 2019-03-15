@@ -4,8 +4,32 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  A horizontalComponentList is subclass of containerList.
+ *  It organises components Vertically.
+ *  
+ * @version 1.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ *
+ */
 public class VerticalComponentList extends ContainerList {
 
+	/**
+	 * Initialise a new VerticalComponentList with the given variables.
+	 * It calculates the dimensions and positions all the children automatically.
+	 * 
+	 * @param x
+	 *        The x-coordinate of the component.
+	 * @param y
+	 *        The y-coordinate of the component.
+	 * @param listItems
+	 *        The list of components.
+	 * @effect All the variables are set/calculated and the children are automatically positioned.
+	 *        | super(x, y, 0, 0, listItems);
+	 *        |	setHeight(this.getSumHeightFromChildren())
+	 *        | setWidth(this.getMaxWidthFromChildren())
+	 *        | positionChildren()
+	 */
 	public VerticalComponentList(int x, int y, List<Component> listItems) {
 		super(x, y, 0, 0, listItems);
 
@@ -15,10 +39,27 @@ public class VerticalComponentList extends ContainerList {
 		positionChildren();
 	}
 
+	/**
+	 * Initialise a new VerticalComponentList with the given variables.
+	 * 
+	 * @param x
+	 *        The x-coordinate of the textField.
+	 * @param y
+	 *        The y-coordinate of the textField.
+	 * @param width
+	 *        The width of the textField.
+	 * @param height
+	 *        The height of the textField.
+	 * @effect All the variables are set. 
+	 *        | super(x, y, width, height, new ArrayList<Component>())
+	 */
 	public VerticalComponentList(int x, int y, int width, int height) {
 		super(x, y, width, height, new ArrayList<Component>());
 	}
 
+	/**
+	 * Automatically positions all the components inside the VerticalComponentList.
+	 */
 	protected void positionChildren() {
 		int tempY = getY();
 		int width = getMaxWidthFromChildren();
@@ -30,6 +71,16 @@ public class VerticalComponentList extends ContainerList {
 		}
 	}
 
+	/**
+	 * Draws the all the components of the VerticalComponentList.
+	 * But first repositions all the components.
+	 * 
+	 * @param g 
+	 * 		 This object offers the methods that allow you to paint on the canvas.
+	 * @effect All the children are positioned.
+	 *         | for (Component c : getComponentsList()) {
+	 * 		   |   c.paint((Graphics2D) g.create());
+	 */
 	@Override
 	public void paint(Graphics2D g) {
 		positionChildren();
@@ -38,17 +89,43 @@ public class VerticalComponentList extends ContainerList {
 		}
 	}
 
+	/**
+	 * Adds a component to the list of components.
+	 *  And repositions all the children components.
+	 *  
+	 * @param c
+	 *        | the component which will be added to the container.
+	 * @effect the component is added and the children are repositioned.
+	 *        | super.addComponent(c);
+	 *        |	positionChildren();
+	 */
 	@Override
 	public void addComponent(Component c) {
 		super.addComponent(c);
 		positionChildren();
-	};
+	}
 
+	/**
+	 * Returns the offset x, this is the x-coordinate plus the maximum width of the children.
+	 * 
+	 * @return The x coordinate plus the maximum width of the children (components).
+	 *         | this.getX() + getMaxWidthFromChildren()
+	 */
 	@Override
 	public int getOffsetX() {
 		return this.getX() + getMaxWidthFromChildren();
 	}
 	
+	
+	/**
+	 * Sets the y-coordinate of the component.
+	 *  And repositions the children of the component.
+	 * @param y
+	 *        The y-coordinate of the component.
+	 * @effect The y coordinate of the component is and the position of the children is updated.
+	 *        | super.setY(y)
+	 *        | positionChildren()
+	 */
 	@Override
 	protected void setY(int y) {
 		super.setY(y);
@@ -58,6 +135,15 @@ public class VerticalComponentList extends ContainerList {
 		}
 	}
 
+	/**
+	 * Sets the x-coordinate of the component.
+	 *  And repositions the children of the component.
+	 * @param x
+	 *        The x-coordinate of the component.
+	 * @effect The x coordinate of the component is and the position of the children is updated.
+	 *        | super.setX(x)
+	 *        | positionChildren()
+	 */
 	@Override
 	protected void setX(int x) {
 		super.setX(x);
