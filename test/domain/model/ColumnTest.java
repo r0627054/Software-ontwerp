@@ -1,6 +1,5 @@
 package domain.model;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -20,6 +19,7 @@ public class ColumnTest {
 
 	private Column column;
 	private Column correctStringColumn = new Column("String column", stringType);
+	private Column correctIntColumn = new Column("String column", intType);
 	
 	
 
@@ -27,6 +27,7 @@ public class ColumnTest {
 	@BeforeEach
 	public void setup() {
 		correctStringColumn = new Column("String column", stringType);
+		correctIntColumn = new Column("Integer", intType);
 	}
 
 	/**
@@ -118,7 +119,7 @@ public class ColumnTest {
 	 */
 	@Test
 	public void test5SetDefaultValueWithInvalidTypeShouldThrowException(){
-		DomainException e = assertThrows(DomainException.class, () -> correctStringColumn.setDefaultValue(true));
+		DomainException e = assertThrows(DomainException.class, () -> correctIntColumn.setDefaultValue("test@email"));
 		assertEquals(e.getMessage(), "Invalid default column value.");
 	}
 

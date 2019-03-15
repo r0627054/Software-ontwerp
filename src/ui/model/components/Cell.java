@@ -81,7 +81,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 *        | this(x, y, value, id, null)
 	 */
 	public Cell(int x, int y, Object value, UUID id) {
-		this(x, y, value, id, null);
+		this(x, y, value, id, value.getClass());
 	}
 
 	/**

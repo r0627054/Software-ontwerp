@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.UUID;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 class EditableTextFieldTest {

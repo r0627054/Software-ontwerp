@@ -1,11 +1,12 @@
 package ui.model.components;
 
-import static org.junit.Assume.assumeNoException;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -37,8 +38,8 @@ class VerticalComponentListTest {
 	assertAll(
 			() -> assertTrue(x == vc.getX()),
 			() -> assertTrue(y == vc.getY()),
-			() -> assertTrue(0 == vc.getWidth()),
-			() -> assertTrue(0 == vc.getHeight())
+			() -> assertTrue(width == vc.getWidth()),
+			() -> assertTrue(height == vc.getHeight())
 			);
 	}
 	

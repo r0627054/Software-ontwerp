@@ -28,8 +28,8 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 	 * and the application is paused (only the current cell can be added).
 	 * 
 	 * If the type was String, it becomes Email. If it was Email, it becomes
-     * Boolean. If it was Boolean, it becomes Integer. If it was Integer, it
-     * becomes String
+	 * Boolean. If it was Boolean, it becomes Integer. If it was Integer, it
+	 * becomes String
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -45,21 +45,7 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 		UUID tableId = uifacade.getCurrentTableId();
 		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Type");
 		ValueType currentType = ValueType.getValueTypeForString((String) evt.getOldValue());
-		ValueType newType = null;
-
-		ArrayList<ValueType> rotation = new ArrayList<>();
-		rotation.add(ValueType.STRING);
-		rotation.add(ValueType.EMAIL);
-		rotation.add(ValueType.BOOLEAN);
-		rotation.add(ValueType.INTEGER);
-
-		int currentRotationIndex = rotation.indexOf(currentType);
-
-		if (currentRotationIndex == rotation.size() - 1) {
-			newType = rotation.get(0);
-		} else {
-			newType = rotation.get(currentRotationIndex + 1);
-		}
+		ValueType newType = getNextValueType(currentType);
 
 		try {
 			domainfacade.setColumnType(tableId, columnId, newType);
@@ -70,7 +56,30 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 			uifacade.setErrorDesignTableCell(columnIndex, columnId, newType);
 			uifacade.pauseApplication(columnIndex, columnId);
 		}
+	}
 
+	/**
+	 * Gets the new value type based on the previous.
+	 *
+	 * @param previousValueType
+	 *        | The previous value type of the column.
+	 * @return nextValueType
+	 *        | The new value type of the column.
+	 */
+	private ValueType getNextValueType(ValueType previousValueType) {
+		ArrayList<ValueType> rotation = new ArrayList<>();
+		rotation.add(ValueType.STRING);
+		rotation.add(ValueType.EMAIL);
+		rotation.add(ValueType.BOOLEAN);
+		rotation.add(ValueType.INTEGER);
+
+		int currentRotationIndex = rotation.indexOf(previousValueType);
+
+		if (currentRotationIndex == rotation.size() - 1) {
+			return rotation.get(0);
+		} else {
+			return rotation.get(currentRotationIndex + 1);
+		}
 	}
 
 }

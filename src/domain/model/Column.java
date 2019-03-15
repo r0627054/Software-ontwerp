@@ -169,10 +169,6 @@ public class Column extends ObjectIdentifier {
 		for (Cell c : getCells()) {
 			c.setType(type);
 		}
-		this.changeDefaultValueType(type);
-	}
-
-	private void changeDefaultValueType(ValueType type) {
 		this.setDefaultValue(type.castTo(getDefaultValue()));
 	}
 
@@ -223,7 +219,7 @@ public class Column extends ObjectIdentifier {
 	 * 			| new.getDefaultValue().equals(value)
 	 */
 	public void setDefaultValue(Object value) {
-		if (value == null && !this.allowsBlanks) {
+		if (value == null && !this.isAllowsBlanks()) {
 			throw new DomainException("Blanks are not allowed as default value.");
 		}
 		if (!getType().canHaveAsValue(value) && value != null)
