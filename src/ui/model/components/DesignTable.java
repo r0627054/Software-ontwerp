@@ -289,7 +289,7 @@ public class DesignTable extends EditableComponent {
 	}
 
 	/**
-	 * Checks wheter or not the delete key is pressed.
+	 * Checks whether or not the delete key is pressed.
 	 * If some cells where selected for deletion these will be deleted.
 	 * 
 	 * @param id
