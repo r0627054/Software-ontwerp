@@ -13,7 +13,7 @@ import com.sun.glass.events.KeyEvent;
 import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
 
-public class UseCase10Text extends UseCaseTest implements RowTableConstants {
+public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 
 	/**
 	 * Test 1 : Deleting the row correctly
