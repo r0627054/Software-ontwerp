@@ -96,6 +96,7 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 
 				if (!(entry.getValue().equals(startTableNamesList.get(entry.getKey())))) {
 					assertTrue(entry.getValue().contains(NEW_TABLE_NAME));
+					changedNamesCounter++;
 
 					if (newTableName1 == null && newTableName2 == null) {
 						newTableName1 = entry.getValue();
@@ -104,16 +105,12 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 					}
 
 				}
-
-				if (!(entry.getValue().equals(startTableNamesList.get(entry.getKey())))) {
-					changedNamesCounter++;
-				}
 			}
+			
 			assertEquals(2, changedNamesCounter);
 			assertNotSame(newTableName1, newTableName2);
 			
 			tableList = getTablesViewModeTableList();
-			changedNamesCounter = 0;
 			for (Component c : tableList.getComponentsList()) {
 				if (c instanceof EditableTextField) {
 					EditableTextField etf = (EditableTextField) c;

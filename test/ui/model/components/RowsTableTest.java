@@ -339,8 +339,6 @@ class RowsTableTest {
 		cells = rt.createTable(values, columnTypes);
 
 		rt.outsideClick(MouseEvent.MOUSE_CLICKED, x-5, 70, 1);
-
-		assertTrue(rt.getCell(1, id1) instanceof Cell);
 		
 	}
 	
