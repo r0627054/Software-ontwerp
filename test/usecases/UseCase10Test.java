@@ -2,13 +2,12 @@ package usecases;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-
-import com.sun.glass.events.KeyEvent;
 
 import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
