@@ -10,14 +10,17 @@ Zip "groupXX.zip" containing:
   - behavioural diagrams to illustrate every use case.
 
 - src: folder containing the source code of the system.
+
 - system.jar: an executable JAR file of your system.
+
 - **Exclude version management files from the zip.**
-- 
+
+  
 
 ## Tablr
 
 The goal of the project is to develop a desktop database application.
-In this iteration, the application’s user interface changes from being modebased to being subwindow-based.
+**In this iteration, the application’s user interface changes from being modebased to being subwindow-based.
 The application’s user interface consists of a single top-level window, whose
 content area shows zero or more rectangular subwindows on a gray background.
 Each subwindow cosists of a border, a title bar, a Close button, a horizontal
@@ -37,61 +40,63 @@ subwindow. It is shown in front of all other subwindows and it receives keyboard
 input, and it is distinguished visually from the other subwindows. Interacting with
 any subwindow using the mouse makes that subwindow the active subwindow. If
 the active subwindow is closed, and any subwindows remain, of those subwindows
-the one that was active most recently becomes again the active subwindow.
+the one that was active most recently becomes again the active subwindow.**
 
-There are three kinds of subwindows:
+**There are three kinds of subwindows:**
 
-- A Tables subwindow shows the list of the names of the tables that the
+
+
+- **A** Tables **subwindow** shows the list of the names of the tables that the
   user has created so far, in a tabular view. The user can create and delete
-  tables, edit their name, and open a table. The latter creates a new Table
-  Design subwindow (if the table has no columns) or Table Rows subwindow
-  (otherwise). The user can press Ctrl+T at any time to create a new Tables
-  subwindow.
+  tables, edit their name, and open a table. The latter **creates a new** Table
+  Design **subwindow** (if the table has no columns) or Table Rows **subwindow**
+  (otherwise). **The user can press Ctrl+T at any time to create a new Tables
+  subwindow.**
 
-- A Table Design subwindow shows the list of the columns of a particular
-  table, in a tabular view. For each column, the name, the type, whether
-  blanks are allowed, and the default value are shown. Whether blanks are
-  allowed is shown in the form of a checkbox. The type is String, Email,
-  Boolean, or Integer. A column’s default value is shown as a checkbox if the
-  column’s type is Boolean, and in textual form otherwise. If a column allows
-  blanks and its type is Boolean and its default value is blank, this is shown
-  as a grayed-out checkbox. The user can add and remove columns and edit
-  their characteristics. The user can press Ctrl+Enter to create a new Table
-  Rows subwindow for the current table.
+- - **A**Table Design **subwindow** shows the list of the columns of a particular
+    table, in a tabular view. For each column, the name, the type, whether
+    blanks are allowed, and the default value are shown. Whether blanks are
+    allowed is shown in the form of a checkbox. The type is String, Email,
+    Boolean, or Integer. A column’s default value is shown as a checkbox if the
+    column’s type is Boolean, and in textual form otherwise. If a column allows
+    blanks and its type is Boolean and its default value is blank, this is shown
+    as a grayed-out checkbox. The user can add and remove columns and edit
+    their characteristics. The user can press Ctrl+Enter to **create a new** Table
+    Rows **subwindow** for the current table.
 
-- A Table Rows subwindow shows the list of the rows of a particular table,
-  in a tabular view. For each row, the value of that row for each of the
-  table’s columns is shown. Values for columns of type Boolean are shown
-  as checkboxes; other values are shown in textual form. If a row’s value for
-  some column is blank and the column’s type is Boolean, this is shown as
-  a grayed-out checkbox. The user can add and remove rows and edit their
-  values for the table’s columns. The user can press Ctrl+Enter to create a
-  new Table Design subwindow for the current table.
-  A subwindow’s title bar shows the kind of subwindow, as well as, for a Table
-  Design or Table Rows subwindow, the name of the table.
-  Any changes made through one subwindow are immediately visible in all other
-  subwindows showing the same information. However, invalid data entered in one
-  subwindow do not propagate to other subwindows. Furthermore, if, for some
-  piece of data, an invalid value was entered in one subwindow, and subsequently
-  a valid value is entered in another subwindow, the valid value propagates to all
-  subwindows showing the same information, including the ones showing an invalid
-  value; the valid value overwrites any invalid values and any such invalid values
-  are lost.
-  In any subwindow, the width of any of the columns shown in the tabular view
-  can be modified by dragging the column header’s right-hand border. Any changes
-  made in this way to the layout of the tabular view are immediately visible in all
-  subwindows showing the same information; for example, if the width of a column
-  is changed in a Table Rows subwindow for a particular table, that column will
-  immediately have the new width in any current or future Table Rows subwindow
-  for that table. In other words, a separate tabular view layout is associated with
-  each table’s Table Rows view, as well as with each table’s Table Design view, as
-  well as with the Tables view.
-  A tabular view’s logical height includes some space below the table where the
-  user can double-click to add new rows.
-  Figure 1 shows the domain model of Tablr.
-  Clearly, at this level of abstraction, the problem domain is quite simple. The
-  main challenge of this assignment, then, lies not in the design of the domain layer
-  of your system, but in the design of the user interface layer.
+- - *A** Table Rows **subwindow** shows the list of the rows of a particular table,
+    in a tabular view. For each row, the value of that row for each of the
+    table’s columns is shown. Values for columns of type Boolean are shown
+    as checkboxes; other values are shown in textual form. If a row’s value for
+    some column is blank and the column’s type is Boolean, this is shown as
+    a grayed-out checkbox. The user can add and remove rows and edit their
+    values for the table’s columns. The user can press Ctrl+Enter to **create a
+    new** Table Design **subwindow** for the current table.
+
+    **A subwindow’s title bar shows the kind of subwindow, as well as, for a Table
+    Design or Table Rows subwindow, the name of the table.
+    Any changes made through one subwindow are immediately visible in all other
+    subwindows showing the same information. However, invalid data entered in one
+    subwindow do not propagate to other subwindows. Furthermore, if, for some
+    piece of data, an invalid value was entered in one subwindow, and subsequently
+    a valid value is entered in another subwindow, the valid value propagates to all
+    subwindows showing the same information, including the ones showing an invalid
+    value; the valid value overwrites any invalid values and any such invalid values
+    are lost.** 
+
+    In any **subwindow** , the width of any of the columns shown in the tabular view
+    can be modified by dragging the column header’s right-hand border. Any changes
+    made in this way to the layout of the tabular view **are immediately visible in all
+    subwindows showing the same information**; for example, if the width of a column
+    is changed in **a** Table Rows **subwindow** for a particular table, that column will
+    **immediately** have the new width **in any current or future** Table Rows **subwindow**
+    for that table. In other words, a separate tabular view layout is associated with
+    each table’s Table Rows **view**, as well as with each table’s Table Design view, as
+    well as with the Tables **view**.
+    **A tabular view’s logical height includes some space below the table where the
+    user can double-click to add new rows.**
+
+    
 
   
 
