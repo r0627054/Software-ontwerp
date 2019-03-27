@@ -23,18 +23,18 @@ The goal of the project is to develop a desktop database application.
 **In this iteration, the application’s user interface changes from being modebased to being subwindow-based.
 The application’s user interface consists of a single top-level window, whose
 content area shows zero or more rectangular subwindows on a gray background.
-Each subwindow cosists of a border, a title bar, a Close button, a horizontal
-and vertical scrollbar, and a content area. The user can resize a subwindow by
+Each subwindow cosists of a border, a title bar, a Close button (--a horizontal
+and vertical scrollbar--) and a content area. The user can resize a subwindow by
 dragging its borders or its corners, and move it by dragging its title bar, as usual.
-The user can close a subwindow by clicking its Close button. If the height of
-the content being shown by a subwindow is not greater than the height of the
-subwindow’s content area, its vertical scrollbar is shown as disabled. Otherwise,
-the vertical scrollbar shows a scroll button whose height is such that the ratio of
+The user can close a subwindow by clicking its Close button. 
+(--If the height of the content being shown by a subwindow is not greater than 
+the height of the subwindow’s content area, its vertical scrollbar is shown as disabled. 
+Otherwise, the vertical scrollbar shows a scroll button whose height is such that the ratio of
 the height of the scroll button to the height of the scrollbar equals the ratio of
 the height of the content area to the height of the content. The user can drag
 the scroll button or click the scrollbar above or below the scroll button to make
 another part of the content visible in the content area, as usual. The horizontal
-scrollbar functions analogously.
+scrollbar functions analogously.--)
 At any point, if there is at least one subwindow, one subwindow is the active
 subwindow. It is shown in front of all other subwindows and it receives keyboard
 input, and it is distinguished visually from the other subwindows. Interacting with
