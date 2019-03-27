@@ -16,7 +16,7 @@ public class Row extends ObjectIdentifier {
 	/**
 	 * Variable storing all the cells.
 	 */
-	private List<Cell> cells = new ArrayList<>();
+	private List<DomainCell> cells = new ArrayList<>();
 
 	/**
 	 * Initialises a new row without cells. 
@@ -33,7 +33,7 @@ public class Row extends ObjectIdentifier {
 	 * @efffect The list of cells is set.
 	 *          | this.setCells(cells)
 	 */
-	public Row(ArrayList<Cell> cells) {
+	public Row(ArrayList<DomainCell> cells) {
 		this.setCells(cells);
 	}
 
@@ -43,7 +43,7 @@ public class Row extends ObjectIdentifier {
 	 * @return A copy of the ArrayList of cells.
 	 *        | new ArrayList<>(this.cells)
 	 */
-	public ArrayList<Cell> getCells() {
+	public ArrayList<DomainCell> getCells() {
 		return new ArrayList<>(this.cells);
 	}
 
@@ -58,7 +58,7 @@ public class Row extends ObjectIdentifier {
 	 * @post The ArrayList of cells equals the given cells
 	 *         | new.getCells().equals(cells)      
 	 */
-	private void setCells(List<Cell> cells) {
+	private void setCells(List<DomainCell> cells) {
 		if (cells == null) {
 			throw new DomainException("The List of cells cannot be null for a column.");
 		}
@@ -73,7 +73,7 @@ public class Row extends ObjectIdentifier {
 	 * @return The cell at the requested index of the row.
 	 *          | this.cells.get(index)
 	 */
-	public Cell getCellAtIndex(int index) {
+	public DomainCell getCellAtIndex(int index) {
 		if (index < 0) {
 			throw new DomainException("Index of cell cannot be negative.");
 		}
@@ -91,7 +91,7 @@ public class Row extends ObjectIdentifier {
 	 * @effect The cell is added to the list of cells.
 	 *         | cells.add(cell)
 	 */
-	public void addCell(Cell cell) {
+	public void addCell(DomainCell cell) {
 		if (cell == null) {
 			throw new DomainException("A cell cannot be null in a column.");
 		}
@@ -109,7 +109,7 @@ public class Row extends ObjectIdentifier {
 		if (columnIndex < 0) {
 			throw new DomainException("Cannot delete a cell with negative index of rows.");
 		}
-		List<Cell> currentCells = this.getCells();
+		List<DomainCell> currentCells = this.getCells();
 		currentCells.remove(columnIndex);
 		this.setCells(currentCells);
 	}
@@ -132,7 +132,7 @@ public class Row extends ObjectIdentifier {
 	 */
 	public boolean containsCell(UUID cellId) {
 		for (int i = 0; i < this.getCells().size(); i++) {
-			Cell cell = this.getCellAtIndex(i);
+			DomainCell cell = this.getCellAtIndex(i);
 			if (cell.getId().equals(cellId)) {
 				return true;
 			}

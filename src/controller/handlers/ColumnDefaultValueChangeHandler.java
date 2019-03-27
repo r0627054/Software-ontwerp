@@ -57,7 +57,7 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 						domainfacade.getColumnCharacteristics(tableId));
 			}
 
-			uifacade.unpause(columnIndex, columnId);
+			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException | NumberFormatException e) {
 			uifacade.setErrorDesignTableCell(columnIndex, columnId, newDefaultValue);
 			uifacade.pauseApplication(columnIndex, columnId);

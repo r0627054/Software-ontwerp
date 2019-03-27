@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import ui.model.components.Cell;
+import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.DesignTable;
@@ -55,10 +55,10 @@ public class TableDesignViewMode extends TableViewMode {
 		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + getTableName(), getId()));
 
 		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
-		List<Cell> cellList = table.createTable(columnCharacteristics);
+		List<UICell> cellList = table.createTable(columnCharacteristics);
 
 		this.clearStoredListeners();
-		for (Cell c : cellList) {
+		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
 		}
@@ -119,14 +119,14 @@ public class TableDesignViewMode extends TableViewMode {
 	 */
 	public void pauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(true);
-		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
+		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
 		this.removeAllClickListenersButOne(errorCell);
 		this.removeAllKeyListenersButOne(errorCell);
 		errorCell.setError(true);
 	}
 
 	/**
-	 * UnPauses the current viewMode, adds all the key and click-listeners such that the user can edit again.
+	 * Resumes the current viewMode, adds all the key and click-listeners such that the user can edit again.
 	 * 
 	 * @param columnIndex
 	 *        | the index of the column where the cell is situated.
@@ -134,9 +134,9 @@ public class TableDesignViewMode extends TableViewMode {
 	 *        | the columnId of the column where the cell is situated.
 	 * @effect All the keyListeners and clickListeners different from this one cell are added again. 
 	 */
-	public void unpauseViewMode(int columnIndex, UUID columnId) {
+	public void resumeViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
-		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
+		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
 		this.addAllListeners();
 		errorCell.setError(false);
 	}
@@ -153,7 +153,7 @@ public class TableDesignViewMode extends TableViewMode {
 	 * @effect the cell is updated to the newValue and the cell is in error state.
 	 */
 	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
-		Cell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
+		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
 		errorCell.setErrorWithNewValue(true, newValue);
 	}
 
@@ -163,8 +163,8 @@ public class TableDesignViewMode extends TableViewMode {
 	 */
 	public boolean hasASelectedCell() {
 		for (Component comp : getStoredListeners()) {
-			if (comp instanceof Cell) {
-				Cell compCell = (Cell) comp;
+			if (comp instanceof UICell) {
+				UICell compCell = (UICell) comp;
 				if (compCell.hasSelectedEditableTextField()) {
 					return true;
 				}

@@ -43,40 +43,40 @@ public class DomainFacade implements DomainFacadeInterface {
 	 *        | the name of the table.
 	 */
 	public void addDummyTable(String tableName) {
-		Cell c01 = new Cell(ValueType.STRING, "Steven");
-		Cell c02 = new Cell(ValueType.STRING, "Mauro");
-		Cell c03 = new Cell(ValueType.STRING, "Dries");
-		Cell c04 = new Cell(ValueType.STRING, "Laurens");
+		DomainCell c01 = new DomainCell(ValueType.STRING, "Steven");
+		DomainCell c02 = new DomainCell(ValueType.STRING, "Mauro");
+		DomainCell c03 = new DomainCell(ValueType.STRING, "Dries");
+		DomainCell c04 = new DomainCell(ValueType.STRING, "Laurens");
 
-		Cell c11 = new Cell(ValueType.BOOLEAN, true);
-		Cell c12 = new Cell(ValueType.BOOLEAN, true);
-		Cell c13 = new Cell(ValueType.BOOLEAN, null);
-		Cell c14 = new Cell(ValueType.BOOLEAN, false);
+		DomainCell c11 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c12 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c13 = new DomainCell(ValueType.BOOLEAN, null);
+		DomainCell c14 = new DomainCell(ValueType.BOOLEAN, false);
 
-		Cell c21 = new Cell(ValueType.INTEGER, 10);
-		Cell c22 = new Cell(ValueType.INTEGER, 20);
-		Cell c23 = new Cell(ValueType.INTEGER, 30);
-		Cell c24 = new Cell(ValueType.INTEGER, null);
+		DomainCell c21 = new DomainCell(ValueType.INTEGER, 10);
+		DomainCell c22 = new DomainCell(ValueType.INTEGER, 20);
+		DomainCell c23 = new DomainCell(ValueType.INTEGER, 30);
+		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
-		Cell c31 = new Cell(ValueType.EMAIL, null);
-		Cell c32 = new Cell(ValueType.EMAIL, "M@");
-		Cell c33 = new Cell(ValueType.EMAIL, "D@");
-		Cell c34 = new Cell(ValueType.EMAIL, "L@");
+		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, "M@");
+		DomainCell c33 = new DomainCell(ValueType.EMAIL, "D@");
+		DomainCell c34 = new DomainCell(ValueType.EMAIL, "L@");
 
-		Cell c1[] = { c01, c11, c21, c31 };
-		Cell c2[] = { c02, c12, c22, c32 };
-		Cell c3[] = { c03, c13, c23, c33 };
-		Cell c4[] = { c04, c14, c24, c34 };
+		DomainCell c1[] = { c01, c11, c21, c31 };
+		DomainCell c2[] = { c02, c12, c22, c32 };
+		DomainCell c3[] = { c03, c13, c23, c33 };
+		DomainCell c4[] = { c04, c14, c24, c34 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(c1)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(c2)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(c3)));
-		Row r4 = new Row(new ArrayList<Cell>(Arrays.asList(c4)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(c1)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(c2)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(c3)));
+		Row r4 = new Row(new ArrayList<DomainCell>(Arrays.asList(c4)));
 
-		Cell colCells1[] = { c01, c02, c03, c04 };
-		Cell colCells2[] = { c11, c12, c13, c14 };
-		Cell colCells3[] = { c21, c22, c23, c24 };
-		Cell colCells4[] = { c31, c32, c33, c34 };
+		DomainCell colCells1[] = { c01, c02, c03, c04 };
+		DomainCell colCells2[] = { c11, c12, c13, c14 };
+		DomainCell colCells3[] = { c21, c22, c23, c24 };
+		DomainCell colCells4[] = { c31, c32, c33, c34 };
 
 		Column col1 = new Column("Name", ValueType.STRING);
 		Column col2 = new Column("Student", ValueType.BOOLEAN);

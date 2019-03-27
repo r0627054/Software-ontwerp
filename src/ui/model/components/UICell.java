@@ -17,7 +17,7 @@ import controller.observer.PropertyChangeListener;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
-public class Cell extends EditableComponent implements PropertyChangeListener {
+public class UICell extends EditableComponent implements PropertyChangeListener {
 
 	/**
 	 * The variable storing the component inside the cell.
@@ -62,7 +62,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 *        |	this.setComponent(cellComponent)
 	 *        |	setComponentCoordinates(x, y, defaultWidth, defaultHeight)
 	 */
-	public Cell(int x, int y, Component cellComponent, UUID id) {
+	public UICell(int x, int y, Component cellComponent, UUID id) {
 		super(x, y, defaultWidth, defaultHeight, false, id);
 		this.setComponent(cellComponent);
 		setComponentCoordinates(x, y, defaultWidth, defaultHeight);
@@ -81,7 +81,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 * @effect All the variables are set, and the cellType equals null.
 	 *        | this(x, y, value, id, null)
 	 */
-	public Cell(int x, int y, Object value, UUID id) {
+	public UICell(int x, int y, Object value, UUID id) {
 		this(x, y, value, id, value.getClass());
 	}
 
@@ -104,7 +104,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 *        |	createComponent(value, id, cellType)
 	 *        
 	 */
-	public Cell(int x, int y, Object value, UUID id, Class<?> cellType) {
+	public UICell(int x, int y, Object value, UUID id, Class<?> cellType) {
 		super(x, y, defaultWidth, defaultHeight, false, id);
 		createComponent(value, id, cellType);
 	}

@@ -41,7 +41,7 @@ public class ColumnNameChangeHandler implements ChangeHandlerInterface {
 
 		try {
 			domainfacade.updateColumnName(tableId, columnId, newName);
-			uifacade.unpause(columnIndex, columnId);
+			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException e) {
 			uifacade.pauseApplication(columnIndex, columnId);
 		}

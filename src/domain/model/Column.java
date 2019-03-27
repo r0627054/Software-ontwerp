@@ -33,7 +33,7 @@ public class Column extends ObjectIdentifier {
 	/**
 	 * Variable storing all the cells.
 	 */
-	private List<Cell> cells = new ArrayList<>();
+	private List<DomainCell> cells = new ArrayList<>();
 
 	/**
 	 * Variable storing the default value of the column. Initialised to the default
@@ -160,13 +160,13 @@ public class Column extends ObjectIdentifier {
 		if (!type.canHaveAsValue(getDefaultValue())) {
 			throw new DomainException("Default value cannot be cast to the new type.");
 		}
-		for (Cell c : getCells()) {
+		for (DomainCell c : getCells()) {
 			if (!type.canHaveAsValue(c.getValue())) {
 				throw new DomainException("Cell value cannot be cast to the new type.");
 			}
 		}
 		this.setType(type);
-		for (Cell c : getCells()) {
+		for (DomainCell c : getCells()) {
 			c.setType(type);
 		}
 		this.setDefaultValue(type.castTo(getDefaultValue()));
@@ -233,7 +233,7 @@ public class Column extends ObjectIdentifier {
 	 * @return A copy of the ArrayList of cells.
 	 * 			| new ArrayList<>(this.cells)
 	 */
-	public List<Cell> getCells() {
+	public List<DomainCell> getCells() {
 		return new ArrayList<>(this.cells);
 	}
 
@@ -247,7 +247,7 @@ public class Column extends ObjectIdentifier {
 	 * @post The ArrayList of cells equals the given cells
 	 * 			| new.getCells().equals(cells)
 	 */
-	private void setCells(List<Cell> cells) {
+	private void setCells(List<DomainCell> cells) {
 		if (cells == null) {
 			throw new DomainException("The List of cells cannot be null for a column.");
 		}
@@ -264,7 +264,7 @@ public class Column extends ObjectIdentifier {
 	 * @effect The cell is added to the list of cells.
 	 * 			| cells.add(cell)
 	 */
-	public void addCell(Cell cell) {
+	public void addCell(DomainCell cell) {
 		if (cell == null) {
 			throw new DomainException("A cell cannot be null in a column.");
 		}
@@ -284,8 +284,8 @@ public class Column extends ObjectIdentifier {
 	 * @effect The cells are added to the list of cells.
 	 * 			| cells.addAll(cells)
 	 */
-	public void addCells(List<Cell> cells) {
-		for (Cell cell : cells) {
+	public void addCells(List<DomainCell> cells) {
+		for (DomainCell cell : cells) {
 			if (cell == null) {
 				throw new DomainException("A cell cannot be null in a column.");
 			}
@@ -304,7 +304,7 @@ public class Column extends ObjectIdentifier {
 	 * @return The cell at the requested index of the column.
 	 * 			| this.cells.get(index)
 	 */
-	public Cell getCellAtIndex(int index) {
+	public DomainCell getCellAtIndex(int index) {
 		return this.cells.get(index);
 	}
 
@@ -317,7 +317,7 @@ public class Column extends ObjectIdentifier {
 	public LinkedHashMap<UUID, Object> getCellsWithId() {
 		LinkedHashMap<UUID, Object> columnMap = new LinkedHashMap<>();
 
-		for (Cell c : getCells()) {
+		for (DomainCell c : getCells()) {
 			columnMap.put(c.getId(), c.getValue());
 		}
 		return columnMap;
@@ -393,7 +393,7 @@ public class Column extends ObjectIdentifier {
 			if (this.getDefaultValue() == null || this.getDefaultValue().equals("")) {
 				throw new DomainException("Default value isnt blank.");
 			}
-			for (Cell c : getCells()) {
+			for (DomainCell c : getCells()) {
 				if (c.getValue() == null) {
 					throw new DomainException("Cell isn't null.");
 				}
@@ -449,7 +449,7 @@ public class Column extends ObjectIdentifier {
 	 */
 	public boolean containsCell(UUID cellId) {
 		for (int i = 0; i < this.getCells().size(); i++) {
-			Cell cell = this.getCellAtIndex(i);
+			DomainCell cell = this.getCellAtIndex(i);
 			if (cell.getId().equals(cellId)) {
 				return true;
 			}
@@ -469,7 +469,7 @@ public class Column extends ObjectIdentifier {
 	 *        | cell == null
 	 */
 	public void updateCellValue(UUID cellId, Object newValue) {
-		Cell cell = this.getCellWithId(cellId);
+		DomainCell cell = this.getCellWithId(cellId);
 		if (cell == null) {
 			throw new DomainException("No cell found for cellId.");
 		} else if (newValue == null && !this.allowsBlanks) {
@@ -489,8 +489,8 @@ public class Column extends ObjectIdentifier {
 	 *        The id of a cell in the column.
 	 * @return Cell with the given id in the column.
 	 */
-	private Cell getCellWithId(UUID cellId) {
-		for (Cell c : getCells()) {
+	private DomainCell getCellWithId(UUID cellId) {
+		for (DomainCell c : getCells()) {
 			if (c.getId().equals(cellId))
 				return c;
 		}
@@ -516,7 +516,7 @@ public class Column extends ObjectIdentifier {
 	 *         | this.cells.remove(rowIndex)
 	 */
 	public void deleteCell(int rowIndex) {
-		List<Cell> cells = this.getCells();
+		List<DomainCell> cells = this.getCells();
 		cells.remove(rowIndex);
 		this.setCells(cells);
 	}

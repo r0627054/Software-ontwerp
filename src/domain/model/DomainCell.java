@@ -7,7 +7,7 @@ package domain.model;
  * @author Dries Janse
  *
  */
-public class Cell extends ObjectIdentifier {
+public class DomainCell extends ObjectIdentifier {
 
 	/**
 	 * Variable storing the type of the cell.
@@ -29,7 +29,7 @@ public class Cell extends ObjectIdentifier {
 	 * 			|setType(type)
 	 *          |setValue(value)
 	 */
-	public Cell(ValueType type, Object value) {
+	public DomainCell(ValueType type, Object value) {
 		this.setType(type);
 		this.setValue(value);
 	}
@@ -42,7 +42,7 @@ public class Cell extends ObjectIdentifier {
 	 * @effect The type and the default value of that type is set. 
 	 * 			| this(type, type.getDefaultValue())
 	 */
-	public Cell(ValueType type) {
+	public DomainCell(ValueType type) {
 		setType(type);
 		setValue(type.getDefaultValue());
 	}

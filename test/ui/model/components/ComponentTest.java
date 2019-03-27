@@ -15,7 +15,7 @@ class ComponentTest { // testing component methods with cell;
 	private UUID id = UUID.randomUUID();
 	private int correctX = 100;
 	private int correctY = 400;
-	private Component correctComponent = new Cell(correctX, correctY, "test", id);
+	private Component correctComponent = new UICell(correctX, correctY, "test", id);
 
 	/**
 	 * Test 1 : component with given negative X
@@ -23,7 +23,7 @@ class ComponentTest { // testing component methods with cell;
 	 */
 	@Test
 	void test1CreateComponentWithNegativeX() {
-		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new Cell(-3, 0, "test", id));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell(-3, 0, "test", id));
 		assertEquals(e.getMessage(), "The x-coordinate of the component cannot be negative.");
 	}
 	
@@ -33,7 +33,7 @@ class ComponentTest { // testing component methods with cell;
 	 */
 	@Test
 	void test2CreateComponentWithNegativeY() {
-		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new Cell(0, -1, "test", id));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell(0, -1, "test", id));
 		assertEquals(e.getMessage(), "The y-coordinate of the component cannot be negative.");
 	}
 	

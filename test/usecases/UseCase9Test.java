@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Cell;
+import ui.model.components.UICell;
 import ui.model.components.CheckBox;
 import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
@@ -42,7 +42,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
-		Cell cellBefore = (Cell) verticalCompListBefore.getComponentsList().get(1);
+		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
@@ -97,7 +97,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(1);
-		Cell cellBefore = (Cell) verticalCompListBefore.getComponentsList().get(1);
+		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		CheckBox checkBox = (CheckBox) cellBefore.getComponent();
 		boolean isCheckedStart = checkBox.isChecked();
 
@@ -130,7 +130,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
-		Cell cellBefore = (Cell) verticalCompListBefore.getComponentsList().get(1);
+		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
@@ -158,7 +158,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 	 * | blank values aren't allowed.
 	 */
 	@Test
-	public void test4clearingAEmailTextFieldWithNoBlanksAllowedShouldOnlyUnpauseWhenAnAtSignIsTyped() {
+	public void test4clearingAEmailTextFieldWithNoBlanksAllowedShouldOnlyResumeWhenAnAtSignIsTyped() {
 		this.addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed();
 
 		String tName = null;
@@ -175,7 +175,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
-		Cell cellBefore = (Cell) verticalCompListBefore.getComponentsList().get(1);
+		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
@@ -219,7 +219,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
-		Cell cellBefore = (Cell) verticalCompListBefore.getComponentsList().get(1);
+		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 

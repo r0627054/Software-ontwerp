@@ -29,7 +29,7 @@ public class RowsTable extends EditableComponent {
 	/**
 	 * Variable storing the cells which are selected for deletion.
 	 */
-	private List<Cell> deleteCells;
+	private List<UICell> deleteCells;
 
 	/**
 	 * Initialise the RowsTable with the given information.
@@ -60,10 +60,10 @@ public class RowsTable extends EditableComponent {
 	 * @return the list of cells created by the rowsTable.
 	 * 
 	 */
-	public List<Cell> createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values,
+	public List<UICell> createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values,
 			Map<UUID, Class<?>> columnTypes) {
 		List<Component> columnList = new ArrayList<>();
-		List<Cell> allCellsList = new ArrayList<>();
+		List<UICell> allCellsList = new ArrayList<>();
 
 		for (Map<UUID, String> columnIdMap : values.keySet()) {
 			Map<UUID, Object> columnCellsMap = values.get(columnIdMap);
@@ -77,7 +77,7 @@ public class RowsTable extends EditableComponent {
 			columnCells.add(header);
 
 			for (UUID cellId : columnCellsMap.keySet()) {
-				Cell newCell = new Cell(0, 0, columnCellsMap.get(cellId), cellId, tableType);
+				UICell newCell = new UICell(0, 0, columnCellsMap.get(cellId), cellId, tableType);
 				columnCells.add(newCell);
 				newCell.setActionType(ChangeEventType.ROW_EDITED);
 				allCellsList.add(newCell);
@@ -166,8 +166,8 @@ public class RowsTable extends EditableComponent {
 					for (Component componentOfList : vertComponentList.getComponentsList()) {
 						if (y > componentOfList.getY() && y < componentOfList.getOffsetY()
 								&& x < componentOfList.getX()) {
-							if (componentOfList instanceof Cell) {
-								Cell cell = (Cell) componentOfList;
+							if (componentOfList instanceof UICell) {
+								UICell cell = (UICell) componentOfList;
 								this.addDeleteCell(cell);
 							}
 						}
@@ -214,7 +214,7 @@ public class RowsTable extends EditableComponent {
 	/**
 	 * Returns the cells selected for deletion.
 	 */
-	private List<Cell> getDeleteCells() {
+	private List<UICell> getDeleteCells() {
 		return deleteCells;
 	}
 
@@ -226,7 +226,7 @@ public class RowsTable extends EditableComponent {
 	 * @effect the cell is added to the list.
 	 *        | this.getDeleteCells().add(deleteCell)
 	 */
-	private void addDeleteCell(Cell deleteCell) {
+	private void addDeleteCell(UICell deleteCell) {
 		this.getDeleteCells().add(deleteCell);
 	}
 
@@ -234,7 +234,7 @@ public class RowsTable extends EditableComponent {
 	 * Resets the cells which are selected for deletion.
 	 */
 	private void resetDeleteCells() {
-		for (Cell c : getDeleteCells()) {
+		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(false);
 		}
 		propertyChanged();
@@ -245,7 +245,7 @@ public class RowsTable extends EditableComponent {
 	 * Sets the background to red of the cells selected for delete.
 	 */
 	private void checkPaintDeleteSelectedColumn() {
-		for (Cell c : getDeleteCells()) {
+		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(true);
 		}
 	}
@@ -259,13 +259,13 @@ public class RowsTable extends EditableComponent {
 	 * @return the requested cell at the given columnIndex in the column with the given id is returned.
 	 *         When the cell isn't found, null is returned.
 	 */
-	public Cell getCell(int columnIndex, UUID columnId) {
+	public UICell getCell(int columnIndex, UUID columnId) {
 		for (Component comp : getColumns().getComponentsList()) {
 			VerticalComponentList verticalComponentList = (VerticalComponentList) comp;
 
 			ColumnHeader headerOfColumn = (ColumnHeader) verticalComponentList.getComponentsList().get(0);
 			if (headerOfColumn.getId().equals(columnId)) {
-				return (Cell) verticalComponentList.getComponentsList().get(columnIndex + 1);
+				return (UICell) verticalComponentList.getComponentsList().get(columnIndex + 1);
 			}
 		}
 		return null;

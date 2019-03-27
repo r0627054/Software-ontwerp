@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import ui.model.components.Cell;
+import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.RowsTable;
@@ -27,10 +27,10 @@ public class TableRowsViewMode extends TableViewMode {
 		this.addComponent(new TextField(50, 5, 200, 25, "Table rows of: " + getTableName(), getId()));
 
 		RowsTable rowsTable = new RowsTable(50, 50, getId());
-		List<Cell> cellList = rowsTable.createTable(tableInformation, columnTypes);
+		List<UICell> cellList = rowsTable.createTable(tableInformation, columnTypes);
 		
 		this.clearStoredListeners();
-		for (Cell c : cellList) {
+		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
 		}
@@ -52,15 +52,15 @@ public class TableRowsViewMode extends TableViewMode {
 
 	public void pauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(true);
-		Cell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
+		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		this.removeAllClickListenersButOne(errorCell);
 		this.removeAllKeyListenersButOne(errorCell);
 		errorCell.setError(true);
 	}
 	
-	public void unpauseViewMode(int columnIndex, UUID columnId) {
+	public void resumeViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
-		Cell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
+		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		this.addAllListeners();
 		errorCell.setError(false);
 	}

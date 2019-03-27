@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 class CellTest {
-	private Cell cell;
+	private UICell cell;
 	private UUID id = UUID.randomUUID();
 	private int correctX = 100;
 	private int correctY = 400;
-	private Cell correctCell = new Cell(correctX, correctY, "test", id);
+	private UICell correctCell = new UICell(correctX, correctY, "test", id);
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -22,7 +22,7 @@ class CellTest {
 	 */
 	@Test
 	void test1CreateCellWithString() {
-		cell = new Cell(100,400, "stringvalue", id);
+		cell = new UICell(100,400, "stringvalue", id);
 		assertTrue(cell.getComponent() instanceof EditableTextField);
 	}
 	
@@ -32,7 +32,7 @@ class CellTest {
 	 */
 	@Test
 	void test2CreateCellWithBool() {
-		cell = new Cell(100,400, true, id);
+		cell = new UICell(100,400, true, id);
 		assertTrue(cell.getComponent() instanceof CheckBox);
 	}
 	
@@ -43,7 +43,7 @@ class CellTest {
 	 */
 	@Test
 	void test3CreateCellWithInt() {
-		cell = new Cell(100,400, 21, id);
+		cell = new UICell(100,400, 21, id);
 		assertTrue(cell.getComponent() instanceof EditableTextField);
 	}
 	
@@ -53,7 +53,7 @@ class CellTest {
 	 */
 	@Test
 	void test4CreateCellWithDefaultValue() {  
-		Exception e = assertThrows(IllegalArgumentException.class, () -> cell = new Cell(100,400,null,id));
+		Exception e = assertThrows(IllegalArgumentException.class, () -> cell = new UICell(100,400,null,id));
 		assertEquals("Cannot add a null component to a cell.", e.getMessage());
 	}
 	
@@ -63,8 +63,8 @@ class CellTest {
 	@Test
 	void test5UpdateComponentAfterCreating() {
 		
-		Cell newComponent = correctCell;
-		newComponent.setComponent((Component) new Cell(100,400,21, id));
+		UICell newComponent = correctCell;
+		newComponent.setComponent((Component) new UICell(100,400,21, id));
 		assertTrue(correctCell.equals(newComponent));
 	}
 	

@@ -18,7 +18,7 @@ class RowsTableTest {
 	private int y = 20;
 	private UUID id = UUID.randomUUID();
 	private RowsTable rt;
-	List<Cell> cells;
+	List<UICell> cells;
 	
 	/**
 	 * Test 1 : Basic Init Constructor
@@ -306,7 +306,7 @@ class RowsTableTest {
 
 		rt.outsideClick(MouseEvent.MOUSE_CLICKED, x-5, 70, 1);
 
-		assertTrue(rt.getCell(0, id1) instanceof Cell);
+		assertTrue(rt.getCell(0, id1) instanceof UICell);
 		
 	}
 	

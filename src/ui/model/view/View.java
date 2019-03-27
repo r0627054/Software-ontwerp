@@ -577,12 +577,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @param id
 	 *        | columnId of the column
 	 */
-	public void unpause(int columnIndex, UUID columnId) {
+	public void resume(int columnIndex, UUID columnId) {
 		ViewMode current = this.getCurrentViewMode();
 
 		if (current instanceof TableViewMode) {
 			TableViewMode currentTableViewMode = (TableViewMode) current;
-			currentTableViewMode.unpauseViewMode(columnIndex, columnId);
+			currentTableViewMode.resumeViewMode(columnIndex, columnId);
 		}
 	}
 	

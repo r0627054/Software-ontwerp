@@ -190,10 +190,10 @@ public class Table extends ObjectIdentifier {
 	 *
 	 */
 	public void addRow() {
-		ArrayList<Cell> newCells = new ArrayList<Cell>();
+		ArrayList<DomainCell> newCells = new ArrayList<DomainCell>();
 
 		for (Column col : this.getColumns()) {
-			Cell newCell = new Cell(col.getType(), col.getDefaultValue());
+			DomainCell newCell = new DomainCell(col.getType(), col.getDefaultValue());
 			newCells.add(newCell);
 			col.addCell(newCell);
 		}
@@ -279,7 +279,7 @@ public class Table extends ObjectIdentifier {
 
 		Column newColumn = new Column(columnName);
 		for (int j = 0; j < this.getRows().size(); j++) {
-			newColumn.addCell(new Cell(newColumn.getType(), newColumn.getDefaultValue()));
+			newColumn.addCell(new DomainCell(newColumn.getType(), newColumn.getDefaultValue()));
 		}
 
 		this.addColumn(newColumn);

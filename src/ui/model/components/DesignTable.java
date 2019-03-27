@@ -30,7 +30,7 @@ public class DesignTable extends EditableComponent {
 	/**
 	 * List of cells selected for deletion
 	 */
-	private List<Cell> deleteCells;
+	private List<UICell> deleteCells;
 
 	/**
 	 * Initialise a new DesignTable with the given variables.
@@ -63,9 +63,9 @@ public class DesignTable extends EditableComponent {
 	 *        | all the information needed in the table.
 	 * @return The list of cells which the designTable created.
 	 */
-	public List<Cell> createTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+	public List<UICell> createTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		List<Component> rowList = new ArrayList<>();
-		List<Cell> allCellsList = new ArrayList<>();
+		List<UICell> allCellsList = new ArrayList<>();
 
 		rowList.add(createHeader(columnCharacteristics));
 
@@ -75,7 +75,7 @@ public class DesignTable extends EditableComponent {
 			String type = (String) entry.getValue().get("Type");
 
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
-				Cell newCell = null;
+				UICell newCell = null;
 
 				// TODO: create a function (createTextFieldCell/createCheckBoxCell/...) to
 				// create these cells
@@ -83,18 +83,18 @@ public class DesignTable extends EditableComponent {
 				case "Type":
 					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(),
 							columnId);
-					newCell = new Cell(0, 0, toggleTextField, columnId);
+					newCell = new UICell(0, 0, toggleTextField, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
 				case "Column Name":
 					EditableTextField nameTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
 							columnId);
-					newCell = new Cell(0, 0, nameTextField, columnId);
+					newCell = new UICell(0, 0, nameTextField, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_NAME);
 					break;
 				case "Allow Blanks":
 					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), columnId);
-					newCell = new Cell(0, 0, blanksCheckBox, columnId);
+					newCell = new UICell(0, 0, blanksCheckBox, columnId);
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
 					break;
 				case "Default Value":
@@ -102,19 +102,19 @@ public class DesignTable extends EditableComponent {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
 						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, value, columnId);
-						newCell = new Cell(0, 0, valueTextField, columnId);
+						newCell = new UICell(0, 0, valueTextField, columnId);
 
 					} else {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
 						Component valueTextField = new EditableTextField(0, 0, 100, 100, value,
 								columnId);
-						newCell = new Cell(0, 0, valueTextField, columnId);
+						newCell = new UICell(0, 0, valueTextField, columnId);
 					}
 					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					break;
 				default:
-					newCell = new Cell(0, 0, obj.getValue(), columnId);
+					newCell = new UICell(0, 0, obj.getValue(), columnId);
 					break;
 				}
 				allCellsList.add(newCell);
@@ -187,8 +187,8 @@ public class DesignTable extends EditableComponent {
 					isLeftClickOfARow = true;
 					this.resetDeleteCells();
 					for (Component componentOfList : horizComponentList.getComponentsList()) {
-						if (componentOfList instanceof Cell) {
-							Cell cell = (Cell) componentOfList;
+						if (componentOfList instanceof UICell) {
+							UICell cell = (UICell) componentOfList;
 							this.addDeleteCell(cell);
 						}
 					}
@@ -238,7 +238,7 @@ public class DesignTable extends EditableComponent {
 	 * Sets the background color of the cells to red if they are selected for deletion.
 	 */
 	private void checkPaintDeleteSelectedColumn() {
-		for (Cell c : getDeleteCells()) {
+		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(true);
 		}
 	}
@@ -252,13 +252,13 @@ public class DesignTable extends EditableComponent {
 	 *        | The id of the column.
 	 * @return the cell at the given index in the given column.
 	 */
-	public Cell getCell(int index, UUID columnId) {
+	public UICell getCell(int index, UUID columnId) {
 		for (Component comp : rows.getComponentsList()) {
 			HorizontalComponentList list = (HorizontalComponentList) comp;
 
-			if (list.getComponentsList().get(index) instanceof Cell) {
+			if (list.getComponentsList().get(index) instanceof UICell) {
 
-				Cell cell = (Cell) list.getComponentsList().get(index);
+				UICell cell = (UICell) list.getComponentsList().get(index);
 
 				if (cell.getId() == columnId) {
 					return cell;
@@ -314,7 +314,7 @@ public class DesignTable extends EditableComponent {
 	/**
 	 * Returns the cells selected for deletion.
 	 */
-	private List<Cell> getDeleteCells() {
+	private List<UICell> getDeleteCells() {
 		return deleteCells;
 	}
 
@@ -325,7 +325,7 @@ public class DesignTable extends EditableComponent {
 	 * @effect The cell is added to the list.
 	 *        | this.getDeleteCells().add(deleteCell)
 	 */
-	private void addDeleteCell(Cell deleteCell) {
+	private void addDeleteCell(UICell deleteCell) {
 		this.getDeleteCells().add(deleteCell);
 
 	}
@@ -335,7 +335,7 @@ public class DesignTable extends EditableComponent {
 	 * the previous selected for delete will be reseted to their normal background.
 	 */
 	private void resetDeleteCells() {
-		for (Cell c : getDeleteCells()) {
+		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(false);
 		}
 		propertyChanged();

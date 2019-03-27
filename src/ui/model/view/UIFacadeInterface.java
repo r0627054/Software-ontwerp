@@ -170,7 +170,7 @@ public interface UIFacadeInterface {
 	 * @param id
 	 *        | columnId of the column
 	 */
-	public void unpause(int index, UUID columnId);
+	public void resume(int index, UUID columnId);
 
 	/**
 	 * Gets the Id of the currently opened TableViewMode.

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 import controller.Controller;
-import domain.model.Cell;
+import domain.model.DomainCell;
 import domain.model.Column;
 import domain.model.DomainFacade;
 import domain.model.Row;
@@ -153,19 +153,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableEmailColumnEmailCellValues() {
-		Cell c1 = new Cell(ValueType.EMAIL, "A@");
-		Cell c2 = new Cell(ValueType.EMAIL, "M@");
-		Cell c3 = new Cell(ValueType.EMAIL, "D@");
+		DomainCell c1 = new DomainCell(ValueType.EMAIL, "A@");
+		DomainCell c2 = new DomainCell(ValueType.EMAIL, "M@");
+		DomainCell c3 = new DomainCell(ValueType.EMAIL, "D@");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.EMAIL);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -180,19 +180,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableStringColumnEmailCellValues() {
-		Cell c1 = new Cell(ValueType.STRING, null);
-		Cell c2 = new Cell(ValueType.STRING, "M@");
-		Cell c3 = new Cell(ValueType.STRING, "D@");
+		DomainCell c1 = new DomainCell(ValueType.STRING, null);
+		DomainCell c2 = new DomainCell(ValueType.STRING, "M@");
+		DomainCell c3 = new DomainCell(ValueType.STRING, "D@");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.STRING);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -207,19 +207,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableIntColumnStringCellValues() {
-		Cell c1 = new Cell(ValueType.INTEGER, 0);
-		Cell c2 = new Cell(ValueType.INTEGER, null);
-		Cell c3 = new Cell(ValueType.INTEGER, 123);
+		DomainCell c1 = new DomainCell(ValueType.INTEGER, 0);
+		DomainCell c2 = new DomainCell(ValueType.INTEGER, null);
+		DomainCell c3 = new DomainCell(ValueType.INTEGER, 123);
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 }; 
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 }; 
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Int", ValueType.INTEGER);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -234,19 +234,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableStringColumnStringBoolanValues() {
-		Cell c1 = new Cell(ValueType.STRING, null);
-		Cell c2 = new Cell(ValueType.STRING, "true");
-		Cell c3 = new Cell(ValueType.STRING, "false");
+		DomainCell c1 = new DomainCell(ValueType.STRING, null);
+		DomainCell c2 = new DomainCell(ValueType.STRING, "true");
+		DomainCell c3 = new DomainCell(ValueType.STRING, "false");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Bool", ValueType.STRING);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -261,19 +261,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableStringColumnNullCellValues() {
-		Cell c1 = new Cell(ValueType.STRING, null);
-		Cell c2 = new Cell(ValueType.STRING, null);
-		Cell c3 = new Cell(ValueType.STRING, null);
+		DomainCell c1 = new DomainCell(ValueType.STRING, null);
+		DomainCell c2 = new DomainCell(ValueType.STRING, null);
+		DomainCell c3 = new DomainCell(ValueType.STRING, null);
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("String", ValueType.STRING);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -288,19 +288,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableEmailColumnNullCellValues() {
-		Cell c1 = new Cell(ValueType.EMAIL, null);
-		Cell c2 = new Cell(ValueType.EMAIL, null);
-		Cell c3 = new Cell(ValueType.EMAIL, null);
+		DomainCell c1 = new DomainCell(ValueType.EMAIL, null);
+		DomainCell c2 = new DomainCell(ValueType.EMAIL, null);
+		DomainCell c3 = new DomainCell(ValueType.EMAIL, null);
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.EMAIL);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -315,19 +315,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableBooleanColumnNullCellValues() {
-		Cell c1 = new Cell(ValueType.BOOLEAN, null);
-		Cell c2 = new Cell(ValueType.BOOLEAN, null);
-		Cell c3 = new Cell(ValueType.BOOLEAN, null);
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN, null);
+		DomainCell c2 = new DomainCell(ValueType.BOOLEAN, null);
+		DomainCell c3 = new DomainCell(ValueType.BOOLEAN, null);
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Boolean", ValueType.BOOLEAN);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -342,19 +342,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableIntegerColumnNullCellValues() {
-		Cell c1 = new Cell(ValueType.INTEGER, null);
-		Cell c2 = new Cell(ValueType.INTEGER, null);
-		Cell c3 = new Cell(ValueType.INTEGER, null);
+		DomainCell c1 = new DomainCell(ValueType.INTEGER, null);
+		DomainCell c2 = new DomainCell(ValueType.INTEGER, null);
+		DomainCell c3 = new DomainCell(ValueType.INTEGER, null);
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Integer", ValueType.INTEGER);
 		col1.addCells(Arrays.asList(colCells1));
 
@@ -369,19 +369,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue() {
-		Cell c1 = new Cell(ValueType.STRING, "@EEE");
-		Cell c2 = new Cell(ValueType.STRING, "M@AAA");
-		Cell c3 = new Cell(ValueType.STRING, "D@FFF");
+		DomainCell c1 = new DomainCell(ValueType.STRING, "@EEE");
+		DomainCell c2 = new DomainCell(ValueType.STRING, "M@AAA");
+		DomainCell c3 = new DomainCell(ValueType.STRING, "D@FFF");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.STRING);
 		col1.setDefaultValue("default@email");
 		col1.addCells(Arrays.asList(colCells1));
@@ -397,19 +397,19 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed() {
-		Cell c1 = new Cell(ValueType.STRING, "@E");
-		Cell c2 = new Cell(ValueType.STRING, "M@");
-		Cell c3 = new Cell(ValueType.STRING, "D@");
+		DomainCell c1 = new DomainCell(ValueType.STRING, "@E");
+		DomainCell c2 = new DomainCell(ValueType.STRING, "M@");
+		DomainCell c3 = new DomainCell(ValueType.STRING, "D@");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.STRING);
 		col1.setDefaultValue("default@email");
 		col1.setAllowsBlanks(false);
@@ -456,19 +456,19 @@ public abstract class UseCaseTest {
 	}
 	
 	protected void addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed() {
-		Cell c1 = new Cell(ValueType.EMAIL, "@E");
-		Cell c2 = new Cell(ValueType.EMAIL, "M@");
-		Cell c3 = new Cell(ValueType.EMAIL, "D@");
+		DomainCell c1 = new DomainCell(ValueType.EMAIL, "@E");
+		DomainCell c2 = new DomainCell(ValueType.EMAIL, "M@");
+		DomainCell c3 = new DomainCell(ValueType.EMAIL, "D@");
 
-		Cell row1cells[] = { c1 };
-		Cell row2cells[] = { c2 };
-		Cell row3cells[] = { c3 };
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
 
-		Row r1 = new Row(new ArrayList<Cell>(Arrays.asList(row1cells)));
-		Row r2 = new Row(new ArrayList<Cell>(Arrays.asList(row2cells)));
-		Row r3 = new Row(new ArrayList<Cell>(Arrays.asList(row3cells)));
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
 
-		Cell colCells1[] = { c1, c2, c3 };
+		DomainCell colCells1[] = { c1, c2, c3 };
 		Column col1 = new Column("Email", ValueType.EMAIL);
 		col1.setDefaultValue("default@email");
 		col1.setAllowsBlanks(false);

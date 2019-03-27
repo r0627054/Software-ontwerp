@@ -22,7 +22,7 @@ public abstract class TableViewMode extends ViewMode {
 
 	public abstract void pauseViewMode(int columnIndex, UUID columnId);
 
-	public abstract void unpauseViewMode(int columnIndex, UUID columnId);
+	public abstract void resumeViewMode(int columnIndex, UUID columnId);
 
 	public String getTableName() {
 		return tableName;

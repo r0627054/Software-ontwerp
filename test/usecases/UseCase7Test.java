@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Cell;
+import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
@@ -37,13 +37,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListBefore = new ArrayList<>();
+		List<UICell> uiCellListBefore = new ArrayList<>();
 		for (Component component : uiRowsBefore.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListBefore.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListBefore.add((UICell) hzclComponent);
 				}
 			}
 		}
@@ -58,13 +58,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListAfter = new ArrayList<>();
+		List<UICell> uiCellListAfter = new ArrayList<>();
 		for (Component component : uiRowsAfter.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListAfter.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListAfter.add((UICell) hzclComponent);
 				}
 			}
 		}
@@ -92,13 +92,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListBefore = new ArrayList<>();
+		List<UICell> uiCellListBefore = new ArrayList<>();
 		for (Component component : uiRowsBefore.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListBefore.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListBefore.add((UICell) hzclComponent);
 				}
 			}
 		}
@@ -114,13 +114,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListAfter = new ArrayList<>();
+		List<UICell> uiCellListAfter = new ArrayList<>();
 		for (Component component : uiRowsAfter.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListAfter.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListAfter.add((UICell) hzclComponent);
 				}
 			}
 		}
@@ -147,13 +147,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListBefore = new ArrayList<>();
+		List<UICell> uiCellListBefore = new ArrayList<>();
 		for (Component component : uiRowsBefore.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListBefore.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListBefore.add((UICell) hzclComponent);
 				}
 			}
 		}
@@ -169,13 +169,13 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		List<Cell> uiCellListAfter = new ArrayList<>();
+		List<UICell> uiCellListAfter = new ArrayList<>();
 		for (Component component : uiRowsAfter.getComponentsList()) {
 			HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
 			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof Cell) {
-					uiCellListAfter.add((Cell) hzclComponent);
+				if (hzclComponent instanceof UICell) {
+					uiCellListAfter.add((UICell) hzclComponent);
 				}
 			}
 		}

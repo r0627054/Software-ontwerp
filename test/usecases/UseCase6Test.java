@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Cell;
+import ui.model.components.UICell;
 import ui.model.components.CheckBox;
 import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
@@ -69,7 +69,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		}
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(0);
+		UICell cell = (UICell) hzcl.getComponentsList().get(0);
 		EditableTextField firstCell = (EditableTextField) cell.getComponent();
 		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
 	}
@@ -122,7 +122,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		}
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(0);
+		UICell cell = (UICell) hzcl.getComponentsList().get(0);
 		EditableTextField firstCell = (EditableTextField) cell.getComponent();
 		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
 	}
@@ -181,7 +181,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		}
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(0);
+		UICell cell = (UICell) hzcl.getComponentsList().get(0);
 		EditableTextField firstCell = (EditableTextField) cell.getComponent();
 		assertEquals(0, firstCell.getText().length());
 
@@ -249,7 +249,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(1);
+		UICell cell = (UICell) hzcl.getComponentsList().get(1);
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
@@ -261,7 +261,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(1);
+		cell = (UICell) hzcl.getComponentsList().get(1);
 		typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeAfter = typeField.getText();
 
@@ -313,7 +313,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(1);
+		UICell cell = (UICell) hzcl.getComponentsList().get(1);
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
@@ -323,7 +323,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(1);
+		cell = (UICell) hzcl.getComponentsList().get(1);
 		typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeAfter = typeField.getText();
 
@@ -375,7 +375,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(1);
+		UICell cell = (UICell) hzcl.getComponentsList().get(1);
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
@@ -385,7 +385,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(1);
+		cell = (UICell) hzcl.getComponentsList().get(1);
 		typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeAfter = typeField.getText();
 
@@ -437,7 +437,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(1);
+		UICell cell = (UICell) hzcl.getComponentsList().get(1);
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
@@ -448,7 +448,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(1);
+		cell = (UICell) hzcl.getComponentsList().get(1);
 		typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeAfter = typeField.getText();
 
@@ -500,7 +500,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -516,7 +516,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -550,7 +550,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -560,7 +560,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -593,7 +593,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -603,7 +603,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -636,7 +636,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -646,7 +646,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -677,7 +677,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -687,7 +687,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -731,7 +731,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(2);
+		UICell cell = (UICell) hzcl.getComponentsList().get(2);
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
@@ -741,7 +741,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(2);
+		cell = (UICell) hzcl.getComponentsList().get(2);
 		checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsAfter = checkBox.isChecked();
 
@@ -786,7 +786,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
@@ -802,7 +802,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
@@ -830,7 +830,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		uiDefaultAfter = textField.getText();
 
@@ -869,7 +869,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
 
@@ -879,7 +879,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
 
@@ -907,7 +907,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfterEmptyString = textField.getText();
 
@@ -927,7 +927,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		uiDefaultAfter = Boolean.parseBoolean(textField.getText());
 
@@ -967,7 +967,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
 
@@ -977,7 +977,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
 
@@ -1005,7 +1005,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		uiDefaultAfter = Boolean.parseBoolean(textField.getText());
 
@@ -1046,7 +1046,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
@@ -1059,7 +1059,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
@@ -1110,7 +1110,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
@@ -1121,7 +1121,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
@@ -1171,7 +1171,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
@@ -1183,7 +1183,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 
 		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (Cell) hzcl.getComponentsList().get(3);
+		cell = (UICell) hzcl.getComponentsList().get(3);
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
@@ -1238,7 +1238,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
@@ -1294,7 +1294,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
 				.getComponentsList().get(1);
-		Cell cell = (Cell) hzcl.getComponentsList().get(3);
+		UICell cell = (UICell) hzcl.getComponentsList().get(3);
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 

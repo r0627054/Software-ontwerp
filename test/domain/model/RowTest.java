@@ -19,15 +19,15 @@ class RowTest {
 	 */
 	@Test
 	void test1CreateNewRowWithCells() {
-		List<Cell> cells = new ArrayList<>();
-		Cell c1 = new Cell(ValueType.BOOLEAN);
+		List<DomainCell> cells = new ArrayList<>();
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN);
 		cells.add(c1);
-		Cell c2 = new Cell(ValueType.EMAIL);
+		DomainCell c2 = new DomainCell(ValueType.EMAIL);
 		cells.add(c2);
-		Cell c3 = new Cell(ValueType.INTEGER);
+		DomainCell c3 = new DomainCell(ValueType.INTEGER);
 		cells.add(c3);
 		
-		r = new Row((ArrayList<Cell>) cells);
+		r = new Row((ArrayList<DomainCell>) cells);
 		
 		assertEquals(cells, r.getCells());
 		
@@ -38,7 +38,7 @@ class RowTest {
 	 */
 	@Test
 	void test2CreateNewRowWithNoCells() {
-		ArrayList<Cell>  cells = null;
+		ArrayList<DomainCell>  cells = null;
 		DomainException e = assertThrows(DomainException.class, () -> r = new Row(cells));
 		assertEquals(e.getMessage(), "The List of cells cannot be null for a column.");
 	}
@@ -49,8 +49,8 @@ class RowTest {
 	 */
 	@Test
 	void test3SetCellsAsNull() {
-		List<Cell> cells = new ArrayList<>();
-		r = new Row((ArrayList<Cell>) cells);
+		List<DomainCell> cells = new ArrayList<>();
+		r = new Row((ArrayList<DomainCell>) cells);
 		DomainException e = assertThrows(DomainException.class, () -> r.addCell(null));
 		assertEquals(e.getMessage(),"A cell cannot be null in a column.");
 	}
@@ -61,15 +61,15 @@ class RowTest {
 	 */
 	@Test
 	void test4GetCellAtIndex() {
-		List<Cell> cells = new ArrayList<>();
-		Cell c1 = new Cell(ValueType.BOOLEAN);
+		List<DomainCell> cells = new ArrayList<>();
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN);
 		cells.add(c1);
-		Cell c2 = new Cell(ValueType.EMAIL);
+		DomainCell c2 = new DomainCell(ValueType.EMAIL);
 		cells.add(c2);
-		Cell c3 = new Cell(ValueType.INTEGER);
+		DomainCell c3 = new DomainCell(ValueType.INTEGER);
 		cells.add(c3);
 		
-		r = new Row((ArrayList<Cell>) cells);
+		r = new Row((ArrayList<DomainCell>) cells);
 		assertEquals(c2, r.getCellAtIndex(1)); // the second element should be found on index 1
 	}
 	
@@ -79,10 +79,10 @@ class RowTest {
 	 */
 	@Test
 	void test5GetCellAtNegativeIndex() {
-		List<Cell> cells = new ArrayList<>();
-		Cell c1 = new Cell(ValueType.BOOLEAN);
+		List<DomainCell> cells = new ArrayList<>();
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN);
 		cells.add(c1);
-		r = new Row((ArrayList<Cell>) cells);
+		r = new Row((ArrayList<DomainCell>) cells);
 		DomainException e = assertThrows(DomainException.class, () -> r.getCellAtIndex(-1));
 		assertEquals(e.getMessage(), "Index of cell cannot be negative.");
 
@@ -96,12 +96,12 @@ class RowTest {
 	 */
 	@Test
 	void test6AddCellToRow() {
-		List<Cell> cells = new ArrayList<>();
-		Cell c1 = new Cell(ValueType.BOOLEAN);
+		List<DomainCell> cells = new ArrayList<>();
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN);
 		cells.add(c1);
-		r = new Row((ArrayList<Cell>) cells);
+		r = new Row((ArrayList<DomainCell>) cells);
 		int oldAmount = r.getCells().size();
-		Cell c2 = new Cell(ValueType.INTEGER);
+		DomainCell c2 = new DomainCell(ValueType.INTEGER);
 		r.addCell(c2);
 		assertEquals(oldAmount +1, r.getCells().size());
 		
@@ -112,10 +112,10 @@ class RowTest {
 	 */
 	@Test
 	void test7AddNullCellToRow() {
-		List<Cell> cells = new ArrayList<>();
-		Cell c1 = new Cell(ValueType.BOOLEAN);
+		List<DomainCell> cells = new ArrayList<>();
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN);
 		cells.add(c1);
-		r = new Row((ArrayList<Cell>) cells);
+		r = new Row((ArrayList<DomainCell>) cells);
 		DomainException e = assertThrows(DomainException.class, () -> r.addCell(null));
 		assertEquals(e.getMessage(), "A cell cannot be null in a column.");
 
