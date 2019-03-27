@@ -9,49 +9,24 @@ package controller.handlers;
  *
  */
 public enum ChangeEventType {
-
-	REPAINT("repaint"),
+	REPAINT,
 	
-	OPEN_TABLEVIEWMODE("openTableViewMode"),
-	SWITCH_VIEWMODE("switchViewMode"),
+	OPEN_TABLEVIEWMODE,
+	SWITCH_VIEWMODE,
 		
-	CREATE_TABLE("createTable"), 
-	CREATE_ROW("createRow"),
-	CREATE_COLUMN("createColumn"),
+	CREATE_TABLE, 
+	CREATE_ROW,
+	CREATE_COLUMN,
 	
-	DELETE_TABLE("deleteTable"),
-	DELETE_ROW("deleteRow"),
-	DELETE_COLUMN("deleteColumn"), 
+	DELETE_TABLE,
+	DELETE_ROW,
+	DELETE_COLUMN, 
 	
-	COLUMN_CHANGE_NAME("columnChangeName"),
-	COLUMN_CHANGE_TYPE("columnChangeType"), 
-	COLUMN_CHANGE_DEFAULT_VALUE("columnChangeDefaultValue"), 
-	COLUMN_CHANGE_ALLOW_BLANKS("columnChangeAllowBlanks"),
+	COLUMN_CHANGE_NAME,
+	COLUMN_CHANGE_TYPE, 
+	COLUMN_CHANGE_DEFAULT_VALUE, 
+	COLUMN_CHANGE_ALLOW_BLANKS,
 	
-	TABLE_CHANGE_NAME("tableChangeName"),
-	ROW_EDITED("rowEdited");
-	
-	/**
-	 * Variable storing the event string.
-	 */
-	private final String eventString;
-
-	/**
-	 * Sets the eventString of the given ChangeEvent.
-	 * @param eventString
-	 *        | the eventString of the ChangeEvent.
-	 * @post the eventString equals the given eventString
-	 *        | this.eventString = eventString
-	 */
-	private ChangeEventType(String eventString) {
-		this.eventString = eventString;
-	}
-
-	/**
-	 * Returns the eventString of the ChangeEventType.
-	 */
-	public String getEventString() {
-		return this.eventString;
-	}
-
+	TABLE_CHANGE_NAME,
+	ROW_EDITED;
 }

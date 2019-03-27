@@ -2,14 +2,14 @@ package ui.model.viewmodes;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
+import controller.observer.PropertyChangeSupport;
 import ui.model.components.Component;
 
 /**
@@ -22,17 +22,17 @@ import ui.model.components.Component;
  *
  */
 public abstract class ViewMode implements PropertyChangeListener {
-	
+
 	/**
 	 * The variable storing all the components of the specific viewMode.
 	 */
 	private List<Component> components = new ArrayList<>();
-	
+
 	/**
 	 * The variable storing all the clickListeners of the components.
 	 */
 	private List<Component> clickListeners = new ArrayList<>();
-	
+
 	/**
 	 * The variable storing all the keyListeners of the components.
 	 */
@@ -52,7 +52,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * Initialises a new ViewMode and sets the support variable.
 	 */
 	public ViewMode() {
-		support = new PropertyChangeSupport(this);
+		setSupport(new PropertyChangeSupport());
 	}
 
 	/**
@@ -321,6 +321,17 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	protected List<Component> getKeyListeners() {
 		return this.keyListeners;
+	}
+
+	protected void setSupport(PropertyChangeSupport propertyChangeSupport) {
+		if (propertyChangeSupport == null) {
+			throw new IllegalArgumentException("Cannot set null propertyChangeSupport");
+		}
+		this.support = propertyChangeSupport;
+	}
+
+	protected PropertyChangeSupport getSupport() {
+		return this.support;
 	}
 
 }

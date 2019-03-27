@@ -1,12 +1,12 @@
 package ui.model.components;
 
 import java.awt.Graphics2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
+import controller.observer.PropertyChangeSupport;
 
 /**
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
@@ -75,7 +75,7 @@ public abstract class Component {
 		this.setHeight(height);
 		this.setWidth(width);
 		this.setHidden(hidden);
-		this.setSupport(new PropertyChangeSupport(this));
+		this.setSupport(new PropertyChangeSupport());
 	}
 
 	/**
@@ -348,8 +348,8 @@ public abstract class Component {
 	 * @param newValue
 	 *        | The new value of the property.
 	 */
-	protected void propertyChanged(Object source, String propertyName, Object oldValue, Object newValue) {
-		getSupport().firePropertyChange(new PropertyChangeEvent(source, propertyName, oldValue, newValue));
+	protected void propertyChanged(UUID source, ChangeEventType action, Object oldValue, Object newValue) {
+		getSupport().firePropertyChange(new PropertyChangeEvent(source, action, oldValue, newValue));
 	}
 
 	/**
@@ -358,7 +358,7 @@ public abstract class Component {
 	 */
 	protected void propertyChanged() {
 		getSupport().firePropertyChange(
-				new PropertyChangeEvent(this, ChangeEventType.REPAINT.getEventString(), null, null));
+				new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 	}
 
 	/**

@@ -1,8 +1,8 @@
 package controller.handlers;
 
-import java.beans.PropertyChangeEvent;
 import java.util.UUID;
 
+import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 

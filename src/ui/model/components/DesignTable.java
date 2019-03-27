@@ -176,7 +176,7 @@ public class DesignTable extends EditableComponent {
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
 			if (clickCount == 2 && y > this.getOffsetY()) {
-				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN.getEventString(), null, null);
+				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN, null, null);
 			}
 
 			boolean isLeftClickOfARow = false;
@@ -306,7 +306,7 @@ public class DesignTable extends EditableComponent {
 		if (keyCode == KeyEvent.VK_DELETE) {
 			if (!this.getDeleteCells().isEmpty()) {
 				UUID columnId = getDeleteCells().get(0).getId();
-				propertyChanged(columnId, ChangeEventType.DELETE_COLUMN.getEventString(), null, null);
+				propertyChanged(columnId, ChangeEventType.DELETE_COLUMN, null, null);
 			}
 		}
 	}

@@ -207,7 +207,7 @@ public class TextField extends EditableComponent {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), null, null);
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, null, null);
 	}
 
 }

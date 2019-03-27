@@ -109,7 +109,7 @@ public class CheckBox extends EditableComponent {
 	 */
 	private void setChecked(boolean checked) {
 		this.checked = checked;
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.toString(), !this.isChecked(), this.isChecked());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, !this.isChecked(), this.isChecked());
 	}
 
 	/**

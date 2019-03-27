@@ -1,11 +1,11 @@
 package ui.model.components;
 
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeListener;
 
 /**
  * TableList is a subClass of a VerticalComponentList.
@@ -131,7 +131,7 @@ public class TableList extends VerticalComponentList {
 		if (!hasCurrentError()) {
 			if (id == MouseEvent.MOUSE_CLICKED) {
 				if (clickCount == 2 && y > this.getOffsetY()) {
-					propertyChanged(this.toString(), ChangeEventType.CREATE_TABLE.getEventString(), null, null);
+					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}
 
 				for (Component c : getComponentsList()) {

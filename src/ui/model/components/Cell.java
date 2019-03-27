@@ -2,11 +2,12 @@ package ui.model.components;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
+
 /**
  * A Cell is an EditableComponent which on his turn contains a component.
  * It makes use of the observer pattern. It listens to events of the component in the cell.
@@ -22,7 +23,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 * The variable storing the component inside the cell.
 	 */
 	private Component component;
-	
+
 	/**
 	 * The variable storing the actionType of the cell.
 	 * This says what the action will be of the cell.
@@ -33,7 +34,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 * The variable storing the defaultHeight of the Cell.
 	 */
 	private static int defaultHeight = 50;
-	
+
 	/**
 	 * The variable storing the defaultWidth of the Cell.
 	 */
@@ -107,7 +108,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 		super(x, y, defaultWidth, defaultHeight, false, id);
 		createComponent(value, id, cellType);
 	}
-	
+
 	/**
 	 * Sets the component coordinates.
 	 * We are talking about the component inside the cell. 
@@ -161,7 +162,7 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 			if (value == null || String.valueOf(value).isEmpty()) {
 				component = new TextField(0, 0, 100, 50, "", id);
 			} else {
-				if(value instanceof String) {
+				if (value instanceof String) {
 					value = Boolean.parseBoolean((String) value);
 				}
 				component = new CheckBox((boolean) value, id);
@@ -277,9 +278,9 @@ public class Cell extends EditableComponent implements PropertyChangeListener {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (this.getActionType() != null && !ChangeEventType.REPAINT.getEventString().equals(evt.getPropertyName())) {
-			this.getSupport().firePropertyChange(new PropertyChangeEvent(getId(), this.actionType.getEventString(),
-					evt.getOldValue(), evt.getNewValue()));
+		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())) {
+			this.getSupport().firePropertyChange(
+					new PropertyChangeEvent(getId(), this.getActionType(), evt.getOldValue(), evt.getNewValue()));
 		} else {
 			this.getSupport().firePropertyChange(evt);
 		}

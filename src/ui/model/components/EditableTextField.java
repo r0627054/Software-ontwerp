@@ -219,14 +219,14 @@ public class EditableTextField extends TextField {
 	private void textResetSubmit() {
 		this.setError(false);
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), "", this.getDefaultValue());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, "", this.getDefaultValue());
 	}
 
 	/**
 	 * Submits a delete Table Event.
 	 */
 	private void delete() {
-		propertyChanged(this.getId(), ChangeEventType.DELETE_TABLE.getEventString(), null, null);
+		propertyChanged(this.getId(), ChangeEventType.DELETE_TABLE, null, null);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class EditableTextField extends TextField {
 	 */
 	private void textChanged() {
 		this.setError(false);
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME.getEventString(), this.getDefaultValue(),
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, this.getDefaultValue(),
 				this.getText());
 	}
 
@@ -253,7 +253,7 @@ public class EditableTextField extends TextField {
 	 */
 	private void doubleClicked() {
 		this.setSelected(false);
-		propertyChanged(this.getId(), ChangeEventType.OPEN_TABLEVIEWMODE.getEventString(), null, this.getText());
+		propertyChanged(this.getId(), ChangeEventType.OPEN_TABLEVIEWMODE, null, this.getText());
 	}
 
 	/**

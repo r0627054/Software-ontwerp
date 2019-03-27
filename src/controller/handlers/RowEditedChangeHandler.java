@@ -1,10 +1,10 @@
 package controller.handlers;
 
-import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import controller.observer.PropertyChangeEvent;
 import domain.model.DomainException;
 import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;

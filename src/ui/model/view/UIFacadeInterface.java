@@ -1,10 +1,10 @@
 package ui.model.view;
 
-import java.beans.PropertyChangeListener;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.observer.PropertyChangeListener;
 import ui.model.viewmodes.ViewModeType;
 
 /**

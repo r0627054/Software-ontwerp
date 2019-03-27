@@ -3,9 +3,6 @@ package ui.model.view;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -14,6 +11,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
+import controller.observer.PropertyChangeSupport;
 import ui.model.viewmodes.TableDesignViewMode;
 import ui.model.viewmodes.TableRowsViewMode;
 import ui.model.viewmodes.TableViewMode;
@@ -69,7 +69,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	public View(String title) {
 		super(title);
-		setSupport(new PropertyChangeSupport(this));
+		setSupport(new PropertyChangeSupport());
 	}
 
 	/**
@@ -329,7 +329,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			if (tableDVM.equals(currentViewMode.getViewModeType())) {
 				TableViewMode currentTableViewMode = (TableViewMode) currentViewMode;
 				PropertyChangeEvent evt = new PropertyChangeEvent(currentTableViewMode.getId(),
-						ChangeEventType.SWITCH_VIEWMODE.getEventString(), tableDVM, tableRVM);
+						ChangeEventType.SWITCH_VIEWMODE, tableDVM, tableRVM);
 
 				this.support.firePropertyChange(evt);
 
@@ -337,7 +337,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 				TableViewMode currentTableViewMode = (TableViewMode) currentViewMode;
 
 				PropertyChangeEvent evt = new PropertyChangeEvent(currentTableViewMode.getId(),
-						ChangeEventType.SWITCH_VIEWMODE.getEventString(), tableRVM, tableDVM);
+						ChangeEventType.SWITCH_VIEWMODE, tableRVM, tableDVM);
 				this.support.firePropertyChange(evt);
 			}
 		}
@@ -373,7 +373,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		this.support.firePropertyChange(evt);
+		this.getSupport().firePropertyChange(evt);
 		this.repaint();
 	}
 
@@ -634,7 +634,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void resetViewModes() {
-		support = new PropertyChangeSupport(this);
+		support = new PropertyChangeSupport();
 		this.setTablesViewMode(new TablesViewMode(new HashMap<UUID, String>()));
 		this.getTablesViewMode().addPropertyChangeListener(this);
 

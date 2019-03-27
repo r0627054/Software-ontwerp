@@ -154,7 +154,7 @@ public class RowsTable extends EditableComponent {
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_CLICKED) {
 			if (clickCount == 2 && y > getColumns().getOffsetY()) {
-				propertyChanged(getId(), ChangeEventType.CREATE_ROW.getEventString(), null, null);
+				propertyChanged(getId(), ChangeEventType.CREATE_ROW, null, null);
 			}
 
 			this.resetDeleteCells();
@@ -187,7 +187,7 @@ public class RowsTable extends EditableComponent {
 		if (keyCode == KeyEvent.VK_DELETE) {
 			if (!this.getDeleteCells().isEmpty()) {
 				UUID cellId = getDeleteCells().get(0).getId();
-				propertyChanged(cellId, ChangeEventType.DELETE_ROW.getEventString(), null, null);
+				propertyChanged(cellId, ChangeEventType.DELETE_ROW, null, null);
 			}
 		}
 	}

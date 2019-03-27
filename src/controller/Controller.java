@@ -1,10 +1,9 @@
 package controller;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import controller.handlers.ChangeEventType;
 import controller.handlers.ChangeHandlerFactory;
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 /**
@@ -83,18 +82,6 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	/**
-	 * Let the changeHandler delegate the propertyChangeEvent.
-	 * 
-	 * @param evt
-	 *        | The propertyChangeEvent called by the UiFacade.
-	 * @post The ChangeHandler delegates the event, using the UiFacade and DomainFacade.
-	 *        | changeHandler.handleChange(evt, getUiFacade(), getDomainFacade())
-	 */
-	private void handleChange(PropertyChangeEvent evt) {
-		changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
-	}
-
-	/**
 	 * Returns the UiFacade variable.
 	 */
 	public UIFacadeInterface getUiFacade() {
@@ -161,12 +148,11 @@ public class Controller implements PropertyChangeListener {
 
 	/**
 	 * The propertyChange called by a change of the UIFacade.
-	 * If the change is a Repaint, the controller ignores the request, otherwise it delegates the event.
+	 * If the change is a Repaint, the controller ignores the request, otherwise it delegates the event to the changeHandler.
 	 */
-	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (!evt.getPropertyName().equalsIgnoreCase(ChangeEventType.REPAINT.getEventString())) {
-			handleChange(evt);
+		if (!evt.getAction().equals(ChangeEventType.REPAINT)) {
+			changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
 		}
 	}
 

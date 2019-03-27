@@ -1,12 +1,12 @@
 package ui.model.view;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.observer.PropertyChangeEvent;
+import controller.observer.PropertyChangeListener;
+import controller.observer.PropertyChangeSupport;
 import ui.model.viewmodes.ViewModeType;
 
 /**
@@ -42,7 +42,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	private UIFacade() {
 		this.view = new View("Tablr");
-		setSupport(new PropertyChangeSupport(this));
+		setSupport(new PropertyChangeSupport());
 		this.getView().addPropertyChangeListener(this);
 	}
 

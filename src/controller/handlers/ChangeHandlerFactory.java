@@ -1,7 +1,6 @@
 package controller.handlers;
 
-import java.beans.PropertyChangeEvent;
-
+import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
@@ -34,36 +33,54 @@ public class ChangeHandlerFactory {
 	 * @effect The handler is created and all the information is passed to the specific handler.
 	 */
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		String value = evt.getPropertyName();
+		ChangeEventType value = evt.getAction();
 		ChangeHandlerInterface handler = null;
-		if (value.equals(ChangeEventType.TABLE_CHANGE_NAME.getEventString())) {
+
+		switch (value) {
+		case TABLE_CHANGE_NAME:
 			handler = new TableNameChangeHandler();
-		} else if (value.equals(ChangeEventType.OPEN_TABLEVIEWMODE.getEventString())) {
+			break;
+		case OPEN_TABLEVIEWMODE:
 			handler = new OpenTableViewModeChangeHandler();
-		} else if (value.equals(ChangeEventType.CREATE_TABLE.getEventString())) {
+			break;
+		case CREATE_TABLE:
 			handler = new CreateTableChangeHandler();
-		} else if (value.equals(ChangeEventType.DELETE_TABLE.getEventString())) {
+			break;
+		case DELETE_TABLE:
 			handler = new DeleteTableChangeHandler();
-		} else if (value.equals(ChangeEventType.SWITCH_VIEWMODE.getEventString())) {
+			break;
+		case SWITCH_VIEWMODE:
 			handler = new SwitchViewModeChangeHandler();
-		} else if (value.equals(ChangeEventType.CREATE_COLUMN.getEventString())) {
+			break;
+		case CREATE_COLUMN:
 			handler = new CreateColumnChangeHandler();
-		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_NAME.getEventString())) {
+			break;
+		case COLUMN_CHANGE_NAME:
 			handler = new ColumnNameChangeHandler();
-		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_TYPE.getEventString())) {
+			break;
+		case COLUMN_CHANGE_TYPE:
 			handler = new ColumnTypeChangeHandler();
-		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS.getEventString())) {
+			break;
+		case COLUMN_CHANGE_ALLOW_BLANKS:
 			handler = new ColumnAllowBlanksChangeHandler();
-		} else if (value.equals(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE.getEventString())) {
+			break;
+		case COLUMN_CHANGE_DEFAULT_VALUE:
 			handler = new ColumnDefaultValueChangeHandler();
-		} else if (value.equals(ChangeEventType.DELETE_COLUMN.getEventString())) {
+			break;
+		case DELETE_COLUMN:
 			handler = new DeleteColumnChangeHandler();
-		} else if (value.equals(ChangeEventType.CREATE_ROW.getEventString())) {
+			break;
+		case CREATE_ROW:
 			handler = new CreateRowChangeHandler();
-		} else if (value.equals(ChangeEventType.ROW_EDITED.getEventString())) {
+			break;
+		case ROW_EDITED:
 			handler = new RowEditedChangeHandler();
-		} else if (value.equals(ChangeEventType.DELETE_ROW.getEventString())) {
+			break;
+		case DELETE_ROW:
 			handler = new DeleteRowChangeHandler();
+			break;
+		default:
+			break;
 		}
 
 		if (handler != null) {
