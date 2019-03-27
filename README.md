@@ -53,7 +53,7 @@ the one that was active most recently becomes again the active subwindow.**
   (otherwise). **The user can press Ctrl+T at any time to create a new Tables
   subwindow.**
 
-- - **A**Table Design **subwindow** shows the list of the columns of a particular
+- **A**Table Design **subwindow** shows the list of the columns of a particular
     table, in a tabular view. For each column, the name, the type, whether
     blanks are allowed, and the default value are shown. Whether blanks are
     allowed is shown in the form of a checkbox. The type is String, Email,
@@ -64,7 +64,7 @@ the one that was active most recently becomes again the active subwindow.**
     their characteristics. The user can press Ctrl+Enter to **create a new** Table
     Rows **subwindow** for the current table.
 
-- - **A** Table Rows **subwindow** shows the list of the rows of a particular table,
+- **A** Table Rows **subwindow** shows the list of the rows of a particular table,
     in a tabular view. For each row, the value of that row for each of the
     table’s columns is shown. Values for columns of type Boolean are shown
     as checkboxes; other values are shown in textual form. If a row’s value for
