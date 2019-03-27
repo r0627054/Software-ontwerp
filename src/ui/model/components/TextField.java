@@ -159,8 +159,6 @@ public class TextField extends EditableComponent {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-		g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		g.setClip(getX(), getY(), getWidth(), getHeight());
 		g.setFont(this.getFont());
 		drawString(g);

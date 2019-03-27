@@ -105,9 +105,6 @@ public abstract class EditableComponent extends Component {
 	protected void displayError(Graphics2D g) {
 		g.setStroke(new BasicStroke(ERROR_RECT_SIZE, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_MITER));
 		g.setColor(Color.RED);
-
-		// -1 & +/- Error_rect_size zodat rode kader niet overlapped met zwarte kader
-		// van TextField
 		g.drawRect(getX() + ERROR_RECT_SIZE, getY() + ERROR_RECT_SIZE, getWidth() - ERROR_RECT_SIZE - 1,
 				getHeight() - ERROR_RECT_SIZE - 1);
 	}
