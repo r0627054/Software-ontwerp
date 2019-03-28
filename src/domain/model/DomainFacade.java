@@ -11,7 +11,6 @@ import java.util.UUID;
  * The actual implementation of the domainFacadeInterface.
  * This handles all the controls defined in the domainFacadeInterface.
  * It makes use of an in-memory map of tables.
- * This class can only be created once, therefore it's made a singleton.
  * 
  * @version 1.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
