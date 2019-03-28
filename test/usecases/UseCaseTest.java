@@ -31,15 +31,15 @@ public abstract class UseCaseTest {
 
 	@BeforeAll
 	public static void init() {
-		setupSingleton();
+		setupApp();
 	}
 
-	public static void setupSingleton() {
+	public static void setupApp() {
 		if (setupIsDone) {
 			return;
 		} else {
 			setupIsDone = true;
-			setUiFacade(UIFacade.getInstance());
+			setUiFacade(new UIFacade());
 			setDomainFacade(new DomainFacade());
 			setController(new Controller(uiFacade, domainFacade, false));
 		}
