@@ -64,8 +64,7 @@ public class EditableTextField extends TextField {
 		super(x, y, width, height, hidden, defaultValue, id);
 		this.resetCursorPosition();
 	}
-	
-	
+
 	/**
 	 * Initialise this new component with all the given variables.
 	 * By default is the editableTextField not hidden.
@@ -114,10 +113,10 @@ public class EditableTextField extends TextField {
 
 		if (this.isSelected()) {
 			g.setColor(new Color(226, 226, 226));
-			g.fillRect(getX(), getY(), getWidth(), getHeight());
+			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
 		} else if (this.isSelectedForDelete()) {
 			g.setColor(Color.RED);
-			g.fillRect(getX(), getY(), getWidth(), getHeight());
+			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
 		}
 		super.paint((Graphics2D) g.create());
 	}
@@ -235,8 +234,7 @@ public class EditableTextField extends TextField {
 	 */
 	private void textChanged() {
 		this.setError(false);
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, this.getDefaultValue(),
-				this.getText());
+		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, this.getDefaultValue(), this.getText());
 	}
 
 	/**
