@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 class DomainFacadeTest {
 	private DomainFacade df;
-	private DomainFacade correctDf = DomainFacade.getInstance();
+	private DomainFacade correctDf = new DomainFacade();
 	
 	/**
 	 * Test 1 : Creates instance of domainfacade if not already exists
@@ -17,7 +17,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test1CreateDomainFacadeInstance() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		assertNotNull(df);
 	}
 	
@@ -25,13 +25,14 @@ class DomainFacadeTest {
 	 * Test 2 : Create instance of domainfacade when its already instantiated
 	 * | should do nothing
 	 */
+	/*
 	@Test
 	void test2CreateDomainFacadeInstanceTwice() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		int hashBefore = df.hashCode();
 		df = DomainFacade.getInstance();
 		assertEquals(hashBefore,df.hashCode());
-	}
+	}*/
 	
 	/**
 	 * Test 3 : Add dummy table to domainfacade
@@ -40,7 +41,7 @@ class DomainFacadeTest {
 	@Test
 	void test3AddDummyTableWithComponents() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		df.addDummyTable(tableName);
 		assertTrue(df.getTableNames().containsValue(tableName));
 	}
@@ -64,7 +65,7 @@ class DomainFacadeTest {
 	@Test
 	void test5AddTable() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		df.addTable(tableName);
 		assertTrue(df.getTableNames().containsValue(tableName));
 	}
@@ -76,7 +77,7 @@ class DomainFacadeTest {
 	@Test
 	void getTableMap() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		df.addDummyTable(tableName);
 		assertFalse(df.getTableMap().isEmpty());
 	
@@ -89,7 +90,7 @@ class DomainFacadeTest {
 	@Test
 	void test7UpdateTableNameWithValidString() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		Table t = new Table("testTable");
 		df.addTable(tableName);
 		UUID id = UUID.randomUUID();
@@ -105,7 +106,7 @@ class DomainFacadeTest {
 	@Test
 	void test8UpdateTableNameWithNullValue() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table("testTable");
 		df.addTable(tableName);
 		UUID id = UUID.randomUUID();
@@ -123,7 +124,7 @@ class DomainFacadeTest {
 	void test9UpdateTableNameWithNullValue() {
 		String tableName = "testTable";
 		String tableName2 = "test2Table";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table(tableName);
 		Table t2 = new Table(tableName2);
 		df.addTable(tableName);
@@ -142,7 +143,7 @@ class DomainFacadeTest {
 	@Test
 	void test9GetTableNameFromId() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table("testTable");
 		UUID id = UUID.randomUUID();
 		df.getTableMap().put(id, t);
@@ -156,11 +157,10 @@ class DomainFacadeTest {
 	@Test
 	void test10GetTableNameFromIdAsNull() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table("testTable");
 		UUID id = UUID.randomUUID();
 		df.getTableMap().put(id, t);
-		System.out.println(df.getTableNameOfId(id));
 		Exception e = assertThrows(DomainException.class, () -> df.getTableNameOfId(null));
 		assertEquals("Cannot get table name of a null id", e.getMessage());
 	}
@@ -172,11 +172,10 @@ class DomainFacadeTest {
 	@Test
 	void test11GetTableNameFromIdNotExist() {
 		String tableName = "testTable";
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table("testTable");
 		UUID id = UUID.randomUUID();
 		df.getTableMap().put(id, t);
-		System.out.println(df.getTableNameOfId(id));
 		Exception e = assertThrows(DomainException.class, () -> df.getTableNameOfId(UUID.randomUUID()));
 		assertEquals("Cannot find table for id", e.getMessage());
 	}
@@ -187,9 +186,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test12createNewTableInDomainFacade() {
-		df = DomainFacade.getInstance();
-		System.out.println();
-		
+		df = new DomainFacade();
 		int sizeBefore = df.getTableMap().size();
 		df.createNewTable();
 		assertEquals(sizeBefore, df.getTableMap().size() -1);
@@ -201,7 +198,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test13createNewTableInDomainFacade() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		
 		int sizeBefore = df.getTableMap().size();
 		df.createNewTable();
@@ -215,7 +212,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test14RemoveTableFromDomainFacade() {
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		Table t = new Table("test");
 		UUID id = UUID.randomUUID();
 		
@@ -234,7 +231,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test15RemoveTableWithNullAsIdFromDomainFacade() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		Table t = new Table("test");
 		UUID id = UUID.randomUUID();
 		
@@ -252,7 +249,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test16GetColumnCharacteristics() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id, t);
@@ -268,7 +265,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test17GetColumnCharacteristicsWithNullAsTableId() {
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id, t);
@@ -285,7 +282,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test18GetColumnCharacteristicsWithNotExistingAsTableId() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id, t);
@@ -301,7 +298,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test19AddColumnToTableWithNullAsTableId() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id,t);
@@ -316,7 +313,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test20AddColumnToTableWithNotExistingAsTableId() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id,t);
@@ -332,7 +329,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test21UpdateColumnNameWithNullAsTableId() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
@@ -350,7 +347,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test22UpdateColumnNameWithNullAsColumnId() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
@@ -367,7 +364,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test23UpdateColumnNameWithValidParams() {
-		df = DomainFacade.getInstance();
+		df = new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
@@ -387,7 +384,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test24UpdateColumnNameWithNullAsNewColumnName() {
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
@@ -405,7 +402,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test25UpdateColumnNameWithEmptyStringAsNewColumnName() {
-		df = DomainFacade.getInstance();
+		df =new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();

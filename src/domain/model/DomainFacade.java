@@ -20,24 +20,18 @@ import java.util.UUID;
 public class DomainFacade implements DomainFacadeInterface {
 
 	/**
-	 * The instance variable of the DomainFacade. There can only be one unique instance after creation.
-	 */
-	private volatile static DomainFacade dfInstance = null;
-
-	/**
 	 * Map variable storing all the tables with their corresponding Id.
 	 */
 	private Map<UUID, Table> tableMap = new HashMap<>();
 
 	/**
 	 * Initialises a new DomainFacade.
-	 * This constructor is only called once.
 	 */
-	private DomainFacade() {
+	public DomainFacade() {
 	}
 
 	/**
-	 * This methode is used during development of the project.
+	 * This method is used during development of the project.
 	 * Creates a dummyTable with dummy data.
 	 * @param tableName
 	 *        | the name of the table.
@@ -103,30 +97,17 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.tableMap.put(persons.getId(), persons);
 	}
 
+	/**
+	 * Adds a fully created table to the list of tables.
+	 * This method is used for adding mock tables.
+	 * No other higher level classes should know about actual domain tables.
+	 * 
+	 * @param t The table which will be added
+	 * @effect The table is added to the map of tables.
+	 *         | this.tableMap.put(t.getId(), t)
+	 */
 	public void addMockedTable(Table t) {
 		this.tableMap.put(t.getId(), t);
-	}
-
-	/**
-	* Creates an domainFacade instance only once. 
-	* Returns the only existing instance.
-	*
-	* @post dfInstance is instantiated
-	*       | new.getInstance() == new DomainFacade()
-	*
-	* @notes
-	* Synchronised makes sure that every thread is synchronised and
-	* prevents creating another instance in another thread.
-	**/
-	public static DomainFacade getInstance() {
-		if (dfInstance == null) {
-			synchronized (DomainFacade.class) {
-				if (dfInstance == null) {
-					dfInstance = new DomainFacade();
-				}
-			}
-		}
-		return dfInstance;
 	}
 
 	/**
