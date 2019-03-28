@@ -406,4 +406,14 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 		}
 	}
 
+	@Override
+	public void throwError(UUID id) {
+		if (this.getComponent() instanceof EditableComponent) {
+			EditableComponent component = (EditableComponent) getComponent();
+			if (component.getId().equals(id)) {
+				component.setError(true);
+			}
+		}
+	}
+
 }

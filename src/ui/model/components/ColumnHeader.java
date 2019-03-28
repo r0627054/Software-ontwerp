@@ -60,6 +60,8 @@ public class ColumnHeader extends TextField {
 	public void paint(Graphics2D g) {
 		g.setColor(Color.PINK);
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.setColor(Color.BLACK);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
 		super.paint((Graphics2D) g.create());
 	}
 

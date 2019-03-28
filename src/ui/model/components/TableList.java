@@ -48,8 +48,9 @@ public class TableList extends VerticalComponentList {
 	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
 		for (Map.Entry<UUID, String> entry : map.entrySet()) {
 			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey());
-			textField.addPropertyChangeListener(pcl);
-			this.addComponent(textField);
+			UICell cell = new UICell(0, 0, textField, entry.getKey());
+			cell.addPropertyChangeListener(pcl);
+			this.addComponent(cell);
 		}
 		this.positionChildren();
 	}
@@ -82,8 +83,8 @@ public class TableList extends VerticalComponentList {
 	private boolean hasCurrentError() {
 		boolean hasCurrentlyError = false;
 		for (Component c : getComponentsList()) {
-			EditableTextField textField = (EditableTextField) c;
-			if (textField.isError()) {
+			UICell cell = (UICell) c;
+			if (cell.isError()) {
 				hasCurrentlyError = true;
 			}
 		}
@@ -135,9 +136,10 @@ public class TableList extends VerticalComponentList {
 				}
 
 				for (Component c : getComponentsList()) {
-					EditableTextField textField = (EditableTextField) c;
+					UICell cell = (UICell) c;
 					c.outsideClick(id, x, y, clickCount);
 
+					EditableTextField textField = (EditableTextField) cell.getComponent();
 					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
 						textField.setSelectedForDelete(true);
 					} else {
