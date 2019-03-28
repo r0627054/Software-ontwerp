@@ -12,7 +12,7 @@ import java.util.List;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
-public class HorizontalComponentList extends ContainerList {
+public class HorizontalComponentList extends Container {
 
 	/**
 	 * Initialise a new HorizontalComponentList with the given variables.
@@ -51,26 +51,6 @@ public class HorizontalComponentList extends ContainerList {
 	 *        |this(x, y, new ArrayList<Component>())
 	 */
 	public HorizontalComponentList(int x, int y) {
-		this(x, y, new ArrayList<Component>());
-	}
-
-	/**
-	 * 
-	 * Initialise a new HorizontalComponentList with the given variables.
-	 * By default it does not contain any components.
-	 * 
-	 * @param x
-	 *        The x-coordinate of the component.
-	 * @param y
-	 *        The y-coordinate of the component.
-	 * @param width
-	 *        The width of the component.
-	 * @param height
-	 *        The height of the component.
-	 * @effect The variables are set and the component is initialised with an empty component list.
-	 *        |this(x, y, new ArrayList<Component>())
-	 */
-	public HorizontalComponentList(int x, int y, int width, int height) {
 		this(x, y, new ArrayList<Component>());
 	}
 

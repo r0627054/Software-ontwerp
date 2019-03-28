@@ -62,10 +62,11 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        |	this.setComponent(cellComponent)
 	 *        |	setComponentCoordinates(x, y, defaultWidth, defaultHeight)
 	 */
-	public UICell(int x, int y, Component cellComponent, UUID id) {
-		super(x, y, defaultWidth, defaultHeight, false, id);
+	public UICell(Component cellComponent, UUID id, ChangeEventType actionType) {
+		super(0, 0, defaultWidth, defaultHeight, false, id);
+		this.setActionType(actionType);
 		this.setComponent(cellComponent);
-		setComponentCoordinates(x, y, defaultWidth, defaultHeight);
+		setComponentCoordinates(0, 0, defaultWidth, defaultHeight);
 	}
 
 	/**
@@ -81,8 +82,8 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 * @effect All the variables are set, and the cellType equals null.
 	 *        | this(x, y, value, id, null)
 	 */
-	public UICell(int x, int y, Object value, UUID id) {
-		this(x, y, value, id, value.getClass());
+	public UICell(Object value, UUID id, ChangeEventType actionType) {
+		this(value, id, value.getClass(), actionType);
 	}
 
 	/**
@@ -104,9 +105,10 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        |	createComponent(value, id, cellType)
 	 *        
 	 */
-	public UICell(int x, int y, Object value, UUID id, Class<?> cellType) {
-		super(x, y, defaultWidth, defaultHeight, false, id);
+	public UICell(Object value, UUID id, Class<?> cellType, ChangeEventType actionType) {
+		super(0, 0, defaultWidth, defaultHeight, false, id);
 		createComponent(value, id, cellType);
+		this.setActionType(actionType);
 	}
 
 	/**
@@ -117,10 +119,6 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        The x-coordinate of the component.
 	 * @param y
 	 *        The y-coordinate of the component.
-	 * @param width
-	 *        The width of the component.
-	 * @param height
-	 *        The height of the component.
 	 * @effect The coordinates of the component are set. 
 	 *        | getComponent().setX(x)
 	 *        | setX(x);
@@ -183,7 +181,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	@Override
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
-		
+
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
 
@@ -281,7 +279,8 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())) {
+		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())
+				&& !ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction())) {
 			this.getSupport().firePropertyChange(
 					new PropertyChangeEvent(getId(), this.getActionType(), evt.getOldValue(), evt.getNewValue()));
 		} else {

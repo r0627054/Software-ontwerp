@@ -12,7 +12,7 @@ import java.util.List;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
-public class VerticalComponentList extends ContainerList {
+public class VerticalComponentList extends Container {
 
 	/**
 	 * Initialise a new VerticalComponentList with the given variables.
