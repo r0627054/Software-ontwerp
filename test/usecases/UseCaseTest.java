@@ -40,7 +40,7 @@ public abstract class UseCaseTest {
 		} else {
 			setupIsDone = true;
 			setUiFacade(UIFacade.getInstance());
-			setDomainFacade(DomainFacade.getInstance());
+			setDomainFacade(new DomainFacade());
 			setController(new Controller(uiFacade, domainFacade, false));
 		}
 	}

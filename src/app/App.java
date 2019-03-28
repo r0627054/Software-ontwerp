@@ -26,7 +26,7 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(() -> {	
-			DomainFacadeInterface domainFacadeInstance = DomainFacade.getInstance();
+			DomainFacadeInterface domainFacadeInstance = new DomainFacade();
 			UIFacadeInterface UIFacadeInstance = UIFacade.getInstance();
 			new Controller(UIFacadeInstance, domainFacadeInstance);
 		});
