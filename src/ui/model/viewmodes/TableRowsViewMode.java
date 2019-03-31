@@ -23,7 +23,7 @@ public class TableRowsViewMode extends TableViewMode {
 
 	private void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
 			Map<UUID, Class<?>> columnTypes) {
-		container = new Container(0, 0, 600, 600);
+		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(new TextField(50, 5, 200, 25, "Table rows of: " + getTableName(), getId()));
 
 		RowsTable rowsTable = new RowsTable(50, 50, getId());

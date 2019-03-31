@@ -1,12 +1,15 @@
 package ui.model.viewmodes;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
@@ -22,6 +25,24 @@ import ui.model.components.Component;
  *
  */
 public abstract class ViewMode implements PropertyChangeListener {
+
+	public static final int DEFAULT_X = 0;
+	public static final int DEFAULT_Y = 0;
+	public static final int DEFAULT_WIDTH = 500;
+	public static final int DEFAULT_HEIGHT = 500;
+	public static final int DRAG_BOX = 10;
+
+	public static final int MIN_WIDTH = 100;
+	public static final int MIN_HEIGHT = 100;
+
+	private int x;
+	private int y;
+	private int width;
+	private int height;
+
+	private boolean dragClickXY = false;
+	private boolean dragClickX = false;
+	private boolean dragClickY = false;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -53,6 +74,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public ViewMode() {
 		setSupport(new PropertyChangeSupport());
+		setX(DEFAULT_X);
+		setY(DEFAULT_Y);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
 	}
 
 	/**
@@ -159,6 +184,21 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * 		 This object offers the methods that allow you to paint on the canvas.
 	 */
 	public void paint(Graphics g) {
+		g.setClip(getX(), getY(), getWidth(), getHeight());
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		
+		g.setColor(new Color(220,220,220));
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+
+		g.setColor(new Color(192,192,192));
+		g.fillRect(getOffsetX() - DRAG_BOX, 0, DRAG_BOX, getHeight());
+		g.fillRect(0, getOffsetY() - DRAG_BOX, getWidth(), DRAG_BOX);
+		
+		g.setColor(new Color(169,169,169));
+		g.fillRect(getOffsetX() - DRAG_BOX, getOffsetY() - DRAG_BOX, DRAG_BOX, DRAG_BOX);
+
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
@@ -216,13 +256,49 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
-		for (Component c : currentClickListeners) {
-			if (c.isWithinComponent(x, y)) {
-				c.mouseClicked(id, x, y, clickCount);
-			} else {
-				c.outsideClick(id, x, y, clickCount);
+		this.handleResising(id, x, y);
+		if (isWithinComponent(x, y)) {
+			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
+			for (Component c : currentClickListeners) {
+				if (c.isWithinComponent(x, y)) {
+					c.mouseClicked(id, x, y, clickCount);
+				} else {
+					c.outsideClick(id, x, y, clickCount);
+				}
 			}
+		}
+	}
+
+	protected void handleResising(int id, int x, int y) {
+		if (id == MouseEvent.MOUSE_PRESSED) {
+			if (x < getOffsetX() && x > getOffsetX() - DRAG_BOX && y < getOffsetY() && y > getOffsetY() - DRAG_BOX) {
+				this.dragClickXY = true;
+			} else if (x < getOffsetX() && x > getOffsetX() - DRAG_BOX && y < getOffsetY() - DRAG_BOX) {
+				this.dragClickX = true;
+			} else if (x < getOffsetX() - DRAG_BOX && y < getOffsetY() && y > getOffsetY() - DRAG_BOX) {
+				this.dragClickY = true;
+			}
+		}
+
+		if (id == MouseEvent.MOUSE_RELEASED) {
+			this.dragClickXY = false;
+			this.dragClickX = false;
+			this.dragClickY = false;
+		}
+
+		if (id == MouseEvent.MOUSE_DRAGGED) {
+			if (this.dragClickXY) {
+				this.setWidth(x);
+				this.setHeight(y);
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			} else if (this.dragClickX) {
+				this.setWidth(x);
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			} else if (this.dragClickY) {
+				this.setHeight(y);
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			}
+
 		}
 	}
 
@@ -332,6 +408,60 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	protected PropertyChangeSupport getSupport() {
 		return this.support;
+	}
+
+	/**
+	 * Checks whether the x and y coordinates are within the subwindow.
+	 * 
+	 * @param x
+	 *        The x-coordinate of the click.
+	 * @param y
+	 *        The y-coordinate of the click.
+	 * @return True if the x and y coordinates are within the subwindow; otherwise false.
+	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	 */
+	public boolean isWithinComponent(int x, int y) {
+		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	}
+
+	protected int getX() {
+		return x;
+	}
+
+	private void setX(int x) {
+		this.x = x;
+	}
+
+	protected int getY() {
+		return y;
+	}
+
+	private void setY(int y) {
+		this.y = y;
+	}
+
+	protected int getWidth() {
+		return width;
+	}
+
+	private void setWidth(int width) {
+		this.width = width >= MIN_WIDTH ? width : MIN_WIDTH;
+	}
+
+	protected int getHeight() {
+		return height;
+	}
+
+	private void setHeight(int height) {
+		this.height = height >= MIN_HEIGHT ? height : MIN_HEIGHT;
+	}
+
+	private int getOffsetX() {
+		return this.getWidth() - getX();
+	}
+
+	private int getOffsetY() {
+		return this.getHeight() - getY();
 	}
 
 }

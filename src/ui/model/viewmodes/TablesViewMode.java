@@ -42,7 +42,7 @@ public class TablesViewMode extends ViewMode {
 	 *        | the map containing all the information of a viewMode.
 	 */
 	private void createTableList(Map<UUID, String> map) {
-		container = new Container(0, 0, 600, 600);
+		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(getContainer());
 
 		TableList tableList = new TableList(50, 50, 600, 600);

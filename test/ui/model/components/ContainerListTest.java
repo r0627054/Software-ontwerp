@@ -9,7 +9,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class ContainerListTest {
-	private ContainerList contList;
+	private Container contList;
 	private int x = 20;
 	private int y = 10;
 	private int width = 90;
@@ -26,7 +26,7 @@ class ContainerListTest {
 	 */
 	@Test
 	void test1CreateContainerWithoutComponents() {
-		contList = new HorizontalComponentList(x, y, width, height);
+		contList = new HorizontalComponentList(x, y);
 		assertTrue(0 == contList.getWidth() && 0 == contList.getHeight());
 	}
 	

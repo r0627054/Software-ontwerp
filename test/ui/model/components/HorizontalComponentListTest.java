@@ -48,7 +48,7 @@ class HorizontalComponentListTest {
 	 */
 	@Test
 	void test3CreateHorizontalComponentListWithDimensions() {
-		hcl = new HorizontalComponentList(x, y, width, height);
+		hcl = new HorizontalComponentList(x, y);
 		assertAll("Both dimensions should equal zeor",
 			    () -> assertEquals(0, hcl.getWidth()),
 			    () -> assertEquals(0, hcl.getHeight())

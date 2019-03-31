@@ -51,7 +51,7 @@ public class TableDesignViewMode extends TableViewMode {
 	 *        | the information needed to create a designTable.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		container = new Container(0, 0, 600, 600);
+		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + getTableName(), getId()));
 
 		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
