@@ -110,7 +110,7 @@ public abstract class Component {
 	public Component(int width, int height) {
 		this(width, height, false);
 	}
-	
+
 	/**
 	 * Adds a propertyChangeListener to the PropertyChangeSupport.
 	 * @param pcl
@@ -357,8 +357,7 @@ public abstract class Component {
 	 * Because it used observer pattern a the observer will handle the firePropertyChange.
 	 */
 	protected void propertyChanged() {
-		getSupport().firePropertyChange(
-				new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+		getSupport().firePropertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 	}
 
 	/**
@@ -386,6 +385,14 @@ public abstract class Component {
 	 */
 	private void setSupport(PropertyChangeSupport support) {
 		this.support = support;
-	};
+	}
+
+	public void changeX(int x) {
+		this.setX(this.getX() + x);
+	}
+
+	public void changeY(int y) {
+		this.setY(this.getY() + y);
+	}
 
 }

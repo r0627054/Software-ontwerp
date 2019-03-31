@@ -24,9 +24,8 @@ public class TableRowsViewMode extends TableViewMode {
 	private void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
 			Map<UUID, Class<?>> columnTypes) {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
-		this.addComponent(new TextField(50, 5, 200, 25, "Table rows of: " + getTableName(), getId()));
 
-		RowsTable rowsTable = new RowsTable(50, 50, getId());
+		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_X + getY(), getId());
 		List<UICell> cellList = rowsTable.createTable(tableInformation, columnTypes);
 		
 		this.clearStoredListeners();
@@ -47,6 +46,7 @@ public class TableRowsViewMode extends TableViewMode {
 			Map<UUID, Class<?>> columnTypes) {
 		this.removeAllComponents();
 		this.removeAllClickAndKeyListeners();
+		this.addComponent(getTitleField());
 		this.createTable(tableInformation, columnTypes);
 	}
 
@@ -81,6 +81,11 @@ public class TableRowsViewMode extends TableViewMode {
 
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	protected String getTitle() {
+		return "Table rows of: " + getTableName();
 	}
 
 }

@@ -187,7 +187,7 @@ public class TextField extends EditableComponent {
 	 * Draws the actual string with the correct margin.
 	 */
 	protected void drawString(Graphics2D g) {
-		g.drawChars(getText().toCharArray(), 0, getText().length(), getX() + MARGIN, getOffsetY() - MARGIN);
+		g.drawString(getText(), getX() + MARGIN, getOffsetY() - MARGIN);
 	}
 
 	/**

@@ -33,7 +33,6 @@ public class TablesViewMode extends ViewMode {
 		super();
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
-		this.addComponent(new TextField(50, 5, 200, 25, "TABLES LIST"));
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class TablesViewMode extends ViewMode {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(getContainer());
 
-		TableList tableList = new TableList(50, 50, 600, 600);
+		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 600, 600);
 		tableList.createTableList(map, this);
 		this.addClickListener(tableList);
 		this.addKeyListener(tableList);
@@ -70,6 +69,11 @@ public class TablesViewMode extends ViewMode {
 	 */
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	protected String getTitle() {
+		return "TABLES LIST";
 	}
 
 }

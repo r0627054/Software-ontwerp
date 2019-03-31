@@ -14,6 +14,7 @@ import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
 import ui.model.components.Component;
+import ui.model.components.TextField;
 
 /**
  * A viewMode is a mode the view can have, it's an abstract class.
@@ -30,19 +31,28 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public static final int DEFAULT_Y = 0;
 	public static final int DEFAULT_WIDTH = 500;
 	public static final int DEFAULT_HEIGHT = 500;
-	public static final int DRAG_BOX = 10;
+
+	public static final int DRAG_WIDTH_SIZE = 10;
+	public static final int TITLE_BAR_SIZE = 30;
 
 	public static final int MIN_WIDTH = 100;
 	public static final int MIN_HEIGHT = 100;
+
+	public static final int CONTENT_OFFSET_X = 50;
+	public static final int CONTENT_OFFSET_Y = 50;
 
 	private int x;
 	private int y;
 	private int width;
 	private int height;
 
-	private boolean dragClickXY = false;
-	private boolean dragClickX = false;
-	private boolean dragClickY = false;
+	private boolean dragWidthXY = false;
+	private boolean dragWidthX = false;
+	private boolean dragWidthY = false;
+
+	private boolean dragWindow = false;
+
+	private TextField title;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -78,6 +88,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setY(DEFAULT_Y);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
+
+		setTitle(new TextField(10, 0, 200, TITLE_BAR_SIZE, getTitle()));
+		this.addComponent(getTitleField());
 	}
 
 	/**
@@ -185,24 +198,35 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-		
-		g.setColor(Color.BLACK);
-		g.drawRect(getX(), getY(), getWidth(), getHeight());
-		
-		g.setColor(new Color(220,220,220));
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
 
-		g.setColor(new Color(192,192,192));
-		g.fillRect(getOffsetX() - DRAG_BOX, 0, DRAG_BOX, getHeight());
-		g.fillRect(0, getOffsetY() - DRAG_BOX, getWidth(), DRAG_BOX);
+		g.setColor(new Color(240, 240, 240));
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		
-		g.setColor(new Color(169,169,169));
-		g.fillRect(getOffsetX() - DRAG_BOX, getOffsetY() - DRAG_BOX, DRAG_BOX, DRAG_BOX);
+		this.drawBorder((Graphics2D) g);
+		this.drawTitlebar((Graphics2D) g);
 
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
 	}
+
+	private void drawTitlebar(Graphics2D g) {
+		g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE);
+	}
+
+	private void drawBorder(Graphics2D g) {
+		g.setColor(new Color(220, 220, 220));
+		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getY(), DRAG_WIDTH_SIZE, getHeight());
+		g.fillRect(getX(), getOffsetY() - DRAG_WIDTH_SIZE, getWidth(), DRAG_WIDTH_SIZE);
+
+		g.setColor(new Color(192, 192, 192));
+		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getOffsetY() - DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE);
+
+		g.setColor(Color.BLACK);
+		g.drawRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
+	}
+
+	protected abstract String getTitle();
 
 	/**
 	 * Adds a component to the list of ClickListeners.
@@ -257,6 +281,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		this.handleResising(id, x, y);
+		this.handleMoving(id, x, y);
 		if (isWithinComponent(x, y)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 			for (Component c : currentClickListeners) {
@@ -269,33 +294,52 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	private void handleMoving(int id, int x, int y) {
+		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
+			System.out.println(getY());
+			System.out.println(TITLE_BAR_SIZE);
+			System.out.println(y);
+			this.dragWindow = true;
+		}
+		if (id == MouseEvent.MOUSE_RELEASED) {
+			this.dragWindow = false;
+		}
+		if (id == MouseEvent.MOUSE_DRAGGED && dragWindow) {
+			this.setX(x);
+			this.setY(y);
+			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+		}
+
+	}
+
 	protected void handleResising(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > getOffsetX() - DRAG_BOX && y < getOffsetY() && y > getOffsetY() - DRAG_BOX) {
-				this.dragClickXY = true;
-			} else if (x < getOffsetX() && x > getOffsetX() - DRAG_BOX && y < getOffsetY() - DRAG_BOX) {
-				this.dragClickX = true;
-			} else if (x < getOffsetX() - DRAG_BOX && y < getOffsetY() && y > getOffsetY() - DRAG_BOX) {
-				this.dragClickY = true;
+			if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY()
+					&& y > getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthXY = true;
+			} else if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthX = true;
+			} else if (x < getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthY = true;
 			}
 		}
 
 		if (id == MouseEvent.MOUSE_RELEASED) {
-			this.dragClickXY = false;
-			this.dragClickX = false;
-			this.dragClickY = false;
+			this.dragWidthXY = false;
+			this.dragWidthX = false;
+			this.dragWidthY = false;
 		}
 
 		if (id == MouseEvent.MOUSE_DRAGGED) {
-			if (this.dragClickXY) {
-				this.setWidth(x);
-				this.setHeight(y);
+			if (this.dragWidthXY) {
+				this.setWidth(x - getX());
+				this.setHeight(y - getY());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.dragClickX) {
-				this.setWidth(x);
+			} else if (this.dragWidthX) {
+				this.setWidth(x - getX());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.dragClickY) {
-				this.setHeight(y);
+			} else if (this.dragWidthY) {
+				this.setHeight(y - getY());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 			}
 
@@ -429,7 +473,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private void setX(int x) {
+		if (x < 0) {
+			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
+		}
+		int change = x - this.x;
 		this.x = x;
+
+		for (Component c : getComponents()) {
+			c.changeX(change);
+		}
 	}
 
 	protected int getY() {
@@ -437,7 +489,16 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private void setY(int y) {
+		if (y < 0) {
+			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
+		}
+
+		int change = y - this.y;
 		this.y = y;
+
+		for (Component c : getComponents()) {
+			c.changeY(change);
+		}
 	}
 
 	protected int getWidth() {
@@ -457,11 +518,22 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private int getOffsetX() {
-		return this.getWidth() - getX();
+		return this.getWidth() + getX();
 	}
 
 	private int getOffsetY() {
-		return this.getHeight() - getY();
+		return this.getHeight() + getY();
+	}
+	
+	private void setTitle(TextField title) {
+		if(title == null) {
+			throw new IllegalArgumentException("Cannot set null title in viewmode");
+		}
+		this.title = title;
+	}
+	
+	protected TextField getTitleField() {
+		return this.title;
 	}
 
 }

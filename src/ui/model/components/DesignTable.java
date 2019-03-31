@@ -337,5 +337,17 @@ public class DesignTable extends EditableComponent {
 		propertyChanged();
 		this.deleteCells = new ArrayList<>();
 	}
+	
+	@Override
+	public void changeY(int y) {
+		super.changeY(y);
+		this.rows.changeY(y);
+	}
+
+	@Override
+	public void changeX(int x) {
+		super.changeX(x);
+		this.rows.changeX(x);
+	}
 
 }

@@ -269,5 +269,17 @@ public class RowsTable extends EditableComponent {
 		}
 		return null;
 	}
+	
+	@Override
+	public void changeY(int y) {
+		super.changeY(y);
+		this.columns.changeY(y);
+	}
+
+	@Override
+	public void changeX(int x) {
+		super.changeX(x);
+		this.columns.changeX(x);
+	}
 
 }
