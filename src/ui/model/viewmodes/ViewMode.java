@@ -13,6 +13,7 @@ import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
+import ui.model.components.Button;
 import ui.model.components.Component;
 import ui.model.components.TextField;
 
@@ -198,9 +199,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-
-		g.setColor(new Color(240, 240, 240));
-		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		
 		this.drawBorder((Graphics2D) g);
 		this.drawTitlebar((Graphics2D) g);
@@ -215,15 +213,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private void drawBorder(Graphics2D g) {
-		g.setColor(new Color(220, 220, 220));
+		g.setColor(new Color(240, 240, 240));
 		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getY(), DRAG_WIDTH_SIZE, getHeight());
 		g.fillRect(getX(), getOffsetY() - DRAG_WIDTH_SIZE, getWidth(), DRAG_WIDTH_SIZE);
 
-		g.setColor(new Color(192, 192, 192));
+		g.setColor(new Color(220, 220, 220));
 		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getOffsetY() - DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE);
 
 		g.setColor(Color.BLACK);
-		g.drawRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
+		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
 
 	protected abstract String getTitle();
