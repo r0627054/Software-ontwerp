@@ -12,7 +12,7 @@ import java.util.UUID;
 import controller.handlers.ChangeEventType;
 
 /**
- * The rowsTable is sub class of EditableComponent.
+ * The rowsTable is subclass of EditableComponent.
  *  It creates a rowTable, a rowTable show all the information of the table.
  * 
  * @version 1.0

@@ -13,9 +13,7 @@ import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
-import ui.model.components.Button;
 import ui.model.components.Component;
-import ui.model.components.TextField;
 import ui.model.components.TitleBar;
 
 /**
@@ -632,10 +630,23 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
 	}
 
+	/**
+	 * Returns the X-coordinate of the viewMode.
+	 */
 	protected int getX() {
 		return x;
 	}
 
+	/**
+	 * Sets the x-coordinate of the viewMode, and gives the change to the components of the viewMode.
+	 * @param x The new x-coordinate value.
+	 * @throws IllegalArgumentException when the x value is smaller than 0.
+	 *         | x < 0
+	 * @effect The viewMode changed his x coordinate and the components within are changed to the new x-coordinate.
+	 *         | this.x =x;
+	 *         | for (Component c : getComponents()) {
+	 *         |   c.changeX(x - this.x);
+	 */
 	private void setX(int x) {
 		if (x < 0) {
 			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
@@ -647,10 +658,23 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Returns the Y-coordinate of the viewMode.
+	 */
 	protected int getY() {
 		return y;
 	}
 
+	/**
+	 * Sets the y-coordinate of the viewMode, and gives the change to the components of the viewMode.
+	 * @param y The new y-coordinate value.
+	 * @throws IllegalArgumentException when the y value is smaller than 0.
+	 *         | y < 0
+	 * @effect The viewMode changed his y coordinate and the components within are changed to the new y-coordinate.
+	 *         | this.y =y;
+	 *         | for (Component c : getComponents()) {
+	 *         |   c.changeY(y - this.y);
+	 */
 	private void setY(int y) {
 		if (y < 0) {
 			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
@@ -662,10 +686,18 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Returns the width of the viewMode.
+	 */
 	protected int getWidth() {
 		return width;
 	}
 
+	/**
+	 * Sets the width of the viewMode and changes the width of the title bar if any.
+	 * @param width The new width of the viewMode.
+	 * @effect The width of the viewMode is changed and the width of the titleBar is changed.
+	 */
 	private void setWidth(int width) {
 		if (width < MIN_WIDTH) {
 			width = MIN_WIDTH;
@@ -677,29 +709,54 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Returns the height of the viewMode.
+	 */
 	protected int getHeight() {
 		return height;
 	}
 
+	/**
+	 * Sets the height of the viewMode.
+	 * When the given height is smaller than the minimal height. The minimal height is set.
+	 * @param height The new height of the viewmode.
+	 */
 	private void setHeight(int height) {
 		this.height = height >= MIN_HEIGHT ? height : MIN_HEIGHT;
 	}
 
+	/**
+	 * Returns the offset of the x-coordinate of the viewMode.
+	 */
 	private int getOffsetX() {
 		return this.getWidth() + getX();
 	}
 
+	/**
+	 * Returns the offset of the y-coordinate of the viewMode.
+	 */
 	private int getOffsetY() {
 		return this.getHeight() + getY();
 	}
 
-	private void setTitleBar(TitleBar title) {
-		if (title == null) {
+	/**
+	 * Sets the titleBar of the viewMode.
+	 * @param titleBar The titleBar of the viewMode.
+	 * @throws IllegalArgumentException When the titleBar parameter equals null.
+	 *         | titleBar == null
+	 * @post The title bar of the viewMode equals the titleBar parameter.
+	 *         | new.getTitleBar() == titleBar.
+	 */
+	private void setTitleBar(TitleBar titleBar) {
+		if (titleBar == null) {
 			throw new IllegalArgumentException("Cannot set null titleBar in viewmode");
 		}
-		this.titleBar = title;
+		this.titleBar = titleBar;
 	}
 
+	/**
+	 * Returns the titleBar of the viewMode.
+	 */
 	protected TitleBar getTitleBar() {
 		return this.titleBar;
 	}
