@@ -128,8 +128,6 @@ public class Container extends Component {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-		g.clipRect(getX(), getY(), getWidth(), getHeight());
-
 		for (Component c : components) {
 			c.paint((Graphics2D) g.create());
 		}

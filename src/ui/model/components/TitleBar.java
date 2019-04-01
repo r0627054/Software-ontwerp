@@ -55,7 +55,7 @@ public class TitleBar extends Container implements PropertyChangeListener {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-		g.drawLine(getX(), getY() + getHeight(), getOffsetX(), getY() + getHeight());
+		g.drawLine(getX(), getY() + getHeight(), getX() + getWidth(), getY() + getHeight());
 		super.paint(g);
 	}
 
