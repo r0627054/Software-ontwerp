@@ -22,7 +22,6 @@ public class Button extends TextField {
 
 	@Override
 	public void paint(Graphics2D g) {
-		System.out.println("painting");
 		if (isClicked()) {
 			g.setColor(Color.WHITE);
 		} else {

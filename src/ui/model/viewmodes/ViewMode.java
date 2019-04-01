@@ -53,7 +53,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	private boolean dragWindow = false;
 
+	private int windowDragX;
+	private int windowDragY;
+
 	private TextField title;
+	private Button closeButton;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -90,7 +94,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		setTitle(new TextField(10, 0, 200, TITLE_BAR_SIZE, getTitle()));
+		setTitle(new TextField(10 + DEFAULT_X, DEFAULT_Y, 200, TITLE_BAR_SIZE, getTitle()));
 		this.addComponent(getTitleField());
 	}
 
@@ -199,7 +203,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-		
+
 		this.drawBorder((Graphics2D) g);
 		this.drawTitlebar((Graphics2D) g);
 
@@ -278,8 +282,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		this.handleResising(id, x, y);
+		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
+
 		if (isWithinComponent(x, y)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 			for (Component c : currentClickListeners) {
@@ -294,23 +299,24 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	private void handleMoving(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
-			System.out.println(getY());
-			System.out.println(TITLE_BAR_SIZE);
-			System.out.println(y);
 			this.dragWindow = true;
+			this.windowDragX = x - getX();
+			this.windowDragY = y - getY();
 		}
 		if (id == MouseEvent.MOUSE_RELEASED) {
 			this.dragWindow = false;
 		}
+
 		if (id == MouseEvent.MOUSE_DRAGGED && dragWindow) {
-			this.setX(x);
-			this.setY(y);
+			this.setX(x - windowDragX);
+			this.setY(y - windowDragY);
 			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 		}
 
 	}
 
-	protected void handleResising(int id, int x, int y) {
+	protected void handleResizing(int id, int x, int y) {
+
 		if (id == MouseEvent.MOUSE_PRESSED) {
 			if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY()
 					&& y > getOffsetY() - DRAG_WIDTH_SIZE) {
@@ -522,14 +528,14 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private int getOffsetY() {
 		return this.getHeight() + getY();
 	}
-	
+
 	private void setTitle(TextField title) {
-		if(title == null) {
+		if (title == null) {
 			throw new IllegalArgumentException("Cannot set null title in viewmode");
 		}
 		this.title = title;
 	}
-	
+
 	protected TextField getTitleField() {
 		return this.title;
 	}
