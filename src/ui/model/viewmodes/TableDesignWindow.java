@@ -19,7 +19,7 @@ import ui.model.components.TextField;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
-public class TableDesignViewMode extends TableViewMode {
+public class TableDesignWindow extends TableWindow {
 
 	/**
 	 * Variable storing the container.
@@ -37,7 +37,7 @@ public class TableDesignViewMode extends TableViewMode {
 	 *        | the characteristics of a table (it contains all the information needed to edit and show the design.
 	 * @effect the viewMode is created with the given information and a designTable is created and added to the viewMode.
 	 */
-	public TableDesignViewMode(UUID id, String tableName,
+	public TableDesignWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		super(id, "Designing table: " + tableName);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);

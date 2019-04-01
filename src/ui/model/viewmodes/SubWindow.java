@@ -25,7 +25,7 @@ import ui.model.components.TitleBar;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public abstract class ViewMode implements PropertyChangeListener {
+public abstract class SubWindow implements PropertyChangeListener {
 
 	/**
 	 * The constant storing the default X coordinate.
@@ -167,7 +167,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private boolean paused = false;
 	private List<Component> storedListeners;
 
-	public ViewMode(String title) {
+	public SubWindow(String title) {
 		this.setSupport(new PropertyChangeSupport());
 		this.setStoredListeners(new ArrayList<>());
 
@@ -176,7 +176,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, title));
+		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, DRAG_BORDER_SIZE,
+				CONTENT_OFFSET_X, title));
 		this.addComponent(getTitleBar());
 		this.addClickListener(getTitleBar());
 		getTitleBar().addPropertyChangeListener(this);

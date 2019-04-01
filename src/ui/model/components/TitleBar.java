@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
-import ui.model.viewmodes.ViewMode;
 
 /**
  * The titleBar is a specific Container.
@@ -31,12 +30,10 @@ public class TitleBar extends Container implements PropertyChangeListener {
 	 * @param titleText The title which the titleBar will display.
 	 * @effect The variables are set and a button close button and textfield for the title are created.
 	 */
-	public TitleBar(int x, int y, int width, int height, String titleText) {
+	public TitleBar(int x, int y, int width, int height, int borderMargin, int contentOffset, String titleText) {
 		super(x, y, width, height);
 
-		int borderMargin = ViewMode.DRAG_BORDER_SIZE;
-
-		addComponent(new TextField(ViewMode.CONTENT_OFFSET_X, y, width, height, titleText));
+		addComponent(new TextField(contentOffset, y, width, height, titleText));
 
 		Button closeButton = new Button(width - BUTTON_WIDTH - borderMargin, y + borderMargin, BUTTON_WIDTH,
 				height - borderMargin, "Close", ChangeEventType.CLOSE_SUBWINDOW);

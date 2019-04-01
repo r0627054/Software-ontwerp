@@ -11,10 +11,10 @@ import ui.model.components.Container;
 import ui.model.components.RowsTable;
 import ui.model.components.TextField;
 
-public class TableRowsViewMode extends TableViewMode {
+public class TableRowsWindow extends TableWindow {
 	private Container container;
 
-	public TableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
+	public TableRowsWindow(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
 			Map<UUID, Class<?>> columnTypes) {
 		super(tableId, "Table rows of table: " + tableName);
 		this.setType(ViewModeType.TABLEROWSVIEWMODE);

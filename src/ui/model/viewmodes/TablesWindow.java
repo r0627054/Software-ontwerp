@@ -15,7 +15,7 @@ import ui.model.components.TextField;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
  *
  */
-public class TablesViewMode extends ViewMode {
+public class TablesWindow extends SubWindow {
 
 	/**
 	 * Variable storing the container.
@@ -29,7 +29,7 @@ public class TablesViewMode extends ViewMode {
 	 *        | Containing all the UUID's and names of the tables.
 	 * @effect the full Tables list is created and all the information is set.
 	 */
-	public TablesViewMode(Map<UUID, String> map) {
+	public TablesWindow(Map<UUID, String> map) {
 		super("TABLES LIST");
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);

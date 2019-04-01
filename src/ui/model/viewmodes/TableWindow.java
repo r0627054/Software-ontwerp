@@ -7,13 +7,13 @@ import java.util.UUID;
 import ui.model.components.Component;
 import ui.model.components.TitleBar;
 
-public abstract class TableViewMode extends ViewMode {
+public abstract class TableWindow extends SubWindow {
 
 	private UUID id;
 	private String tableName;
 
 
-	public TableViewMode(UUID id, String tableName) {
+	public TableWindow(UUID id, String tableName) {
 		super(tableName);
 		this.setId(id);
 		this.setTableName(tableName);
