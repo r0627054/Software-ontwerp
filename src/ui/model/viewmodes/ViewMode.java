@@ -271,12 +271,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
 
-		this.drawBorder((Graphics2D) g);
-		this.drawTitlebar((Graphics2D) g);
-
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
+
+		this.drawBorder((Graphics2D) g);
+		this.drawTitlebar((Graphics2D) g);
 	}
 
 	/**
@@ -300,12 +300,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private void drawBorder(Graphics2D g) {
 		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, getHeight());
-		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight());
+		g.fillRect(this.getX(), this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight());
 
 		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, getWidth(), DRAG_BORDER_SIZE);
 
 		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
-		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE,
+				DRAG_BORDER_SIZE);
 
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
@@ -407,13 +408,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 				this.setX(x - windowDragX);
 			} catch (IllegalArgumentException e) {
 				this.setX(0);
-				//the window can be dragged outside (this will give an negative X value) and result in an IllegalArgumentException.
+				// the window can be dragged outside (this will give an negative X value) and
+				// result in an IllegalArgumentException.
 			}
 			try {
 				this.setY(y - windowDragY);
 			} catch (IllegalArgumentException e) {
 				this.setY(0);
-				//the window can be dragged outside (this will give an negative Y value) and result in an IllegalArgumentException.
+				// the window can be dragged outside (this will give an negative Y value) and
+				// result in an IllegalArgumentException.
 			}
 			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 		}
@@ -428,10 +431,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+			if (x < getOffsetX() && x > getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY()
+					&& y > getOffsetY() - DRAG_BORDER_SIZE) {
 				this.resizeRightBottomXY = true;
-			} else if (  (( x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)  )  || ( x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) ) )
-					     && y < (getOffsetY() - DRAG_BORDER_SIZE) && y >(this.getY() + DRAG_BORDER_SIZE) ) {
+			} else if (((x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE))
+					|| (x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE)))
+					&& y < (getOffsetY() - DRAG_BORDER_SIZE) && y > (this.getY() + DRAG_BORDER_SIZE)) {
 				System.out.println("resize X");
 				this.resizeRightX = true;
 			} else if (x < getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
