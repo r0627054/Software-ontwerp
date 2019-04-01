@@ -48,7 +48,7 @@ public class TableList extends VerticalComponentList {
 	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
 		for (Map.Entry<UUID, String> entry : map.entrySet()) {
 			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey());
-			UICell cell = new UICell(0, 0, textField, entry.getKey());
+			UICell cell = new UICell(textField, entry.getKey(), ChangeEventType.TABLE_CHANGE_NAME);
 			cell.addPropertyChangeListener(pcl);
 			this.addComponent(cell);
 		}

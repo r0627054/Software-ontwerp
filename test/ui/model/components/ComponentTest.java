@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import controller.handlers.ChangeEventType;
+
 
 
 class ComponentTest { // testing component methods with cell;
@@ -15,28 +17,28 @@ class ComponentTest { // testing component methods with cell;
 	private UUID id = UUID.randomUUID();
 	private int correctX = 100;
 	private int correctY = 400;
-	private Component correctComponent = new UICell(correctX, correctY, "test", id);
+	private Component correctComponent = new UICell("test", id, ChangeEventType.ROW_EDITED);
 
-	/**
-	 * Test 1 : component with given negative X
-	 * | should throw an IllegalArgumentException.
-	 */
-	@Test
-	void test1CreateComponentWithNegativeX() {
-		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell(-3, 0, "test", id));
-		assertEquals(e.getMessage(), "The x-coordinate of the component cannot be negative.");
-	}
-	
-	/**
-	 * Test 2 : component with given negative Y
-	 * | should throw an IllegalArgumentException.
-	 */
-	@Test
-	void test2CreateComponentWithNegativeY() {
-		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell(0, -1, "test", id));
-		assertEquals(e.getMessage(), "The y-coordinate of the component cannot be negative.");
-	}
-	
+//	/**
+//	 * Test 1 : component with given negative X
+//	 * | should throw an IllegalArgumentException.
+//	 */
+//	@Test
+//	void test1CreateComponentWithNegativeX() {
+//		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell("test", id));
+//		assertEquals(e.getMessage(), "The x-coordinate of the component cannot be negative.");
+//	}
+//	
+//	/**
+//	 * Test 2 : component with given negative Y
+//	 * | should throw an IllegalArgumentException.
+//	 */
+//	@Test
+//	void test2CreateComponentWithNegativeY() {
+//		Exception e = assertThrows(IllegalArgumentException.class, () -> comp = new UICell(0, -1, "test", id));
+//		assertEquals(e.getMessage(), "The y-coordinate of the component cannot be negative.");
+//	}
+//	
 	/**
 	 * Test 3 : The offset of x should be greater than the x coordinate.
 	 */

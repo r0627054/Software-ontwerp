@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
+
 /**
  * A DesignTable is an editableComponet.
  * It contains a VerticalComponentList of rows.
@@ -21,12 +22,12 @@ import controller.handlers.ChangeEventType;
  *
  */
 public class DesignTable extends EditableComponent {
-	
+
 	/**
 	 * VerticalComponentList Variable containing all the rows.
 	 */
 	private VerticalComponentList rows;
-	
+
 	/**
 	 * List of cells selected for deletion
 	 */
@@ -83,38 +84,33 @@ public class DesignTable extends EditableComponent {
 				case "Type":
 					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(),
 							columnId);
-					newCell = new UICell(0, 0, toggleTextField, columnId);
-					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_TYPE);
+					newCell = new UICell(toggleTextField, columnId, ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
 				case "Column Name":
 					EditableTextField nameTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
 							columnId);
-					newCell = new UICell(0, 0, nameTextField, columnId);
-					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_NAME);
+					newCell = new UICell(nameTextField, columnId, ChangeEventType.COLUMN_CHANGE_NAME);
 					break;
 				case "Allow Blanks":
 					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), columnId);
-					newCell = new UICell(0, 0, blanksCheckBox, columnId);
-					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
+					newCell = new UICell(blanksCheckBox, columnId, ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
 					break;
 				case "Default Value":
 					if (type.equals("Boolean")) {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
 						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, value, columnId);
-						newCell = new UICell(0, 0, valueTextField, columnId);
+						newCell = new UICell(valueTextField, columnId, ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 
 					} else {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
-						Component valueTextField = new EditableTextField(0, 0, 100, 100, value,
-								columnId);
-						newCell = new UICell(0, 0, valueTextField, columnId);
+						Component valueTextField = new EditableTextField(0, 0, 100, 100, value, columnId);
+						newCell = new UICell(valueTextField, columnId, ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					}
-					newCell.setActionType(ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 					break;
 				default:
-					newCell = new UICell(0, 0, obj.getValue(), columnId);
+					newCell = new UICell(obj.getValue(), columnId, null);
 					break;
 				}
 				allCellsList.add(newCell);
@@ -340,6 +336,18 @@ public class DesignTable extends EditableComponent {
 		}
 		propertyChanged();
 		this.deleteCells = new ArrayList<>();
+	}
+	
+	@Override
+	public void changeY(int y) {
+		super.changeY(y);
+		this.rows.changeY(y);
+	}
+
+	@Override
+	public void changeX(int x) {
+		super.changeX(x);
+		this.rows.changeX(x);
 	}
 
 }

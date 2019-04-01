@@ -3,6 +3,8 @@ package ui.model.components;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
@@ -16,12 +18,12 @@ import controller.handlers.ChangeEventType;
  *
  */
 public class TextField extends EditableComponent {
-	
+
 	/**
 	 * The variable storing the font used to paint the component.
 	 */
 	public Font font;
-	
+
 	/**
 	 * The variable storing the margin used in the textField.
 	 */
@@ -114,7 +116,7 @@ public class TextField extends EditableComponent {
 	 */
 	private void setFont(Font font) {
 		if (font == null)
-			throw new IllegalArgumentException("Font cannot be null inside a TextField."); //TODO hier kom je nooit
+			throw new IllegalArgumentException("Font cannot be null inside a TextField."); // TODO hier kom je nooit
 		this.font = font;
 	}
 
@@ -150,7 +152,6 @@ public class TextField extends EditableComponent {
 		return this.text;
 	}
 
-	
 	/**
 	 * Draws the textField with the correct font and position and a rectangle is drawn around it.
 	 * 
@@ -159,16 +160,28 @@ public class TextField extends EditableComponent {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
+
+		Rectangle current = g.getClip().getBounds();
+		Rectangle temp = new Rectangle(getX(), getY(), getWidth(), getHeight());
+
+		if (temp.getWidth() + temp.getX() > current.getWidth() + current.getX()) {
+			temp.setSize((int) current.getWidth() - this.getX(), (int) temp.getHeight());
+		}
+		if (temp.getHeight() + temp.getY() > current.getHeight() + current.getY()) {
+			temp.setSize((int) temp.getWidth(), (int) current.getHeight() - this.getY());
+		}
+
 		g.setColor(Color.BLACK);
-		g.setClip(getX(), getY(), getWidth(), getHeight());
 		g.setFont(this.getFont());
+
+		g.setClip(temp);
 		drawString(g);
-		
-		if(this.isError()) {
+		g.setClip(current);
+
+		if (this.isError()) {
 			displayError((Graphics2D) g.create());
 		}
 	}
-
 
 	/**
 	 * Draws the actual string with the correct margin.
@@ -206,7 +219,7 @@ public class TextField extends EditableComponent {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, null, null);
+		propertyChanged(this.getId(), null, null, null);
 	}
 
 }

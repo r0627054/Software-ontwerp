@@ -51,10 +51,9 @@ public class TableDesignViewMode extends TableViewMode {
 	 *        | the information needed to create a designTable.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		container = new Container(0, 0, 600, 600);
-		this.addComponent(new TextField(50, 5, 200, 25, "Designing table: " + getTableName(), getId()));
+		container = new Container(getX(), getY(), getWidth(), getHeight());
 
-		DesignTable table = new DesignTable(50, 50, 200, 200, getTableName(), this.getId());
+		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 200, 200, getTableName(), this.getId());
 		List<UICell> cellList = table.createTable(columnCharacteristics);
 
 		this.clearStoredListeners();
@@ -79,6 +78,7 @@ public class TableDesignViewMode extends TableViewMode {
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.removeAllClickAndKeyListeners();
 		this.removeAllComponents();
+		this.addComponent(getTitleField());
 		this.setPaused(false);
 		this.createDesignTable(columnCharacteristics);
 	}
@@ -171,6 +171,11 @@ public class TableDesignViewMode extends TableViewMode {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	protected String getTitle() {
+		return "Designing table: " + getTableName();
 	}
 	
 }

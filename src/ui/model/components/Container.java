@@ -246,4 +246,22 @@ public class Container extends Component {
 		}
 	}
 
+	@Override
+	public void changeY(int y) {
+		super.changeY(y);
+		
+		for(Component c: getComponentsList()) {
+			c.changeY(y);
+		}
+	}
+
+	@Override
+	public void changeX(int x) {
+		super.changeX(x);
+		
+		for(Component c: getComponentsList()) {
+			c.changeX(x);
+		}
+	}
+
 }

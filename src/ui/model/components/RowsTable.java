@@ -77,9 +77,8 @@ public class RowsTable extends EditableComponent {
 			columnCells.add(header);
 
 			for (UUID cellId : columnCellsMap.keySet()) {
-				UICell newCell = new UICell(0, 0, columnCellsMap.get(cellId), cellId, tableType);
+				UICell newCell = new UICell(columnCellsMap.get(cellId), cellId, tableType, ChangeEventType.ROW_EDITED);
 				columnCells.add(newCell);
-				newCell.setActionType(ChangeEventType.ROW_EDITED);
 				allCellsList.add(newCell);
 			}
 			columnList.add(new VerticalComponentList(0, 0, columnCells));
@@ -269,6 +268,18 @@ public class RowsTable extends EditableComponent {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public void changeY(int y) {
+		super.changeY(y);
+		this.columns.changeY(y);
+	}
+
+	@Override
+	public void changeX(int x) {
+		super.changeX(x);
+		this.columns.changeX(x);
 	}
 
 }

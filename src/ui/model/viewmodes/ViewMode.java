@@ -1,16 +1,21 @@
 package ui.model.viewmodes;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
+import ui.model.components.Button;
 import ui.model.components.Component;
+import ui.model.components.TextField;
 
 /**
  * A viewMode is a mode the view can have, it's an abstract class.
@@ -22,6 +27,33 @@ import ui.model.components.Component;
  *
  */
 public abstract class ViewMode implements PropertyChangeListener {
+
+	public static final int DEFAULT_X = 0;
+	public static final int DEFAULT_Y = 0;
+	public static final int DEFAULT_WIDTH = 500;
+	public static final int DEFAULT_HEIGHT = 500;
+
+	public static final int DRAG_WIDTH_SIZE = 10;
+	public static final int TITLE_BAR_SIZE = 30;
+
+	public static final int MIN_WIDTH = 100;
+	public static final int MIN_HEIGHT = 100;
+
+	public static final int CONTENT_OFFSET_X = 50;
+	public static final int CONTENT_OFFSET_Y = 50;
+
+	private int x;
+	private int y;
+	private int width;
+	private int height;
+
+	private boolean dragWidthXY = false;
+	private boolean dragWidthX = false;
+	private boolean dragWidthY = false;
+
+	private boolean dragWindow = false;
+
+	private TextField title;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -53,6 +85,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public ViewMode() {
 		setSupport(new PropertyChangeSupport());
+		setX(DEFAULT_X);
+		setY(DEFAULT_Y);
+		setWidth(DEFAULT_WIDTH);
+		setHeight(DEFAULT_HEIGHT);
+
+		setTitle(new TextField(10, 0, 200, TITLE_BAR_SIZE, getTitle()));
+		this.addComponent(getTitleField());
 	}
 
 	/**
@@ -159,10 +198,33 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * 		 This object offers the methods that allow you to paint on the canvas.
 	 */
 	public void paint(Graphics g) {
+		g.setClip(getX(), getY(), getWidth(), getHeight());
+		
+		this.drawBorder((Graphics2D) g);
+		this.drawTitlebar((Graphics2D) g);
+
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
 	}
+
+	private void drawTitlebar(Graphics2D g) {
+		g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE);
+	}
+
+	private void drawBorder(Graphics2D g) {
+		g.setColor(new Color(240, 240, 240));
+		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getY(), DRAG_WIDTH_SIZE, getHeight());
+		g.fillRect(getX(), getOffsetY() - DRAG_WIDTH_SIZE, getWidth(), DRAG_WIDTH_SIZE);
+
+		g.setColor(new Color(220, 220, 220));
+		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getOffsetY() - DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE);
+
+		g.setColor(Color.BLACK);
+		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
+	}
+
+	protected abstract String getTitle();
 
 	/**
 	 * Adds a component to the list of ClickListeners.
@@ -216,13 +278,69 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
-		for (Component c : currentClickListeners) {
-			if (c.isWithinComponent(x, y)) {
-				c.mouseClicked(id, x, y, clickCount);
-			} else {
-				c.outsideClick(id, x, y, clickCount);
+		this.handleResising(id, x, y);
+		this.handleMoving(id, x, y);
+		if (isWithinComponent(x, y)) {
+			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
+			for (Component c : currentClickListeners) {
+				if (c.isWithinComponent(x, y)) {
+					c.mouseClicked(id, x, y, clickCount);
+				} else {
+					c.outsideClick(id, x, y, clickCount);
+				}
 			}
+		}
+	}
+
+	private void handleMoving(int id, int x, int y) {
+		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
+			System.out.println(getY());
+			System.out.println(TITLE_BAR_SIZE);
+			System.out.println(y);
+			this.dragWindow = true;
+		}
+		if (id == MouseEvent.MOUSE_RELEASED) {
+			this.dragWindow = false;
+		}
+		if (id == MouseEvent.MOUSE_DRAGGED && dragWindow) {
+			this.setX(x);
+			this.setY(y);
+			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+		}
+
+	}
+
+	protected void handleResising(int id, int x, int y) {
+		if (id == MouseEvent.MOUSE_PRESSED) {
+			if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY()
+					&& y > getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthXY = true;
+			} else if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthX = true;
+			} else if (x < getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_WIDTH_SIZE) {
+				this.dragWidthY = true;
+			}
+		}
+
+		if (id == MouseEvent.MOUSE_RELEASED) {
+			this.dragWidthXY = false;
+			this.dragWidthX = false;
+			this.dragWidthY = false;
+		}
+
+		if (id == MouseEvent.MOUSE_DRAGGED) {
+			if (this.dragWidthXY) {
+				this.setWidth(x - getX());
+				this.setHeight(y - getY());
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			} else if (this.dragWidthX) {
+				this.setWidth(x - getX());
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			} else if (this.dragWidthY) {
+				this.setHeight(y - getY());
+				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			}
+
 		}
 	}
 
@@ -332,6 +450,88 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	protected PropertyChangeSupport getSupport() {
 		return this.support;
+	}
+
+	/**
+	 * Checks whether the x and y coordinates are within the subwindow.
+	 * 
+	 * @param x
+	 *        The x-coordinate of the click.
+	 * @param y
+	 *        The y-coordinate of the click.
+	 * @return True if the x and y coordinates are within the subwindow; otherwise false.
+	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	 */
+	public boolean isWithinComponent(int x, int y) {
+		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	}
+
+	protected int getX() {
+		return x;
+	}
+
+	private void setX(int x) {
+		if (x < 0) {
+			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
+		}
+		int change = x - this.x;
+		this.x = x;
+
+		for (Component c : getComponents()) {
+			c.changeX(change);
+		}
+	}
+
+	protected int getY() {
+		return y;
+	}
+
+	private void setY(int y) {
+		if (y < 0) {
+			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
+		}
+
+		int change = y - this.y;
+		this.y = y;
+
+		for (Component c : getComponents()) {
+			c.changeY(change);
+		}
+	}
+
+	protected int getWidth() {
+		return width;
+	}
+
+	private void setWidth(int width) {
+		this.width = width >= MIN_WIDTH ? width : MIN_WIDTH;
+	}
+
+	protected int getHeight() {
+		return height;
+	}
+
+	private void setHeight(int height) {
+		this.height = height >= MIN_HEIGHT ? height : MIN_HEIGHT;
+	}
+
+	private int getOffsetX() {
+		return this.getWidth() + getX();
+	}
+
+	private int getOffsetY() {
+		return this.getHeight() + getY();
+	}
+	
+	private void setTitle(TextField title) {
+		if(title == null) {
+			throw new IllegalArgumentException("Cannot set null title in viewmode");
+		}
+		this.title = title;
+	}
+	
+	protected TextField getTitleField() {
+		return this.title;
 	}
 
 }
