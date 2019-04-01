@@ -6,7 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
@@ -160,27 +162,26 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private ViewModeType type;
 
-	/**
-	 * Initialises a new ViewMode and sets the support variable.
-	 */
+	private UUID id;
 
 	private boolean paused = false;
 	private List<Component> storedListeners;
 
-	public SubWindow(String title) {
+	public SubWindow(UUID id, String title) {
 		this.setSupport(new PropertyChangeSupport());
 		this.setStoredListeners(new ArrayList<>());
+		this.setId(id);
+		
+		this.setX(DEFAULT_X);
+		this.setY(DEFAULT_Y);
+		this.setWidth(DEFAULT_WIDTH);
+		this.setHeight(DEFAULT_HEIGHT);
 
-		setX(DEFAULT_X);
-		setY(DEFAULT_Y);
-		setWidth(DEFAULT_WIDTH);
-		setHeight(DEFAULT_HEIGHT);
-
-		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, DRAG_BORDER_SIZE,
+		this.setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, DRAG_BORDER_SIZE,
 				CONTENT_OFFSET_X, title));
 		this.addComponent(getTitleBar());
 		this.addClickListener(getTitleBar());
-		getTitleBar().addPropertyChangeListener(this);
+		this.getTitleBar().addPropertyChangeListener(this);
 	}
 
 	/**
@@ -556,12 +557,10 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Handles the throw error of a component with the given ID.
 	 * @param id
 	 *        | The id of which element an error is thrown.
+	 * @param newValue 
+	 * @param columnIndex 
 	 */
-	public void throwError(UUID id) {
-		for (Component c : getComponents()) {
-			c.throwError(id);
-		}
-	}
+	public abstract void throwError(UUID id, int columnIndex, Object newValue);
 
 	/**
 	 * Removes all the clickListeners and KeyListeners from the viewMode.
@@ -815,5 +814,24 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		this.storedListeners = listeners;
 	}
+	
+	public UUID getId() {
+		return id;
+	}
+
+	private void setId(UUID id) {
+		//null is allowed for tableswindow
+		this.id = id;
+	}
+
+	public abstract void ctrlEntrPressed();
+
+	public abstract void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
+			Map<UUID, String> tablesListData);
+	
+	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
+
+	public abstract void resumeSubWindow(int columnIndex, UUID columnId);
 
 }

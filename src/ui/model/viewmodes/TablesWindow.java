@@ -1,8 +1,10 @@
 package ui.model.viewmodes;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.TableList;
 import ui.model.components.TextField;
@@ -30,7 +32,7 @@ public class TablesWindow extends SubWindow {
 	 * @effect the full Tables list is created and all the information is set.
 	 */
 	public TablesWindow(Map<UUID, String> map) {
-		super("TABLES LIST");
+		super(null, "TABLES LIST");
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
 	}
@@ -69,6 +71,37 @@ public class TablesWindow extends SubWindow {
 	 */
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	public void ctrlEntrPressed() {
+		System.out.println("ctrl pressed in tablesWindow, do nothing");
+	}
+
+	@Override
+	public void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
+			Map<UUID, String> tablesListData) {
+		updateTables(tablesListData);
+	}
+
+	@Override
+	public void pauseSubWindow(int columnIndex, UUID columnId) {
+		// TODO Auto-generated method stub
+		//DO NOTHING
+	}
+
+	@Override
+	public void resumeSubWindow(int columnIndex, UUID columnId) {
+		// TODO Auto-generated method stub
+		//DO NOTHING
+	}
+
+	@Override
+	public void throwError(UUID id, int columnIndex, Object newValue) {
+		for (Component c : getComponents()) {
+			c.throwError(id);
+		}
 	}
 
 }

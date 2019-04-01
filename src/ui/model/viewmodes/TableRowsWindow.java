@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
 import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.Container;
@@ -49,7 +51,7 @@ public class TableRowsWindow extends TableWindow {
 		this.createTable(tableInformation, columnTypes);
 	}
 
-	public void pauseViewMode(int columnIndex, UUID columnId) {
+	public void pauseSubWindow(int columnIndex, UUID columnId) {
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
@@ -57,7 +59,7 @@ public class TableRowsWindow extends TableWindow {
 
 	}
 
-	public void resumeViewMode(int columnIndex, UUID columnId) {
+	public void resumeSubWindow(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		this.resetAllListeners();
@@ -80,6 +82,28 @@ public class TableRowsWindow extends TableWindow {
 
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	public void ctrlEntrPressed() {
+		if (!isPaused()) {
+			getSupport().firePropertyChange(
+					new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_TABLEDESIGNWINDOW, null, null));
+		}
+	}
+
+	@Override
+	public void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
+			Map<UUID, String> tablesListData) {
+		this.updateRowsTable(tableRowsData, rowsClassData);
+	}
+
+	@Override
+	public void throwError(UUID id, int columnIndex, Object newValue) {
+		for (Component c : getComponents()) {
+			c.throwError(id);
+		}
 	}
 
 }

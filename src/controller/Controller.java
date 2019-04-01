@@ -72,7 +72,7 @@ public class Controller implements PropertyChangeListener {
 		this.setDomainFacade(domainFacade);
 		setChangeHandler(new ChangeHandlerFactory());
 
-		this.getUiFacade().startup(domainFacade.getTableNames());
+//		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 
 		if (show) {
