@@ -100,30 +100,45 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private int height;
 
 	/**
-	 * The variable storing whether the window, is currently resizing the X and Y coordinate.
-	 * (resizing the corners)
-	 */
-	private boolean resizeRightBottomXY = false;
-
-	/**
-	 * The variable storing whether the window is currently resizing the X coordinate.
+	 * The variable storing whether the window is currently resizing the X coordinate, on the right side of the window.
 	 */
 	private boolean resizeRightX = false;
+	
+	/**
+	 * The variable storing whether the window is currently resizing the X coordinate, on the left side of the window.
+	 */
+	private boolean resizeLeftX = false;
 
 	/**
-	 * The variable storing whether the window is currently resizing the Y coordinate.
+	 * The variable storing whether the window is currently resizing the Y coordinate, at the bottom of the window.
 	 */
 	private boolean resizeBottomY = false;
+	
+	/**
+	 * The variable storing whether the window is currently resizing the Y coordinate, at the top of the window.
+	 */
+	private boolean resizeTopY = false;
 
 	/**
 	 * The variable storing whether the window is currently dragging.
 	 */
 	private boolean dragWindow = false;
 
+	/**
+	 * The x-coordinate variable storing where the user clicked for dragging the window.
+	 */
 	private int windowDragX;
+	
+	/**
+	 * The y-coordinate variable storing where the user clicked for dragging the window.
+	 */
 	private int windowDragY;
 
+	/**
+	 * The variable storing the title textField of the window.
+	 */
 	private TextField title;
+	
 	private Button closeButton;
 
 	/**
@@ -299,14 +314,22 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	private void drawBorder(Graphics2D g) {
 		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
-		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, getHeight());
-		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight());
+		//vertical bars
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY()+DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight()- (2*DRAG_BORDER_SIZE));
+		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight()- (2*DRAG_BORDER_SIZE));
 
-		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, getWidth(), DRAG_BORDER_SIZE);
-
+		//horizontal bars
+		g.fillRect(getX() + DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
+		g.fillRect(this.getX()+ DRAG_BORDER_SIZE, this.getY(), getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
+		
+		//corner squares
 		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
+		g.fillRect(getX(), getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
+		g.fillRect(getOffsetX()-DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
+		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-
+		
+		
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
@@ -393,7 +416,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @post If the window is dragged properly the X and Y-coordinate of the window are changed.
 	 */
 	private void handleMoving(int id, int x, int y) {
-		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
+		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE)  && y <= this.getY() + TITLE_BAR_SIZE) {
 			this.dragWindow = true;
 			this.windowDragX = x - getX();
 			this.windowDragY = y - getY();
@@ -421,43 +444,54 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	/**
-	 *
-	 * @param id
-	 * @param x
-	 * @param y
+	 * Handles the resizing feature of the window.
+	 * It resizes the window by dragging the corners.
+	 * @param id The mouse event id.
+	 * @param x  The x coordinate of the mouse event.
+	 * @param y  The y coordinate of the mouse event.
+	 * @post The new X-coordinate, Y-coordinate, width and height are set depending on the resizing.
 	 */
-	protected void handleResizing(int id, int x, int y) {
+	protected void handleResizing(int id, int x, int y) {		
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
-				this.resizeRightBottomXY = true;
-			} else if (  (( x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)  )  || ( x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) ) )
-					     && y < (getOffsetY() - DRAG_BORDER_SIZE) && y >(this.getY() + DRAG_BORDER_SIZE) ) {
-				System.out.println("resize X");
+			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)   ) {
 				this.resizeRightX = true;
-			} else if (x < getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+			}
+			if ( x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) )     {
+				this.resizeLeftX = true;
+			}
+			if ( y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
 				this.resizeBottomY = true;
 			}
-		}
-
-		if (id == MouseEvent.MOUSE_RELEASED) {
-			this.resizeRightBottomXY = false;
-			this.resizeRightX = false;
-			this.resizeBottomY = false;
-		}
-
-		if (id == MouseEvent.MOUSE_DRAGGED) {
-			if (this.resizeRightBottomXY) {
-				this.setWidth(x - getX());
-				this.setHeight(y - getY());
-				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.resizeRightX) {
-				this.setWidth(x - getX());
-				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.resizeBottomY) {
-				this.setHeight(y - getY());
-				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			if ( y > this.getY() && y < (this.getY() + DRAG_BORDER_SIZE) ) {
+				this.resizeTopY = true;
 			}
-
+		}
+		if (id == MouseEvent.MOUSE_RELEASED) {
+			this.resizeRightX = false;
+			this.resizeLeftX = false;
+			this.resizeBottomY = false;
+			this.resizeTopY = false;
+		}
+		if (id == MouseEvent.MOUSE_DRAGGED && (this.resizeRightX || this.resizeLeftX || this.resizeBottomY || this.resizeTopY) && x >= 0 && y >= 0 ) {
+			 if (this.resizeRightX) {
+				this.setWidth(x - getX());
+			}
+			if(this.resizeLeftX) {
+				if( (getOffsetX() -x) >=  MIN_WIDTH ) {
+					this.setWidth(getOffsetX() - x);
+					this.setX(x);
+				}
+			}
+			if (this.resizeBottomY) {
+				this.setHeight(y - getY());
+			}
+			if(this.resizeTopY) {
+				if((getOffsetY() - y) >= MIN_HEIGHT) {
+					this.setHeight(getOffsetY() - y);
+					this.setY(y);
+				}
+			}
+			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 		}
 	}
 
@@ -558,6 +592,14 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return this.keyListeners;
 	}
 
+	/**
+	 * Sets the propertyChangeSupport of the viewMode.
+	 * @param propertyChangeSupport The propertyChangeSupport which will be set for the viewmode.
+	 * @throws IllegalArgumentException When the propertyChangeSupport Parameter equals nulls.
+	 *         | propertyChangeSupport == null
+	 * @post The support variable equals the propertyChangeSupport.
+	 *         | new.getSupport() == propertyChangeSupport
+	 */
 	protected void setSupport(PropertyChangeSupport propertyChangeSupport) {
 		if (propertyChangeSupport == null) {
 			throw new IllegalArgumentException("Cannot set null propertyChangeSupport");
@@ -565,6 +607,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 		this.support = propertyChangeSupport;
 	}
 
+	/**
+	 * Returns the propertyChangedSupport of the viewMode.
+	 */
 	protected PropertyChangeSupport getSupport() {
 		return this.support;
 	}
