@@ -151,7 +151,7 @@ public class RowsTable extends EditableComponent {
 	 */
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED) {
+		if (id == MouseEvent.MOUSE_PRESSED) {
 			if (clickCount == 2 && y > getColumns().getOffsetY()) {
 				propertyChanged(getId(), ChangeEventType.CREATE_ROW, null, null);
 			}
@@ -168,6 +168,7 @@ public class RowsTable extends EditableComponent {
 							if (componentOfList instanceof UICell) {
 								UICell cell = (UICell) componentOfList;
 								this.addDeleteCell(cell);
+								cell.setRedBackground(true);
 							}
 						}
 					}
@@ -236,7 +237,6 @@ public class RowsTable extends EditableComponent {
 		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(false);
 		}
-		propertyChanged();
 		this.deleteCells = new ArrayList<>();
 	}
 

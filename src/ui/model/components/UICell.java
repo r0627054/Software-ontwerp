@@ -158,7 +158,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 
 		if (cellType == Boolean.class) {
 			if (value == null || String.valueOf(value).isEmpty()) {
-				component = new TextField(0, 0, 100, 50, "", id);
+				component = new ToggleTextField(100, 100, "", id);
 			} else {
 				if (value instanceof String) {
 					value = Boolean.parseBoolean((String) value);
@@ -279,12 +279,12 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (this.getActionType() != null &&
-				!ChangeEventType.REPAINT.equals(evt.getAction()) && 
-				!ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction()) && 
-				!ChangeEventType.DELETE_TABLE.equals(evt.getAction())) {
-			//TODO Maybe refactor this so we don't have to add EventTypes here if not needed to change
-			
+		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())
+				&& !ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction())
+				&& !ChangeEventType.DELETE_TABLE.equals(evt.getAction())) {
+			// TODO Maybe refactor this so we don't have to add EventTypes here if not
+			// needed to change
+
 			this.getSupport().firePropertyChange(
 					new PropertyChangeEvent(getId(), this.getActionType(), evt.getOldValue(), evt.getNewValue()));
 		} else {
@@ -367,6 +367,9 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        | new.getBackground() == b
 	 */
 	public void setRedBackground(boolean b) {
+		if ((redBackground && !b) || (!redBackground && b)) {
+			this.propertyChanged();
+		}
 		this.redBackground = b;
 	}
 

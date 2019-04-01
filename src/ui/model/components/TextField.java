@@ -165,7 +165,6 @@ public class TextField extends EditableComponent {
 		Rectangle temp = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
 		if (temp.getWidth() + temp.getX() > current.getWidth() + current.getX()) {
-			System.out.println(current.getWidth());
 			int newWidth = (int) (current.getWidth() - this.getX() + current.getX());
 			temp.setSize(newWidth, (int) temp.getHeight());
 		}

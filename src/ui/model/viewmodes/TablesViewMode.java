@@ -44,7 +44,7 @@ public class TablesViewMode extends ViewMode {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(getContainer());
 
-		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 600, 600);
+		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(), getHeight());
 		tableList.createTableList(map, this);
 		this.addClickListener(tableList);
 		this.addKeyListener(tableList);
@@ -59,7 +59,7 @@ public class TablesViewMode extends ViewMode {
 	 *        | the map containing all the information of a viewMode.
 	 */
 	public void updateTables(Map<UUID, String> map) {
-		this.removeAllClickAndKeyListeners();
+		this.removeContentClickAndKeyListeners();
 		this.removeComponent(getContainer());
 		this.createTableList(map);
 	}

@@ -25,10 +25,9 @@ public class TableRowsViewMode extends TableViewMode {
 			Map<UUID, Class<?>> columnTypes) {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 
-		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_X + getY(), getId());
+		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId());
 		List<UICell> cellList = rowsTable.createTable(tableInformation, columnTypes);
 
-		this.clearStoredListeners();
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
@@ -39,29 +38,29 @@ public class TableRowsViewMode extends TableViewMode {
 
 		getContainer().addComponent(rowsTable);
 		this.addComponent(getContainer());
-		this.addAllListeners();
+		this.resetAllListeners();
 	}
 
 	public void updateRowsTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
 			Map<UUID, Class<?>> columnTypes) {
-		this.removeAllComponents();
-		this.removeAllClickAndKeyListeners();
-		this.addComponent(getTitleBar());
+		this.removeComponent(getContainer());
+		this.removeContentClickAndKeyListeners();
+		this.clearStoredListeners();
 		this.createTable(tableInformation, columnTypes);
 	}
 
 	public void pauseViewMode(int columnIndex, UUID columnId) {
-		this.setPaused(true);
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
-		this.removeAllClickListenersButOne(errorCell);
-		this.removeAllKeyListenersButOne(errorCell);
 		errorCell.setError(true);
+		this.removeAllContentListenersButOne(errorCell);
+		this.setPaused(true);
+
 	}
 
 	public void resumeViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
-		this.addAllListeners();
+		this.resetAllListeners();
 		errorCell.setError(false);
 	}
 

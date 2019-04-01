@@ -128,7 +128,7 @@ public class CanvasWindow {
 	}
 
 	class Panel extends JPanel {
-
+		int i = 0;
 		{
 			setPreferredSize(new Dimension(width, height));
 			setBackground(Color.WHITE);
@@ -179,7 +179,7 @@ public class CanvasWindow {
 
 		@Override
 		protected void paintComponent(Graphics g) {
-			System.out.println("Painting...");
+			System.out.println("Painting..." + ++i);
 			super.paintComponent(g);
 
 			if (recording != null) {

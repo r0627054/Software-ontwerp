@@ -137,7 +137,7 @@ public class EditableTextField extends TextField {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
+		if (id == MouseEvent.MOUSE_PRESSED && isWithinComponent(x, y)) {
 			if (!this.selected && clickCount == 1) {
 				resetCursorPosition();
 				this.setDefaultValue(this.getText());
@@ -420,8 +420,12 @@ public class EditableTextField extends TextField {
 	 *        | Whether or not the editableTextField is selected for deletion.
 	 */
 	public void setSelectedForDelete(boolean selected) {
+		boolean changed = (this.selectedForDelete && !selected) || (!this.selectedForDelete && selected);
 		this.selectedForDelete = selected;
-		propertyChanged();
+		
+		if (changed) {
+			propertyChanged();
+		}
 	}
 
 	/**
