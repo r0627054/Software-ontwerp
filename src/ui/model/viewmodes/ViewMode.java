@@ -61,12 +61,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * The constant storing the minimal width of the viewmode.
 	 */
-	public static final int MIN_WIDTH = 100;
+	public static final int MIN_WIDTH = 200;
 
 	/**
 	 * The constant storing the minimal height of the viewmode.
 	 */
-	public static final int MIN_HEIGHT = 100;
+	public static final int MIN_HEIGHT = 200;
 
 	/**
 	 * The constant storing the content offset.
@@ -299,21 +299,23 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	private void drawBorder(Graphics2D g) {
 		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
-		//vertical bars
-		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY()+DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight()- (2*DRAG_BORDER_SIZE));
-		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight()- (2*DRAG_BORDER_SIZE));
+		// vertical bars
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE,
+				getHeight() - (2 * DRAG_BORDER_SIZE));
+		g.fillRect(this.getX(), this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight() - (2 * DRAG_BORDER_SIZE));
 
-		//horizontal bars
-		g.fillRect(getX() + DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
-		g.fillRect(this.getX()+ DRAG_BORDER_SIZE, this.getY(), getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
+		// horizontal bars
+		g.fillRect(getX() + DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, getWidth() - (2 * DRAG_BORDER_SIZE),
+				DRAG_BORDER_SIZE);
+		g.fillRect(this.getX() + DRAG_BORDER_SIZE, this.getY(), getWidth() - (2 * DRAG_BORDER_SIZE), DRAG_BORDER_SIZE);
 
-		//corner squares
+		// corner squares
 		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
 		g.fillRect(getX(), getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-		g.fillRect(getOffsetX()-DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
 		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE,
+				DRAG_BORDER_SIZE);
 
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
@@ -396,7 +398,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @post If the window is dragged properly the X and Y-coordinate of the window are changed.
 	 */
 	private void handleMoving(int id, int x, int y) {
-		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE)  && y <= this.getY() + TITLE_BAR_SIZE) {
+		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE)
+				&& y <= this.getY() + TITLE_BAR_SIZE) {
 			this.dragWindow = true;
 			this.windowDragX = x - getX();
 			this.windowDragY = y - getY();
@@ -435,16 +438,16 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)   ) {
+			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)) {
 				this.resizeRightX = true;
 			}
-			if ( x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) )     {
+			if (x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE)) {
 				this.resizeLeftX = true;
 			}
-			if ( y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+			if (y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
 				this.resizeBottomY = true;
 			}
-			if ( y > this.getY() && y < (this.getY() + DRAG_BORDER_SIZE) ) {
+			if (y > this.getY() && y < (this.getY() + DRAG_BORDER_SIZE)) {
 				this.resizeTopY = true;
 			}
 		}
@@ -454,12 +457,14 @@ public abstract class ViewMode implements PropertyChangeListener {
 			this.resizeBottomY = false;
 			this.resizeTopY = false;
 		}
-		if (id == MouseEvent.MOUSE_DRAGGED && (this.resizeRightX || this.resizeLeftX || this.resizeBottomY || this.resizeTopY) && x >= 0 && y >= 0 ) {
-			 if (this.resizeRightX) {
+		if (id == MouseEvent.MOUSE_DRAGGED
+				&& (this.resizeRightX || this.resizeLeftX || this.resizeBottomY || this.resizeTopY) && x >= 0
+				&& y >= 0) {
+			if (this.resizeRightX) {
 				this.setWidth(x - getX());
 			}
-			if(this.resizeLeftX) {
-				if( (getOffsetX() -x) >=  MIN_WIDTH ) {
+			if (this.resizeLeftX) {
+				if ((getOffsetX() - x) >= MIN_WIDTH) {
 					this.setWidth(getOffsetX() - x);
 					this.setX(x);
 				}
@@ -467,8 +472,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 			if (this.resizeBottomY) {
 				this.setHeight(y - getY());
 			}
-			if(this.resizeTopY) {
-				if((getOffsetY() - y) >= MIN_HEIGHT) {
+			if (this.resizeTopY) {
+				if ((getOffsetY() - y) >= MIN_HEIGHT) {
 					this.setHeight(getOffsetY() - y);
 					this.setY(y);
 				}
@@ -631,10 +636,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (x < 0) {
 			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
 		}
-		for (Component c : getComponents()) {
-			c.changeX(x - this.x);
-		}
+		int change = x - this.x;
 		this.x = x;
+		for (Component c : getComponents()) {
+			c.changeX(change);
+		}
 	}
 
 	/**
@@ -658,10 +664,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (y < 0) {
 			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
 		}
-		for (Component c : getComponents()) {
-			c.changeY(y - this.y);
-		}
+		int change = y - this.y;
 		this.y = y;
+		for (Component c : getComponents()) {
+			c.changeY(change);
+		}
 	}
 
 	/**
@@ -680,10 +687,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (width < MIN_WIDTH) {
 			width = MIN_WIDTH;
 		}
-		if (getTitleBar() != null) {
-			this.getTitleBar().changeWidth(width - this.width);
-		}
+		int change = width - this.width;
 		this.width = width;
+		if (getTitleBar() != null) {
+			this.getTitleBar().changeWidth(change);
+		}
 	}
 
 	/**

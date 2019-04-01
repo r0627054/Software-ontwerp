@@ -279,8 +279,12 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())
-				&& !ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction())) {
+		if (this.getActionType() != null &&
+				!ChangeEventType.REPAINT.equals(evt.getAction()) && 
+				!ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction()) && 
+				!ChangeEventType.DELETE_TABLE.equals(evt.getAction())) {
+			//TODO Maybe refactor this so we don't have to add EventTypes here if not needed to change
+			
 			this.getSupport().firePropertyChange(
 					new PropertyChangeEvent(getId(), this.getActionType(), evt.getOldValue(), evt.getNewValue()));
 		} else {
