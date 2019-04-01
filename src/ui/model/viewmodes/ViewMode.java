@@ -16,6 +16,7 @@ import controller.observer.PropertyChangeSupport;
 import ui.model.components.Button;
 import ui.model.components.Component;
 import ui.model.components.TextField;
+import ui.model.components.TitleBar;
 
 /**
  * A viewMode is a mode the view can have, it's an abstract class.
@@ -103,7 +104,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The variable storing whether the window is currently resizing the X coordinate, on the right side of the window.
 	 */
 	private boolean resizeRightX = false;
-	
+
 	/**
 	 * The variable storing whether the window is currently resizing the X coordinate, on the left side of the window.
 	 */
@@ -113,7 +114,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The variable storing whether the window is currently resizing the Y coordinate, at the bottom of the window.
 	 */
 	private boolean resizeBottomY = false;
-	
+
 	/**
 	 * The variable storing whether the window is currently resizing the Y coordinate, at the top of the window.
 	 */
@@ -128,18 +129,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The x-coordinate variable storing where the user clicked for dragging the window.
 	 */
 	private int windowDragX;
-	
+
 	/**
 	 * The y-coordinate variable storing where the user clicked for dragging the window.
 	 */
 	private int windowDragY;
 
-	/**
-	 * The variable storing the title textField of the window.
-	 */
-	private TextField title;
-	
-	private Button closeButton;
+	private TitleBar titleBar;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -171,13 +167,16 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public ViewMode() {
 		setSupport(new PropertyChangeSupport());
+
 		setX(DEFAULT_X);
 		setY(DEFAULT_Y);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		setTitle(new TextField(10 + DEFAULT_X, DEFAULT_Y, 200, TITLE_BAR_SIZE, getTitle()));
-		this.addComponent(getTitleField());
+		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, getTitle()));
+		this.addComponent(getTitleBar());
+		this.addClickListener(getTitleBar());
+		getTitleBar().addPropertyChangeListener(this);
 	}
 
 	/**
@@ -286,23 +285,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
 
-		this.drawBorder((Graphics2D) g);
-		this.drawTitlebar((Graphics2D) g);
-
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
-	}
 
-	/**
-	 * Draws the title of the viewMode.
-	 *
-	 * @param g This object offers the methods that allow you to paint on the canvas.
-	 * @post The title is drawn in the window.
-	 *       | g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE)
-	 */
-	private void drawTitlebar(Graphics2D g) {
-		g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE);
+		this.drawBorder((Graphics2D) g);
 	}
 
 	/**
@@ -321,15 +308,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 		//horizontal bars
 		g.fillRect(getX() + DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
 		g.fillRect(this.getX()+ DRAG_BORDER_SIZE, this.getY(), getWidth() - (2*DRAG_BORDER_SIZE) , DRAG_BORDER_SIZE);
-		
+
 		//corner squares
 		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
 		g.fillRect(getX(), getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
 		g.fillRect(getOffsetX()-DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
 		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-		
-		
+
+
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
@@ -430,13 +417,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 				this.setX(x - windowDragX);
 			} catch (IllegalArgumentException e) {
 				this.setX(0);
-				//the window can be dragged outside (this will give an negative X value) and result in an IllegalArgumentException.
+				// the window can be dragged outside (this will give an negative X value) and
+				// result in an IllegalArgumentException.
 			}
 			try {
 				this.setY(y - windowDragY);
 			} catch (IllegalArgumentException e) {
 				this.setY(0);
-				//the window can be dragged outside (this will give an negative Y value) and result in an IllegalArgumentException.
+				// the window can be dragged outside (this will give an negative Y value) and
+				// result in an IllegalArgumentException.
 			}
 			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 		}
@@ -451,7 +440,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @param y  The y coordinate of the mouse event.
 	 * @post The new X-coordinate, Y-coordinate, width and height are set depending on the resizing.
 	 */
-	protected void handleResizing(int id, int x, int y) {		
+	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
 			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)   ) {
 				this.resizeRightX = true;
@@ -636,12 +625,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (x < 0) {
 			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
 		}
-		int change = x - this.x;
-		this.x = x;
-
 		for (Component c : getComponents()) {
-			c.changeX(change);
+			c.changeX(x - this.x);
 		}
+		this.x = x;
 	}
 
 	protected int getY() {
@@ -652,13 +639,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (y < 0) {
 			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
 		}
-
-		int change = y - this.y;
-		this.y = y;
-
 		for (Component c : getComponents()) {
-			c.changeY(change);
+			c.changeY(y - this.y);
 		}
+		this.y = y;
 	}
 
 	protected int getWidth() {
@@ -666,7 +650,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private void setWidth(int width) {
-		this.width = width >= MIN_WIDTH ? width : MIN_WIDTH;
+		if (width < MIN_WIDTH) {
+			width = MIN_WIDTH;
+		}
+		if (getTitleBar() != null) {
+			this.getTitleBar().changeWidth(width - this.width);
+		}
+		this.width = width;
 	}
 
 	protected int getHeight() {
@@ -685,15 +675,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return this.getHeight() + getY();
 	}
 
-	private void setTitle(TextField title) {
+	private void setTitleBar(TitleBar title) {
 		if (title == null) {
-			throw new IllegalArgumentException("Cannot set null title in viewmode");
+			throw new IllegalArgumentException("Cannot set null titleBar in viewmode");
 		}
-		this.title = title;
+		this.titleBar = title;
 	}
 
-	protected TextField getTitleField() {
-		return this.title;
+	protected TitleBar getTitleBar() {
+		return this.titleBar;
 	}
 
 }
