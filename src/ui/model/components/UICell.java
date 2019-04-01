@@ -168,7 +168,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 		} else if (value != null) {
 			component = new EditableTextField(value.toString(), id);
 		} else {
-			component = new ToggleTextField(100, 100, "", id);
+			component = new EditableTextField("", id);
 		}
 		this.setComponent(component);
 	}

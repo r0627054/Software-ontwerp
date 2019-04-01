@@ -168,6 +168,7 @@ public class RowsTable extends EditableComponent {
 							if (componentOfList instanceof UICell) {
 								UICell cell = (UICell) componentOfList;
 								this.addDeleteCell(cell);
+								cell.setRedBackground(true);
 							}
 						}
 					}
