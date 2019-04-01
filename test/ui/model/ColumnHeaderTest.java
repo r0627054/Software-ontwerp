@@ -1,10 +1,12 @@
-package ui.model.components;
+package ui.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+
+import ui.model.components.ColumnHeader;
 
 class ColumnHeaderTest {
 	private int x = 10;

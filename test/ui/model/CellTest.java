@@ -1,10 +1,15 @@
-package ui.model.components;
+package ui.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import controller.handlers.ChangeEventType;
+import ui.model.components.CheckBox;
+import ui.model.components.Component;
+import ui.model.components.EditableTextField;
+import ui.model.components.TextField;
+import ui.model.components.UICell;
 
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;

@@ -1,4 +1,4 @@
-package ui.model.components;
+package ui.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +9,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import controller.handlers.ChangeEventType;
+import ui.model.components.Component;
+import ui.model.components.UICell;
 
 
 
