@@ -78,7 +78,7 @@ public class TableDesignViewMode extends TableViewMode {
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		this.removeAllClickAndKeyListeners();
 		this.removeAllComponents();
-		this.addComponent(getTitleField());
+		this.addComponent(getTitleBar());
 		this.setPaused(false);
 		this.createDesignTable(columnCharacteristics);
 	}

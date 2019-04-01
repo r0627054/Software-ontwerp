@@ -16,6 +16,7 @@ import controller.observer.PropertyChangeSupport;
 import ui.model.components.Button;
 import ui.model.components.Component;
 import ui.model.components.TextField;
+import ui.model.components.TitleBar;
 
 /**
  * A viewMode is a mode the view can have, it's an abstract class.
@@ -123,8 +124,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private int windowDragX;
 	private int windowDragY;
 
-	private TextField title;
-	private Button closeButton;
+	private TitleBar titleBar;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -156,13 +156,16 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	public ViewMode() {
 		setSupport(new PropertyChangeSupport());
+
 		setX(DEFAULT_X);
 		setY(DEFAULT_Y);
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		setTitle(new TextField(10 + DEFAULT_X, DEFAULT_Y, 200, TITLE_BAR_SIZE, getTitle()));
-		this.addComponent(getTitleField());
+		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, getTitle()));
+		this.addComponent(getTitleBar());
+		this.addClickListener(getTitleBar());
+		getTitleBar().addPropertyChangeListener(this);
 	}
 
 	/**
@@ -276,18 +279,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 
 		this.drawBorder((Graphics2D) g);
-		this.drawTitlebar((Graphics2D) g);
-	}
-
-	/**
-	 * Draws the title of the viewMode.
-	 *
-	 * @param g This object offers the methods that allow you to paint on the canvas.
-	 * @post The title is drawn in the window.
-	 *       | g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE)
-	 */
-	private void drawTitlebar(Graphics2D g) {
-		g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE);
 	}
 
 	/**
@@ -596,12 +587,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (x < 0) {
 			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
 		}
-		int change = x - this.x;
-		this.x = x;
-
 		for (Component c : getComponents()) {
-			c.changeX(change);
+			c.changeX(x - this.x);
 		}
+		this.x = x;
 	}
 
 	protected int getY() {
@@ -612,13 +601,10 @@ public abstract class ViewMode implements PropertyChangeListener {
 		if (y < 0) {
 			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
 		}
-
-		int change = y - this.y;
-		this.y = y;
-
 		for (Component c : getComponents()) {
-			c.changeY(change);
+			c.changeY(y - this.y);
 		}
+		this.y = y;
 	}
 
 	protected int getWidth() {
@@ -626,7 +612,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	private void setWidth(int width) {
-		this.width = width >= MIN_WIDTH ? width : MIN_WIDTH;
+		if (width < MIN_WIDTH) {
+			width = MIN_WIDTH;
+		}
+		if (getTitleBar() != null) {
+			this.getTitleBar().changeWidth(width - this.width);
+		}
+		this.width = width;
 	}
 
 	protected int getHeight() {
@@ -645,15 +637,15 @@ public abstract class ViewMode implements PropertyChangeListener {
 		return this.getHeight() + getY();
 	}
 
-	private void setTitle(TextField title) {
+	private void setTitleBar(TitleBar title) {
 		if (title == null) {
-			throw new IllegalArgumentException("Cannot set null title in viewmode");
+			throw new IllegalArgumentException("Cannot set null titleBar in viewmode");
 		}
-		this.title = title;
+		this.titleBar = title;
 	}
 
-	protected TextField getTitleField() {
-		return this.title;
+	protected TitleBar getTitleBar() {
+		return this.titleBar;
 	}
 
 }

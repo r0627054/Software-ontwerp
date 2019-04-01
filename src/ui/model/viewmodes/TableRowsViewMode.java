@@ -46,7 +46,7 @@ public class TableRowsViewMode extends TableViewMode {
 			Map<UUID, Class<?>> columnTypes) {
 		this.removeAllComponents();
 		this.removeAllClickAndKeyListeners();
-		this.addComponent(getTitleField());
+		this.addComponent(getTitleBar());
 		this.createTable(tableInformation, columnTypes);
 	}
 
