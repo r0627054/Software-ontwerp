@@ -21,7 +21,7 @@ import ui.model.components.TextField;
  * A viewMode is a mode the view can have, it's an abstract class.
  *  A viewMode is the actual view inside one frame.
  *  The viewMode keeps track of all the components and all the clickListeners/KeyListeners of the components.
- * 
+ *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
@@ -32,17 +32,17 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The constant storing the default X coordinate.
 	 */
 	public static final int DEFAULT_X = 0;
-	
+
 	/**
 	 * The constant storing the default Y coordinate.
 	 */
 	public static final int DEFAULT_Y = 0;
-	
+
 	/**
 	 * The constant storing the default width.
 	 */
 	public static final int DEFAULT_WIDTH = 500;
-	
+
 	/**
 	 * The constant storing the default height.
 	 */
@@ -53,7 +53,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * This is the size starting from the border which, is used for resizing.
 	 */
 	public static final int DRAG_BORDER_SIZE = 10;
-	
+
 	/**
 	 * The constant storing the size of the title bar.
 	 */
@@ -63,9 +63,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The constant storing the minimal width of the viewmode.
 	 */
 	public static final int MIN_WIDTH = 100;
-	
+
 	/**
-	 * The constant storing the minimal height of the viewmode. 
+	 * The constant storing the minimal height of the viewmode.
 	 */
 	public static final int MIN_HEIGHT = 100;
 
@@ -73,7 +73,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The constant storing the content offset.
 	 */
 	public static final int CONTENT_OFFSET_X = 50;
-	
+
 	/**
 	 * The constant storing the content offset.
 	 */
@@ -83,17 +83,17 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * The variable storing the x-coordinate.
 	 */
 	private int x;
-	
+
 	/**
 	 * The variable storing the y-coordinate.
 	 */
 	private int y;
-	
+
 	/**
 	 * The variable storing the width.
 	 */
 	private int width;
-	
+
 	/**
 	 * The variable storing the height.
 	 */
@@ -104,12 +104,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * (resizing the corners)
 	 */
 	private boolean resizeRightBottomXY = false;
-	
+
 	/**
 	 * The variable storing whether the window is currently resizing the X coordinate.
 	 */
 	private boolean resizeRightX = false;
-	
+
 	/**
 	 * The variable storing whether the window is currently resizing the Y coordinate.
 	 */
@@ -120,10 +120,11 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 */
 	private boolean dragWindow = false;
 
-	/**
-	 * The variable storing the title of the textfield.
-	 */
+	private int windowDragX;
+	private int windowDragY;
+
 	private TextField title;
+	private Button closeButton;
 
 	/**
 	 * The variable storing all the components of the specific viewMode.
@@ -160,8 +161,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		//TO DO : USE TITLE BAR COMPONENT
-		setTitle(new TextField(10, 0, 200, TITLE_BAR_SIZE, getTitle()));
+		setTitle(new TextField(10 + DEFAULT_X, DEFAULT_Y, 200, TITLE_BAR_SIZE, getTitle()));
 		this.addComponent(getTitleField());
 	}
 
@@ -192,7 +192,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Sets the list of components to the viewMode.
-	 * 
+	 *
 	 * @param components
 	 *        | A list of components.
 	 * @throws IllegalArgumentException when the components equal null
@@ -209,7 +209,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Adds a component to the list of components.
-	 * 
+	 *
 	 * @param component
 	 *        | The component which will be added to the viewMode.
 	 * @return whether or not the component is added to the list of components.
@@ -227,7 +227,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Adds a list of components to the list of components.
-	 * 
+	 *
 	 * @param c
 	 *       | The collection of components which needs to be added to the list of components.
 	 * @return whether or not the collection is added to the list of components.
@@ -240,7 +240,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Removes a component at a given index.
-	 * 
+	 *
 	 * @param index
 	 *        | The index of which the component needs to be deleted.
 	 * @effect The component is removed at the given index.
@@ -251,9 +251,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * Removes a components from the list of components.
-	 * 
+	 *
 	 * @param component
 	 *        | The component which needs to be deleted.
 	 * @effect The component is removed from the list.
@@ -265,12 +265,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Draws all the components of a viewMode.
-	 * @param g 
+	 * @param g
 	 * 		 This object offers the methods that allow you to paint on the canvas.
 	 */
 	public void paint(Graphics g) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-		
+
 		this.drawBorder((Graphics2D) g);
 		this.drawTitlebar((Graphics2D) g);
 
@@ -281,7 +281,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Draws the title of the viewMode.
-	 * 
+	 *
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 * @post The title is drawn in the window.
 	 *       | g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE)
@@ -293,7 +293,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * Draws the border of the window. It also draws the resizing area's.
 	 * This visualises where the user van resize the window.
-	 * 
+	 *
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 * @post The graphics object draws the different rectangles.
 	 */
@@ -301,12 +301,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, getHeight());
 		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight());
-		
+
 		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, getWidth(), DRAG_BORDER_SIZE);
 
 		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
-		
+
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
@@ -355,8 +355,8 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * Tells every component of the viewMode whether there was a click inside or outside the component.
 	 *  A copy is made to make sure there is no editing of the list while it is looping.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param id
 	 *        | The id of the mouse event.
 	 * @param x
@@ -370,6 +370,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
+
 		if (isWithinComponent(x, y)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 			for (Component c : currentClickListeners) {
@@ -385,7 +386,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * This method handles the actual dragging of the window.
 	 * The window can be dragged, using the title bar area.
-	 * 
+	 *
 	 * @param id The id of the mouse event.
 	 * @param x The x-coordinate of the mouse event.
 	 * @param y The y-coordinate of the mouse event.
@@ -394,19 +395,22 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private void handleMoving(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
 			this.dragWindow = true;
+			this.windowDragX = x - getX();
+			this.windowDragY = y - getY();
 		}
 		if (id == MouseEvent.MOUSE_RELEASED) {
 			this.dragWindow = false;
 		}
+
 		if (id == MouseEvent.MOUSE_DRAGGED && dragWindow) {
 			try {
-				this.setX(x);
+				this.setX(x - windowDragX);
 			} catch (IllegalArgumentException e) {
 				this.setX(0);
 				//the window can be dragged outside (this will give an negative X value) and result in an IllegalArgumentException.
 			}
 			try {
-				this.setY(y);
+				this.setY(y - windowDragY);
 			} catch (IllegalArgumentException e) {
 				this.setY(0);
 				//the window can be dragged outside (this will give an negative Y value) and result in an IllegalArgumentException.
@@ -417,7 +421,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param id
 	 * @param x
 	 * @param y
@@ -460,9 +464,9 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * Delegates the keyPressed event to the components of the ViewMode.
 	 * A copy is made to make sure there is no editing of the list while it is looping.
-	 * 
+	 *
 	 * @param id
-	 *        | The id of the key pressed event. 
+	 *        | The id of the key pressed event.
 	 * @param keyCode
 	 *        | The key code of the key pressed event.
 	 * @param keyChar
@@ -485,7 +489,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Returns whether or not the component already is in the list of components.
-	 * 
+	 *
 	 * @param component
 	 *        | The component which will be checked if it is in the list of components.
 	 * @return true if the component occurs in the list of components; otherwise false.
@@ -496,7 +500,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Sets the type of the ViewMode.
-	 * 
+	 *
 	 * @param type
 	 *        | the ViewModeType of the viewMode.
 	 * @throws IllegalArgumentException if the type equals null
@@ -522,7 +526,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	/**
-	 * Handles the throw error of a component with the given ID. 
+	 * Handles the throw error of a component with the given ID.
 	 * @param id
 	 *        | The id of which element an error is thrown.
 	 */
@@ -567,7 +571,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	/**
 	 * Checks whether the x and y coordinates are within the subwindow.
-	 * 
+	 *
 	 * @param x
 	 *        The x-coordinate of the click.
 	 * @param y
@@ -635,14 +639,14 @@ public abstract class ViewMode implements PropertyChangeListener {
 	private int getOffsetY() {
 		return this.getHeight() + getY();
 	}
-	
+
 	private void setTitle(TextField title) {
-		if(title == null) {
+		if (title == null) {
 			throw new IllegalArgumentException("Cannot set null title in viewmode");
 		}
 		this.title = title;
 	}
-	
+
 	protected TextField getTitleField() {
 		return this.title;
 	}

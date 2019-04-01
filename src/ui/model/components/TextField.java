@@ -165,10 +165,13 @@ public class TextField extends EditableComponent {
 		Rectangle temp = new Rectangle(getX(), getY(), getWidth(), getHeight());
 
 		if (temp.getWidth() + temp.getX() > current.getWidth() + current.getX()) {
-			temp.setSize((int) current.getWidth() - this.getX(), (int) temp.getHeight());
+			System.out.println(current.getWidth());
+			int newWidth = (int) (current.getWidth() - this.getX() + current.getX());
+			temp.setSize(newWidth, (int) temp.getHeight());
 		}
 		if (temp.getHeight() + temp.getY() > current.getHeight() + current.getY()) {
-			temp.setSize((int) temp.getWidth(), (int) current.getHeight() - this.getY());
+			int newHeight = (int) (current.getHeight() - this.getY() + current.getY());
+			temp.setSize((int) temp.getWidth(), newHeight);
 		}
 
 		g.setColor(Color.BLACK);

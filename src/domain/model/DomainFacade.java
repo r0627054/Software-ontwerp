@@ -27,6 +27,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
+		addDummyTable("TabelDummy1");
+		addDummyTable("TabelDummy2");
+		addDummyTable("TabelDummy3");
 	}
 
 	/**
