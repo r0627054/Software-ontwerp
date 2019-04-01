@@ -130,7 +130,7 @@ public class TableList extends VerticalComponentList {
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (!hasCurrentError()) {
-			if (id == MouseEvent.MOUSE_CLICKED) {
+			if (id == MouseEvent.MOUSE_PRESSED) {
 				if (clickCount == 2 && y > this.getOffsetY()) {
 					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}

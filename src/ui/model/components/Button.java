@@ -58,8 +58,13 @@ public class Button extends TextField {
 	}
 
 	private void setClicked(boolean clicked) {
+		boolean changed = (this.clicked && !clicked) || (!this.clicked && clicked);
 		this.clicked = clicked;
-		this.propertyChanged();
+
+		if (changed) {
+			this.propertyChanged();
+		}
+
 	}
 
 	private ChangeEventType getAction() {

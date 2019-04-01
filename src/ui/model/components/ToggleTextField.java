@@ -33,8 +33,8 @@ public class ToggleTextField extends TextField {
 	 * @effect All the variables are of the TextField.
 	 *       | super(x, y, width, height, text, id)
 	 */
-	public ToggleTextField(int x, int y, int width, int height, String text, UUID id) {
-		super(x, y, width, height, text, id);
+	public ToggleTextField(int width, int height, String text, UUID id) {
+		super(0, 0, width, height, text, id);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class ToggleTextField extends TextField {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED) {
+		if (id == MouseEvent.MOUSE_PRESSED) {
 			this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, getText(), null);
 		}
 	}
@@ -68,6 +68,5 @@ public class ToggleTextField extends TextField {
 			this.setError(true);
 		}
 	}
-
 
 }

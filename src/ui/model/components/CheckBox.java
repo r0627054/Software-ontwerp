@@ -165,7 +165,7 @@ public class CheckBox extends EditableComponent {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED && isWithinComponent(x, y)) {
+		if (id == MouseEvent.MOUSE_PRESSED && isWithinComponent(x, y)) {
 			this.setChecked(!isChecked());
 		}
 	}

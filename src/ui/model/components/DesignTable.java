@@ -82,7 +82,7 @@ public class DesignTable extends EditableComponent {
 				// create these cells
 				switch (obj.getKey()) {
 				case "Type":
-					ToggleTextField toggleTextField = new ToggleTextField(0, 0, 100, 100, obj.getValue().toString(),
+					ToggleTextField toggleTextField = new ToggleTextField(100, 100, obj.getValue().toString(),
 							columnId);
 					newCell = new UICell(toggleTextField, columnId, ChangeEventType.COLUMN_CHANGE_TYPE);
 					break;
@@ -99,7 +99,7 @@ public class DesignTable extends EditableComponent {
 					if (type.equals("Boolean")) {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
-						TextField valueTextField = new ToggleTextField(0, 0, 100, 100, value, columnId);
+						TextField valueTextField = new ToggleTextField(100, 100, value, columnId);
 						newCell = new UICell(valueTextField, columnId, ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
 
 					} else {
@@ -170,7 +170,7 @@ public class DesignTable extends EditableComponent {
 	 */
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_CLICKED) {
+		if (id == MouseEvent.MOUSE_PRESSED) {
 			if (clickCount == 2 && y > this.getOffsetY()) {
 				propertyChanged(this.getId(), ChangeEventType.CREATE_COLUMN, null, null);
 			}
@@ -334,7 +334,6 @@ public class DesignTable extends EditableComponent {
 		for (UICell c : getDeleteCells()) {
 			c.setRedBackground(false);
 		}
-		propertyChanged();
 		this.deleteCells = new ArrayList<>();
 	}
 	

@@ -16,7 +16,7 @@ public class TitleBar extends Container implements PropertyChangeListener {
 
 		int borderMargin = ViewMode.DRAG_BORDER_SIZE;
 
-		addComponent(new TextField(x + borderMargin, y, width, height, titleText));
+		addComponent(new TextField(ViewMode.CONTENT_OFFSET_X, y, width, height, titleText));
 
 		Button closeButton = new Button(width - BUTTON_WIDTH - borderMargin, y + borderMargin, BUTTON_WIDTH,
 				height - borderMargin, "Close", ChangeEventType.CLOSE_SUBWINDOW);

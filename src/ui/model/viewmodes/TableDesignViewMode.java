@@ -54,11 +54,10 @@ public class TableDesignViewMode extends TableViewMode {
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 
-		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 200, 200,
+		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(), getHeight(),
 				getTableName(), this.getId());
 		List<UICell> cellList = table.createTable(columnCharacteristics);
 
-		this.clearStoredListeners();
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
@@ -69,7 +68,7 @@ public class TableDesignViewMode extends TableViewMode {
 
 		getContainer().addComponent(table);
 		this.addComponent(getContainer());
-		this.addAllListeners();
+		this.resetAllListeners();
 	}
 
 	/**
@@ -78,11 +77,12 @@ public class TableDesignViewMode extends TableViewMode {
 	 *        | the information needed to create a designTable.
 	 */
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		this.removeAllClickAndKeyListeners();
-		this.removeAllComponents();
-		this.addComponent(getTitleBar());
-		this.setPaused(false);
+		this.removeComponent(getContainer());
+		this.removeContentClickAndKeyListeners();
+		this.clearStoredListeners();
+
 		this.createDesignTable(columnCharacteristics);
+		this.setPaused(false);
 	}
 
 	/**
@@ -122,8 +122,7 @@ public class TableDesignViewMode extends TableViewMode {
 	public void pauseViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(true);
 		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
-		this.removeAllClickListenersButOne(errorCell);
-		this.removeAllKeyListenersButOne(errorCell);
+		this.removeAllContentListenersButOne(errorCell);
 		errorCell.setError(true);
 	}
 
@@ -139,7 +138,7 @@ public class TableDesignViewMode extends TableViewMode {
 	public void resumeViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
-		this.addAllListeners();
+		this.resetAllListeners();
 		errorCell.setError(false);
 	}
 

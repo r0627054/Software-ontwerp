@@ -58,7 +58,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * The constant storing the size of the title bar.
 	 */
-	public static final int TITLE_BAR_SIZE = 30;
+	public static final int TITLE_BAR_SIZE = 40;
 
 	/**
 	 * The constant storing the minimal width of the viewmode.
@@ -73,12 +73,12 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * The constant storing the content offset.
 	 */
-	public static final int CONTENT_OFFSET_X = 50;
+	public static final int CONTENT_OFFSET_X = 40;
 
 	/**
 	 * The constant storing the content offset.
 	 */
-	public static final int CONTENT_OFFSET_Y = 50;
+	public static final int CONTENT_OFFSET_Y = 60;
 
 	/**
 	 * The variable storing the x-coordinate.
@@ -165,8 +165,13 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * Initialises a new ViewMode and sets the support variable.
 	 */
+
+	private boolean paused = false;
+	private List<Component> storedListeners;
+
 	public ViewMode(String title) {
-		setSupport(new PropertyChangeSupport());
+		this.setSupport(new PropertyChangeSupport());
+		this.setStoredListeners(new ArrayList<>());
 
 		setX(DEFAULT_X);
 		setY(DEFAULT_Y);
@@ -568,6 +573,16 @@ public abstract class ViewMode implements PropertyChangeListener {
 	}
 
 	/**
+	 * Removes all the clickListeners and KeyListeners from the viewMode.
+	 */
+	protected void removeContentClickAndKeyListeners() {
+		this.clickListeners.clear();
+		this.keyListeners.clear();
+		this.addClickListener(getTitleBar());
+		this.addKeyListener(getTitleBar());
+	}
+
+	/**
 	 * Returns all the clickListeners of the viewMode.
 	 */
 	protected List<Component> getClickListeners() {
@@ -687,6 +702,60 @@ public abstract class ViewMode implements PropertyChangeListener {
 
 	protected TitleBar getTitleBar() {
 		return this.titleBar;
+	}
+
+	protected void removeAllContentListenersButOne(Component component) {
+		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
+		for (Component c : currentClickListeners) {
+			if (!c.equals(component) && !(c instanceof TitleBar)) {
+				this.getClickListeners().remove(c);
+			}
+		}
+		List<Component> currentKeyListeners = new ArrayList<>(getKeyListeners());
+		for (Component c : currentKeyListeners) {
+			if (!c.equals(component) && !(c instanceof TitleBar)) {
+				this.getKeyListeners().remove(c);
+			}
+		}
+	}
+
+	protected void addStoredListener(Component listener) {
+		if (listener == null) {
+			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
+		}
+		this.storedListeners.add(listener);
+	}
+
+	protected void resetAllListeners() {
+		this.removeContentClickAndKeyListeners();
+
+		for (Component c : getStoredListeners()) {
+			this.addClickListener(c);
+			this.addKeyListener(c);
+		}
+	}
+
+	protected void clearStoredListeners() {
+		this.setStoredListeners(new ArrayList<Component>());
+	}
+
+	public boolean isPaused() {
+		return paused;
+	}
+
+	protected void setPaused(boolean paused) {
+		this.paused = paused;
+	}
+
+	protected List<Component> getStoredListeners() {
+		return storedListeners;
+	}
+
+	protected void setStoredListeners(List<Component> listeners) {
+		if (listeners == null) {
+			throw new IllegalArgumentException("Cannot set null stored listeners");
+		}
+		this.storedListeners = listeners;
 	}
 
 }
