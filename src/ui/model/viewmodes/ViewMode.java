@@ -22,37 +22,107 @@ import ui.model.components.TextField;
  *  A viewMode is the actual view inside one frame.
  *  The viewMode keeps track of all the components and all the clickListeners/KeyListeners of the components.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public abstract class ViewMode implements PropertyChangeListener {
 
+	/**
+	 * The constant storing the default X coordinate.
+	 */
 	public static final int DEFAULT_X = 0;
+	
+	/**
+	 * The constant storing the default Y coordinate.
+	 */
 	public static final int DEFAULT_Y = 0;
+	
+	/**
+	 * The constant storing the default width.
+	 */
 	public static final int DEFAULT_WIDTH = 500;
+	
+	/**
+	 * The constant storing the default height.
+	 */
 	public static final int DEFAULT_HEIGHT = 500;
 
-	public static final int DRAG_WIDTH_SIZE = 10;
+	/**
+	 * The constant storing the draggable width size.
+	 * This is the size starting from the border which, is used for resizing.
+	 */
+	public static final int DRAG_BORDER_SIZE = 10;
+	
+	/**
+	 * The constant storing the size of the title bar.
+	 */
 	public static final int TITLE_BAR_SIZE = 30;
 
+	/**
+	 * The constant storing the minimal width of the viewmode.
+	 */
 	public static final int MIN_WIDTH = 100;
+	
+	/**
+	 * The constant storing the minimal height of the viewmode. 
+	 */
 	public static final int MIN_HEIGHT = 100;
 
+	/**
+	 * The constant storing the content offset.
+	 */
 	public static final int CONTENT_OFFSET_X = 50;
+	
+	/**
+	 * The constant storing the content offset.
+	 */
 	public static final int CONTENT_OFFSET_Y = 50;
 
+	/**
+	 * The variable storing the x-coordinate.
+	 */
 	private int x;
+	
+	/**
+	 * The variable storing the y-coordinate.
+	 */
 	private int y;
+	
+	/**
+	 * The variable storing the width.
+	 */
 	private int width;
+	
+	/**
+	 * The variable storing the height.
+	 */
 	private int height;
 
-	private boolean dragWidthXY = false;
-	private boolean dragWidthX = false;
-	private boolean dragWidthY = false;
+	/**
+	 * The variable storing whether the window, is currently resizing the X and Y coordinate.
+	 * (resizing the corners)
+	 */
+	private boolean resizeRightBottomXY = false;
+	
+	/**
+	 * The variable storing whether the window is currently resizing the X coordinate.
+	 */
+	private boolean resizeRightX = false;
+	
+	/**
+	 * The variable storing whether the window is currently resizing the Y coordinate.
+	 */
+	private boolean resizeBottomY = false;
 
+	/**
+	 * The variable storing whether the window is currently dragging.
+	 */
 	private boolean dragWindow = false;
 
+	/**
+	 * The variable storing the title of the textfield.
+	 */
 	private TextField title;
 
 	/**
@@ -90,6 +160,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
+		//TO DO : USE TITLE BAR COMPONENT
 		setTitle(new TextField(10, 0, 200, TITLE_BAR_SIZE, getTitle()));
 		this.addComponent(getTitleField());
 	}
@@ -208,22 +279,41 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Draws the title of the viewMode.
+	 * 
+	 * @param g This object offers the methods that allow you to paint on the canvas.
+	 * @post The title is drawn in the window.
+	 *       | g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE)
+	 */
 	private void drawTitlebar(Graphics2D g) {
 		g.drawLine(getX(), getY() + TITLE_BAR_SIZE, getOffsetX(), getY() + TITLE_BAR_SIZE);
 	}
 
+	/**
+	 * Draws the border of the window. It also draws the resizing area's.
+	 * This visualises where the user van resize the window.
+	 * 
+	 * @param g This object offers the methods that allow you to paint on the canvas.
+	 * @post The graphics object draws the different rectangles.
+	 */
 	private void drawBorder(Graphics2D g) {
-		g.setColor(new Color(240, 240, 240));
-		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getY(), DRAG_WIDTH_SIZE, getHeight());
-		g.fillRect(getX(), getOffsetY() - DRAG_WIDTH_SIZE, getWidth(), DRAG_WIDTH_SIZE);
+		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY(), DRAG_BORDER_SIZE, getHeight());
+		g.fillRect(this.getX(),this.getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, getHeight());
+		
+		g.fillRect(getX(), getOffsetY() - DRAG_BORDER_SIZE, getWidth(), DRAG_BORDER_SIZE);
 
-		g.setColor(new Color(220, 220, 220));
-		g.fillRect(getOffsetX() - DRAG_WIDTH_SIZE, getOffsetY() - DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE, DRAG_WIDTH_SIZE);
-
+		g.setColor(new Color((float) 0.8, (float) 0.8, (float) 0.8, (float) 0.5));
+		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getOffsetY() - DRAG_BORDER_SIZE, DRAG_BORDER_SIZE, DRAG_BORDER_SIZE);
+		
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
 
+	/**
+	 * Returns the title of the viewMode.
+	 */
 	protected abstract String getTitle();
 
 	/**
@@ -278,7 +368,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		this.handleResising(id, x, y);
+		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
 		if (isWithinComponent(x, y)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
@@ -292,51 +382,74 @@ public abstract class ViewMode implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * This method handles the actual dragging of the window.
+	 * The window can be dragged, using the title bar area.
+	 * 
+	 * @param id The id of the mouse event.
+	 * @param x The x-coordinate of the mouse event.
+	 * @param y The y-coordinate of the mouse event.
+	 * @post If the window is dragged properly the X and Y-coordinate of the window are changed.
+	 */
 	private void handleMoving(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED && y >= this.getY() && y <= this.getY() + TITLE_BAR_SIZE) {
-			System.out.println(getY());
-			System.out.println(TITLE_BAR_SIZE);
-			System.out.println(y);
 			this.dragWindow = true;
 		}
 		if (id == MouseEvent.MOUSE_RELEASED) {
 			this.dragWindow = false;
 		}
 		if (id == MouseEvent.MOUSE_DRAGGED && dragWindow) {
-			this.setX(x);
-			this.setY(y);
+			try {
+				this.setX(x);
+			} catch (IllegalArgumentException e) {
+				this.setX(0);
+				//the window can be dragged outside (this will give an negative X value) and result in an IllegalArgumentException.
+			}
+			try {
+				this.setY(y);
+			} catch (IllegalArgumentException e) {
+				this.setY(0);
+				//the window can be dragged outside (this will give an negative Y value) and result in an IllegalArgumentException.
+			}
 			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 		}
 
 	}
 
-	protected void handleResising(int id, int x, int y) {
+	/**
+	 * 
+	 * @param id
+	 * @param x
+	 * @param y
+	 */
+	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY()
-					&& y > getOffsetY() - DRAG_WIDTH_SIZE) {
-				this.dragWidthXY = true;
-			} else if (x < getOffsetX() && x > getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() - DRAG_WIDTH_SIZE) {
-				this.dragWidthX = true;
-			} else if (x < getOffsetX() - DRAG_WIDTH_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_WIDTH_SIZE) {
-				this.dragWidthY = true;
+			if (x < getOffsetX() && x > getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+				this.resizeRightBottomXY = true;
+			} else if (  (( x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)  )  || ( x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) ) )
+					     && y < (getOffsetY() - DRAG_BORDER_SIZE) && y >(this.getY() + DRAG_BORDER_SIZE) ) {
+				System.out.println("resize X");
+				this.resizeRightX = true;
+			} else if (x < getOffsetX() - DRAG_BORDER_SIZE && y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+				this.resizeBottomY = true;
 			}
 		}
 
 		if (id == MouseEvent.MOUSE_RELEASED) {
-			this.dragWidthXY = false;
-			this.dragWidthX = false;
-			this.dragWidthY = false;
+			this.resizeRightBottomXY = false;
+			this.resizeRightX = false;
+			this.resizeBottomY = false;
 		}
 
 		if (id == MouseEvent.MOUSE_DRAGGED) {
-			if (this.dragWidthXY) {
+			if (this.resizeRightBottomXY) {
 				this.setWidth(x - getX());
 				this.setHeight(y - getY());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.dragWidthX) {
+			} else if (this.resizeRightX) {
 				this.setWidth(x - getX());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
-			} else if (this.dragWidthY) {
+			} else if (this.resizeBottomY) {
 				this.setHeight(y - getY());
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
 			}
