@@ -12,6 +12,7 @@ public interface DesignTableConstants {
 	public static final int COLUMN_BLANKS_X = 260;
 	public static final int COLUMN_DEFAULT_X = 360;
 	public static final int FIRST_ROW_Y = 110;
+
 	
 	public static final int DUMMY_TABLE_COLUMN_AMOUNT = 3;
 	

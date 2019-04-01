@@ -1,4 +1,4 @@
-package ui.model.components;
+package ui.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+
+import ui.model.components.CheckBox;
+import ui.model.components.Component;
+import ui.model.components.Container;
+import ui.model.components.EditableTextField;
+import ui.model.components.HorizontalComponentList;
 
 class ContainerListTest {
 	private Container contList;

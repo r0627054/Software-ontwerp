@@ -1,4 +1,4 @@
-package ui.model.components;
+package ui.model;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+
+import ui.model.components.RowsTable;
+import ui.model.components.UICell;
 
 class RowsTableTest {
 	private int x = 10;

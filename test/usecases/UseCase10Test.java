@@ -71,7 +71,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	 * | if you then press delete, the row should be not removed from memory & in the ui.
 	 */
 	@Test
-	public void test2clickingLeftOfRowAndClickingAwayAndPressingDeleteShouldNotDeleteRow() {
+	public void test2clickingLeftOfRowAndClickingAwayAndPressingDeleteShouldNotDeleteRow() { 
 		this.addDummyTable(NEW_TABLE_NAME);
 		String tName = null;
 		UUID tableId = null;
@@ -80,7 +80,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			tName = entry.getValue();
 			tableId = entry.getKey();
 		}
-
+System.err.println(tName);
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
 

@@ -1,4 +1,4 @@
-package ui.model.components;
+package ui.model;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
