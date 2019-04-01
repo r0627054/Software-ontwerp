@@ -56,9 +56,13 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private TablesViewMode tablesViewMode;
 
 	/**
-	 * Variables to determine if the user pressed control & enter
+	 * Variables to determine if the user pressed control
 	 */
 	private boolean ctrlPressed = false;
+	
+	/**
+	 * Variables to determine if the user pressed entr
+	 */
 	private boolean entrPressed = false;
 
 	/**
