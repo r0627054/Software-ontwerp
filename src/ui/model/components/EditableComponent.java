@@ -75,7 +75,7 @@ public abstract class EditableComponent extends Component {
 	/**
 	 * Returns the id of the EditableComponent.
 	 */
-	protected UUID getId() {
+	public UUID getId() {
 		return id;
 	}
 
