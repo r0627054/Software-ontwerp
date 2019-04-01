@@ -14,7 +14,7 @@ public abstract class TableViewMode extends ViewMode {
 	private List<Component> storedListeners;
 
 	public TableViewMode(UUID id, String tableName) {
-		super();
+		super(tableName);
 		this.setId(id);
 		this.setTableName(tableName);
 		this.setStoredListeners(new ArrayList<>());

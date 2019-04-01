@@ -165,7 +165,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 	/**
 	 * Initialises a new ViewMode and sets the support variable.
 	 */
-	public ViewMode() {
+	public ViewMode(String title) {
 		setSupport(new PropertyChangeSupport());
 
 		setX(DEFAULT_X);
@@ -173,7 +173,7 @@ public abstract class ViewMode implements PropertyChangeListener {
 		setWidth(DEFAULT_WIDTH);
 		setHeight(DEFAULT_HEIGHT);
 
-		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, getTitle()));
+		setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, title));
 		this.addComponent(getTitleBar());
 		this.addClickListener(getTitleBar());
 		getTitleBar().addPropertyChangeListener(this);
@@ -320,11 +320,6 @@ public abstract class ViewMode implements PropertyChangeListener {
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth() - 1, getHeight() - 1);
 	}
-
-	/**
-	 * Returns the title of the viewMode.
-	 */
-	protected abstract String getTitle();
 
 	/**
 	 * Adds a component to the list of ClickListeners.

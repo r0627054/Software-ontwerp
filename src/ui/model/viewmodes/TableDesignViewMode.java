@@ -10,6 +10,7 @@ import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.DesignTable;
 import ui.model.components.TextField;
+
 /**
  * The tableDesignViewMode is a TableViewMode specifically used for designing the table.
  *  The tableDesignViewMode can allow edits of the table and can handles pauses.
@@ -19,7 +20,7 @@ import ui.model.components.TextField;
  *
  */
 public class TableDesignViewMode extends TableViewMode {
-	
+
 	/**
 	 * Variable storing the container.
 	 */
@@ -35,10 +36,10 @@ public class TableDesignViewMode extends TableViewMode {
 	 * @param columnCharacteristics
 	 *        | the characteristics of a table (it contains all the information needed to edit and show the design.
 	 * @effect the viewMode is created with the given information and a designTable is created and added to the viewMode.
-	 */       
+	 */
 	public TableDesignViewMode(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		super(id, tableName);
+		super(id, "Designing table: " + tableName);
 		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
 
 		this.createDesignTable(columnCharacteristics);
@@ -53,7 +54,8 @@ public class TableDesignViewMode extends TableViewMode {
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 
-		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 200, 200, getTableName(), this.getId());
+		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), 200, 200,
+				getTableName(), this.getId());
 		List<UICell> cellList = table.createTable(columnCharacteristics);
 
 		this.clearStoredListeners();
@@ -173,9 +175,4 @@ public class TableDesignViewMode extends TableViewMode {
 		return false;
 	}
 
-	@Override
-	protected String getTitle() {
-		return "Designing table: " + getTableName();
-	}
-	
 }

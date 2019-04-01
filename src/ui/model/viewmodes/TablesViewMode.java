@@ -30,7 +30,7 @@ public class TablesViewMode extends ViewMode {
 	 * @effect the full Tables list is created and all the information is set.
 	 */
 	public TablesViewMode(Map<UUID, String> map) {
-		super();
+		super("TABLES LIST");
 		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
 	}
@@ -69,11 +69,6 @@ public class TablesViewMode extends ViewMode {
 	 */
 	private Container getContainer() {
 		return container;
-	}
-
-	@Override
-	protected String getTitle() {
-		return "TABLES LIST";
 	}
 
 }

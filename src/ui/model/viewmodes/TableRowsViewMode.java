@@ -16,7 +16,7 @@ public class TableRowsViewMode extends TableViewMode {
 
 	public TableRowsViewMode(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
 			Map<UUID, Class<?>> columnTypes) {
-		super(tableId, tableName);
+		super(tableId, "Table rows of table: " + tableName);
 		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		createTable(table, columnTypes);
 	}
@@ -27,16 +27,16 @@ public class TableRowsViewMode extends TableViewMode {
 
 		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_X + getY(), getId());
 		List<UICell> cellList = rowsTable.createTable(tableInformation, columnTypes);
-		
+
 		this.clearStoredListeners();
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
 		}
-		
+
 		this.addStoredListener(rowsTable);
 		rowsTable.addPropertyChangeListener(this);
-		
+
 		getContainer().addComponent(rowsTable);
 		this.addComponent(getContainer());
 		this.addAllListeners();
@@ -57,14 +57,14 @@ public class TableRowsViewMode extends TableViewMode {
 		this.removeAllKeyListenersButOne(errorCell);
 		errorCell.setError(true);
 	}
-	
+
 	public void resumeViewMode(int columnIndex, UUID columnId) {
 		this.setPaused(false);
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		this.addAllListeners();
 		errorCell.setError(false);
 	}
-	
+
 	private RowsTable getRowsTable() {
 		for (Component container : getComponents()) {
 			if (container instanceof Container) {
@@ -81,11 +81,6 @@ public class TableRowsViewMode extends TableViewMode {
 
 	private Container getContainer() {
 		return container;
-	}
-
-	@Override
-	protected String getTitle() {
-		return "Table rows of: " + getTableName();
 	}
 
 }
