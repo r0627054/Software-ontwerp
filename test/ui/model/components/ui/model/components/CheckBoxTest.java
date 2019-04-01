@@ -5,6 +5,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import ui.model.components.CheckBox;
+
 class CheckBoxTest {
 	private CheckBox cb;
 	private UUID id = UUID.randomUUID();
