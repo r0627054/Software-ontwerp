@@ -7,7 +7,6 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
-import ui.model.window.sub.SubWindow;
 
 /**
  * The actual implementation of the uiFacadeInterface.

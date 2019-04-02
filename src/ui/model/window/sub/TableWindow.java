@@ -1,11 +1,6 @@
 package ui.model.window.sub;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
-import ui.model.components.Component;
-import ui.model.components.TitleBar;
 
 public abstract class TableWindow extends SubWindow {
 

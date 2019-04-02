@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import ui.model.window.CanvasWindow;
 import ui.model.window.sub.SubWindow;
 import ui.model.window.sub.TableDesignWindow;
 import ui.model.window.sub.TableRowsWindow;
-import ui.model.window.sub.TableWindow;
 import ui.model.window.sub.TablesWindow;
 
 /**

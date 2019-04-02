@@ -4,6 +4,7 @@ import controller.handlers.ChangeEventType;
 import controller.handlers.ChangeHandlerFactory;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
+import domain.model.DomainException;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 /**

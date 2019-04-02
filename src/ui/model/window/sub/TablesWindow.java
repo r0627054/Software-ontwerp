@@ -1,13 +1,11 @@
 package ui.model.window.sub;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.TableList;
-import ui.model.components.TextField;
 
 /**
  * A TablesViewMode is specific ViewMode.

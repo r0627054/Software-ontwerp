@@ -7,11 +7,10 @@ import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
-import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.RowsTable;
-import ui.model.components.TextField;
+import ui.model.components.UICell;
 
 public class TableRowsWindow extends TableWindow {
 	private Container container;
