@@ -6,7 +6,6 @@ import java.util.UUID;
 
 import controller.observer.PropertyChangeListener;
 import ui.model.window.sub.SubWindow;
-import ui.model.window.sub.ViewModeType;
 
 /**
  * An interface of the uiFacade. This interface defines all the functionalities

@@ -157,11 +157,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private PropertyChangeSupport support;
 
-	/**
-	 * The variable storing the type of the viewMode.
-	 */
-	private ViewModeType type;
-
 	private UUID id;
 
 	private boolean paused = false;
@@ -515,12 +510,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 	}
 
-	/**
-	 * Returns the viewModeType of the viewMode.
-	 */
-	public ViewModeType getViewModeType() {
-		return type;
-	}
 
 	/**
 	 * Returns whether or not the component already is in the list of components.
@@ -533,22 +522,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 		return this.getComponents().contains(component);
 	}
 
-	/**
-	 * Sets the type of the ViewMode.
-	 *
-	 * @param type
-	 *        | the ViewModeType of the viewMode.
-	 * @throws IllegalArgumentException if the type equals null
-	 *        | type == null
-	 * @post the type of the viewMode is equal to the type parameter.
-	 *        | new.getType() == type
-	 */
-	protected void setType(ViewModeType type) {
-		if (type == null) {
-			throw new IllegalArgumentException("ViewModeType cannot be null in a viewmode.");
-		}
-		this.type = type;
-	}
+	
 
 	/**
 	 * This method fires a property change with the given propertyChangeEvent.

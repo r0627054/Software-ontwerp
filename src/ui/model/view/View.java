@@ -20,7 +20,6 @@ import ui.model.window.sub.TableDesignWindow;
 import ui.model.window.sub.TableRowsWindow;
 import ui.model.window.sub.TableWindow;
 import ui.model.window.sub.TablesWindow;
-import ui.model.window.sub.ViewModeType;
 
 /**
  * 

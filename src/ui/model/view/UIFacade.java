@@ -8,7 +8,6 @@ import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
 import ui.model.window.sub.SubWindow;
-import ui.model.window.sub.ViewModeType;
 
 /**
  * The actual implementation of the uiFacadeInterface.
