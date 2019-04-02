@@ -339,6 +339,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 
-	
+	@Override
+	public void closeCurrentSubWindow() {
+		this.getView().closeCurrentSubWindow();		
+	}
 
 }

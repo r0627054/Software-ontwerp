@@ -49,11 +49,11 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 
 		try {
 			domainfacade.setColumnType(tableId, columnId, newType);
-			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException e) {
-			uifacade.setErrorDesignTableCell(columnIndex, columnId, newType);
+			uifacade.throwError(columnId, columnIndex, newType);
 			uifacade.pauseApplication(columnIndex, columnId);
 		}
 	}

@@ -60,8 +60,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * Variables to determine if the user pressed control
 	 */
 	private boolean ctrlPressed = false;
-	
-	
+
 	/**
 	 * Initialise this new view component with the given title.
 	 * 
@@ -231,6 +230,15 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.repaint();
 	}
 
+	public void closeCurrentSubWindow() {
+		this.getSubWindows().remove(this.getCurrentSubWindow());
+		int newIndex = getNbrOfSubWindows() - 1;
+		if (newIndex >= 0) {
+			this.currentSubWindow = getSubWindows().get(newIndex);
+		}
+		this.repaint();
+	}
+
 	/**
 	 * Gets the current ViewModeType
 	 * 
@@ -251,10 +259,10 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
-		for (int i = this.getNbrOfSubWindows()-1; i >= 0 ; i--) {
+		for (int i = this.getNbrOfSubWindows() - 1; i >= 0; i--) {
 			SubWindow subWindow = this.getSubWindows().get(i);
-			if(subWindow != null && subWindow.isWithinComponent(x, y)) {
-				if(!subWindow.equals(getCurrentSubWindow()) && id == MouseEvent.MOUSE_PRESSED ) {
+			if (subWindow != null && subWindow.isWithinComponent(x, y)) {
+				if (!subWindow.equals(getCurrentSubWindow()) && id == MouseEvent.MOUSE_PRESSED) {
 					this.setCurrentSubWindow(subWindow);
 				}
 				subWindow.mouseClicked(id, x, y, clickCount);
@@ -272,9 +280,9 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleKeyEvent(int id, int keyCode, char keyChar) {
-		if (id == KeyEvent.KEY_PRESSED ) {
-			if(this.getCurrentSubWindow() != null) {
-				this.getCurrentSubWindow().keyPressed(id, keyCode, keyChar);	
+		if (id == KeyEvent.KEY_PRESSED) {
+			if (this.getCurrentSubWindow() != null) {
+				this.getCurrentSubWindow().keyPressed(id, keyCode, keyChar);
 			}
 			if (keyCode == KeyEvent.VK_CONTROL) {
 				this.setCtrlPressed(true);
@@ -284,7 +292,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			} else if (keyCode == 84 && this.isCtrlPressed()) {
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.CREATE_TABLESSUBWINDOW, null, null));
 				this.setCtrlPressed(false);
-			}else {
+			} else {
 				setCtrlPressed(false);
 			}
 		}
@@ -303,31 +311,29 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * checkCtrlEnterKeyPress(id, keyCode); } } getCurrentSubWindow().keyPressed(id,
 	 * keyCode, keyChar); } }
 	 */
-	/*private void checkCtrlEnterKeyPress(int id, int keyCode) {
-		if (isCtrlPressed() && isEntrPressed()) {
-			setCtrlPressed(false);
-			setEntrPressed(false);
-			// SubWindow currentViewMode = this.getCurrentSubWindow();
-			this.getCurrentSubWindow().ctrlEntrPressed();
-
-			/*
-			 * if (tableDVM.equals(currentViewMode.getViewModeType())) { TableWindow
-			 * currentTableViewMode = (TableWindow) currentViewMode; PropertyChangeEvent evt
-			 * = new PropertyChangeEvent(currentTableViewMode.getId(),
-			 * ChangeEventType.SWITCH_VIEWMODE, tableDVM, tableRVM);
-			 * 
-			 * this.support.firePropertyChange(evt);
-			 * 
-			 * } else if (tableRVM.equals(currentViewMode.getViewModeType())) { TableWindow
-			 * currentTableViewMode = (TableWindow) currentViewMode;
-			 * 
-			 * PropertyChangeEvent evt = new
-			 * PropertyChangeEvent(currentTableViewMode.getId(),
-			 * ChangeEventType.SWITCH_VIEWMODE, tableRVM, tableDVM);
-			 * this.support.firePropertyChange(evt); }
-			 
-		}
-	}*/
+	/*
+	 * private void checkCtrlEnterKeyPress(int id, int keyCode) { if
+	 * (isCtrlPressed() && isEntrPressed()) { setCtrlPressed(false);
+	 * setEntrPressed(false); // SubWindow currentViewMode =
+	 * this.getCurrentSubWindow(); this.getCurrentSubWindow().ctrlEntrPressed();
+	 * 
+	 * /* if (tableDVM.equals(currentViewMode.getViewModeType())) { TableWindow
+	 * currentTableViewMode = (TableWindow) currentViewMode; PropertyChangeEvent evt
+	 * = new PropertyChangeEvent(currentTableViewMode.getId(),
+	 * ChangeEventType.SWITCH_VIEWMODE, tableDVM, tableRVM);
+	 * 
+	 * this.support.firePropertyChange(evt);
+	 * 
+	 * } else if (tableRVM.equals(currentViewMode.getViewModeType())) { TableWindow
+	 * currentTableViewMode = (TableWindow) currentViewMode;
+	 * 
+	 * PropertyChangeEvent evt = new
+	 * PropertyChangeEvent(currentTableViewMode.getId(),
+	 * ChangeEventType.SWITCH_VIEWMODE, tableRVM, tableDVM);
+	 * this.support.firePropertyChange(evt); }
+	 * 
+	 * } }
+	 */
 
 	/**
 	 * Receives a propertyChangeEvent and fires a new event to its listeners.
@@ -416,9 +422,9 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.addSubwindow(newTableDesignWindow);
 		this.setCurrentSubWindow(newTableDesignWindow);
 	}
-	
+
 	public void createTablesWindow(Map<UUID, String> data) {
-		if(data == null) {
+		if (data == null) {
 			throw new IllegalArgumentException("Cannot create a tables window when the data equals null");
 		}
 		SubWindow tablesWindow = new TablesWindow(data);
@@ -427,30 +433,29 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.setCurrentSubWindow(tablesWindow);
 		System.out.println("done");
 	}
-	
-	
+
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
 		for (SubWindow sw : this.getSubWindows(null)) {
 			sw.updateContent(tablesListData);
 		}
 	}
-	
+
 	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
-		for(SubWindow sw: this.getSubWindows(id)) {
-			sw.updateContent(designData,tableRowsData,rowsClassData);
+		for (SubWindow sw : this.getSubWindows(id)) {
+			sw.updateContent(designData, tableRowsData, rowsClassData);
 		}
 	}
-	
 
-	/*public void updateSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData) {
-		
-		for (SubWindow sw : getSubWindows(id)) {
-			sw.updateContent(designData, tableRowsData, rowsClassData, tablesListData);
-		}
-	}*/
+	/*
+	 * public void updateSubWindows(UUID id, Map<UUID, LinkedHashMap<String,
+	 * Object>> designData, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>>
+	 * tableRowsData, Map<UUID, Class<?>> rowsClassData, Map<UUID, String>
+	 * tablesListData) {
+	 * 
+	 * for (SubWindow sw : getSubWindows(id)) { sw.updateContent(designData,
+	 * tableRowsData, rowsClassData, tablesListData); } }
+	 */
 
 	/**
 	 * Updates the tableDesignViewMode Whenever a domain element is updated, the
@@ -560,8 +565,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.ctrlPressed = ctrlPressed;
 	}
 
-
-	//@@@@@@@@ TESTING METHODS @@@@@@@@@
+	// @@@@@@@@ TESTING METHODS @@@@@@@@@
 //	public void emulateClickClicked(int x, int y, int clickCount) {
 //		this.handleMouseEvent(MouseEvent.MOUSE_CLICKED, x, y, clickCount);
 //	}
@@ -607,11 +611,9 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 		this.support = support;
 	}
-	
+
 	private int getNbrOfSubWindows() {
 		return this.getSubWindows().size();
 	}
-
-	
 
 }

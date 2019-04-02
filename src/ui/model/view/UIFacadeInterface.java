@@ -165,4 +165,6 @@ public interface UIFacadeInterface {
 //	 */
 //	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue);
 
+	public void closeCurrentSubWindow();
+
 }

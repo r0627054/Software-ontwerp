@@ -33,8 +33,8 @@ public class DeleteColumnChangeHandler implements ChangeHandlerInterface {
 			UUID columnId = (UUID) evt.getSource();
 			UUID tableId = uifacade.getCurrentTableId();
 			domainfacade.deleteColumn(tableId, columnId);
-			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

@@ -8,10 +8,9 @@ import domain.model.DomainFacadeInterface;
 import domain.model.ValueType;
 import ui.model.view.UIFacadeInterface;
 
-
 /**
- * A ColumnDefaultValueChangeHandler is a ChangeHandler,
- * specifically made for handling the change of the default value in a column. 
+ * A ColumnDefaultValueChangeHandler is a ChangeHandler, specifically made for
+ * handling the change of the default value in a column.
  * 
  * @version 1.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
@@ -20,19 +19,18 @@ import ui.model.view.UIFacadeInterface;
 public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeConverterInterface {
 
 	/**
-	 * Updates the DefaultValue of a column.
-	 * The handler tries to change the property.
-	 * If the property is successfully changed in the column, the UI is updated.
+	 * Updates the DefaultValue of a column. The handler tries to change the
+	 * property. If the property is successfully changed in the column, the UI is
+	 * updated.
 	 * 
-	 * If the property couldn't be updated an error (red border) is shown in the UI and the next possible value is displayed
-	 * and the application is paused (only the current cell can be added).
+	 * If the property couldn't be updated an error (red border) is shown in the UI
+	 * and the next possible value is displayed and the application is paused (only
+	 * the current cell can be added).
 	 * 
-	 * @param evt
-	 *        | The propertyChangeEvent containing all the information of the event.
-	 * @param uiFacade
-	 *        | The uiFacadeInterface used.
-	 * @param domainFacade
-	 *        | The domainFacadeInterface used.
+	 * @param evt          | The propertyChangeEvent containing all the information
+	 *                     of the event.
+	 * @param uiFacade     | The uiFacadeInterface used.
+	 * @param domainFacade | The domainFacadeInterface used.
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
@@ -47,19 +45,20 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 			if (columnValueType.equals(ValueType.INTEGER)) {
 				newDefaultValue = this.getNewIntegerDefaultValue(newDefaultValue);
 			} else if (columnValueType.equals(ValueType.BOOLEAN)) {
-				newDefaultValue = this.getNextBooleanDefaultValue(evt.getOldValue(), domainfacade.getColumnAllowBlanks(tableId, columnId));
+				newDefaultValue = this.getNextBooleanDefaultValue(evt.getOldValue(),
+						domainfacade.getColumnAllowBlanks(tableId, columnId));
 			}
 
 			domainfacade.setColumnDefaultValue(tableId, columnId, newDefaultValue);
 
 			if (columnValueType.equals(ValueType.BOOLEAN)) {
-				uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-						domainfacade.getColumnCharacteristics(tableId));
+				uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+						domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 			}
 
 			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException | NumberFormatException e) {
-			uifacade.setErrorDesignTableCell(columnIndex, columnId, newDefaultValue);
+			uifacade.throwError(columnId, columnIndex, newDefaultValue);
 			uifacade.pauseApplication(columnIndex, columnId);
 		}
 

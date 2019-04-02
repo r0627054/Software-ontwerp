@@ -7,7 +7,6 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
-import ui.model.window.sub.ViewModeType;
 
 /** 
 * A OpenTableViewModeChangeHandler is a ChangeHandler,

@@ -49,8 +49,8 @@ public class ChangeHandlerFactory {
 		case DELETE_TABLE:
 			handler = new DeleteTableChangeHandler();
 			break;
-		case SWITCH_VIEWMODE:
-			handler = new SwitchViewModeChangeHandler();
+		case CLOSE_SUBWINDOW:
+			handler = new CloseSubWindowChangeHandler();
 			break;
 		case CREATE_COLUMN:
 			handler = new CreateColumnChangeHandler();
@@ -82,6 +82,11 @@ public class ChangeHandlerFactory {
 		case CREATE_TABLESSUBWINDOW:
 			handler = new CreateTablesSubWindowChangeHandler();
 			break;
+		case CREATE_TABLEDESIGNWINDOW:
+			handler = new CreateTableDesignSubWindowChangeHandler();
+			break;
+		case CREATE_TABLEROWSWINDOW:
+			handler = new CreateTableRowsSubWindowChangeHandler();
 		default:
 			break;
 		}

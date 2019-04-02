@@ -10,10 +10,7 @@ package controller.handlers;
  */
 public enum ChangeEventType {
 	REPAINT,
-	
-	OPEN_TABLEVIEWMODE,
-	SWITCH_VIEWMODE,
-		
+			
 	CREATE_TABLE, 
 	CREATE_ROW,
 	CREATE_COLUMN,
@@ -30,6 +27,7 @@ public enum ChangeEventType {
 	TABLE_CHANGE_NAME,
 	ROW_EDITED,
 	
+	OPEN_TABLEVIEWMODE,
 	CLOSE_SUBWINDOW, 
 	CREATE_TABLEROWSWINDOW, 
 	CREATE_TABLEDESIGNWINDOW,

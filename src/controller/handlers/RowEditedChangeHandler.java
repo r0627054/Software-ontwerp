@@ -57,10 +57,8 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 			}
 			domainfacade.editCellInTable(tableId, columnId, cellId, newValue);
 
-			if (columnValueType.equals(ValueType.BOOLEAN)) {
-				uifacade.updateTableRowsViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-						domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
-			}
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));	
 			uifacade.resume(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		} catch (DomainException | NumberFormatException e) {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
