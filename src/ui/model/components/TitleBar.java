@@ -16,26 +16,23 @@ import controller.observer.PropertyChangeListener;
 public class TitleBar extends Container implements PropertyChangeListener {
 
 	/**
-	 * The constant containing the width of the button.
-	 */
-	public static final int BUTTON_WIDTH = 50;
-
-	/**
 	 * Initialise the title bar with the given x-coordinate,
 	 *  y-coordinate, width, height and the title which will be displayed.
 	 * @param x The x-coordinate of the titleBar.
 	 * @param y The y-coordinate of the titleBar.
 	 * @param width The width of the titleBar.
 	 * @param height The height of the titleBar.
+	 * @param buttonWidth 
 	 * @param titleText The title which the titleBar will display.
 	 * @effect The variables are set and a button close button and textfield for the title are created.
 	 */
-	public TitleBar(int x, int y, int width, int height, int borderMargin, int contentOffset, String titleText) {
+	public TitleBar(int x, int y, int width, int height, int borderMargin, int contentOffset, int buttonWidth,
+			String titleText) {
 		super(x, y, width, height);
 
 		addComponent(new TextField(contentOffset, y, width, height, titleText));
 
-		Button closeButton = new Button(width - BUTTON_WIDTH - borderMargin, y + borderMargin, BUTTON_WIDTH,
+		Button closeButton = new Button(width - buttonWidth - borderMargin, y + borderMargin, buttonWidth,
 				height - borderMargin, "Close", ChangeEventType.CLOSE_SUBWINDOW);
 		addComponent(closeButton);
 		closeButton.addPropertyChangeListener(this);

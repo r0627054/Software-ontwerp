@@ -59,6 +59,11 @@ public abstract class SubWindow implements PropertyChangeListener {
 	public static final int TITLE_BAR_SIZE = 40;
 
 	/**
+	 * The constant containing the width of the button.
+	 */
+	public static final int BUTTON_WIDTH = 50;
+
+	/**
 	 * The constant storing the minimal width of the viewmode.
 	 */
 	public static final int MIN_WIDTH = 200;
@@ -164,14 +169,14 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.setSupport(new PropertyChangeSupport());
 		this.setStoredListeners(new ArrayList<>());
 		this.setId(id);
-		
+
 		this.setX(DEFAULT_X);
 		this.setY(DEFAULT_Y);
 		this.setWidth(DEFAULT_WIDTH);
 		this.setHeight(DEFAULT_HEIGHT);
 
 		this.setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, DRAG_BORDER_SIZE,
-				CONTENT_OFFSET_X, title));
+				CONTENT_OFFSET_X, BUTTON_WIDTH, title));
 		this.addComponent(getTitleBar());
 		this.addClickListener(getTitleBar());
 		this.getTitleBar().addPropertyChangeListener(this);
@@ -283,10 +288,10 @@ public abstract class SubWindow implements PropertyChangeListener {
 	public void paint(Graphics g, boolean isActiveSubWindow) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
 		Color oldColor = g.getColor();
-		if(isActiveSubWindow) {
+		if (isActiveSubWindow) {
 			g.setColor(Color.WHITE);
-		}else {
-			g.setColor(Color.LIGHT_GRAY);
+		} else {
+			g.setColor(new Color(245, 245, 245));
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(oldColor);
@@ -383,7 +388,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
 
-		if (isWithinComponent(x, y)) {
+		if (isWithinComponent(x, y, DRAG_BORDER_SIZE)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 			for (Component c : currentClickListeners) {
 				if (c.isWithinComponent(x, y)) {
@@ -405,8 +410,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @post If the window is dragged properly the X and Y-coordinate of the window are changed.
 	 */
 	private void handleMoving(int id, int x, int y) {
-		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE)
-				&& y <= this.getY() + TITLE_BAR_SIZE) {
+		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE) && y <= this.getY() + TITLE_BAR_SIZE
+				&& x > getX() && x < getX() + getWidth() - BUTTON_WIDTH) {
 			this.dragWindow = true;
 			this.windowDragX = x - getX();
 			this.windowDragY = y - getY();
@@ -445,16 +450,16 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
-			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE)) {
+			if (x < getOffsetX() && x > (getOffsetX() - DRAG_BORDER_SIZE) && y > getY() && y < getY() + getHeight()) {
 				this.resizeRightX = true;
 			}
-			if (x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE)) {
+			if (x > this.getX() && x < (this.getX() + DRAG_BORDER_SIZE) && y > getY() && y < getY() + getHeight()) {
 				this.resizeLeftX = true;
 			}
-			if (y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE) {
+			if (y < getOffsetY() && y > getOffsetY() - DRAG_BORDER_SIZE && x > getX() && x < getX() + getWidth()) {
 				this.resizeBottomY = true;
 			}
-			if (y > this.getY() && y < (this.getY() + DRAG_BORDER_SIZE)) {
+			if (y > this.getY() && y < (this.getY() + DRAG_BORDER_SIZE) && x > getX() && x < getX() + getWidth()) {
 				this.resizeTopY = true;
 			}
 		}
@@ -477,7 +482,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 				}
 			}
 			if (this.resizeBottomY) {
-				this.setHeight(y - getY());
+				if ((y - getY()) >= MIN_HEIGHT) {
+					this.setHeight(y - getY());
+				}
 			}
 			if (this.resizeTopY) {
 				if ((getOffsetY() - y) >= MIN_HEIGHT) {
@@ -508,7 +515,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 	}
 
-
 	/**
 	 * Returns whether or not the component already is in the list of components.
 	 *
@@ -519,8 +525,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 	public boolean hasComponent(Component component) {
 		return this.getComponents().contains(component);
 	}
-
-	
 
 	/**
 	 * This method fires a property change with the given propertyChangeEvent.
@@ -602,11 +606,13 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 *        The x-coordinate of the click.
 	 * @param y
 	 *        The y-coordinate of the click.
+	 * @param dragBorderSize 
 	 * @return True if the x and y coordinates are within the subwindow; otherwise false.
 	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
 	 */
-	public boolean isWithinComponent(int x, int y) {
-		return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	public boolean isWithinComponent(int x, int y, int dragBorderSize) {
+		return x > getX() + dragBorderSize && x < getOffsetX() - dragBorderSize && y > getY() + dragBorderSize
+				&& y < getOffsetY() - dragBorderSize;
 	}
 
 	/**
@@ -701,7 +707,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param height The new height of the viewmode.
 	 */
 	private void setHeight(int height) {
-		this.height = height >= MIN_HEIGHT ? height : MIN_HEIGHT;
+		this.height = height;
 	}
 
 	/**
@@ -793,20 +799,20 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		this.storedListeners = listeners;
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
 
 	private void setId(UUID id) {
-		//null is allowed for tableswindow
+		// null is allowed for tableswindow
 		this.id = id;
 	}
 
 	public abstract void ctrlEntrPressed();
 
 	public abstract void updateContent(Object... tableData);
-	
+
 	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
 
 	public abstract void resumeSubWindow(int columnIndex, UUID columnId);

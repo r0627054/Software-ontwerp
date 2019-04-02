@@ -184,7 +184,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			throw new IllegalArgumentException("Subwindow cannot be null");
 		}
 		this.getSubWindows().add(subWindow);
-		this.repaint();
+//		this.repaint();
 	}
 	/*
 	 * public void addTableViewMode(UUID id, TableWindow viewMode) { if
@@ -221,10 +221,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
 			throw new IllegalArgumentException("Current window cannt be null nor can be set if it is not in the list.");
 		}
+		System.out.println("set to current view");
 		this.getSubWindows().remove(currentWindow);
 		this.getSubWindows().add(currentWindow);
 		this.currentSubWindow = currentWindow;
 		this.repaint();
+		System.out.println("set to current view done");
 	}
 
 	public void closeCurrentSubWindow() {
@@ -256,14 +258,20 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
-		for (int i = this.getNbrOfSubWindows() - 1; i >= 0; i--) {
+		boolean isFound = false;
+
+		for (int i = this.getNbrOfSubWindows() - 1; i >= 0 && !isFound; i--) {
 			SubWindow subWindow = this.getSubWindows().get(i);
-			if (subWindow != null && subWindow.isWithinComponent(x, y)) {
-				if (!subWindow.equals(getCurrentSubWindow()) && id == MouseEvent.MOUSE_PRESSED) {
-					this.setCurrentSubWindow(subWindow);
+
+			if (subWindow != null) {
+
+				if (subWindow.isWithinComponent(x, y, 0)) {
+					if (!subWindow.equals(getCurrentSubWindow()) && id == MouseEvent.MOUSE_PRESSED) {
+						this.setCurrentSubWindow(subWindow);
+					}
+					isFound = true;
 				}
 				subWindow.mouseClicked(id, x, y, clickCount);
-				break;
 			}
 		}
 	}
