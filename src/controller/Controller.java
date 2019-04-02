@@ -31,11 +31,6 @@ public class Controller implements PropertyChangeListener {
 	private DomainFacadeInterface domainFacade;
 	
 	/**
-	 * Variable storing the ChangeHandlerFactory
-	 */
-	private ChangeHandlerFactory changeHandler;
-
-	/**
 	 * 
 	 * Initialise a new Controller with the given UIFacade and domainFacade.
 	 * 
@@ -70,7 +65,6 @@ public class Controller implements PropertyChangeListener {
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade, boolean show) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-		setChangeHandler(new ChangeHandlerFactory());
 
 //		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
@@ -130,29 +124,12 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	/**
-	 * Sets the ChangeHandlerFactory for the Controller.
-	 * 
-	 * @param changeHandler
-	 *        | The ChangeHandlerFactory for the Controller.
-	 * @post the ChangeHandlerFactory is equal to the given changeHandler.
-	 *        | this.getChangeHandlerFactory() == changeHandler
-	 * @throws DomainException if the changeHandler equals null
-	 *        | changeHandler == null
-	 */
-	private void setChangeHandler(ChangeHandlerFactory changeHandler) {
-		if (changeHandler == null) {
-			throw new IllegalArgumentException("Cannot set a null changeHandler.");
-		}
-		this.changeHandler = changeHandler;
-	}
-
-	/**
 	 * The propertyChange called by a change of the UIFacade.
 	 * If the change is a Repaint, the controller ignores the request, otherwise it delegates the event to the changeHandler.
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (!evt.getAction().equals(ChangeEventType.REPAINT)) {
-			changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
+			ChangeHandlerFactory.handleChange(evt, getUiFacade(), getDomainFacade());
 		}
 	}
 

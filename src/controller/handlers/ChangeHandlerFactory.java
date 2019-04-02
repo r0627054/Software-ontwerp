@@ -32,7 +32,7 @@ public class ChangeHandlerFactory {
 	 *        | The DomainFacadeInterface used in the controller.
 	 * @effect The handler is created and all the information is passed to the specific handler.
 	 */
-	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
+	public static void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		ChangeEventType value = evt.getAction();
 		ChangeHandlerInterface handler = null;
 

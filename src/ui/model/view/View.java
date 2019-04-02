@@ -430,7 +430,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		tablesWindow.addPropertyChangeListener(this);
 		this.addSubwindow(tablesWindow);
 		this.setCurrentSubWindow(tablesWindow);
-		System.out.println("done");
 	}
 
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
