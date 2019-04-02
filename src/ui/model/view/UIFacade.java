@@ -14,8 +14,8 @@ import ui.model.window.sub.ViewModeType;
  * The actual implementation of the uiFacadeInterface.
  * This handles all the actions defined in the uiFacadeInterface.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {

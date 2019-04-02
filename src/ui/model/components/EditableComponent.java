@@ -9,8 +9,8 @@ import java.util.UUID;
  * An EditableComponent is a specific component, which can be edited.
  * It has an id and it can have an error.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public abstract class EditableComponent extends Component {

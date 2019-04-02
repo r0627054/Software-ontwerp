@@ -14,8 +14,8 @@ import ui.model.view.UIFacadeInterface;
  * a DomainFacade which implement the DomainFacadeInterface
  * and a ChangeHandlerFactory which will delegate the different actions to the correct handler. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class Controller implements PropertyChangeListener {

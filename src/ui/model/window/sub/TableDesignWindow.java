@@ -18,8 +18,8 @@ import ui.model.components.TextField;
  * the table. The tableDesignViewMode can allow edits of the table and can
  * handles pauses.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TableDesignWindow extends TableWindow {
@@ -43,8 +43,6 @@ public class TableDesignWindow extends TableWindow {
 	public TableDesignWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		super(id, "Designing table: " + tableName);
-		this.setType(ViewModeType.TABLEDESIGNVIEWMODE);
-
 		this.createDesignTable(columnCharacteristics);
 	}
 

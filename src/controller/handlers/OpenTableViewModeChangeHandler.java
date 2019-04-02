@@ -12,8 +12,8 @@ import ui.model.view.UIFacadeInterface;
 * A OpenTableViewModeChangeHandler is a ChangeHandler,
 * specifically made for opening a TableViewMode (DesignViewMode or a TableRowsViewMode).
 * 
-* @version 1.0
-* @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+* @version 2.0
+* @author Dries Janse, Steven Ghekiere, Laurens Druwel
 *
 */
 public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {

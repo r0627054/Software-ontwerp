@@ -15,8 +15,8 @@ import controller.handlers.ChangeEventType;
  * The rowsTable is subclass of EditableComponent.
  *  It creates a rowTable, a rowTable show all the information of the table.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class RowsTable extends EditableComponent {

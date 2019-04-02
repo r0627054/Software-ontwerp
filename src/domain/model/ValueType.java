@@ -5,7 +5,7 @@ package domain.model;
  *   In its current form, the class only supports, Email, String, Boolean and Integer.
  * 
  * @version 2.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  */
 public enum ValueType {
 

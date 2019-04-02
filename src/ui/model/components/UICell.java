@@ -13,8 +13,8 @@ import controller.observer.PropertyChangeListener;
  * It makes use of the observer pattern. It listens to events of the component in the cell.
  * And fires propertyChange events the his listeners.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class UICell extends EditableComponent implements PropertyChangeListener {

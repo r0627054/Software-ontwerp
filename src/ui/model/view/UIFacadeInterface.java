@@ -12,8 +12,8 @@ import ui.model.window.sub.ViewModeType;
  * An interface of the uiFacade. This interface defines all the functionalities
  * that should be handled the user interface.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public interface UIFacadeInterface {

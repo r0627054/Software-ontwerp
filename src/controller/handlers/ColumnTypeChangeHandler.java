@@ -13,8 +13,8 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnTypeChangeHandler is a ChangeHandler,
  * specifically made for handling the change of the type in a column. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class ColumnTypeChangeHandler implements ChangeHandlerInterface {

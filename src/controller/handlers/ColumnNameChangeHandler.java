@@ -11,8 +11,8 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnNameChangeHandler is a ChangeHandler,
  * specifically made for handling the change of the name in a column. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class ColumnNameChangeHandler implements ChangeHandlerInterface {

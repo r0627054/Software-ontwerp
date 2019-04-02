@@ -17,8 +17,8 @@ import controller.handlers.ChangeEventType;
  * It contains a VerticalComponentList of rows.
  * The is the actual composition of a DesignTable.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DesignTable extends EditableComponent {

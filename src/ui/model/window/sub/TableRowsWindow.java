@@ -19,7 +19,6 @@ public class TableRowsWindow extends TableWindow {
 	public TableRowsWindow(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
 			Map<UUID, Class<?>> columnTypes) {
 		super(tableId, "Table rows of table: " + tableName);
-		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		createTable(table, columnTypes);
 	}
 

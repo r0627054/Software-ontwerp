@@ -13,8 +13,8 @@ import ui.model.components.TextField;
  * A TablesViewMode is specific ViewMode.
  *  It contains a container which stores all the names of tables.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TablesWindow extends SubWindow {
@@ -33,7 +33,6 @@ public class TablesWindow extends SubWindow {
 	 */
 	public TablesWindow(Map<UUID, String> map) {
 		super(null, "TABLES LIST");
-		this.setType(ViewModeType.TABLESVIEWMODE);
 		this.createTableList(map);
 	}
 

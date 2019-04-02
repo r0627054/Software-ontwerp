@@ -9,8 +9,8 @@ import ui.model.view.UIFacadeInterface;
  * A DeleteTableChangeHandler is a ChangeHandler,
  * specifically made for handling the deletion a table. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DeleteTableChangeHandler implements ChangeHandlerInterface {

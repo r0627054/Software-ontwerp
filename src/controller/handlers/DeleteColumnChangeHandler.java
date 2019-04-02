@@ -11,8 +11,8 @@ import ui.model.view.UIFacadeInterface;
  * A DeleteColumnChangeHandler is a ChangeHandler,
  * specifically made for handling the deletion of a column in a table. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DeleteColumnChangeHandler implements ChangeHandlerInterface {

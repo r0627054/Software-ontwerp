@@ -13,8 +13,8 @@ import controller.handlers.ChangeEventType;
  *  Text can be edited and updated, errors can be shown.
  * 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class EditableTextField extends TextField {
