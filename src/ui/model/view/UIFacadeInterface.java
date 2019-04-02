@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.observer.PropertyChangeListener;
-import ui.model.viewmodes.ViewModeType;
+import ui.model.window.sub.SubWindow;
+import ui.model.window.sub.ViewModeType;
 
 /**
  * An interface of the uiFacade. This interface defines all the functionalities
@@ -80,20 +81,10 @@ public interface UIFacadeInterface {
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
 
-	/**
-	 * Updates the tableRowsViewMode Whenever a domain element is updated, the view
-	 * needs to be updated as well.
-	 * 
-	 * @param tableId     | The tableId of the table that should be shown.
-	 * @param tableName   | The table name of the table that should be shown.
-	 * @param table       | A map containing all the information of to show the
-	 *                    table.
-	 * @param columnTypes | A map containing a class for each column, to determine
-	 *                    if the value is null | What the column type should be.
-	 */
-	public void updateSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData);
+	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
+	
+	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
 
 //	/**
 //	 * Updates the tablesViewMode Whenever a domain element is updated, the view
@@ -122,6 +113,10 @@ public interface UIFacadeInterface {
 	public void createTableDesignSubWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
 
+	public void createTablesSubWindow(Map<UUID, String> data);
+	
+	
+	
 //	/**
 //	 * Updates the tableDesignViewMode Whenever a domain element is updated, the
 //	 * view needs to be updated as well.

@@ -1,4 +1,4 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 /**
  * An enumeration introducing the different types of viewModes a view can have.

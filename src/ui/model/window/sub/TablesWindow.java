@@ -1,4 +1,4 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -79,10 +79,8 @@ public class TablesWindow extends SubWindow {
 	}
 
 	@Override
-	public void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData) {
-		updateTables(tablesListData);
+	public void updateContent(Object... data) {
+		updateTables((Map<UUID, String>) data[0]);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
-import ui.model.viewmodes.ViewModeType;
+import ui.model.window.sub.ViewModeType;
 
 /**
 * A SwitchViewModeChangeHandler is a ChangeHandler,

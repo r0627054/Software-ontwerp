@@ -79,6 +79,9 @@ public class ChangeHandlerFactory {
 		case DELETE_ROW:
 			handler = new DeleteRowChangeHandler();
 			break;
+		case CREATE_TABLESSUBWINDOW:
+			handler = new CreateTablesSubWindowChangeHandler();
+			break;
 		default:
 			break;
 		}

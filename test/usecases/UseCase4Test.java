@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.viewmodes.ViewModeType;
+import ui.model.window.sub.ViewModeType;
 
 public class UseCase4Test extends UseCaseTest implements TableListConstants{
 	

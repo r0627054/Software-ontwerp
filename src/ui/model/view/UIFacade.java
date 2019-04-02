@@ -7,7 +7,8 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
-import ui.model.viewmodes.ViewModeType;
+import ui.model.window.sub.SubWindow;
+import ui.model.window.sub.ViewModeType;
 
 /**
  * The actual implementation of the uiFacadeInterface.
@@ -144,25 +145,13 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().createTableRowsWindow(tableId, tableName, table, columnTypes);
 	}
 
-	/**
-	 * Updates the tableRowsViewMode
-	 * Whenever a domain element is updated, the view needs to be updated as well.
-	 * 
-	 * @param tableId
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param table
-	 *         | A map containing all the information of to show the table.
-	 * @param columnTypes
-	 * 		   | A map containing a class for each column, to determine if the value is null
-	 *         | What the column type should be.
-	 */
-	@Override
-	public void updateSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData) {
-		this.getView().updateSubWindows(id, designData, tableRowsData, rowsClassData, tablesListData);
+	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
+		this.getView().updateTablesSubWindows(tablesListData);
+	}
+	
+	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData);
 	}
 
 //	/**
@@ -202,6 +191,11 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().createTableDesignWindow(id, tableName, columnCharacteristics);
 	}
 
+	@Override
+	public void createTablesSubWindow(Map<UUID, String> data) {
+		this.getView().createTablesWindow(data);
+	}
+	
 //	/**
 //	 * Updates the tableDesignViewMode
 //	 * Whenever a domain element is updated, the view needs to be updated as well.
@@ -343,5 +337,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		}
 		this.support = support;
 	}
+
+
+	
 
 }

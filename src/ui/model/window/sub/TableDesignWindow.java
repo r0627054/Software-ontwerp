@@ -1,4 +1,4 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -187,10 +187,8 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	@Override
-	public void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData) {
-		this.updateDesignTable(designData);
+	public void updateContent(Object... tableData) {
+		this.updateDesignTable((Map<UUID, LinkedHashMap<String, Object>>) tableData[0]);
 	}
 
 	@Override

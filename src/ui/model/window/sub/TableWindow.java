@@ -1,4 +1,4 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.util.ArrayList;
 import java.util.List;

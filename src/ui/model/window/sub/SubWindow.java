@@ -1,4 +1,4 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -287,9 +287,16 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param g
 	 * 		 This object offers the methods that allow you to paint on the canvas.
 	 */
-	public void paint(Graphics g) {
+	public void paint(Graphics g, boolean isActiveSubWindow) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
-
+		Color oldColor = g.getColor();
+		if(isActiveSubWindow) {
+			g.setColor(Color.WHITE);
+		}else {
+			g.setColor(Color.LIGHT_GRAY);
+		}
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
+		g.setColor(oldColor);
 		for (Component component : components) {
 			component.paint((Graphics2D) g.create());
 		}
@@ -826,9 +833,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	public abstract void ctrlEntrPressed();
 
-	public abstract void updateContent(Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData,
-			Map<UUID, String> tablesListData);
+	public abstract void updateContent(Object... tableData);
 	
 	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
 

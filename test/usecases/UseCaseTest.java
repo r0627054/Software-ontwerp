@@ -20,7 +20,7 @@ import ui.model.components.DesignTable;
 import ui.model.components.RowsTable;
 import ui.model.components.TableList;
 import ui.model.view.UIFacade;
-import ui.model.viewmodes.ViewModeType;
+import ui.model.window.sub.ViewModeType;
 
 public abstract class UseCaseTest {
 	private static UIFacade uiFacade;

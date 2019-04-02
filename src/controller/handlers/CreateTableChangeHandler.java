@@ -32,7 +32,7 @@ public class CreateTableChangeHandler implements ChangeHandlerInterface {
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
 			domainfacade.createNewTable();
-			uifacade.updateTablesViewMode(domainfacade.getTableNames());
+			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}
