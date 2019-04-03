@@ -50,12 +50,10 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 
 			domainfacade.setColumnDefaultValue(tableId, columnId, newDefaultValue);
 
-			if (columnValueType.equals(ValueType.BOOLEAN)) {
-				uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-						domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
-			}
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 
-			uifacade.resume(columnIndex, columnId);
+//			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			uifacade.throwError(columnId, columnIndex, newDefaultValue);
 			uifacade.pauseApplication(columnIndex, columnId);

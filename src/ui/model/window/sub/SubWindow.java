@@ -815,6 +815,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
 
-	public abstract void resumeSubWindow(int columnIndex, UUID columnId);
+	public abstract void resumeSubWindow();
 
 }

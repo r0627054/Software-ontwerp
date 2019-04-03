@@ -42,7 +42,7 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 			domainfacade.setAllowBlanks(tableId, columnId, newBool);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
 					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
-			uifacade.resume(columnIndex, columnId);
+//			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException e) {
 			uifacade.throwError(columnId, columnIndex, newBool);
 			uifacade.pauseApplication(columnIndex, columnId);

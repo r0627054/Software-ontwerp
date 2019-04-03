@@ -192,6 +192,7 @@ public class EditableTextField extends TextField {
 					String text = getText();
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
+					this.setError(false);
 //					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {

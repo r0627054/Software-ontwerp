@@ -112,8 +112,9 @@ public enum ValueType {
 	 */
 	public static ValueType getValueTypeForString(String name) {
 		for (ValueType type : ValueType.values()) {
-			if (type.getClass().toString().equals(name))
+			if (type.getTypeClass().getSimpleName().equals(name)) {
 				return type;
+			}
 		}
 		return null;
 	}

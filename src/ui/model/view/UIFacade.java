@@ -237,8 +237,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *        | columnId of the column
 	 */
 	@Override
-	public void resume(int columnIndex, UUID columnId) {
-		this.getView().resume(columnIndex, columnId);
+	public void resume() {
+		this.getView().resume();
 	}
 
 	/**
