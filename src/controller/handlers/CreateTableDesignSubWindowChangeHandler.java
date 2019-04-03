@@ -7,18 +7,18 @@ import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
 /**
- * A CreateColumnChangeHandler is a ChangeHandler, specifically made for
- * handling the creation of a column in a table.
+ * A CreateTableDesignSubWindowChangeHandler is a ChangeHandler, specifically made for
+ *  handling the creation of a tableDesignWindow.
  * 
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public class CreateColumnChangeHandler implements ChangeHandlerInterface {
+public class CreateTableDesignSubWindowChangeHandler implements ChangeHandlerInterface {
 
 	/**
-	 * Creates an empty Column in the table that the user is currently editing.
-	 * The column is created in the domain and the change is shown in the view.
+	 * Requests all the information in the domain and gives it to the view.
+	 *  The view creates a tableDesignWindow of the table with the given UUID.
 	 * 
 	 * @param evt          | The propertyChangeEvent containing all the information
 	 *                     of the event.
@@ -27,11 +27,11 @@ public class CreateColumnChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
+		UUID tableId = evt.getSource();
+
 		try {
-			UUID tableId = evt.getSource();
-			domainfacade.addColumnToTable(tableId);
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+			uifacade.createTableDesignSubWindow(tableId, domainfacade.getTableNameOfId(tableId),
+					domainfacade.getColumnCharacteristics(tableId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

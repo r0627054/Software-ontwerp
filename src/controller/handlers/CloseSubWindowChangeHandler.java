@@ -1,24 +1,22 @@
 package controller.handlers;
 
-import java.util.UUID;
-
 import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
-
 /**
- * A CreateColumnChangeHandler is a ChangeHandler, specifically made for
- * handling the creation of a column in a table.
+ * 
+ * A CloseSubWindowChangeHandler is a ChangeHandler, specifically made for
+ *  handling the closing behaviour of a window.
  * 
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public class CreateColumnChangeHandler implements ChangeHandlerInterface {
+public class CloseSubWindowChangeHandler implements ChangeHandlerInterface {
 
 	/**
-	 * Creates an empty Column in the table that the user is currently editing.
-	 * The column is created in the domain and the change is shown in the view.
+	 * Closes the current window in the view.
+	 *  At the moment of writing no change will to be made in the domain.
 	 * 
 	 * @param evt          | The propertyChangeEvent containing all the information
 	 *                     of the event.
@@ -28,13 +26,11 @@ public class CreateColumnChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID tableId = evt.getSource();
-			domainfacade.addColumnToTable(tableId);
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+			uifacade.closeCurrentSubWindow();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 }

@@ -222,8 +222,9 @@ public class Column extends ObjectIdentifier {
 		if (value == null && !this.isAllowsBlanks()) {
 			throw new DomainException("Blanks are not allowed as default value.");
 		}
-		if (!getType().canHaveAsValue(value) && value != null)
+		if (!getType().canHaveAsValue(value) && value != null) {
 			throw new DomainException("Invalid default column value.");
+		}
 		this.defaultValue = value;
 	}
 

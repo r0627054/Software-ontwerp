@@ -4,17 +4,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.util.UUID;
-
-import controller.handlers.ChangeEventType;
 
 /**
  * A textField is a subclass of an EditableComponent.
  *  It handles the drawing and styling of the text.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TextField extends EditableComponent {

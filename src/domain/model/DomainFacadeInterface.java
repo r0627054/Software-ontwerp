@@ -8,8 +8,8 @@ import java.util.UUID;
  * An interface of the domainFacade. This interface defines all the functionalities
  *  that should be handled by the domain.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public interface DomainFacadeInterface {
@@ -295,5 +295,14 @@ public interface DomainFacadeInterface {
 	 * @return the id of the row which has a cell at the first position with the given cellId.
 	 */
 	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement);
+
+	/**
+	 * Checks if table with certain id is empty.
+	 * 
+	 * @param tableId
+	 * 		| The id of the table to check.
+	 * @return the truth value of the table with an id
+	 */
+	public boolean isTableWithIdEmpty(UUID tableId);
 
 }

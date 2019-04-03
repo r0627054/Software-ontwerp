@@ -7,14 +7,13 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
-import ui.model.viewmodes.ViewModeType;
 
 /**
  * The actual implementation of the uiFacadeInterface.
  * This handles all the actions defined in the uiFacadeInterface.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
@@ -57,10 +56,10 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 * @param map
 	 * 		  The Map of tableIds and tableNames
 	 */
-	@Override
-	public void startup(Map<UUID, String> map) {
-		getView().startup(map);
-	}
+//	@Override
+//	public void startup(Map<UUID, String> map) {
+//		getView().startup(map);
+//	}
 
 	/**
 	 * Adds a propertyChangeListener to the PropertyChangeSupport.
@@ -101,16 +100,16 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getSupport().firePropertyChange(evt);
 	}
 
-	/**
-	 * Gets the ViewModeType of the current ViewMode from the view.
-	 * 
-	 * @return the type of the current viewmode of view.
-	 * 			| getView().getCurrentViewModeType();
-	 */
-	@Override
-	public ViewModeType getCurrentViewModeType() {
-		return this.getView().getCurrentViewModeType();
-	}
+//	/**
+//	 * Gets the ViewModeType of the current ViewMode from the view.
+//	 * 
+//	 * @return the type of the current viewmode of view.
+//	 * 			| getView().getCurrentViewModeType();
+//	 */
+//	@Override
+//	public ViewModeType getCurrentViewModeType() {
+//		return this.getView().getCurrentViewModeType();
+//	}
 
 	/**
 	 * Throws an error to a component.
@@ -119,8 +118,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *        | The id of component that needs to receive the error.
 	 */
 	@Override
-	public void throwError(UUID id) {
-		this.getView().throwErrorOnCurrentViewMode(id);
+	public void throwError(UUID id, int columnIndex, Object newValue) {
+		this.getView().throwErrorOnCurrentSubWindow(id, columnIndex, newValue);
 	}
 
 	/**
@@ -139,49 +138,38 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *         | What the column type should be.
 	 */
 	@Override
-	public void openTableRowsViewMode(UUID tableId, String tableName,
+	public void createTableRowsSubWindow(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
-		this.getView().openTableRowsViewMode(tableId, tableName, table, columnTypes);
+		this.getView().createTableRowsWindow(tableId, tableName, table, columnTypes);
 	}
 
-	/**
-	 * Updates the tableRowsViewMode
-	 * Whenever a domain element is updated, the view needs to be updated as well.
-	 * 
-	 * @param tableId
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param table
-	 *         | A map containing all the information of to show the table.
-	 * @param columnTypes
-	 * 		   | A map containing a class for each column, to determine if the value is null
-	 *         | What the column type should be.
-	 */
-	@Override
-	public void updateTableRowsViewMode(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
-		this.getView().updateTableRowsViewMode(tableId, tableName, table, columnTypes);
+	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
+		this.getView().updateTablesSubWindows(tablesListData);
+	}
+	
+	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData);
 	}
 
-	/**
-	 * Updates the tablesViewMode
-	 * Whenever a domain element is updated, the view needs to be updated as well.
-	 * 
-	 * @param tableId
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param table
-	 *         | A map containing all the information of to show the table.
-	 * @param columnTypes
-	 * 		   | A map containing a class for each column, to determine if the value is null
-	 *         | What the column type should be.
-	 */
-	@Override
-	public void updateTablesViewMode(Map<UUID, String> map) {
-		this.getView().updateTablesViewMode(map);
-	}
+//	/**
+//	 * Updates the tablesViewMode
+//	 * Whenever a domain element is updated, the view needs to be updated as well.
+//	 * 
+//	 * @param tableId
+//	 * 		   | The tableId of the table that should be shown.
+//	 * @param tableName
+//	 *         | The table name of the table that should be shown.
+//	 * @param table
+//	 *         | A map containing all the information of to show the table.
+//	 * @param columnTypes
+//	 * 		   | A map containing a class for each column, to determine if the value is null
+//	 *         | What the column type should be.
+//	 */
+//	@Override
+//	public void updateTablesViewMode(Map<UUID, String> map) {
+//		this.getView().updateTablesViewMode(map);
+//	}
 
 	/**
 	 * Opens the tableDesignViewMode
@@ -196,27 +184,32 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *         | A map containing all the information of to show the table.
 	 */
 	@Override
-	public void openTableDesignViewMode(UUID id, String tableName,
+	public void createTableDesignSubWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		this.getView().openTableDesignViewMode(id, tableName, columnCharacteristics);
+		this.getView().createTableDesignWindow(id, tableName, columnCharacteristics);
 	}
 
-	/**
-	 * Updates the tableDesignViewMode
-	 * Whenever a domain element is updated, the view needs to be updated as well.
-	 * 
-	 * @param tableId
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param columnCharacteristics
-	 *         | A map containing all the information of to show the table.
-	 */
 	@Override
-	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
-			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		this.getView().updateTableDesignViewMode(id, tableNameOfId, columnCharacteristics);
+	public void createTablesSubWindow(Map<UUID, String> data) {
+		this.getView().createTablesWindow(data);
 	}
+	
+//	/**
+//	 * Updates the tableDesignViewMode
+//	 * Whenever a domain element is updated, the view needs to be updated as well.
+//	 * 
+//	 * @param tableId
+//	 * 		   | The tableId of the table that should be shown.
+//	 * @param tableName
+//	 *         | The table name of the table that should be shown.
+//	 * @param columnCharacteristics
+//	 *         | A map containing all the information of to show the table.
+//	 */
+//	@Override
+//	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
+//			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
+//		this.getView().updateTableDesignViewMode(id, tableNameOfId, columnCharacteristics);
+//	}
 
 	/**
 	 * Pauses the application.
@@ -244,8 +237,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *        | columnId of the column
 	 */
 	@Override
-	public void resume(int columnIndex, UUID columnId) {
-		this.getView().resume(columnIndex, columnId);
+	public void resume() {
+		this.getView().resume();
 	}
 
 	/**
@@ -257,56 +250,56 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public UUID getCurrentTableId() {
-		return this.getView().getCurrentTableViewModeTableId();
+		return this.getView().getCurrentTableSubWindowTableId();
 	}
 
-	@Override
-	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
-		this.getView().setErrorDesignTableCell(columnIndex, columnId, newValue);
-	}
+//	@Override
+//	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
+//		this.getView().setErrorDesignTableCell(columnIndex, columnId, newValue);
+//	}
 
-	/**
-	 * Sets a specific error in a cell in the DesignTable.
-	 * 
-	 * @param columnIndex
-	 *        | index of the cell of a column
-	 * @param columnId
-	 *        | columnId of the column
-	 * @param newValue
-	 *        | the new value of this cell
-	 */
-	public void emulateClickClicked(int x, int y, int clickCount) {
-		this.getView().emulateClickClicked(x, y, clickCount);
-	}
-
-	/**
-	 * Simulates a key press for testing purposes.
-	 * 
-	 * @param keyChar
-	 *        | The character pressed.
-	 */
-	public void emulateKeyPress(char keyChar) {
-		this.getView().emulateKeyPress(keyChar);
-	}
-
-	/**
-	 * Simulates a key press for testing purposes.
-	 * 
-	 * @param keyCode
-	 *        | The special code of the key pressed.
-	 */
-	public void emulateKeyPress(int keyCode) {
-		this.getView().emulateKeyPress(keyCode);
-	}
-
-	/**
-	 * Resets all the view modes and listeners for testing purposes. 
-	 */
-	public void resetViewModes() {
-		getSupport().removePropertyChangeListener(this.getView());
-		this.getView().resetViewModes();
-		this.getView().addPropertyChangeListener(this);
-	}
+//	/**
+//	 * Sets a specific error in a cell in the DesignTable.
+//	 * 
+//	 * @param columnIndex
+//	 *        | index of the cell of a column
+//	 * @param columnId
+//	 *        | columnId of the column
+//	 * @param newValue
+//	 *        | the new value of this cell
+//	 */
+//	public void emulateClickClicked(int x, int y, int clickCount) {
+//		this.getView().emulateClickClicked(x, y, clickCount);
+//	}
+//
+//	/**
+//	 * Simulates a key press for testing purposes.
+//	 * 
+//	 * @param keyChar
+//	 *        | The character pressed.
+//	 */
+//	public void emulateKeyPress(char keyChar) {
+//		this.getView().emulateKeyPress(keyChar);
+//	}
+//
+//	/**
+//	 * Simulates a key press for testing purposes.
+//	 * 
+//	 * @param keyCode
+//	 *        | The special code of the key pressed.
+//	 */
+//	public void emulateKeyPress(int keyCode) {
+//		this.getView().emulateKeyPress(keyCode);
+//	}
+//
+//	/**
+//	 * Resets all the view modes and listeners for testing purposes. 
+//	 */
+//	public void resetViewModes() {
+//		getSupport().removePropertyChangeListener(this.getView());
+//		this.getView().resetViewModes();
+//		this.getView().addPropertyChangeListener(this);
+//	}
 
 	/**
 	 * Gets the View.
@@ -341,6 +334,12 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 			throw new IllegalArgumentException("Cannot set a null support.");
 		}
 		this.support = support;
+	}
+
+
+	@Override
+	public void closeCurrentSubWindow() {
+		this.getView().closeCurrentSubWindow();		
 	}
 
 }

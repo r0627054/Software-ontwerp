@@ -11,8 +11,8 @@ import ui.model.view.UIFacadeInterface;
  * A CreateRowChangeHandler is a ChangeHandler,
  * specifically made for handling the creation of a row in a table.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class CreateRowChangeHandler implements ChangeHandlerInterface {
@@ -21,7 +21,7 @@ public class CreateRowChangeHandler implements ChangeHandlerInterface {
 	 * Creates an empty row in the table that the user is currently editing.
 	 * Its value for each column is the column's default value.
 	 *  
-	 *  It updates the tableRowsViewMode with the newly created table.
+	 *  It updates the UI with the newly created row.
 	 *  
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -32,11 +32,11 @@ public class CreateRowChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID tableId = (UUID) evt.getSource();
+		UUID tableId = evt.getSource();
 
 		try {
 			domainfacade.createNewRow(tableId);
-			uifacade.updateTableRowsViewMode(tableId, domainfacade.getTableNameOfId(tableId),
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
 					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();

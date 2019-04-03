@@ -9,8 +9,8 @@ import ui.model.view.UIFacadeInterface;
  * A DeleteTableChangeHandler is a ChangeHandler,
  * specifically made for handling the deletion a table. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DeleteTableChangeHandler implements ChangeHandlerInterface {
@@ -28,9 +28,9 @@ public class DeleteTableChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID tableId = (UUID) evt.getSource();
+			UUID tableId = evt.getSource();
 			domainfacade.deleteTable(tableId);
-			uifacade.updateTablesViewMode(domainfacade.getTableNames());
+			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

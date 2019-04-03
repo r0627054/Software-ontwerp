@@ -2,14 +2,15 @@ package ui.model.components;
 
 import java.awt.event.MouseEvent;
 import java.util.UUID;
+
 import controller.handlers.ChangeEventType;
 
 /**
  * A ToggleTextField is a subclass of a TextField.
  *  It toggles between different texts.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class ToggleTextField extends TextField {

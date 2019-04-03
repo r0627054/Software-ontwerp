@@ -8,8 +8,8 @@ import java.util.UUID;
 /**
  * A container itself is a component and contains a list of Components.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class Container extends Component {

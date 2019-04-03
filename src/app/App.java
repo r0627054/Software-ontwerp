@@ -10,8 +10,8 @@ import ui.model.view.UIFacadeInterface;
  *  The Application class is used to start the Program.
  *  It create an instance of the domainFacadeInterface and an instance of the UIFacadeInterface,
  *  and gives it to the controller.
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class App {
@@ -21,8 +21,8 @@ public class App {
 	 * And it creates a Controller which links both the domain with the UI.
 	 * 
 	 * @param args
-	 *        | the arguments are not used.
-	 *        | the application starts without any arguments.
+	 *        | The arguments are not used.
+	 *        | The application starts without any arguments.
 	 */
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(() -> {	

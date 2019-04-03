@@ -11,8 +11,8 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnNameChangeHandler is a ChangeHandler,
  * specifically made for handling the change of the name in a column. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class ColumnNameChangeHandler implements ChangeHandlerInterface {
@@ -23,7 +23,7 @@ public class ColumnNameChangeHandler implements ChangeHandlerInterface {
 	 * If the property is successfully changed in the column, the UI is updated.
 	 * 
 	 * If the property couldn't be updated an error (red border) is shown in the UI
-	 * and the application is paused (only the current cell can be added).
+	 * and the subwindow is paused (only the current cell can be edited in that subwindow).
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -34,14 +34,16 @@ public class ColumnNameChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID columnId = (UUID) evt.getSource();
+		UUID columnId = evt.getSource();
 		UUID tableId = uifacade.getCurrentTableId();
 		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Column Name");
 		String newName = (String) evt.getNewValue();
 
 		try {
 			domainfacade.updateColumnName(tableId, columnId, newName);
-			uifacade.resume(columnIndex, columnId);
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+//			uifacade.resume();
 		} catch (DomainException e) {
 			uifacade.pauseApplication(columnIndex, columnId);
 		}

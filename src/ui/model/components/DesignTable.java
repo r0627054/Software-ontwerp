@@ -17,8 +17,8 @@ import controller.handlers.ChangeEventType;
  * It contains a VerticalComponentList of rows.
  * The is the actual composition of a DesignTable.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DesignTable extends EditableComponent {
@@ -336,7 +336,7 @@ public class DesignTable extends EditableComponent {
 		}
 		this.deleteCells = new ArrayList<>();
 	}
-	
+
 	@Override
 	public void changeY(int y) {
 		super.changeY(y);
@@ -347,6 +347,25 @@ public class DesignTable extends EditableComponent {
 	public void changeX(int x) {
 		super.changeX(x);
 		this.rows.changeX(x);
+	}
+
+	public void resetError() {
+		boolean isFound = false;
+		for (int i = 0; i < rows.getComponentsList().size() && !isFound; i++) {
+			HorizontalComponentList comp = (HorizontalComponentList) rows.getComponentsList().get(i);
+
+			for (int j = 0; j < comp.getComponentsList().size() && !isFound; j++) {
+				Component comp2 = comp.getComponentsList().get(j);
+
+				if (comp2 instanceof UICell) {
+					UICell cell = (UICell) comp2;
+					if (cell.isError()) {
+						cell.setError(false);
+						isFound = true;
+					}
+				}
+			}
+		}
 	}
 
 }

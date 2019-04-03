@@ -13,8 +13,8 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnTypeChangeHandler is a ChangeHandler,
  * specifically made for handling the change of the type in a column. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
@@ -25,7 +25,7 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 	 * If the property is successfully changed in the column, the UI is updated.
 	 * 
 	 * If the property couldn't be updated an error (red border) is shown in the UI and the next possible value is displayed
-	 * and the application is paused (only the current cell can be added).
+	 * and that subwindow is paused (only the current cell can be edited in that subwindow).
 	 * 
 	 * If the type was String, it becomes Email. If it was Email, it becomes
 	 * Boolean. If it was Boolean, it becomes Integer. If it was Integer, it
@@ -45,15 +45,16 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 		UUID tableId = uifacade.getCurrentTableId();
 		int columnIndex = domainfacade.getIndexOfColumnCharacteristic(tableId, columnId, "Type");
 		ValueType currentType = ValueType.getValueTypeForString((String) evt.getOldValue());
+
 		ValueType newType = getNextValueType(currentType);
 
 		try {
 			domainfacade.setColumnType(tableId, columnId, newType);
-			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId));
-			uifacade.resume(columnIndex, columnId);
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+//			uifacade.resume();
 		} catch (DomainException e) {
-			uifacade.setErrorDesignTableCell(columnIndex, columnId, newType);
+			uifacade.throwError(columnId, columnIndex, newType);
 			uifacade.pauseApplication(columnIndex, columnId);
 		}
 	}

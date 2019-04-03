@@ -13,8 +13,8 @@ import controller.handlers.ChangeEventType;
  *  Text can be edited and updated, errors can be shown.
  * 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class EditableTextField extends TextField {
@@ -190,13 +190,14 @@ public class EditableTextField extends TextField {
 				}
 				if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
 					String text = getText();
-					setText(text + keyChar);
+					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
-					textChanged();
+					this.setError(false);
+//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
-					textChanged();
+//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
@@ -207,12 +208,11 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
-		System.err.println(isSelectedForDelete() + " "+ keyCode + " "+ id);
-		
-		System.err.println("true "+ KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
-		System.err.println("----");
+//		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
+//
+//		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
+//		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
-			System.out.println("delete");
 			delete();
 		}
 	}
@@ -427,7 +427,7 @@ public class EditableTextField extends TextField {
 	public void setSelectedForDelete(boolean selected) {
 		boolean changed = (this.selectedForDelete && !selected) || (!this.selectedForDelete && selected);
 		this.selectedForDelete = selected;
-		
+
 		if (changed) {
 			propertyChanged();
 		}

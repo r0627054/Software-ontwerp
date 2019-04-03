@@ -15,8 +15,8 @@ import controller.handlers.ChangeEventType;
  * The rowsTable is subclass of EditableComponent.
  *  It creates a rowTable, a rowTable show all the information of the table.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class RowsTable extends EditableComponent {
@@ -25,7 +25,7 @@ public class RowsTable extends EditableComponent {
 	 * Variable storing the HorizontalComponentList of columns.
 	 */
 	private HorizontalComponentList columns;
-	
+
 	/**
 	 * Variable storing the cells which are selected for deletion.
 	 */
@@ -269,7 +269,7 @@ public class RowsTable extends EditableComponent {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void changeY(int y) {
 		super.changeY(y);
@@ -280,6 +280,25 @@ public class RowsTable extends EditableComponent {
 	public void changeX(int x) {
 		super.changeX(x);
 		this.columns.changeX(x);
+	}
+
+	public void resetError() {
+		boolean isFound = false;
+		for (int i = 0; i < columns.getComponentsList().size() && !isFound; i++) {
+			VerticalComponentList comp = (VerticalComponentList) columns.getComponentsList().get(i);
+
+			for (int j = 0; j < comp.getComponentsList().size() && !isFound; j++) {
+				Component comp2 = comp.getComponentsList().get(j);
+
+				if (comp2 instanceof UICell) {
+					UICell cell = (UICell) comp2;
+					if (cell.isError()) {
+						cell.setError(false);
+						isFound = true;
+					}
+				}
+			}
+		}
 	}
 
 }

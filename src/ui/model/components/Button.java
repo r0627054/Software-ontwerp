@@ -45,6 +45,7 @@ public class Button extends TextField {
 			this.setClicked(true);
 		} else if (id == MouseEvent.MOUSE_RELEASED && isClicked()) {
 			this.setClicked(false);
+			this.propertyChanged(getId(), getAction(), null, null);
 		}
 	}
 

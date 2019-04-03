@@ -4,6 +4,7 @@ import controller.handlers.ChangeEventType;
 import controller.handlers.ChangeHandlerFactory;
 import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
+import domain.model.DomainException;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 /**
@@ -14,27 +15,22 @@ import ui.model.view.UIFacadeInterface;
  * a DomainFacade which implement the DomainFacadeInterface
  * and a ChangeHandlerFactory which will delegate the different actions to the correct handler. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class Controller implements PropertyChangeListener {
 	
 	/**
-	 * Variable storing the UIFacade
+	 * Variable storing the UIFacade.
 	 */
 	private UIFacadeInterface uiFacade;
 	
 	/**
-	 * Variable storing the domainFacade
+	 * Variable storing the domainFacade.
 	 */
 	private DomainFacadeInterface domainFacade;
 	
-	/**
-	 * Variable storing the ChangeHandlerFactory
-	 */
-	private ChangeHandlerFactory changeHandler;
-
 	/**
 	 * 
 	 * Initialise a new Controller with the given UIFacade and domainFacade.
@@ -63,16 +59,13 @@ public class Controller implements PropertyChangeListener {
 	 * @effect The facades are set
 	 *        | this.setUiFacade(uiFacade);
 	 *	      | this.setDomainFacade(domainFacade)
-	 * @effect A change handler factory is created.
+	 * @effect The controller is added to the propertyChangeListeners of the uiFacade.
 	 *        | setChangeHandler(new ChangeHandlerFactory())
 	 * @effect Starts the application with the given domain data.
 	 */
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade, boolean show) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-		setChangeHandler(new ChangeHandlerFactory());
-
-		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 
 		if (show) {
@@ -130,29 +123,13 @@ public class Controller implements PropertyChangeListener {
 	}
 
 	/**
-	 * Sets the ChangeHandlerFactory for the Controller.
-	 * 
-	 * @param changeHandler
-	 *        | The ChangeHandlerFactory for the Controller.
-	 * @post the ChangeHandlerFactory is equal to the given changeHandler.
-	 *        | this.getChangeHandlerFactory() == changeHandler
-	 * @throws DomainException if the changeHandler equals null
-	 *        | changeHandler == null
-	 */
-	private void setChangeHandler(ChangeHandlerFactory changeHandler) {
-		if (changeHandler == null) {
-			throw new IllegalArgumentException("Cannot set a null changeHandler.");
-		}
-		this.changeHandler = changeHandler;
-	}
-
-	/**
 	 * The propertyChange called by a change of the UIFacade.
-	 * If the change is a Repaint, the controller ignores the request, otherwise it delegates the event to the changeHandler.
+	 *  If the change is a repaint, the controller ignores the request;
+	 *   otherwise a handler is created by the factory and handles the event.
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (!evt.getAction().equals(ChangeEventType.REPAINT)) {
-			changeHandler.handleChange(evt, getUiFacade(), getDomainFacade());
+			ChangeHandlerFactory.handleChange(evt, getUiFacade(), getDomainFacade());
 		}
 	}
 

@@ -7,18 +7,11 @@ import ui.model.view.UIFacadeInterface;
 /**
  * The changeHandlerFactory is a factory class delegating the differentEventTypes to the corresponding handlers.
  *  
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public class ChangeHandlerFactory {
-
-	/**
-	 * Initialises a new ChangeHandlerFactory without any information.
-	 */
-	public ChangeHandlerFactory() {
-
-	}
+public final class ChangeHandlerFactory {
 
 	/**
 	 * Method used for handling all the change events.
@@ -30,9 +23,9 @@ public class ChangeHandlerFactory {
 	 *        | The UIFacadeInterface used in the controller.
 	 * @param domainfacade
 	 *        | The DomainFacadeInterface used in the controller.
-	 * @effect The handler is created and all the information is passed to the specific handler.
+	 * @effect The handler is created and all the information is passed to the specific handler. This handler handles the change.
 	 */
-	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
+	public static void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		ChangeEventType value = evt.getAction();
 		ChangeHandlerInterface handler = null;
 
@@ -49,8 +42,8 @@ public class ChangeHandlerFactory {
 		case DELETE_TABLE:
 			handler = new DeleteTableChangeHandler();
 			break;
-		case SWITCH_VIEWMODE:
-			handler = new SwitchViewModeChangeHandler();
+		case CLOSE_SUBWINDOW:
+			handler = new CloseSubWindowChangeHandler();
 			break;
 		case CREATE_COLUMN:
 			handler = new CreateColumnChangeHandler();
@@ -79,6 +72,14 @@ public class ChangeHandlerFactory {
 		case DELETE_ROW:
 			handler = new DeleteRowChangeHandler();
 			break;
+		case CREATE_TABLESSUBWINDOW:
+			handler = new CreateTablesSubWindowChangeHandler();
+			break;
+		case CREATE_TABLEDESIGNWINDOW:
+			handler = new CreateTableDesignSubWindowChangeHandler();
+			break;
+		case CREATE_TABLEROWSWINDOW:
+			handler = new CreateTableRowsSubWindowChangeHandler();
 		default:
 			break;
 		}

@@ -12,7 +12,7 @@ import java.util.UUID;
  * A class of Tables containing a name, columns and rows.
  * 
  * @version 2.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class Table extends ObjectIdentifier {

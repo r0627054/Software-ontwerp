@@ -4,16 +4,13 @@ package controller.handlers;
  * An enumeration introducing the different types of change events.
  *  These are events called by components in the UI and handled by the changeHandlers.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public enum ChangeEventType {
 	REPAINT,
-	
-	OPEN_TABLEVIEWMODE,
-	SWITCH_VIEWMODE,
-		
+			
 	CREATE_TABLE, 
 	CREATE_ROW,
 	CREATE_COLUMN,
@@ -30,5 +27,9 @@ public enum ChangeEventType {
 	TABLE_CHANGE_NAME,
 	ROW_EDITED,
 	
-	CLOSE_SUBWINDOW;
+	OPEN_TABLEVIEWMODE,
+	CLOSE_SUBWINDOW, 
+	CREATE_TABLEROWSWINDOW, 
+	CREATE_TABLEDESIGNWINDOW,
+	CREATE_TABLESSUBWINDOW;
 }

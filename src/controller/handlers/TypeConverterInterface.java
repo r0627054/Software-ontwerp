@@ -13,8 +13,8 @@ import domain.model.DomainException;
  * 
  * This interface is used in the ChangeHandlers, to cast or request a next value.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public interface TypeConverterInterface {
@@ -49,6 +49,7 @@ public interface TypeConverterInterface {
 	 *        | The old boolean default value.
 	 * @param allowBlanks
 	 *        | Boolean whether or not blanks are allowed.
+	 * @return the next Boolean default value.
 	 */
 	public default Boolean getNextBooleanDefaultValue(Object oldValue, boolean allowBlanks) {
 		List<Boolean> rotation = new ArrayList<Boolean>();

@@ -11,14 +11,15 @@ import ui.model.view.UIFacadeInterface;
  * A DeleteColumnChangeHandler is a ChangeHandler,
  * specifically made for handling the deletion of a column in a table. 
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DeleteColumnChangeHandler implements ChangeHandlerInterface {
 
 	/**
 	 * Deletes the column (with given column Id) in the table which the user is currently editing.
+	 * The UI is updated.
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -30,11 +31,11 @@ public class DeleteColumnChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID columnId = (UUID) evt.getSource();
+			UUID columnId = evt.getSource();
 			UUID tableId = uifacade.getCurrentTableId();
 			domainfacade.deleteColumn(tableId, columnId);
-			uifacade.updateTableDesignViewMode(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

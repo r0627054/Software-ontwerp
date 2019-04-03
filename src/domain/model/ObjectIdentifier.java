@@ -6,8 +6,8 @@ import java.util.UUID;
  * An ObjectIdentifier is an abstract class which creates a unique id's.
  * This unique id is generated using the java UUID class.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public abstract class ObjectIdentifier {

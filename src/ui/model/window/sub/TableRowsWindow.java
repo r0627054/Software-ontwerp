@@ -1,15 +1,16 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import ui.model.components.UICell;
+import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.RowsTable;
-import ui.model.components.TextField;
+import ui.model.components.UICell;
 
 public class TableRowsWindow extends TableWindow {
 	private Container container;
@@ -17,7 +18,6 @@ public class TableRowsWindow extends TableWindow {
 	public TableRowsWindow(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
 			Map<UUID, Class<?>> columnTypes) {
 		super(tableId, "Table rows of table: " + tableName);
-		this.setType(ViewModeType.TABLEROWSVIEWMODE);
 		createTable(table, columnTypes);
 	}
 
@@ -47,9 +47,10 @@ public class TableRowsWindow extends TableWindow {
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
 		this.createTable(tableInformation, columnTypes);
+		this.setPaused(false);
 	}
 
-	public void pauseViewMode(int columnIndex, UUID columnId) {
+	public void pauseSubWindow(int columnIndex, UUID columnId) {
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
@@ -57,11 +58,10 @@ public class TableRowsWindow extends TableWindow {
 
 	}
 
-	public void resumeViewMode(int columnIndex, UUID columnId) {
+	public void resumeSubWindow() {
 		this.setPaused(false);
-		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
+		this.getRowsTable().resetError();
 		this.resetAllListeners();
-		errorCell.setError(false);
 	}
 
 	private RowsTable getRowsTable() {
@@ -80,6 +80,27 @@ public class TableRowsWindow extends TableWindow {
 
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	public void ctrlEntrPressed() {
+		if (!isPaused()) {
+			getSupport().firePropertyChange(
+					new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_TABLEDESIGNWINDOW, null, null));
+		}
+	}
+
+	@Override
+	public void updateContent(Object... tableData) {
+		super.updateContent(tableData);
+		this.updateRowsTable((Map<Map<UUID, String>, LinkedHashMap<UUID, Object>>)tableData[1], (Map<UUID, Class<?>>) tableData[2]);
+	}
+
+	@Override
+	public void throwError(UUID id, int columnIndex, Object newValue) {
+		for (Component c : getComponents()) {
+			c.throwError(id);
+		}
 	}
 
 }

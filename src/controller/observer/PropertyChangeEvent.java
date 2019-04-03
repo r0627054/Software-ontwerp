@@ -53,6 +53,17 @@ public class PropertyChangeEvent {
 		setOldValue(oldValue);
 		setNewValue(newValue);
 	}
+	
+	/**
+	 * Initialises a new propertyChangeEvent with only an action.
+	 * 
+	 * @param action   The action (UUID) of the propertyChangeEvent.
+	 * @effect All the variables are set using their setters.
+	 *         |setAction(action);
+	 */
+	public PropertyChangeEvent(ChangeEventType action) {
+		setAction(action);
+	}
 
 	/**
 	 * Returns the action (ChangeEventType) of the event.

@@ -1,18 +1,21 @@
-package ui.model.viewmodes;
+package ui.model.window.sub;
 
 import java.util.Map;
 import java.util.UUID;
 
+import ui.model.components.Component;
 import ui.model.components.Container;
+import ui.model.components.HorizontalComponentList;
+import ui.model.components.RowsTable;
 import ui.model.components.TableList;
-import ui.model.components.TextField;
+import ui.model.components.UICell;
 
 /**
  * A TablesViewMode is specific ViewMode.
  *  It contains a container which stores all the names of tables.
  * 
- * @version 1.0
- * @author Dries Janse, Steven Ghekiere, Laurens Druwel, Mauro Luyten
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TablesWindow extends SubWindow {
@@ -30,8 +33,7 @@ public class TablesWindow extends SubWindow {
 	 * @effect the full Tables list is created and all the information is set.
 	 */
 	public TablesWindow(Map<UUID, String> map) {
-		super("TABLES LIST");
-		this.setType(ViewModeType.TABLESVIEWMODE);
+		super(null, "TABLES LIST");
 		this.createTableList(map);
 	}
 
@@ -62,6 +64,7 @@ public class TablesWindow extends SubWindow {
 		this.removeContentClickAndKeyListeners();
 		this.removeComponent(getContainer());
 		this.createTableList(map);
+		this.setPaused(false);
 	}
 
 	/**
@@ -69,6 +72,50 @@ public class TablesWindow extends SubWindow {
 	 */
 	private Container getContainer() {
 		return container;
+	}
+
+	@Override
+	public void ctrlEntrPressed() {
+	}
+
+	@Override
+	public void updateContent(Object... data) {
+		updateTables((Map<UUID, String>) data[0]);
+	}
+
+	@Override
+	public void pauseSubWindow(int columnIndex, UUID id) {
+		UICell errorCell = this.getTableList().getCell(id);
+		errorCell.setError(true);
+		this.removeAllContentListenersButOne(errorCell);
+		this.setPaused(true);
+	}
+
+	@Override
+	public void resumeSubWindow() {
+		// TODO Auto-generated method stub
+		//DO NOTHING
+	}
+
+	@Override
+	public void throwError(UUID id, int columnIndex, Object newValue) {
+		for (Component c : getComponents()) {
+			c.throwError(id);
+		}
+	}
+	
+	private TableList getTableList() {
+		for (Component container : getComponents()) {
+			if (container instanceof Container) {
+				Container containerCasted = (Container) container;
+				for (Component c : containerCasted.getComponentsList()) {
+					if (c instanceof RowsTable) {
+						return (TableList) c;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }
