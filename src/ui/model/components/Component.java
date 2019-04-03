@@ -365,8 +365,7 @@ public abstract class Component {
 	 * @param id
 	 *        | The id of which element an error is thrown.
 	 */
-	public void throwError(UUID id) {
-	}
+	public void throwError(UUID id) {}
 
 	/**
 	 * Returns the PropertyChangeSupport.

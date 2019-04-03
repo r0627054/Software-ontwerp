@@ -11,7 +11,7 @@ import controller.observer.PropertyChangeListener;
 /**
  * A Cell is an EditableComponent which on his turn contains a component.
  * It makes use of the observer pattern. It listens to events of the component in the cell.
- * And fires propertyChange events the his listeners.
+ * And fires propertyChange events to his listeners.
  * 
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -411,6 +411,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 			this.getComponent().setY(y);
 		}
 	}
+
 
 	@Override
 	public void throwError(UUID id) {

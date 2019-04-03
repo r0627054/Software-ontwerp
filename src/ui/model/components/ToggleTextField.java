@@ -17,12 +17,8 @@ public class ToggleTextField extends TextField {
 
 	/**
 	 * 
-	 *  Initialise this new toggleTextField with all the given variables.
-	 * 
-	 * @param x
-	 *        The x-coordinate of the textField.
-	 * @param y
-	 *        The y-coordinate of the textField.
+	 * Initialise this new toggleTextField with all the given variables.
+	 *  By default the x and y-coordinates are 0. 
 	 * @param width
 	 *        The width of the textField.
 	 * @param height
@@ -32,7 +28,7 @@ public class ToggleTextField extends TextField {
 	 * @param id
 	 *        The id of the textField.
 	 * @effect All the variables are of the TextField.
-	 *       | super(x, y, width, height, text, id)
+	 *       | super(0, 0, width, height, text, id)
 	 */
 	public ToggleTextField(int width, int height, String text, UUID id) {
 		super(0, 0, width, height, text, id);
@@ -50,6 +46,10 @@ public class ToggleTextField extends TextField {
 	 *        | The y-coordinate of the component.
 	 * @param clickCount
 	 *        | The count of clicks.
+	 * @effect The propertyChanged event is raised with the TABLE_CHANGE_NAME eventType when the mouse is pressed.
+	 *         | if (id == MouseEvent.MOUSE_PRESSED) 
+	 *         |	this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, getText(), null)
+	 *         
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
@@ -59,8 +59,9 @@ public class ToggleTextField extends TextField {
 	}
 
 	/**
-	 * The UUID if the textField.
-	 * Checks whether the error is thrown for this textField.
+	 * Checks whether the error is thrown for this textField. 
+	 * @param id
+	 *        | The id of which element an error is thrown.
 	 */
 	@Override
 	public void throwError(UUID id) {
