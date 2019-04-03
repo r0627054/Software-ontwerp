@@ -212,7 +212,6 @@ public class EditableTextField extends TextField {
 		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
 		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
-			System.out.println("delete");
 			delete();
 		}
 	}
