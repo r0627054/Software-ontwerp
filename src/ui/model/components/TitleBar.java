@@ -85,14 +85,37 @@ public class TitleBar extends Container implements PropertyChangeListener {
 		this.getSupport().firePropertyChange(evt);
 	}
 
+	/**
+	 * Updates the titleTextField with the newly given title.
+	 * @param newTitle The new title which will be set in the textField.
+	 * @effect The title textField text is set to the new title.
+	 *         | this.getTitle().setText(newTitle)
+	 * @throws IllegalArgumentException When the newTitle is equal to null.
+	 *         | newTitle == null
+	 */
 	public void updateTitle(String newTitle) {
+		if(newTitle == null) {
+			throw new IllegalArgumentException("The title of in the titleBar cannot be null.");
+		}
 		this.getTitle().setText(newTitle);
 	}
 
+	/**
+	 * Returns the title textField of the titleBar.
+	 */
 	private TextField getTitle() {
 		return title;
 	}
 
+	/**
+	 * Sets the textField in the title bar.
+	 * 
+	 * @param title The TextField containing the title.
+	 * @throws IllegalArgumentException When the title textField equals null or when the title text equals null or is empty.
+	 *         | title == null || title.getText() == null || title.getText().isEmpty()
+	 * @post  The titleTextField is set with the given textField.
+	 *         | new.getTitle() == title. 
+	 */
 	private void setTitle(TextField title) {
 		if (title == null || title.getText() == null || title.getText().isEmpty()) {
 			throw new IllegalArgumentException("Cannot set empty title in TitleBar");

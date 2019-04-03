@@ -201,11 +201,10 @@ public class TextField extends EditableComponent {
 	 *        | The key character of a key pressed event.
 	 */
 	@Override
-	public void keyPressed(int id, int keyCode, char keyChar) {
-	}
+	public void keyPressed(int id, int keyCode, char keyChar) {}
 
 	/**
-	 * Handles the mouse Click.
+	 * Calls the property changed with the given id.
 	 *   
 	 * @param id
 	 *        | The id of the mouse event.
