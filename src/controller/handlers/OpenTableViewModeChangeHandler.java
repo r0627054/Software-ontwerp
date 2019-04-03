@@ -41,9 +41,10 @@ public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
 				// Second map: For each 'singleton' columnKey map: a map of ID's and objects of
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
+				
 				Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(tableId);
 
-				if (table.isEmpty()) {
+				if (domainfacade.isTableWithIdEmpty(tableId)) {
 					uifacade.createTableDesignSubWindow(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
 				} else {
 					uifacade.createTableRowsSubWindow(tableId, tableName, table, domainfacade.getColumnTypes(tableId));

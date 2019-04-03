@@ -123,6 +123,8 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.tableMap.get(id);
 	}
 
+	
+
 	/**
 	 * Returns a map of all the table names.
 	 * The key is the UUID of the table and the value is the name of table.
@@ -699,5 +701,17 @@ public class DomainFacade implements DomainFacadeInterface {
 	 */
 	public void resetTables() {
 		this.tableMap = new HashMap<>();
+	}
+
+	/**
+	 * Checks if table with certain id is empty.
+	 * 
+	 * @param tableId
+	 * 		| The id of the table to check.
+	 * @return the truth value of the table with an id
+	 */
+	@Override
+	public boolean isTableWithIdEmpty(UUID tableId) {
+		return this.getTableWithIds(tableId).isEmpty();
 	}
 }
