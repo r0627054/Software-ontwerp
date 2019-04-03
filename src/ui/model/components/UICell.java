@@ -412,7 +412,11 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 		}
 	}
 
-
+	/**
+	 * Checks whether the component inside the cell is an editableComponent, when this is the case an error is thrown for that component.
+	 * @param id
+	 *        | The id of which element an error is thrown.
+	 */
 	@Override
 	public void throwError(UUID id) {
 		if (this.getComponent() instanceof EditableComponent) {

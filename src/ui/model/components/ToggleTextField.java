@@ -59,7 +59,8 @@ public class ToggleTextField extends TextField {
 	}
 
 	/**
-	 * Checks whether the error is thrown for this textField. 
+	 * Checks whether the error is thrown for this textField.
+	 * If the error is thrown for this component the error variable is set to true. 
 	 * @param id
 	 *        | The id of which element an error is thrown.
 	 */
