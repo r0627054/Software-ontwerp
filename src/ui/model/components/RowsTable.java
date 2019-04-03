@@ -270,18 +270,36 @@ public class RowsTable extends EditableComponent {
 		return null;
 	}
 
+	/**
+	 * Sets the y-coordinate depending of the change of y. How far it is moved from the previous y location.
+	 * @param y the y-coordinate movement.
+	 * @effect The y-coordinate is set relative to the previous y-coordinate value and the rows of the designTable do also change.
+	 *         | this.setY(this.getY() + y)
+	 *         | this.getColumns().changeY(y);
+	 */
 	@Override
 	public void changeY(int y) {
 		super.changeY(y);
-		this.columns.changeY(y);
+		this.getColumns().changeY(y);
 	}
 
+	/**
+	 * Sets the x-coordinate depending of the change of x. How far it is moved from the previous x location.
+	 * @param x the x-coordinate movement.
+	 * @effect The x-coordinate is set relative to the previous y-coordinate value and the rows of the designTable do also change.
+	 *         | this.setX(this.getX() + x)
+	 *         | this.getColumns().change(x);
+	 */
 	@Override
 	public void changeX(int x) {
 		super.changeX(x);
-		this.columns.changeX(x);
+		this.getColumns().changeX(x);
 	}
 
+	/**
+	 * Resets the error.
+	 * The cell in the rows table containing the error is set such that there is no more error in that cell.
+	 */
 	public void resetError() {
 		boolean isFound = false;
 		for (int i = 0; i < columns.getComponentsList().size() && !isFound; i++) {
