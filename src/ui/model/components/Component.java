@@ -387,10 +387,22 @@ public abstract class Component {
 		this.support = support;
 	}
 
+	/**
+	 * Sets the x-coordinate depending of the change of x. How far it is moved from the previous y location.
+	 * @param x the x-coordinate movement.
+	 * @effect The x-coordinate is set relative to the previous x-coordinate value.
+	 *         | this.setX(this.getX() + x)
+	 */
 	public void changeX(int x) {
 		this.setX(this.getX() + x);
 	}
 
+	/**
+	 * Sets the y-coordinate depending of the change of y. How far it is moved from the previous y location.
+	 * @param y the y-coordinate movement.
+	 * @effect The y-coordinate is set relative to the previous y-coordinate value.
+	 *         | this.setY(this.getY() + y)
+	 */
 	public void changeY(int y) {
 		this.setY(this.getY() + y);
 	}
