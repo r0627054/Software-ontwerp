@@ -337,18 +337,36 @@ public class DesignTable extends EditableComponent {
 		this.deleteCells = new ArrayList<>();
 	}
 
+	/**
+	 * Sets the y-coordinate depending of the change of y. How far it is moved from the previous y location.
+	 * @param y the y-coordinate movement.
+	 * @effect The y-coordinate is set relative to the previous y-coordinate value and the rows of the designTable do also change.
+	 *         | this.setY(this.getY() + y)
+	 *         | this.getRows().changeY(y);
+	 */
 	@Override
 	public void changeY(int y) {
 		super.changeY(y);
-		this.rows.changeY(y);
+		this.getRows().changeY(y);
 	}
 
+	/**
+	 * Sets the x-coordinate depending of the change of x. How far it is moved from the previous x location.
+	 * @param x the x-coordinate movement.
+	 * @effect The x-coordinate is set relative to the previous x-coordinate value and the rows of the designTable do also change.
+	 *         | this.setX(this.getX() + x)
+	 *         | this.getRows().changeX(x);
+	 */
 	@Override
 	public void changeX(int x) {
 		super.changeX(x);
-		this.rows.changeX(x);
+		this.getRows().changeX(x);
 	}
 
+	/**
+	 * Resets the error.
+	 * The cell in the design table containing the error is set such that there is no more error in that cell.
+	 */
 	public void resetError() {
 		boolean isFound = false;
 		for (int i = 0; i < rows.getComponentsList().size() && !isFound; i++) {
