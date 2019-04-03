@@ -22,12 +22,12 @@ import ui.model.view.UIFacadeInterface;
 public class Controller implements PropertyChangeListener {
 	
 	/**
-	 * Variable storing the UIFacade
+	 * Variable storing the UIFacade.
 	 */
 	private UIFacadeInterface uiFacade;
 	
 	/**
-	 * Variable storing the domainFacade
+	 * Variable storing the domainFacade.
 	 */
 	private DomainFacadeInterface domainFacade;
 	
@@ -59,15 +59,13 @@ public class Controller implements PropertyChangeListener {
 	 * @effect The facades are set
 	 *        | this.setUiFacade(uiFacade);
 	 *	      | this.setDomainFacade(domainFacade)
-	 * @effect A change handler factory is created.
+	 * @effect The controller is added to the propertyChangeListeners of the uiFacade.
 	 *        | setChangeHandler(new ChangeHandlerFactory())
 	 * @effect Starts the application with the given domain data.
 	 */
 	public Controller(UIFacadeInterface uiFacade, DomainFacadeInterface domainFacade, boolean show) {
 		this.setUiFacade(uiFacade);
 		this.setDomainFacade(domainFacade);
-
-//		this.getUiFacade().startup(domainFacade.getTableNames());
 		this.getUiFacade().addPropertyChangeListener(this);
 
 		if (show) {
@@ -126,7 +124,8 @@ public class Controller implements PropertyChangeListener {
 
 	/**
 	 * The propertyChange called by a change of the UIFacade.
-	 * If the change is a Repaint, the controller ignores the request, otherwise it delegates the event to the changeHandler.
+	 *  If the change is a repaint, the controller ignores the request;
+	 *   otherwise a handler is created by the factory and handles the event.
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (!evt.getAction().equals(ChangeEventType.REPAINT)) {

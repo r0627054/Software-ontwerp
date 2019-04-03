@@ -17,9 +17,9 @@ import ui.model.view.UIFacadeInterface;
 public class CreateTableChangeHandler implements ChangeHandlerInterface {
 
 	/**
-	 * Creates a new empty table.
+	 * Creates a new empty table in the domain.
 	 * 
-	 * It updates the tablesViewMode with the newly created table.
+	 * It updates the tablesSubWindows with the newly created table.
 	 *  
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.

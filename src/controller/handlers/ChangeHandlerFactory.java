@@ -11,14 +11,7 @@ import ui.model.view.UIFacadeInterface;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public class ChangeHandlerFactory {
-
-	/**
-	 * Initialises a new ChangeHandlerFactory without any information.
-	 */
-	public ChangeHandlerFactory() {
-
-	}
+public final class ChangeHandlerFactory {
 
 	/**
 	 * Method used for handling all the change events.
@@ -30,7 +23,7 @@ public class ChangeHandlerFactory {
 	 *        | The UIFacadeInterface used in the controller.
 	 * @param domainfacade
 	 *        | The DomainFacadeInterface used in the controller.
-	 * @effect The handler is created and all the information is passed to the specific handler.
+	 * @effect The handler is created and all the information is passed to the specific handler. This handler handles the change.
 	 */
 	public static void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		ChangeEventType value = evt.getAction();

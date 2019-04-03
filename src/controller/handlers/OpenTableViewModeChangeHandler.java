@@ -10,7 +10,7 @@ import ui.model.view.UIFacadeInterface;
 
 /** 
 * A OpenTableViewModeChangeHandler is a ChangeHandler,
-* specifically made for opening a TableViewMode (DesignViewMode or a TableRowsViewMode).
+* specifically made for opening a TableWindow (TableDesignWindow or a TableRowsWindow).
 * 
 * @version 2.0
 * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -19,9 +19,9 @@ import ui.model.view.UIFacadeInterface;
 public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
 
 	/**
-	 * Opens a tablesViewMode of a table with the given id.
-	 * If the requested table is empty the tableDesignMode is shown,
-	 * otherwise the TableRowsViewMode is shown.
+	 * Opens a tableWindow of a table with the given id.
+	 * If the requested table is empty the TableDesignWindow is opened,
+	 * otherwise a TableRowsWindow is opened.
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -33,12 +33,12 @@ public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 			try {
-				UUID tableId = (UUID) evt.getSource();
+				UUID tableId = evt.getSource();
 				String tableName = domainfacade.getTableNameOfId(tableId);
 
-				// First map: 'singleton' map of one UUID of the column and one String of the
+				// First map: map of one UUID of the column and one String of the
 				// ColumnName
-				// Second map: For each 'singleton' columnKey map: a map of ID's and objects of
+				// Second map: For each columnKey map: a map of ID's and objects of
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
 				

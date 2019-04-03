@@ -21,8 +21,8 @@ public class App {
 	 * And it creates a Controller which links both the domain with the UI.
 	 * 
 	 * @param args
-	 *        | the arguments are not used.
-	 *        | the application starts without any arguments.
+	 *        | The arguments are not used.
+	 *        | The application starts without any arguments.
 	 */
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(() -> {	

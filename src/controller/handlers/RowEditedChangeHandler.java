@@ -12,7 +12,7 @@ import ui.model.view.UIFacadeInterface;
 
 /**
  * A RowEditedChangeHandler is a ChangeHandler,
- * specifically made for handling the editing of a cell in the TableRowsViewMode.
+ * specifically made for handling the editing of a cell in the TableRowsWindow.
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
@@ -25,7 +25,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 	 * If the property is successfully changed in the cell the table is updated.
 	 * 
 	 * If the property couldn't be updated an error (red border) is shown in the UI and the next possible value is displayed
-	 * and the application is paused (only the current cell can be added).
+	 * and the subwindow is paused (only the current cell can be edited in that subwindow).
 	 * 
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -36,7 +36,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID cellId = (UUID) evt.getSource();
+		UUID cellId = evt.getSource();
 		UUID tableId = uifacade.getCurrentTableId();
 		Object newValue = evt.getNewValue();
 		Object oldValue = evt.getOldValue();

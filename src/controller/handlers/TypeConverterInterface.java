@@ -49,6 +49,7 @@ public interface TypeConverterInterface {
 	 *        | The old boolean default value.
 	 * @param allowBlanks
 	 *        | Boolean whether or not blanks are allowed.
+	 * @return the next Boolean default value.
 	 */
 	public default Boolean getNextBooleanDefaultValue(Object oldValue, boolean allowBlanks) {
 		List<Boolean> rotation = new ArrayList<Boolean>();
