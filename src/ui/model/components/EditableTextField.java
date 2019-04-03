@@ -110,7 +110,6 @@ public class EditableTextField extends TextField {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-
 		if (this.isSelected()) {
 			g.setColor(new Color(226, 226, 226));
 			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
@@ -193,11 +192,9 @@ public class EditableTextField extends TextField {
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
 					this.setError(false);
-//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
-//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
@@ -208,10 +205,6 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
-//		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
-//
-//		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
-//		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
 			delete();
 		}
@@ -427,7 +420,6 @@ public class EditableTextField extends TextField {
 	public void setSelectedForDelete(boolean selected) {
 		boolean changed = (this.selectedForDelete && !selected) || (!this.selectedForDelete && selected);
 		this.selectedForDelete = selected;
-
 		if (changed) {
 			propertyChanged();
 		}
