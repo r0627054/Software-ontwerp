@@ -37,21 +37,10 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private PropertyChangeSupport support;
 
 	/**
-	 * Variable storing the current (view mode)
-	 */
-	private SubWindow currentSubWindow;
-
-	/**
 	 * Variable map storing the DesignViewMode and TableRowsViewMode for a certain
 	 * tableId.
 	 */
-	// private Map<UUID, List<TableWindow>> viewModes = new HashMap<>();
 	private List<SubWindow> subWindows = new ArrayList<>();
-
-	/**
-	 * Variable holding the single instance of TablesViewMode
-	 */
-	// private TablesWindow tablesViewMode;
 
 	/**
 	 * Variables to determine if the user pressed control
@@ -117,7 +106,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * Returns the current subwindow of the view.
 	 */
 	public SubWindow getCurrentSubWindow() {
-		return currentSubWindow;
+		return getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)
+				: null;
 	}
 
 	/**
@@ -221,20 +211,13 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
 			throw new IllegalArgumentException("Current window cannt be null nor can be set if it is not in the list.");
 		}
-		System.out.println("set to current view");
 		this.getSubWindows().remove(currentWindow);
 		this.getSubWindows().add(currentWindow);
-		this.currentSubWindow = currentWindow;
 		this.repaint();
-		System.out.println("set to current view done");
 	}
 
 	public void closeCurrentSubWindow() {
 		this.getSubWindows().remove(this.getCurrentSubWindow());
-		int newIndex = getNbrOfSubWindows() - 1;
-		if (newIndex >= 0) {
-			this.currentSubWindow = getSubWindows().get(newIndex);
-		}
 		this.repaint();
 	}
 

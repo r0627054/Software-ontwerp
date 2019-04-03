@@ -190,13 +190,13 @@ public class EditableTextField extends TextField {
 				}
 				if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
 					String text = getText();
-					setText(text + keyChar);
+					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
-					textChanged();
+//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
 					deleteChar();
-					textChanged();
+//					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_ENTER) {
 					textChangeSubmit();
@@ -207,9 +207,9 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
-		System.err.println(isSelectedForDelete() + " "+ keyCode + " "+ id);
-		
-		System.err.println("true "+ KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
+		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
+
+		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
 		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
 			System.out.println("delete");
@@ -427,7 +427,7 @@ public class EditableTextField extends TextField {
 	public void setSelectedForDelete(boolean selected) {
 		boolean changed = (this.selectedForDelete && !selected) || (!this.selectedForDelete && selected);
 		this.selectedForDelete = selected;
-		
+
 		if (changed) {
 			propertyChanged();
 		}
