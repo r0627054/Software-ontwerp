@@ -221,12 +221,10 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
 			throw new IllegalArgumentException("Current window cannt be null nor can be set if it is not in the list.");
 		}
-		System.out.println("set to current view");
 		this.getSubWindows().remove(currentWindow);
 		this.getSubWindows().add(currentWindow);
 		this.currentSubWindow = currentWindow;
 		this.repaint();
-		System.out.println("set to current view done");
 	}
 
 	public void closeCurrentSubWindow() {

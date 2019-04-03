@@ -72,7 +72,6 @@ public class TablesWindow extends SubWindow {
 
 	@Override
 	public void ctrlEntrPressed() {
-		System.out.println("ctrl pressed in tablesWindow, do nothing");
 	}
 
 	@Override
