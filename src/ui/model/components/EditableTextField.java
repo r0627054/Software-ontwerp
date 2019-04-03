@@ -192,6 +192,7 @@ public class EditableTextField extends TextField {
 					String text = getText();
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
+					this.setError(false);
 //					textChanged();
 				}
 				if (keyCode == KeyEvent.VK_BACK_SPACE) {
@@ -207,10 +208,10 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
-		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
-
-		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
-		System.err.println("----");
+//		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
+//
+//		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
+//		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
 			delete();
 		}

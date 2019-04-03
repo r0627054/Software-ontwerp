@@ -144,7 +144,7 @@ public interface UIFacadeInterface {
 	 * @param index | index of the cell of a column
 	 * @param id    | columnId of the column
 	 */
-	public void resume(int index, UUID columnId);
+	public void resume();
 
 	/**
 	 * Gets the Id of the currently opened TableViewMode. If the view currently is

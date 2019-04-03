@@ -357,7 +357,7 @@ public abstract class Component {
 	 * Because it used observer pattern a the observer will handle the firePropertyChange.
 	 */
 	protected void propertyChanged() {
-		getSupport().firePropertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+		getSupport().firePropertyChange(new PropertyChangeEvent(ChangeEventType.REPAINT));
 	}
 
 	/**

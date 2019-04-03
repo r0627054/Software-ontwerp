@@ -53,15 +53,15 @@ public class TableRowsWindow extends TableWindow {
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
+		this.resetAllListeners();
 		this.setPaused(true);
 
 	}
 
-	public void resumeSubWindow(int columnIndex, UUID columnId) {
+	public void resumeSubWindow() {
 		this.setPaused(false);
-		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
+		this.getRowsTable().resetError();
 		this.resetAllListeners();
-		errorCell.setError(false);
 	}
 
 	private RowsTable getRowsTable() {

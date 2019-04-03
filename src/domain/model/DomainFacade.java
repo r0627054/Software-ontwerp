@@ -55,9 +55,9 @@ public class DomainFacade implements DomainFacadeInterface {
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
 		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
-		DomainCell c32 = new DomainCell(ValueType.EMAIL, "M@");
-		DomainCell c33 = new DomainCell(ValueType.EMAIL, "D@");
-		DomainCell c34 = new DomainCell(ValueType.EMAIL, "L@");
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("S@"));
+		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("D@"));
+		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("L@"));
 
 		DomainCell c1[] = { c01, c11, c21, c31 };
 		DomainCell c2[] = { c02, c12, c22, c32 };
@@ -122,6 +122,8 @@ public class DomainFacade implements DomainFacadeInterface {
 	private Table getTable(UUID id) {
 		return this.tableMap.get(id);
 	}
+
+	
 
 	/**
 	 * Returns a map of all the table names.
@@ -699,5 +701,17 @@ public class DomainFacade implements DomainFacadeInterface {
 	 */
 	public void resetTables() {
 		this.tableMap = new HashMap<>();
+	}
+
+	/**
+	 * Checks if table with certain id is empty.
+	 * 
+	 * @param tableId
+	 * 		| The id of the table to check.
+	 * @return the truth value of the table with an id
+	 */
+	@Override
+	public boolean isTableWithIdEmpty(UUID tableId) {
+		return this.getTableWithIds(tableId).isEmpty();
 	}
 }

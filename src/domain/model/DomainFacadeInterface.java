@@ -296,4 +296,13 @@ public interface DomainFacadeInterface {
 	 */
 	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement);
 
+	/**
+	 * Checks if table with certain id is empty.
+	 * 
+	 * @param tableId
+	 * 		| The id of the table to check.
+	 * @return the truth value of the table with an id
+	 */
+	public boolean isTableWithIdEmpty(UUID tableId);
+
 }

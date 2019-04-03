@@ -137,11 +137,10 @@ public class TableDesignWindow extends TableWindow {
 	 * @effect All the keyListeners and clickListeners different from this one cell
 	 *         are added again.
 	 */
-	public void resumeSubWindow(int columnIndex, UUID columnId) {
+	public void resumeSubWindow() {
 		this.setPaused(false);
-		UICell errorCell = this.getDesignTable().getCell(columnIndex, columnId);
+		this.getDesignTable().resetError();
 		this.resetAllListeners();
-		errorCell.setError(false);
 	}
 
 	/**

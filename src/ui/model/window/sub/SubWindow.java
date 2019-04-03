@@ -435,7 +435,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 				// the window can be dragged outside (this will give an negative Y value) and
 				// result in an IllegalArgumentException.
 			}
-			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			this.propertyChange(new PropertyChangeEvent(ChangeEventType.REPAINT));
 		}
 
 	}
@@ -492,7 +492,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 					this.setY(y);
 				}
 			}
-			this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.REPAINT, null, null));
+			this.propertyChange(new PropertyChangeEvent(ChangeEventType.REPAINT));
 		}
 	}
 
@@ -815,6 +815,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
 
-	public abstract void resumeSubWindow(int columnIndex, UUID columnId);
+	public abstract void resumeSubWindow();
 
 }

@@ -86,7 +86,7 @@ public class TablesWindow extends SubWindow {
 	}
 
 	@Override
-	public void resumeSubWindow(int columnIndex, UUID columnId) {
+	public void resumeSubWindow() {
 		// TODO Auto-generated method stub
 		//DO NOTHING
 	}

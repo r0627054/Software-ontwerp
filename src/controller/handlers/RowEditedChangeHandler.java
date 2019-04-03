@@ -59,7 +59,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
 					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));	
-			uifacade.resume(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
+//			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
 			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);

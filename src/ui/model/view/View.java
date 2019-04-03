@@ -524,8 +524,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * (TableWindow) current; currentTableViewMode.resumeSubWindow(columnIndex,
 	 * columnId); } }
 	 */
-	public void resume(int columnIndex, UUID columnId) {
-		this.getCurrentSubWindow().resumeSubWindow(columnIndex, columnId);
+	public void resume() {
+		this.getCurrentSubWindow().resumeSubWindow();
 	}
 
 //	/**
