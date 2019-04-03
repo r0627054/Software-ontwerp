@@ -21,7 +21,7 @@ public class TableNameChangeHandler implements ChangeHandlerInterface {
 	 * property is successfully changed in the table, the UI is updated.
 	 * 
 	 * If the property couldn't be updated an error (red border) is shown in the UI
-	 * and the application is paused (only the current tablename can be added).
+	 * and the subwindow is paused (only the current tablename can be edited).
 	 * 
 	 * @param evt          | The propertyChangeEvent containing all the information
 	 *                     of the event.
@@ -31,7 +31,7 @@ public class TableNameChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		String newTableName = (String) evt.getNewValue();
-		UUID id = (UUID) evt.getSource();
+		UUID id = evt.getSource();
 
 		try {
 			domainfacade.updateTableName(id, newTableName);

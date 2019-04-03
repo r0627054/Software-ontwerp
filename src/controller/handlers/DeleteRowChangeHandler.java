@@ -19,7 +19,7 @@ public class DeleteRowChangeHandler implements ChangeHandlerInterface {
 
 	/**
 	 * Deletes the row selected row in the table which the user is currently editing.
-	 * 
+	 *  The UI is updated with the information.
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
 	 * @param uiFacade
@@ -29,7 +29,7 @@ public class DeleteRowChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID cellIdOfFirstElement = (UUID) evt.getSource();
+		UUID cellIdOfFirstElement = evt.getSource();
 		UUID tableId = uifacade.getCurrentTableId();
 		
 		try {

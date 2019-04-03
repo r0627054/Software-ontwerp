@@ -21,7 +21,7 @@ public class CreateRowChangeHandler implements ChangeHandlerInterface {
 	 * Creates an empty row in the table that the user is currently editing.
 	 * Its value for each column is the column's default value.
 	 *  
-	 *  It updates the tableRowsViewMode with the newly created table.
+	 *  It updates the UI with the newly created row.
 	 *  
 	 * @param evt
 	 *        | The propertyChangeEvent containing all the information of the event.
@@ -32,7 +32,7 @@ public class CreateRowChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID tableId = (UUID) evt.getSource();
+		UUID tableId = evt.getSource();
 
 		try {
 			domainfacade.createNewRow(tableId);

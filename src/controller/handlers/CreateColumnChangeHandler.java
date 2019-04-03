@@ -18,8 +18,7 @@ public class CreateColumnChangeHandler implements ChangeHandlerInterface {
 
 	/**
 	 * Creates an empty Column in the table that the user is currently editing.
-	 * 
-	 * It updates the tableDesignViewMode with the newly created column.
+	 * The column is created in the domain and the change is shown in the view.
 	 * 
 	 * @param evt          | The propertyChangeEvent containing all the information
 	 *                     of the event.
@@ -29,7 +28,7 @@ public class CreateColumnChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		try {
-			UUID tableId = (UUID) evt.getSource();
+			UUID tableId = evt.getSource();
 			domainfacade.addColumnToTable(tableId);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
 					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));

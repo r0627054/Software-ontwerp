@@ -22,8 +22,8 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 	 * property. If the property is successfully changed in the column, the UI is
 	 * updated.
 	 * 
-	 * If the property couldn't be updated an error (red border) is shown in the UI
-	 * and the application is paused (only the current cell can be added).
+	 * If the property couldn't be updated an error (red border) is shown in the subwindow
+	 * and subwindow is paused (only the current cell can be edited in that subwindow).
 	 * 
 	 * @param evt          | The propertyChangeEvent containing all the information
 	 *                     of the event.
@@ -32,7 +32,7 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 	 */
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		UUID columnId = (UUID) evt.getSource();
+		UUID columnId = evt.getSource();
 
 		boolean newBool = (boolean) evt.getNewValue();
 		UUID tableId = uifacade.getCurrentTableId();
