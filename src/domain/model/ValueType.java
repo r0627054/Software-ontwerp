@@ -83,8 +83,9 @@ public enum ValueType {
 				return value.getClass().equals(this.getTypeClass());
 
 			} else if (this.equals(ValueType.EMAIL)) {
-				Email casted = new Email(String.valueOf(value));
-				return (casted.hasOneAtSign() || casted.isEmpty()) && casted.getClass().equals(this.getTypeClass());
+				String stringCast = String.valueOf(value);
+				Email email = new Email(stringCast);
+				return (Email.hasOneAtSign(stringCast) || stringCast.isEmpty()) && email.getClass().equals(this.getTypeClass());
 			} else if (this.equals(ValueType.BOOLEAN)) {
 				if (value instanceof String
 						&& (String.valueOf(value).equals("true") || String.valueOf(value).equals("false"))) {
