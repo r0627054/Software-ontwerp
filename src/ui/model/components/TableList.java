@@ -150,4 +150,23 @@ public class TableList extends VerticalComponentList {
 		}
 	}
 
+	/**
+	 * Returns the cell with given tableId.
+	 * 
+	 * @param tableId
+	 *        | The id of the column.
+	 * @return the cell at the given index in the given column.
+	 */
+	public UICell getCell(UUID tableId) {
+		for (Component comp : getComponentsList()) {
+			if (comp instanceof UICell) {
+
+				if (((UICell) comp).getId() == tableId) {
+					return ((UICell) comp);
+				}
+			}
+		}
+		return null;
+	}
+
 }

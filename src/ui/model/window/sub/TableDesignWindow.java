@@ -83,7 +83,6 @@ public class TableDesignWindow extends TableWindow {
 		this.removeComponent(getContainer());
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
-
 		this.createDesignTable(columnCharacteristics);
 		this.setPaused(false);
 	}
@@ -184,6 +183,7 @@ public class TableDesignWindow extends TableWindow {
 
 	@Override
 	public void updateContent(Object... tableData) {
+		super.updateContent(tableData);
 		this.updateDesignTable((Map<UUID, LinkedHashMap<String, Object>>) tableData[0]);
 	}
 

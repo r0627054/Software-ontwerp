@@ -47,13 +47,13 @@ public class TableRowsWindow extends TableWindow {
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
 		this.createTable(tableInformation, columnTypes);
+		this.setPaused(false);
 	}
 
 	public void pauseSubWindow(int columnIndex, UUID columnId) {
 		UICell errorCell = this.getRowsTable().getCell(columnIndex, columnId);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
-		this.resetAllListeners();
 		this.setPaused(true);
 
 	}
@@ -92,6 +92,7 @@ public class TableRowsWindow extends TableWindow {
 
 	@Override
 	public void updateContent(Object... tableData) {
+		super.updateContent(tableData);
 		this.updateRowsTable((Map<Map<UUID, String>, LinkedHashMap<UUID, Object>>)tableData[1], (Map<UUID, Class<?>>) tableData[2]);
 	}
 

@@ -15,6 +15,8 @@ import controller.observer.PropertyChangeListener;
  */
 public class TitleBar extends Container implements PropertyChangeListener {
 
+	private TextField title;
+
 	/**
 	 * Initialise the title bar with the given x-coordinate,
 	 *  y-coordinate, width, height and the title which will be displayed.
@@ -30,8 +32,8 @@ public class TitleBar extends Container implements PropertyChangeListener {
 			String titleText) {
 		super(x, y, width, height);
 
-		addComponent(new TextField(contentOffset, y, width, height, titleText));
-
+		setTitle(new TextField(contentOffset, y, width, height, titleText));
+		addComponent(getTitle());
 		Button closeButton = new Button(width - buttonWidth - borderMargin, y + borderMargin, buttonWidth,
 				height - borderMargin, "Close", ChangeEventType.CLOSE_SUBWINDOW);
 		addComponent(closeButton);
@@ -82,4 +84,20 @@ public class TitleBar extends Container implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.getSupport().firePropertyChange(evt);
 	}
+
+	public void updateTitle(String newTitle) {
+		this.getTitle().setText(newTitle);
+	}
+
+	private TextField getTitle() {
+		return title;
+	}
+
+	private void setTitle(TextField title) {
+		if (title == null || title.getText() == null || title.getText().isEmpty()) {
+			throw new IllegalArgumentException("Cannot set empty title in TitleBar");
+		}
+		this.title = title;
+	}
+
 }

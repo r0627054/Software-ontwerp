@@ -5,7 +5,10 @@ import java.util.UUID;
 
 import ui.model.components.Component;
 import ui.model.components.Container;
+import ui.model.components.HorizontalComponentList;
+import ui.model.components.RowsTable;
 import ui.model.components.TableList;
+import ui.model.components.UICell;
 
 /**
  * A TablesViewMode is specific ViewMode.
@@ -61,6 +64,7 @@ public class TablesWindow extends SubWindow {
 		this.removeContentClickAndKeyListeners();
 		this.removeComponent(getContainer());
 		this.createTableList(map);
+		this.setPaused(false);
 	}
 
 	/**
@@ -80,9 +84,11 @@ public class TablesWindow extends SubWindow {
 	}
 
 	@Override
-	public void pauseSubWindow(int columnIndex, UUID columnId) {
-		// TODO Auto-generated method stub
-		//DO NOTHING
+	public void pauseSubWindow(int columnIndex, UUID id) {
+		UICell errorCell = this.getTableList().getCell(id);
+		errorCell.setError(true);
+		this.removeAllContentListenersButOne(errorCell);
+		this.setPaused(true);
 	}
 
 	@Override
@@ -96,6 +102,20 @@ public class TablesWindow extends SubWindow {
 		for (Component c : getComponents()) {
 			c.throwError(id);
 		}
+	}
+	
+	private TableList getTableList() {
+		for (Component container : getComponents()) {
+			if (container instanceof Container) {
+				Container containerCasted = (Container) container;
+				for (Component c : containerCasted.getComponentsList()) {
+					if (c instanceof RowsTable) {
+						return (TableList) c;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 }
