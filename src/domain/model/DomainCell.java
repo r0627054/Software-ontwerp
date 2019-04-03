@@ -86,7 +86,7 @@ public class DomainCell extends ObjectIdentifier {
 	 * @post The value of the cell equals the given value. 
 	 * 			| new.getValue().equals(value)
 	 */
-	public void setValue(Object value) {		
+	public void setValue(Object value) {
 		if (!type.canHaveAsValue(value))
 			throw new DomainException("Invalid value for this cell.");
 		this.value = value;

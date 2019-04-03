@@ -9,9 +9,8 @@ package domain.model;
  */
 public enum ValueType {
 
-	
-	EMAIL("email@", String.class, "Email"), STRING("", String.class, "String"),
-	BOOLEAN(new Boolean(true), Boolean.class, "Boolean"), INTEGER(new Integer(0), Integer.class, "Integer");
+	EMAIL(new Email("email@"), Email.class), STRING("", String.class), BOOLEAN(new Boolean(true), Boolean.class),
+	INTEGER(new Integer(0), Integer.class);
 
 	/**
 	 * Variable storing the default value.
@@ -22,11 +21,6 @@ public enum ValueType {
 	 * Variable storing the Class of the type.
 	 */
 	private Class<?> cl;
-
-	/**
-	 * Variable storing the value String which can be displayed.
-	 */
-	private String displayValue;
 
 	/**
 	 * Initialise the type with the given default value, class object and displayValue.
@@ -42,9 +36,8 @@ public enum ValueType {
 	 *        | setDisplayValue(displayValue)
 	 *        | setCl(cl)
 	 */
-	private ValueType(Object defaultValue, Class<?> cl, String displayValue) {
+	private ValueType(Object defaultValue, Class<?> cl) {
 		setDefaultValue(defaultValue);
-		setDisplayValue(displayValue);
 		setCl(cl);
 	}
 
@@ -90,10 +83,8 @@ public enum ValueType {
 				return value.getClass().equals(this.getTypeClass());
 
 			} else if (this.equals(ValueType.EMAIL)) {
-				String casted = (String) value;
-				return (casted.indexOf("@") >= 0 && (casted.indexOf("@") == casted.lastIndexOf("@"))
-						|| casted.isEmpty()) && casted.getClass().equals(this.getTypeClass());
-
+				Email casted = new Email(String.valueOf(value));
+				return (casted.hasOneAtSign() || casted.isEmpty()) && casted.getClass().equals(this.getTypeClass());
 			} else if (this.equals(ValueType.BOOLEAN)) {
 				if (value instanceof String
 						&& (String.valueOf(value).equals("true") || String.valueOf(value).equals("false"))) {
@@ -121,7 +112,7 @@ public enum ValueType {
 	 */
 	public static ValueType getValueTypeForString(String name) {
 		for (ValueType type : ValueType.values()) {
-			if (type.getDisplayValue().equals(name))
+			if (type.getClass().toString().equals(name))
 				return type;
 		}
 		return null;
@@ -146,23 +137,7 @@ public enum ValueType {
 	 */
 	@Override
 	public String toString() {
-		return displayValue;
-	}
-
-	/**
-	 * Returns the display value of the valueType.
-	 */
-	private String getDisplayValue() {
-		return displayValue;
-	}
-
-	/**
-	 * Sets the displayValue of the valueType.
-	 * @param displayValue
-	 *        | the display value of the type. The printable String of a type.
-	 */
-	private void setDisplayValue(String displayValue) {
-		this.displayValue = displayValue;
+		return this.getTypeClass().getSimpleName();
 	}
 
 	/**
@@ -178,7 +153,7 @@ public enum ValueType {
 			return null;
 		}
 
-		if (this.equals(ValueType.STRING) || this.equals(ValueType.EMAIL)) {
+		if (this.equals(ValueType.STRING)) {
 			value = String.valueOf(value);
 		} else if (this.equals(ValueType.BOOLEAN)) {
 			if (value instanceof String && !String.valueOf(value).isEmpty()) {
@@ -189,6 +164,12 @@ public enum ValueType {
 		} else if (this.equals(ValueType.INTEGER)) {
 			if (!(value instanceof Integer)) {
 				value = Integer.parseInt((String) value);
+			}
+		} else if (this.equals(ValueType.EMAIL)) {
+			if (value instanceof String && !String.valueOf(value).isEmpty()) {
+				value = new Email((String) value);
+			} else if (String.valueOf(value).isEmpty()) {
+				value = null;
 			}
 		}
 		return value;
