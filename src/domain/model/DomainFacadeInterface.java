@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -53,7 +54,7 @@ public interface DomainFacadeInterface {
 	 *        The tableId of which the information should be gathered.
 	 * @return a map with all the information associated with the given tableId.
 	 */
-	public Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID tableId);
+	public Map<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID tableId);
 
 	/**
 	 * Creates a new table with the given name.
@@ -249,17 +250,6 @@ public interface DomainFacadeInterface {
 	 *        | tableId ==null || cellId == null
 	 */
 	public UUID getColumnId(UUID tableId, UUID cellId);
-
-	/**
-	 * Returns all the column id's with their corresponding types. 
-	 * 
-	 * @param tableId
-	 *        | The id of the table.
-	 * @return All the column id's with their corresponding types.
-	 * @throws DomainException when the tableId equals null
-	 *        | tableId ==null
-	 */
-	public Map<UUID, Class<?>> getColumnTypes(UUID tableId);
 
 	/**
 	 * Returns the index of the cell in the column.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -218,7 +219,7 @@ public class DomainFacade implements DomainFacadeInterface {
 
 	/**
 	 * Returns a map with all the table information of the given tableId.
-	 * The first inner map, the key: UUID of the column and value: column name.
+	 * The first list: ColumnID, ColumnName and the Class of this column.
 	 * The second inner map, the key: UUID of cell and the value: the value of the cell in the column.
 	 * 
 	 * @param tableId
@@ -226,7 +227,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @return a map with all the information associated with the given tableId.
 	 */
 	@Override
-	public Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID id) {
+	public Map<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID id) {
 		return this.getTable(id).getTableWithIds();
 	}
 
@@ -595,28 +596,6 @@ public class DomainFacade implements DomainFacadeInterface {
 			return table.getcolumnId(cellId);
 		} else {
 			throw new DomainException("No table found to return the column.");
-		}
-	}
-
-	/**
-	 * Returns all the column id's with their corresponding types. 
-	 * 
-	 * @param tableId
-	 *        | The id of the table.
-	 * @return All the column id's with their corresponding types.
-	 * @throws DomainException when the tableId equals null
-	 *        | tableId ==null || table == null
-	 */
-	@Override
-	public Map<UUID, Class<?>> getColumnTypes(UUID tableId) {
-		if (tableId == null) {
-			throw new DomainException("Cannot get column types of a table with a null id.");
-		}
-		Table table = getTable(tableId);
-		if (table != null) {
-			return table.getColumnTypes();
-		} else {
-			throw new DomainException("No table found to return the column types.");
 		}
 	}
 

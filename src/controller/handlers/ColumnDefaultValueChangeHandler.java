@@ -50,8 +50,8 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 
 			domainfacade.setColumnDefaultValue(tableId, columnId, newDefaultValue);
 
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
 
 //			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {

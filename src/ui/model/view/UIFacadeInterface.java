@@ -1,6 +1,7 @@
 package ui.model.view;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -77,12 +78,13 @@ public interface UIFacadeInterface {
 	 *                    if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table);
 
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
-	
-	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
+
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData);
 
 //	/**
 //	 * Updates the tablesViewMode Whenever a domain element is updated, the view
@@ -112,9 +114,7 @@ public interface UIFacadeInterface {
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
 
 	public void createTablesSubWindow(Map<UUID, String> data);
-	
-	
-	
+
 //	/**
 //	 * Updates the tableDesignViewMode Whenever a domain element is updated, the
 //	 * view needs to be updated as well.

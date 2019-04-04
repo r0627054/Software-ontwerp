@@ -1,6 +1,7 @@
 package ui.model.view;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -139,17 +140,17 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
-		this.getView().createTableRowsWindow(tableId, tableName, table, columnTypes);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
+		this.getView().createTableRowsWindow(tableId, tableName, table);
 	}
 
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
 		this.getView().updateTablesSubWindows(tablesListData);
 	}
 	
-	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
-		this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData);
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData);
 	}
 
 //	/**

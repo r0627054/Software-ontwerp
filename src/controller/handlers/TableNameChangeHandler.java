@@ -36,8 +36,8 @@ public class TableNameChangeHandler implements ChangeHandlerInterface {
 		try {
 			domainfacade.updateTableName(id, newTableName);
 			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
-			uifacade.updateTableRowsAndDesignSubWindows(id, domainfacade.getColumnCharacteristics(id),
-					domainfacade.getTableWithIds(id), domainfacade.getColumnTypes(id));
+			uifacade.updateTableRowsAndDesignSubWindows(id, newTableName, domainfacade.getColumnCharacteristics(id),
+					domainfacade.getTableWithIds(id));
 		} catch (Exception e) {
 			uifacade.throwError(id, 0, 0);
 			uifacade.pauseApplication(0, id);

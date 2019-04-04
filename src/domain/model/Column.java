@@ -325,14 +325,15 @@ public class Column extends ObjectIdentifier {
 	}
 
 	/**
-	 * Returns a map, the map only contains one entry.
-	 * The key is the UUID of the column and the value is the name of the column.
-	 * @return Map<UUID, String> with UUID is the id of the column and the String is the column name.
+	 * Returns a list of this column's id, name and typeclass.
+	 * @return List<Object> The three values.
 	 */
-	public Map<UUID, String> getNameWithId() {
-		Map<UUID, String> singlePairMap = new HashMap<UUID, String>();
-		singlePairMap.put(this.getId(), this.getName());
-		return singlePairMap;
+	public List<Object> getColumnIdAndNameAndClass() {
+		List<Object> columnData = new ArrayList<>();
+		columnData.add(this.getId());
+		columnData.add(this.getName());
+		columnData.add(this.getType().getTypeClass());
+		return columnData;
 	}
 
 	/**

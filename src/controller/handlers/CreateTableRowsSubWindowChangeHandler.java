@@ -32,7 +32,7 @@ public class CreateTableRowsSubWindowChangeHandler implements ChangeHandlerInter
 
 		try {
 			uifacade.createTableRowsSubWindow(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+					domainfacade.getTableWithIds(tableId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

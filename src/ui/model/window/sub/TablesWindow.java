@@ -21,6 +21,11 @@ import ui.model.components.UICell;
 public class TablesWindow extends SubWindow {
 
 	/**
+	 * Variable holding the title String.
+	 */
+	public static final String TITLE_STRING = "TABLES LIST";
+
+	/**
 	 * Variable storing the container.
 	 */
 	private Container container;
@@ -33,7 +38,7 @@ public class TablesWindow extends SubWindow {
 	 * @effect the full Tables list is created and all the information is set.
 	 */
 	public TablesWindow(Map<UUID, String> map) {
-		super(null, "TABLES LIST");
+		super(null, TITLE_STRING);
 		this.createTableList(map);
 	}
 
@@ -46,7 +51,8 @@ public class TablesWindow extends SubWindow {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 		this.addComponent(getContainer());
 
-		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(), getHeight());
+		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
+				getHeight());
 		tableList.createTableList(map, this);
 		this.addClickListener(tableList);
 		this.addKeyListener(tableList);
@@ -94,7 +100,7 @@ public class TablesWindow extends SubWindow {
 	@Override
 	public void resumeSubWindow() {
 		// TODO Auto-generated method stub
-		//DO NOTHING
+		// DO NOTHING
 	}
 
 	@Override
@@ -103,7 +109,7 @@ public class TablesWindow extends SubWindow {
 			c.throwError(id);
 		}
 	}
-	
+
 	private TableList getTableList() {
 		for (Component container : getComponents()) {
 			if (container instanceof Container) {

@@ -60,16 +60,15 @@ public class RowsTable extends EditableComponent {
 	 * @return the list of cells created by the rowsTable.
 	 * 
 	 */
-	public List<UICell> createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> values,
-			Map<UUID, Class<?>> columnTypes) {
+	public List<UICell> createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> values) {
 		List<Component> columnList = new ArrayList<>();
 		List<UICell> allCellsList = new ArrayList<>();
 
-		for (Map<UUID, String> columnIdMap : values.keySet()) {
-			Map<UUID, Object> columnCellsMap = values.get(columnIdMap);
-			String columnName = (String) columnIdMap.values().toArray()[0];
-			UUID columnId = (UUID) columnIdMap.keySet().toArray()[0];
-			Class<?> tableType = columnTypes.get(columnId);
+		for (List<Object> columnData : values.keySet()) {
+			Map<UUID, Object> columnCellsMap = values.get(columnData);
+			UUID columnId = (UUID) columnData.get(0);
+			String columnName = (String) columnData.get(1);
+			Class<?> tableType = (Class<?>) columnData.get(2);
 
 			ColumnHeader header = new ColumnHeader(columnName, columnId);
 
