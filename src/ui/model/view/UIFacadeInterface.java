@@ -21,15 +21,6 @@ public interface UIFacadeInterface {
 	 */
 	public void show();
 
-//	/**
-//	 * Startup method to initialise the first table overview. The map of keys
-//	 * (tableId's) and Strings (table names) will be shown to the user on startup.
-//	 * By default this should be empty, unless a table is loaded from memory or
-//	 * initialised in the domain.
-//	 * 
-//	 * @param map The Map of tableIds and tableNames
-//	 */
-//	public void startup(Map<UUID, String> map);
 
 	/**
 	 * Adds a propertyChangeListener to the PropertyChangeSupport.
@@ -48,14 +39,6 @@ public interface UIFacadeInterface {
 	 *         support.addPropertyChangeListener(pcl);
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener pcl);
-
-//	/**
-//	 * Gets the ViewModeType of the current ViewMode from the view.
-//	 * 
-//	 * @return the type of the current viewmode of view. |
-//	 *         getView().getCurrentViewModeType();
-//	 */
-//	public ViewModeType getCurrentViewModeType();
 
 	/**
 	 * Throws an error to a component.
@@ -84,19 +67,6 @@ public interface UIFacadeInterface {
 	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
 
-//	/**
-//	 * Updates the tablesViewMode Whenever a domain element is updated, the view
-//	 * needs to be updated as well.
-//	 * 
-//	 * @param tableId     | The tableId of the table that should be shown.
-//	 * @param tableName   | The table name of the table that should be shown.
-//	 * @param table       | A map containing all the information of to show the
-//	 *                    table.
-//	 * @param columnTypes | A map containing a class for each column, to determine
-//	 *                    if the value is null | What the column type should be.
-//	 */
-//	public void updateTablesViewMode(Map<UUID, String> map);
-
 	/**
 	 * Opens the tableDesignViewMode To open this mode, we need data to fetch the
 	 * already existing view mode and if this does not exist, we pass data to create
@@ -113,21 +83,6 @@ public interface UIFacadeInterface {
 
 	public void createTablesSubWindow(Map<UUID, String> data);
 	
-	
-	
-//	/**
-//	 * Updates the tableDesignViewMode Whenever a domain element is updated, the
-//	 * view needs to be updated as well.
-//	 * 
-//	 * @param tableId               | The tableId of the table that should be shown.
-//	 * @param tableName             | The table name of the table that should be
-//	 *                              shown.
-//	 * @param columnCharacteristics | A map containing all the information of to
-//	 *                              show the table.
-//	 */
-//	public void updateTableDesignViewMode(UUID id, String tableNameOfId,
-//			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
-
 	/**
 	 * Pauses the application. Only one 'error' cell should be editable of a certain
 	 * column with index
@@ -153,15 +108,6 @@ public interface UIFacadeInterface {
 	 * @return UUID of the current table | getView.getCurrentTableId();
 	 */
 	public UUID getCurrentTableId();
-//
-//	/**
-//	 * Sets a specific error in a cell in the DesignTable.
-//	 * 
-//	 * @param columnIndex | index of the cell of a column
-//	 * @param columnId    | columnId of the column
-//	 * @param newValue    | the new value of this cell
-//	 */
-//	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue);
 
 	public void closeCurrentSubWindow();
 
