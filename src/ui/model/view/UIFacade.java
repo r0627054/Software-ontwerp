@@ -97,19 +97,16 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	/**
-	 * Opens the tableRowsViewMode
-	 * To open this mode, we need data to fetch the already existing view mode
-	 * and if this does not exist, we pass data to create a new tableRowsViewMode
+	 * Creates a new tableRows window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param tableId
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param table
-	 *         | A map containing all the information of to show the table.
-	 * @param columnTypes
-	 * 		   | A map containing a class for each column, to determine if the value is null
-	 *         | What the column type should be.
+	 * @param tableId      The tableId of the table that should be shown.
+	 * @param tableName    The table name of the table that should be shown.
+	 * @param table        A map containing all the information of to show the
+	 *                     table.
+	 * @param columnTypes  A map containing a class for each column, to determine
+	 *                     if the value is null | What the column type should be.
+	 * @effect The view will create a tableRowsWindow with the given information.
+	 *                     | this.getView().createTableRowsWindow(tableId, tableName, table, columnTypes)
 	 */
 	@Override
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
@@ -117,26 +114,40 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().createTableRowsWindow(tableId, tableName, table);
 	}
 
+	/**
+	 * Updates all the tablesSubWindows with the given data.
+	 * @param tablesListData The data needed to update a tablesSubWindow.
+	 * @effect The view will update the tablesSubwindows. 
+	 *         | this.getView().updateTablesSubWindows(tablesListData)
+	 *          
+	 */
+	@Override
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
 		this.getView().updateTablesSubWindows(tablesListData);
 	}
 	
-	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
-		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData);
+	/**
+	 * Updates all the tableRows and design subWindows associated with the given tableId.
+	 * @param id            The id of the table.
+	 * @param designData    The data used for the design.
+	 * @param tableRowsData The data used in the rows.
+	 * @param rowsClassData The rows class data.
+	 * @effect The view will update the TableRowsAndDesignSubWindow.
+	 *         | this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData)
+	 */
+	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData);
 	}
 
 	/**
-	 * Opens the tableDesignViewMode
-	 * To open this mode, we need data to fetch the already existing view mode
-	 * and if this does not exist, we pass data to create a new tableDesignViewMode
+	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param id
-	 * 		   | The tableId of the table that should be shown.
-	 * @param tableName
-	 *         | The table name of the table that should be shown.
-	 * @param columnCharacteristics
-	 *         | A map containing all the information of to show the table.
+	 * @param id                    The id of the table.
+	 * @param tableName             The name of the table.
+	 * @param columnCharacteristics The characteristics of the columns of the table.
+	 * @effect The view will update the tableDesignSubWindow.
+	 *         | this.getView().createTableDesignWindow(id, tableName, columnCharacteristics)
 	 */
 	@Override
 	public void createTableDesignSubWindow(UUID id, String tableName,
@@ -144,35 +155,35 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.getView().createTableDesignWindow(id, tableName, columnCharacteristics);
 	}
 
+	/**
+	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
+	 * 
+	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
+	 * @effect the view will create a TablesSubWindow.
+	 *         | this.getView().createTablesWindow(data)
+	 */
 	@Override
 	public void createTablesSubWindow(Map<UUID, String> data) {
 		this.getView().createTablesWindow(data);
 	}
 	
 	/**
-	 * Pauses the application.
-	 * Only one 'error' cell should be editable of a certain column with index
+	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain
+	 * column with index in the specific subWindow.
 	 * 
-	 * @param index
-	 *        | index of the cell of a column
-	 * @param id
-	 *        | columnId of the column
+	 * @param index | index of the cell of a column
+	 * @param id    | columnId of the column
+	 * @effect The view will pause the specific subWindow.
+	 *              | this.getView().pauseApplication(i, id);
 	 */
 	@Override
 	public void pauseCurrentSubWindow(int i, UUID id) {
 		this.getView().pauseCurrentSubWindow(i, id);
 
-	}
 
 	/**
-	 * Resumes the application.
-	 * To make sure we don't add the error twice as actionListeners to 
-	 * clicks and keys, give the cell data to the view.
-	 * 
-	 * @param index
-	 *        | index of the cell of a column
-	 * @param id
-	 *        | columnId of the column
+	 * Resumes the subWindow. To make sure we don't add the error twice as
+	 * actionListeners to clicks and keys, give the cell data to the view.
 	 */
 	@Override
 	public void resume() {
@@ -180,11 +191,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 	/**
-	 * Gets the Id of the currently opened TableViewMode.
-	 * If the view currently is in TablesViewMode, this should not return an id.
-	 * 
-	 * @return UUID of the current table
-	 *        | getView.getCurrentTableId();
+	 * Gets the Id of the currently selected subWindow.
+	 * @return The UUID of the table.
 	 */
 	@Override
 	public UUID getCurrentTableId() {
@@ -194,7 +202,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	/**
 	 * Gets the View.
 	 * 
-	 * @return view
+	 * @return view The view class.
 	 */
 	public View getView() {
 		return this.view;
@@ -214,10 +222,10 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 * 
 	 * @param support
 	 *        | the PropertyChangeSupport
-	 * @throws IllegalArgumentException
-	 *         | the support argument is null
+	 * @throws IllegalArgumentException the support argument is null
+	 *        | support == null
 	 * @post The support given is set
-	 *       | this.support = support
+	 *        | new.getSupport() = support
 	 */
 	private void setSupport(PropertyChangeSupport support) {
 		if (support == null) {
@@ -227,6 +235,11 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	}
 
 
+	/**
+	 * Closes the currentSubWindow.
+	 * @effect the view closes the currentSubWindow.
+	 *         | this.getView().closeCurrentSubWindow()
+	 */
 	@Override
 	public void closeCurrentSubWindow() {
 		this.getView().closeCurrentSubWindow();		
