@@ -50,13 +50,13 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 
 			domainfacade.setColumnDefaultValue(tableId, columnId, newDefaultValue);
 
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
 
 //			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			uifacade.throwError(columnId, columnIndex, newDefaultValue);
-			uifacade.pauseApplication(columnIndex, columnId);
+			uifacade.pauseCurrentSubWindow(columnIndex, columnId);
 		}
 
 	}

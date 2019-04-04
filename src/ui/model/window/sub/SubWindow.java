@@ -291,7 +291,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 		if (isActiveSubWindow) {
 			g.setColor(Color.WHITE);
 		} else {
-			g.setColor(new Color(245, 245, 245));
+			g.setColor(new Color(225, 225, 225));
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(oldColor);

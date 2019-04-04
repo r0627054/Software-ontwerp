@@ -24,6 +24,11 @@ import ui.model.components.UICell;
 public class TableDesignWindow extends TableWindow {
 
 	/**
+	 * Variable holding the title String that comes before the table name.
+	 */
+	public static final String TITLE_STRING = "Designing table: ";
+
+	/**
 	 * Variable storing the container.
 	 */
 	private Container container;
@@ -41,7 +46,7 @@ public class TableDesignWindow extends TableWindow {
 	 */
 	public TableDesignWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		super(id, "Designing table: " + tableName);
+		super(id, TITLE_STRING + tableName);
 		this.createDesignTable(columnCharacteristics);
 	}
 
@@ -184,7 +189,8 @@ public class TableDesignWindow extends TableWindow {
 	@Override
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
-		this.updateDesignTable((Map<UUID, LinkedHashMap<String, Object>>) tableData[0]);
+		this.updateDesignTable((Map<UUID, LinkedHashMap<String, Object>>) tableData[1]);
+		this.setTableName(TITLE_STRING + (String) tableData[0]);
 	}
 
 	@Override

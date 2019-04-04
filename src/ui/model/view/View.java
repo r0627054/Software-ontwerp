@@ -298,7 +298,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	 */
 	public void createTableRowsWindow(UUID id, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
@@ -373,6 +373,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
+
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
@@ -386,7 +387,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
 		for (SubWindow sw : this.getSubWindows(id)) {
-			sw.updateContent(designData, tableRowsData, rowsClassData);
+			sw.updateContent(tableName, designData, tableRowsData);
 		}
 	}
 
@@ -397,7 +398,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @effect The current subWindow is paused using the given parameters.
 	 *        | this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
 	 */
-	public void pauseApplication(int indexOfCell, UUID columnId) {
+	public void pauseCurrentSubWindow(int indexOfCell, UUID columnId) {
 		this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
 	}
 

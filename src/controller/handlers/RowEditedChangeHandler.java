@@ -57,12 +57,12 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 			}
 			domainfacade.editCellInTable(tableId, columnId, cellId, newValue);
 
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getColumnCharacteristics(tableId),
-					domainfacade.getTableWithIds(tableId), domainfacade.getColumnTypes(tableId));	
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
 //			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
-			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
+			uifacade.pauseCurrentSubWindow(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}
 
 	}

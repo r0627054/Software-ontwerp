@@ -15,6 +15,8 @@ import controller.handlers.ChangeEventType;
  */
 public class ToggleTextField extends TextField {
 
+	private final ChangeEventType submitAction;
+
 	/**
 	 * 
 	 * Initialise this new toggleTextField with all the given variables.
@@ -30,8 +32,9 @@ public class ToggleTextField extends TextField {
 	 * @effect All the variables are of the TextField.
 	 *       | super(0, 0, width, height, text, id)
 	 */
-	public ToggleTextField(int width, int height, String text, UUID id) {
+	public ToggleTextField(int width, int height, String text, UUID id, ChangeEventType action) {
 		super(0, 0, width, height, text, id);
+		this.submitAction = action;
 	}
 
 	/**
@@ -53,8 +56,10 @@ public class ToggleTextField extends TextField {
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_PRESSED) {
-			this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, getText(), null);
+		if (id == MouseEvent.MOUSE_PRESSED && getSubmitAction() != null) {
+			this.propertyChanged(this.getId(), getSubmitAction(), getText(), null);
+
+//			this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, getText(), null);
 		}
 	}
 
@@ -70,6 +75,10 @@ public class ToggleTextField extends TextField {
 			super.throwError(id);
 			this.setError(true);
 		}
+	}
+
+	private ChangeEventType getSubmitAction() {
+		return submitAction;
 	}
 
 }

@@ -25,20 +25,14 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	private Component component;
 
 	/**
-	 * The variable storing the actionType of the cell.
-	 * This says what the action will be of the cell.
-	 */
-	private ChangeEventType actionType;
-
-	/**
 	 * The variable storing the defaultHeight of the Cell.
 	 */
-	private static int defaultHeight = 50;
+	private final static int defaultHeight = 50;
 
 	/**
 	 * The variable storing the defaultWidth of the Cell.
 	 */
-	private static int defaultWidth = 100;
+	private final static int defaultWidth = 100;
 
 	/**
 	 * The variable storing whether or not a redBackground will be shown.
@@ -62,9 +56,8 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        |	this.setComponent(cellComponent)
 	 *        |	setComponentCoordinates(x, y, defaultWidth, defaultHeight)
 	 */
-	public UICell(Component cellComponent, UUID id, ChangeEventType actionType) {
+	public UICell(Component cellComponent, UUID id) {
 		super(0, 0, defaultWidth, defaultHeight, false, id);
-		this.setActionType(actionType);
 		this.setComponent(cellComponent);
 		setComponentCoordinates(0, 0, defaultWidth, defaultHeight);
 	}
@@ -82,8 +75,9 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 * @effect All the variables are set, and the cellType equals null.
 	 *        | this(x, y, value, id, null)
 	 */
-	public UICell(Object value, UUID id, ChangeEventType actionType) {
-		this(value, id, value.getClass(), actionType);
+	public UICell(Object value, UUID id, ChangeEventType submitAction, ChangeEventType doubleClickAction,
+			ChangeEventType deleteAction) {
+		this(value, id, value.getClass(), submitAction, doubleClickAction, deleteAction);
 	}
 
 	/**
@@ -105,10 +99,10 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        |	createComponent(value, id, cellType)
 	 *        
 	 */
-	public UICell(Object value, UUID id, Class<?> cellType, ChangeEventType actionType) {
+	public UICell(Object value, UUID id, Class<?> cellType, ChangeEventType submitAction,
+			ChangeEventType doubleClickAction, ChangeEventType deleteAction) {
 		super(0, 0, defaultWidth, defaultHeight, false, id);
-		createComponent(value, id, cellType);
-		this.setActionType(actionType);
+		createComponent(value, id, cellType, submitAction, doubleClickAction, deleteAction);
 	}
 
 	/**
@@ -152,23 +146,27 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        | The id of the component.
 	 * @param cellType
 	 *        | The type of the component.
+	 * @param deleteAction 
+	 * @param doubleClickAction 
+	 * @param submitAction 
 	 */
-	private void createComponent(Object value, UUID id, Class<?> cellType) {
+	private void createComponent(Object value, UUID id, Class<?> cellType, ChangeEventType submitAction,
+			ChangeEventType doubleClickAction, ChangeEventType deleteAction) {
 		Component component;
 
 		if (cellType == Boolean.class) {
 			if (value == null || String.valueOf(value).isEmpty()) {
-				component = new ToggleTextField(100, 100, "", id);
+				component = new ToggleTextField(100, 100, "", id, submitAction);
 			} else {
 				if (value instanceof String) {
 					value = Boolean.parseBoolean((String) value);
 				}
-				component = new CheckBox((boolean) value, id);
+				component = new CheckBox((boolean) value, id, submitAction);
 			}
 		} else if (value != null) {
-			component = new EditableTextField(value.toString(), id);
+			component = new EditableTextField(value.toString(), id, submitAction, doubleClickAction, deleteAction);
 		} else {
-			component = new EditableTextField("", id);
+			component = new EditableTextField("", id, submitAction, doubleClickAction, deleteAction);
 		}
 		this.setComponent(component);
 	}
@@ -279,41 +277,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		if (this.getActionType() != null && !ChangeEventType.REPAINT.equals(evt.getAction())
-				&& !ChangeEventType.OPEN_TABLEVIEWMODE.equals(evt.getAction())
-				&& !ChangeEventType.DELETE_TABLE.equals(evt.getAction())) {
-			// TODO Maybe refactor this so we don't have to add EventTypes here if not
-			// needed to change
-
-			this.getSupport().firePropertyChange(
-					new PropertyChangeEvent(getId(), this.getActionType(), evt.getOldValue(), evt.getNewValue()));
-		} else {
-			this.getSupport().firePropertyChange(evt);
-		}
-	}
-
-	/**
-	 * Returns the action type variable of the cell.
-	 */
-	public ChangeEventType getActionType() {
-		return actionType;
-	}
-
-	/**
-	 * Sets the actionType of the cell.
-	 * 
-	 * @param actionType
-	 *        | The action type of the cell.
-	 * @post the actionType is equal the to actionType variable
-	 *        | new.getActionType == actionType
-	 * @throws IllegalArgumentException if the actionType equals null. 
-	 *        | actionType == null
-	 */
-	public void setActionType(ChangeEventType actionType) {
-		if (actionType == null) {
-			throw new IllegalArgumentException("Cannot set a null action type to a cell");
-		}
-		this.actionType = actionType;
+		this.getSupport().firePropertyChange(evt);
 	}
 
 	/**

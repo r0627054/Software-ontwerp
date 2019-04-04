@@ -46,9 +46,14 @@ public class TableList extends VerticalComponentList {
 	 *        | The propertyChangeListener used in the TableList (Observer)
 	 */
 	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
+		ChangeEventType submitAction = ChangeEventType.TABLE_CHANGE_NAME;
+		ChangeEventType deleteAction = ChangeEventType.DELETE_TABLE;
+		ChangeEventType doubleClickAction = ChangeEventType.OPEN_TABLEVIEWMODE;
+
 		for (Map.Entry<UUID, String> entry : map.entrySet()) {
-			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey());
-			UICell cell = new UICell(textField, entry.getKey(), ChangeEventType.TABLE_CHANGE_NAME);
+			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey(), submitAction,
+					doubleClickAction, deleteAction);
+			UICell cell = new UICell(textField, entry.getKey());
 			cell.addPropertyChangeListener(pcl);
 			this.addComponent(cell);
 		}

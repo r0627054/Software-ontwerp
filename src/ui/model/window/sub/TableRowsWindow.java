@@ -13,20 +13,24 @@ import ui.model.components.RowsTable;
 import ui.model.components.UICell;
 
 public class TableRowsWindow extends TableWindow {
+
+	/**
+	 * Variable holding the title String that comes before the table name.
+	 */
+	public static final String TITLE_STRING = "Table rows of table: ";
+
 	private Container container;
 
-	public TableRowsWindow(UUID tableId, String tableName, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table,
-			Map<UUID, Class<?>> columnTypes) {
-		super(tableId, "Table rows of table: " + tableName);
-		createTable(table, columnTypes);
+	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
+		super(tableId, TITLE_STRING + tableName);
+		createTable(table);
 	}
 
-	private void createTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
-			Map<UUID, Class<?>> columnTypes) {
+	private void createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
 		container = new Container(getX(), getY(), getWidth(), getHeight());
 
 		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId());
-		List<UICell> cellList = rowsTable.createTable(tableInformation, columnTypes);
+		List<UICell> cellList = rowsTable.createTable(tableInformation);
 
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
@@ -41,12 +45,11 @@ public class TableRowsWindow extends TableWindow {
 		this.resetAllListeners();
 	}
 
-	public void updateRowsTable(Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableInformation,
-			Map<UUID, Class<?>> columnTypes) {
+	public void updateRowsTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
 		this.removeComponent(getContainer());
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
-		this.createTable(tableInformation, columnTypes);
+		this.createTable(tableInformation);
 		this.setPaused(false);
 	}
 
@@ -93,7 +96,8 @@ public class TableRowsWindow extends TableWindow {
 	@Override
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
-		this.updateRowsTable((Map<Map<UUID, String>, LinkedHashMap<UUID, Object>>)tableData[1], (Map<UUID, Class<?>>) tableData[2]);
+		this.updateRowsTable((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
+		this.setTableName(TITLE_STRING + (String) tableData[0]);
 	}
 
 	@Override
@@ -102,5 +106,4 @@ public class TableRowsWindow extends TableWindow {
 			c.throwError(id);
 		}
 	}
-
 }

@@ -1,6 +1,7 @@
 package ui.model.view;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -109,8 +110,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes) {
-		this.getView().createTableRowsWindow(tableId, tableName, table, columnTypes);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
+		this.getView().createTableRowsWindow(tableId, tableName, table);
 	}
 
 	/**
@@ -176,9 +177,9 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *              | this.getView().pauseApplication(i, id);
 	 */
 	@Override
-	public void pauseApplication(int i, UUID id) {
-		this.getView().pauseApplication(i, id);
-	}
+	public void pauseCurrentSubWindow(int i, UUID id) {
+		this.getView().pauseCurrentSubWindow(i, id);
+
 
 	/**
 	 * Resumes the subWindow. To make sure we don't add the error twice as

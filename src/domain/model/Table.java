@@ -144,21 +144,21 @@ public class Table extends ObjectIdentifier {
 
 	/**
 	 * Returns a map with all the table information of the given tableId.
-	 * The first inner map, the key: UUID of the column and value: column name.
+	 * The first list: ColumnId, ColumnName and Class of this column.
 	 * The second inner map, the key: UUID of cell and the value: the value of the cell in the column.
 	 * 
 	 * @param tableId
 	 *        The tableId of which the information should be gathered.
 	 * @return a map with all the information associated with the given tableId.
 	 */
-	public LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> getTableWithIds() {
-		LinkedHashMap<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableMap = new LinkedHashMap<>();
+	public LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds() {
+		LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> tableData = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
-			tableMap.put(c.getNameWithId(), c.getCellsWithId());
+			tableData.put(c.getColumnIdAndNameAndClass(), c.getCellsWithId());
 		}
 
-		return tableMap;
+		return tableData;
 	}
 
 	/**
@@ -495,21 +495,6 @@ public class Table extends ObjectIdentifier {
 			}
 		}
 		throw new DomainException("No column id found for given cellId");
-	}
-
-	/**
-	 * Returns all the column id's with their corresponding types. 
-	 * 
-	 * @return All the column id's with their corresponding types.
-	 */
-	public Map<UUID, Class<?>> getColumnTypes() {
-		Map<UUID, Class<?>> columnTypesMap = new HashMap<>();
-
-		for (Column c : getColumns()) {
-			columnTypesMap.put(c.getId(), c.getType().getTypeClass());
-		}
-
-		return columnTypesMap;
 	}
 
 	/**

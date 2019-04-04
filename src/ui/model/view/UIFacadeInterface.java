@@ -1,6 +1,7 @@
 package ui.model.view;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -58,14 +59,14 @@ public interface UIFacadeInterface {
 	 *                     if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table);
 
 	/**
 	 * Updates all the tablesSubWindows with the given data.
 	 * @param tablesListData The data needed to update a tablesSubWindow.
 	 */
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
-	
+  
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
@@ -75,6 +76,7 @@ public interface UIFacadeInterface {
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
+
 
 	/**
 	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
@@ -93,7 +95,7 @@ public interface UIFacadeInterface {
 	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
 	 */
 	public void createTablesSubWindow(Map<UUID, String> data);
-	
+
 	/**
 	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain
 	 * column with index in the specific subWindow.
@@ -101,7 +103,7 @@ public interface UIFacadeInterface {
 	 * @param index | index of the cell of a column
 	 * @param id    | columnId of the column
 	 */
-	public void pauseApplication(int index, UUID id);
+	public void pauseCurrentSubWindow(int index, UUID id);
 
 	/**
 	 * Resumes the subWindow. To make sure we don't add the error twice as

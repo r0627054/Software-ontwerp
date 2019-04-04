@@ -1,6 +1,7 @@
 package controller.handlers;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,12 +43,12 @@ public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
 				
-				Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(tableId);
+				Map<List<Object>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(tableId);
 
 				if (domainfacade.isTableWithIdEmpty(tableId)) {
 					uifacade.createTableDesignSubWindow(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
 				} else {
-					uifacade.createTableRowsSubWindow(tableId, tableName, table, domainfacade.getColumnTypes(tableId));
+					uifacade.createTableRowsSubWindow(tableId, tableName, table);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

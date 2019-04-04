@@ -25,67 +25,17 @@ public final class ChangeHandlerFactory {
 	 *        | The DomainFacadeInterface used in the controller.
 	 * @effect The handler is created and all the information is passed to the specific handler. This handler handles the change.
 	 */
-	public static void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
-		ChangeEventType value = evt.getAction();
-		ChangeHandlerInterface handler = null;
+	public static void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade,
+			DomainFacadeInterface domainfacade) {
+		try {
+			ChangeEventType value = evt.getAction();
+			ChangeHandlerInterface handler = (ChangeHandlerInterface) value.getActionHandler().newInstance();
 
-		switch (value) {
-		case TABLE_CHANGE_NAME:
-			handler = new TableNameChangeHandler();
-			break;
-		case OPEN_TABLEVIEWMODE:
-			handler = new OpenTableViewModeChangeHandler();
-			break;
-		case CREATE_TABLE:
-			handler = new CreateTableChangeHandler();
-			break;
-		case DELETE_TABLE:
-			handler = new DeleteTableChangeHandler();
-			break;
-		case CLOSE_SUBWINDOW:
-			handler = new CloseSubWindowChangeHandler();
-			break;
-		case CREATE_COLUMN:
-			handler = new CreateColumnChangeHandler();
-			break;
-		case COLUMN_CHANGE_NAME:
-			handler = new ColumnNameChangeHandler();
-			break;
-		case COLUMN_CHANGE_TYPE:
-			handler = new ColumnTypeChangeHandler();
-			break;
-		case COLUMN_CHANGE_ALLOW_BLANKS:
-			handler = new ColumnAllowBlanksChangeHandler();
-			break;
-		case COLUMN_CHANGE_DEFAULT_VALUE:
-			handler = new ColumnDefaultValueChangeHandler();
-			break;
-		case DELETE_COLUMN:
-			handler = new DeleteColumnChangeHandler();
-			break;
-		case CREATE_ROW:
-			handler = new CreateRowChangeHandler();
-			break;
-		case ROW_EDITED:
-			handler = new RowEditedChangeHandler();
-			break;
-		case DELETE_ROW:
-			handler = new DeleteRowChangeHandler();
-			break;
-		case CREATE_TABLESSUBWINDOW:
-			handler = new CreateTablesSubWindowChangeHandler();
-			break;
-		case CREATE_TABLEDESIGNWINDOW:
-			handler = new CreateTableDesignSubWindowChangeHandler();
-			break;
-		case CREATE_TABLEROWSWINDOW:
-			handler = new CreateTableRowsSubWindowChangeHandler();
-		default:
-			break;
-		}
-
-		if (handler != null) {
-			handler.handleChange(evt, uifacade, domainfacade);
+			if (handler != null) {
+				handler.handleChange(evt, uifacade, domainfacade);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
