@@ -27,6 +27,8 @@ class VerticalComponentListTest {
 	private Component comp1 = new CheckBox(false, UUID.randomUUID());
 	private Component comp2 = new EditableTextField("teststring", UUID.randomUUID());
 	private Component comp3 = new CheckBox(true, UUID.randomUUID());
+	private Component comp4 = new CheckBox(0, 0, this.width, 500, false, UUID.randomUUID());
+	private Component comp5 = new CheckBox(0,0, 678, this.height, false, UUID.randomUUID());
 	
 	
 	
@@ -55,14 +57,16 @@ class VerticalComponentListTest {
 	 */
 	@Test
 	void test2ConstructorWithList() {
-		comp1.setHeight(500);
+	//	comp1.setHeight(500); this is now component 4
 		listItems.add(comp1);
-		comp3.setWidth(678);
+	//	comp3.setWidth(678); now component 5
 		listItems.add(comp2);
 		listItems.add(comp3);
+		listItems.add(comp4);
+		listItems.add(comp5);
 		vc = new VerticalComponentList(x, y, listItems);
-		assertEquals(comp3, vc.getComponentsList().get(2));
-		assertTrue(this.x == vc.getX() && this.y == vc.getY() && 678 == vc.getWidth() && (comp1.getHeight() + comp2.getHeight() + comp3.getHeight()) == vc.getHeight());
+		assertEquals(comp5, vc.getComponentsList().get(4));
+		assertTrue(this.x == vc.getX() && this.y == vc.getY() && 678 == vc.getWidth() && (comp1.getHeight() + comp2.getHeight() + comp3.getHeight()) + comp4.getHeight() + comp5.getHeight() == vc.getHeight());
 	}
 	
 	/**
