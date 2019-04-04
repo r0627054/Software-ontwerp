@@ -244,6 +244,14 @@ public class Container extends Component {
 		}
 	}
 
+	/**
+	 * Calls the super method and changes the y of all the components in the componentList.
+	 * @param y the y-coordinate movement.
+	 * @effect The super constructor is called an all the components in the container are moved.
+	 *         | super.changeY(y);
+	 *         | for(Component c: getComponentsList())
+	 *         |		c.changeY(y);
+	 */
 	@Override
 	public void changeY(int y) {
 		super.changeY(y);
@@ -253,6 +261,14 @@ public class Container extends Component {
 		}
 	}
 
+	/**
+	 * Calls the super method and changes the x of all the components in the componentList.
+	 * @param x the x-coordinate movement.
+	 * @effect The super constructor is called an all the components in the container are moved.
+	 *         | super.changeX(x);
+	 *         | for(Component c: getComponentsList())
+	 *         |		c.changeX(x);
+	 */
 	@Override
 	public void changeX(int x) {
 		super.changeX(x);

@@ -18,7 +18,7 @@ class ComponentTest { // testing component methods with cell;
 	private Component comp;
 	private UUID id = UUID.randomUUID();
 	private int correctX = 100;
-	private int correctY = 400;
+	private int correctY = 50;
 	private Component correctComponent = new UICell("test", id, ChangeEventType.ROW_EDITED);
 
 //	/**
@@ -42,19 +42,19 @@ class ComponentTest { // testing component methods with cell;
 //	}
 //	
 	/**
-	 * Test 3 : The offset of x should be greater than the x coordinate.
+	 * Test 3 : The offset of x should be greater or equal to the x coordinate.
 	 */
 	@Test
 	void test3GetOffsetX() {
-		assertTrue(correctComponent.getOffsetX() > this.correctX);
+		assertTrue(correctComponent.getOffsetX() >= this.correctX);//width is 100. x is 0 by default.
 	}
 	
 	/**
-	 * Test 4 : The offset of y should be greater than the y coordinate.
+	 * Test 4 : The offset of y should be greater or equal to the y coordinate.
 	 */
 	@Test
 	void test4GetOffsetY() {
-		assertTrue(correctComponent.getOffsetY() > this.correctX);
+		assertTrue(correctComponent.getOffsetY() >= this.correctY);
 	}
 	
 	/**

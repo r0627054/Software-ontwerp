@@ -20,17 +20,17 @@ public class Table extends ObjectIdentifier {
 	/**
 	 * Variable storing the name of the table.
 	 */
-	String name;
+	private String name;
 
 	/**
 	 * Variable storing the columns of the table.
 	 */
-	List<Column> columns = new ArrayList<>();
+	private List<Column> columns = new ArrayList<>();
 
 	/**
 	 * Variable storing the rows of the table.
 	 */
-	List<Row> rows = new ArrayList<>();
+	private List<Row> rows = new ArrayList<>();
 
 	/**
 	 * Initialise a new Table with a given name.

@@ -91,6 +91,7 @@ public class EditableTextField extends TextField {
 	/**
 	 * Submits a delete Table Event.
 	 */
+
 	private void delete() {
 		if (this.getDeleteAction() != null) {
 			propertyChanged(this.getId(), getDeleteAction(), null, null);
@@ -108,6 +109,15 @@ public class EditableTextField extends TextField {
 			moveCursorLocationLeft();
 			if (isError())
 				this.setError(false);
+
+	@Override
+	public void paint(Graphics2D g) {
+		if (this.isSelected()) {
+			g.setColor(new Color(226, 226, 226));
+			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
+		} else if (this.isSelectedForDelete()) {
+			g.setColor(Color.RED);
+			g.fillRect(getX() + 1, getY() + 1, getWidth() - 1, getHeight() - 1);
 		}
 
 	}
@@ -211,10 +221,6 @@ public class EditableTextField extends TextField {
 				}
 			}
 		}
-//		System.err.println(isSelectedForDelete() + " " + keyCode + " " + id);
-//
-//		System.err.println("true " + KeyEvent.VK_DELETE + " " + KeyEvent.KEY_PRESSED);
-//		System.err.println("----");
 		if (isSelectedForDelete() && keyCode == KeyEvent.VK_DELETE && id == KeyEvent.KEY_PRESSED) {
 			delete();
 		}
@@ -435,8 +441,21 @@ public class EditableTextField extends TextField {
 		return submitAction;
 	}
 
+
 	private ChangeEventType getDoubleClickAction() {
 		return doubleClickAction;
+ }
+	/**
+	 * Sets the selected for delete variable
+	 * @param selected
+	 *        | Whether or not the editableTextField is selected for deletion.
+	 */
+	public void setSelectedForDelete(boolean selected) {
+		boolean changed = (this.selectedForDelete && !selected) || (!this.selectedForDelete && selected);
+		this.selectedForDelete = selected;
+		if (changed) {
+			propertyChanged();
+		}
 	}
 
 	private ChangeEventType getDeleteAction() {

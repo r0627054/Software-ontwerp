@@ -30,7 +30,7 @@ public class Row extends ObjectIdentifier {
 	 *  
 	 * @param cells
 	 *        The list of cells.
-	 * @efffect The list of cells is set.
+	 * @effect The list of cells is set.
 	 *          | this.setCells(cells)
 	 */
 	public Row(ArrayList<DomainCell> cells) {

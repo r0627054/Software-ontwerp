@@ -166,8 +166,9 @@ public class CheckBox extends EditableComponent {
 	 *        | The y-coordinate of the component.
 	 * @param clickCount
 	 *        | The count of clicks.
-	 * @effect The component is called with mouseClick event.
-	 *        | getComponent().mouseClicked(id, x, y, clickCount)
+	 * @effect The CheckedVariable is set to the opposite value when the mouse is pressed within the checkbox.
+	 *        | if (id == MouseEvent.MOUSE_PRESSED && isWithinComponent(x, y))
+	 *        | 	 this.setChecked(!isChecked())
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
@@ -189,10 +190,7 @@ public class CheckBox extends EditableComponent {
 	 *        | getComponent().keyPressed(id, keyCode, keyChar)
 	 */
 	@Override
-	public void keyPressed(int id, int keyCode, char keyChar) {
-		// TODO Auto-generated method stub
-
-	}
+	public void keyPressed(int id, int keyCode, char keyChar) {}
 
 	/**
 	 * Does nothing when there is an outside click.
@@ -209,10 +207,7 @@ public class CheckBox extends EditableComponent {
 	 *        | getComponent().outsideClick(id, x, y, clickCount)
 	 */
 	@Override
-	public void outsideClick(int id, int x, int y, int clickCount) {
-		// TODO Auto-generated method stub
-
-	}
+	public void outsideClick(int id, int x, int y, int clickCount) {}
 
 	private ChangeEventType getAction() {
 		return action;

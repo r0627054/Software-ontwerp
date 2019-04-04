@@ -22,7 +22,7 @@ import ui.model.window.sub.TablesWindow;
 /**
  * 
  * A view is a subclass of CanvasWindow. This is a frame which contains all the
- * different subwindows and contains the logic to change these subwindows.
+ * different subWindows and gives the information to the correct subWindows.
  * 
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -37,20 +37,23 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private PropertyChangeSupport support;
 
 	/**
-	 * Variable map storing the DesignViewMode and TableRowsViewMode for a certain
-	 * tableId.
+	 * Variable map storing all the subWindows.
 	 */
 	private List<SubWindow> subWindows = new ArrayList<>();
 
 	/**
-	 * Variables to determine if the user pressed control
+	 * Variables to determine if the user pressed control.
 	 */
 	private boolean ctrlPressed = false;
 
 	/**
 	 * Initialise this new view component with the given title.
+	 *  The propertyChangesupport variable is set.
 	 * 
-	 * @param title The title of the view.
+	 * @param title The title of the CanvasWindow.
+	 * @effectT The title of the CanvasWindow is set and the propertyChangeSupport variable is set.
+	 *         | super(title)
+	 *         | setSupport(new PropertyChangeSupport());
 	 */
 	public View(String title) {
 		super(title);
@@ -58,24 +61,11 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Startup method to initialise the tablesViewMode. The view starts listening to
-	 * this window for events and the current viewMode is set to tablesViewMode.
-	 * 
-	 * @param map The Map of tableIds and tableNames used to create the
-	 *            tablesViewMode
-	 */
-	/*
-	 * public void startup(Map<UUID, String> map) { tablesViewMode = new
-	 * TablesWindow(map); getTablesViewMode().addPropertyChangeListener(this);
-	 * changeModeTo(null, ViewModeType.TABLESVIEWMODE); }
-	 */
-
-	/**
 	 * Adds a propertyChangeListener to the PropertyChangeSupport.
 	 * 
-	 * @param pcl | The propertyChangeListener.
-	 * @effect Adds a propertyChangeListener to the PropertyChangeSupport. |
-	 *         support.addPropertyChangeListener(pcl);
+	 * @param pcl  The propertyChangeListener.
+	 * @effect Adds a propertyChangeListener to the PropertyChangeSupport. 
+	 *        |  getSupport().addPropertyChangeListener(pcl);
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		getSupport().addPropertyChangeListener(pcl);
@@ -84,16 +74,19 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	/**
 	 * Removes a propertyChangeListener from the PropertyChangeSupport.
 	 *
-	 * @param pcl | The propertyChangeListener.
-	 * @effect Removes a propertyChangeListener from the PropertyChangeSupport. |
-	 *         support.addPropertyChangeListener(pcl);
+	 * @param pcl  The propertyChangeListener.
+	 * @effect Removes a propertyChangeListener from the PropertyChangeSupport.
+	 *       |  getSupport().removePropertyChangeListener(pcl);
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener pcl) {
 		getSupport().removePropertyChangeListener(pcl);
 	}
 
 	/**
-	 * Paints the current mode.
+	 * Paints all the different subWindows.
+	 * @post The different SubWindows are painted.
+	 *       | for (SubWindow sw : getSubWindows())  
+	 *       |	sw.paint(g, sw.equals(getCurrentSubWindow()));
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -103,35 +96,23 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the current subwindow of the view.
+	 * Returns the current subWindow.
+	 *  The current subWindow is returned. If no subWindow is available null is returned.
+	 *  @return Null when there is no subWindow in the list of subWindows otherwise it returns the last subWindow in the list.
+	 *         | getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)	: null
 	 */
 	public SubWindow getCurrentSubWindow() {
-		return getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)
-				: null;
+		return getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)	: null;
 	}
 
 	/**
-	 * Gets the ViewMode for a certain tableId and a certain ViewModeType. The table
-	 * id should be empty if the TablesViewMode is requested, otherwise the table id
-	 * is mandatory.
-	 * 
-	 * @throws IllegalArgumentException | the tableId is null and viewModeType is
-	 *                                  null
-	 * @param id           | The table id of the requested view mode
-	 * @param viewModeType | The viewModeType enum to indicate which view mode is
-	 *                     requested
-	 * @return ViewMode | The requested ViewMode
-	 */
-	/*
-	 * public SubWindow getViewMode(UUID id, ViewModeType viewModeType) { if (id ==
-	 * null && viewModeType.equals(ViewModeType.TABLESVIEWMODE)) { return
-	 * tablesViewMode; } else if (id == null || viewModeType == null) { throw new
-	 * IllegalArgumentException("Cannot get ViewMode for null string"); } else {
-	 * List<TableWindow> listOfViewModes = this.getAllTableViewModes().get(id); if
-	 * (listOfViewModes != null) { for (SubWindow viewMode :
-	 * this.getAllTableViewModes().get(id)) { if
-	 * (viewModeType.equals(viewMode.getViewModeType())) { return viewMode; } } } }
-	 * return null; }
+	 * Returns the subWindows with the given Id.
+	 * @param id The id of the subWindow.
+	 * @return The list containing the subWindows with the given id.
+	 *         | for (SubWindow subWindow : this.getSubWindows()) 
+	 *         |	if ((subWindow.getId() != null && subWindow.getId().equals(id))
+	 *		   |	|| (id == null && subWindow.getId() == null)) 
+	 *		   |    	result.add(subWindow);
 	 */
 	public List<SubWindow> getSubWindows(UUID id) {
 		List<SubWindow> result = new ArrayList<>();
@@ -144,95 +125,81 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return result;
 	}
 
-	/**
-	 * Changes the current mode with the mode associated with the given key.
-	 * 
-	 * @param key
-	 * @throws IllegalArgumentException if the newCurrentMode is null |
-	 *                                  viewModes.get(key) == null
-	 * @post The current mode is switched with the mode associated with the given
-	 *       key. | new.getCurrentMode == viewModes.get(key)
-	 */
-	/*
-	 * public void changeModeTo(UUID id, ViewModeType viewModeType) { SubWindow
-	 * newCurrentMode = this.getViewMode(id, viewModeType); if (newCurrentMode ==
-	 * null) { throw new IllegalArgumentException("No mode found for key"); } else
-	 * this.setCurrentMode(newCurrentMode); }
-	 */
 
 	/**
-	 * Adds a TableViewMode (TableRowViewMode or TableDesignViewMode) to the list of
-	 * view modes. If the corresponding view mode of the table table id exists, the
-	 * new view mode is added to the same list. Otherwise, a new value in the view
-	 * modes map is created.
+	 * Adds a subWindow to the list of subWindows.
 	 * 
-	 * @param id       | tableId of the new TableViewMode
-	 * @param viewMode | the new TableViewMode
+	 * @param subWindow The subWindow which will be added to the list of subWindows.
+	 * @throws IllegalArgumentException The subWindow which has to be added equals null.
+	 *                                  | subWindow == null
+	 * @effect The subWindow is added to the list of subWindows.
+	 *         | this.getSubWindows().add(subWindow);
 	 */
 	public void addSubwindow(SubWindow subWindow) {
 		if (subWindow == null) {
 			throw new IllegalArgumentException("Subwindow cannot be null");
 		}
 		this.getSubWindows().add(subWindow);
-//		this.repaint();
 	}
-	/*
-	 * public void addTableViewMode(UUID id, TableWindow viewMode) { if
-	 * (this.getAllTableViewModes().containsKey(id)) {
-	 * 
-	 * List<TableWindow> viewModesOfId = this.getAllTableViewModes().get(id);
-	 * boolean containsViewModeOfType = false; for (TableWindow v : viewModesOfId) {
-	 * if (v.getViewModeType().equals(viewMode.getViewModeType())) {
-	 * containsViewModeOfType = true; } } if (!containsViewModeOfType) {
-	 * viewModesOfId.add(viewMode); this.getAllTableViewModes().replace(id,
-	 * viewModesOfId); } } else { List<TableWindow> list = new ArrayList<>();
-	 * list.add(viewMode); this.viewModes.put(id, list); } }
-	 */
+
 
 	/**
-	 * Gets the map of tableIds with their TableViewMode(s).
-	 * 
-	 * @return viewModes | The Map containing a list of TableViewModes for a certain
-	 *         tableId.
+	 * Returns the list of subWindows
+	 * @return The list of subWindows.
+	 *         | return subWindows.
 	 */
 	private List<SubWindow> getSubWindows() {
 		return subWindows;
 	}
 
 	/**
-	 * Changes the current view mode to the given current view mode and repaints the
-	 * window.
-	 * 
-	 * @param currentMode | the new set view mode
-	 * @post The currentMode is set | this.currentMode = currentMode
-	 * @post Window is repainted | repaint()
+	 * Sets the currentSubwindow. The window, which is already in the list, will be the last in the list.
+	 * The last subWindow in the list is always, the current subWindow. And everything is repainted.
+	 * @param currentWindow The subWindow, which is in the list, which will be the last one in the list.
+	 * @throws IllegalArgumentException when the currentWindow equals null or when the currentWindow is not in the list of windows.
+	 *         | currentWindow == null || !this.getSubWindows().contains(currentWindow)
+	 * @post The subWindow is set to be the last one in the list.
+	 *         | this.removeSubWindow(currentWindow);
+	 *         | this.getSubWindows().add(currentWindow);
+	 *         | this.repaint();
 	 */
 	private void setCurrentSubWindow(SubWindow currentWindow) {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
 			throw new IllegalArgumentException("Current window cannt be null nor can be set if it is not in the list.");
 		}
-		this.getSubWindows().remove(currentWindow);
+		this.removeSubWindow(currentWindow);
 		this.getSubWindows().add(currentWindow);
 		this.repaint();
 	}
 
+	/**
+	 * If there are subWindows in the list, the last window is removed and the canvas is repainted.
+	 * @post The last subWindow is removed and the canvas is repainted.
+	 *       | if(this.getCurrentSubWindow() != null)
+	 *       |  	this.removeSubWindow(this.getCurrentSubWindow());
+	 *       |		this.repaint();
+	 * 
+	 */
 	public void closeCurrentSubWindow() {
-		this.getSubWindows().remove(this.getCurrentSubWindow());
-		this.repaint();
+		if(this.getCurrentSubWindow() != null) {
+			this.removeSubWindow(this.getCurrentSubWindow());
+			this.repaint();
+		}
+	}
+	
+	
+	/**
+	 * Removes the subWindow out of the list of subWindows.
+	 * @param subWindow The subWindow which will be removed.
+	 * @effect The subWindow is removed out of the list of subWindows.
+	 *         | this.getSubWindows().remove(subWindow);
+	 */
+	public void removeSubWindow(SubWindow subWindow) {
+		this.getSubWindows().remove(subWindow);
 	}
 
 	/**
-	 * Gets the current ViewModeType
-	 * 
-	 * @return ViewModeType | the current type of the current view mode.
-	 */
-	/*
-	 * public ViewModeType getCurrentViewModeType() { return
-	 * this.getCurrentSubWindow().getViewModeType(); }
-	 */
-
-	/**
-	 * Gives the raised mouse event details to the current shown view mode.
+	 * When the mouse is clicked in another subWindow, that window is set as currentSubwindow and the click is given to it.
 	 * 
 	 * @param id         | MouseEvent click id
 	 * @param x          | x-coordinate clicked
@@ -260,10 +227,11 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Gives the raised key event details to the current shown view mode.
-	 * 
+	 * Gives the raised key event details to the current subWindow.
+	 *  Checks whether the ctrl-enter or ctrl-t is pressed. The key press is given to the current subwindow.
+	 *   
 	 * @param id      | MouseEvent key id
-	 * @param keyCode | MouseEvent Keycode (e.g.: KeyEvent.VK_ESCAPE)
+	 * @param keyCode | MouseEvent Keycode
 	 * @param keyChar | Character typed
 	 */
 	@Override
@@ -286,268 +254,186 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
-	/*
-	 * protected void handleKeyEvent(int id, int keyCode, char keyChar) { if (id ==
-	 * KeyEvent.KEY_PRESSED) { if (this.getCurrentSubWindow() instanceof
-	 * TableRowsWindow) { TableRowsWindow currentViewMode = (TableRowsWindow)
-	 * getCurrentSubWindow(); if (!currentViewMode.isPaused()) {
-	 * checkEscapeKeyPress(id, keyCode); checkCtrlEnterKeyPress(id, keyCode); } }
-	 * else if (this.getCurrentSubWindow() instanceof TableDesignWindow) {
-	 * TableDesignWindow currentViewMode = (TableDesignWindow)
-	 * getCurrentSubWindow(); if (!currentViewMode.isPaused() &&
-	 * !currentViewMode.hasASelectedCell()) { checkEscapeKeyPress(id, keyCode);
-	 * checkCtrlEnterKeyPress(id, keyCode); } } getCurrentSubWindow().keyPressed(id,
-	 * keyCode, keyChar); } }
-	 */
-	/*
-	 * private void checkCtrlEnterKeyPress(int id, int keyCode) { if
-	 * (isCtrlPressed() && isEntrPressed()) { setCtrlPressed(false);
-	 * setEntrPressed(false); // SubWindow currentViewMode =
-	 * this.getCurrentSubWindow(); this.getCurrentSubWindow().ctrlEntrPressed();
-	 * 
-	 * /* if (tableDVM.equals(currentViewMode.getViewModeType())) { TableWindow
-	 * currentTableViewMode = (TableWindow) currentViewMode; PropertyChangeEvent evt
-	 * = new PropertyChangeEvent(currentTableViewMode.getId(),
-	 * ChangeEventType.SWITCH_VIEWMODE, tableDVM, tableRVM);
-	 * 
-	 * this.support.firePropertyChange(evt);
-	 * 
-	 * } else if (tableRVM.equals(currentViewMode.getViewModeType())) { TableWindow
-	 * currentTableViewMode = (TableWindow) currentViewMode;
-	 * 
-	 * PropertyChangeEvent evt = new
-	 * PropertyChangeEvent(currentTableViewMode.getId(),
-	 * ChangeEventType.SWITCH_VIEWMODE, tableRVM, tableDVM);
-	 * this.support.firePropertyChange(evt); }
-	 * 
-	 * } }
-	 */
-
 	/**
 	 * Receives a propertyChangeEvent and fires a new event to its listeners.
 	 * Overrides from the PropertyChangeListener interface.
 	 * 
-	 * @param evt | the received event from a ViewMode
+	 * @param evt The received event from a subWindow.
 	 * 
-	 * @post fires the event to its listeners |
-	 *       getSupport().firePropertyChange(evt);
+	 * @post fires the event to its listeners and repaints the canvas.
+	 *       | getSupport().firePropertyChange(evt)
+	 *       | this.repaint()
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		this.getSupport().firePropertyChange(evt);
 		this.repaint();
 	}
-
+	
 	/**
-	 * Throws an error to a component on the current view mode.
+	 * Throws an error to a component in the current subWindow.
+	 * @param id          The id of component that needs to receive the error.
+	 * @param columnIndex The index of the column where the error should be thrown.
+	 * @param newValue    The newValue which need to be set in the UI.
 	 * 
-	 * @param id | The id of component that needs to receive the error.
+	 * @effect The error is thrown on the current subWindow.
+	 *         | getCurrentSubWindow().throwError(id, columnIndex, newValue)
 	 */
 	public void throwErrorOnCurrentSubWindow(UUID id, int columnIndex, Object newValue) {
 		getCurrentSubWindow().throwError(id, columnIndex, newValue);
 	}
-
+	
 	/**
-	 * Creates a tableRowsViewMode To open this mode, we need data to fetch the
-	 * already existing view mode and if this does not exist, we pass data to create
-	 * a new tableRowsViewMode
+	 * Creates a new tableRows window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param tableId     | The tableId of the table that should be shown.
-	 * @param tableName   | The table name of the table that should be shown.
-	 * @param table       | A map containing all the information of to show the
-	 *                    table.
-	 * @param columnTypes | A map containing a class for each column, to determine
-	 *                    if the value is null | What the column type should be.
+	 * @param tableId      The tableId of the table that should be shown.
+	 * @param tableName    The table name of the table that should be shown.
+	 * @param table        A map containing all the information of to show the
+	 *                     table.
+	 * @param columnTypes  A map containing a class for each column, to determine
+	 *                     if the value is null | What the column type should be.
+	 * @throws IllegalArgumentException when the id equals null or when the table equals null.
+	 *                     | id == null || table == null
+	 * @effect The tableRowsWindow is created and is added to the list of subWindows.
+	 *         | this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	 */
 	public void createTableRowsWindow(UUID id, String tableName,
 			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
-		SubWindow newTableRowsWindow = new TableRowsWindow(id, tableName, table);
-		newTableRowsWindow.addPropertyChangeListener(this);
-		this.addSubwindow(newTableRowsWindow);
-		this.setCurrentSubWindow(newTableRowsWindow);
+		this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	}
 
 	/**
-	 * Opens the tableDesignViewMode To open this mode, we need data to fetch the
-	 * already existing view mode and if this does not exist, we pass data to create
-	 * a new tableDesignViewMode
+	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param id                    | The tableId of the table that should be shown.
-	 * @param tableName             | The table name of the table that should be
-	 *                              shown.
-	 * @param columnCharacteristics | A map containing all the information of to
-	 *                              show the table.
+	 * @param id                    The id of the table.
+	 * @param tableName             The name of the table.
+	 * @param columnCharacteristics The characteristics of the columns of the table.
+	 * @throws IllegalArgumentException When the id equals null or when the tableName equals null or is empty or when the columnCharacteristics equal null.
+	 *                              | id == null || tableName == null || tableName.isEmpty() || columnCharacteristics == null
+	 * @effect The tableDesignWindow is created and is added to the list of subWindows.
+	 *         | this.addCreatedTable(new TableDesignWindow(id, tableName, columnCharacteristics));
 	 */
-//	public void openTableDesignViewMode(UUID id, String tableName,
-//			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-//		if (id == null || columnCharacteristics == null) {
-//			throw new IllegalArgumentException(
-//					"Cannot open TableRowsViewMode with columnCharacteristics or id equals null.");
-//		}
-//
-//		TableDesignWindow tableDesignViewMode = (TableDesignWindow) this.getViewMode(id,
-//				ViewModeType.TABLEDESIGNVIEWMODE);
-//		if (tableDesignViewMode == null) {
-//			tableDesignViewMode = createTableDesignViewMode(id, tableName, columnCharacteristics);
-//			this.addTableViewMode(id, tableDesignViewMode);
-//		} else {
-//			tableDesignViewMode.updateDesignTable(columnCharacteristics);
-//		}
-//		this.setCurrentSubWindow(tableDesignViewMode);
-//	}
-
 	public void createTableDesignWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		if (id == null || tableName == null || tableName.isEmpty() || columnCharacteristics == null) {
 			throw new IllegalArgumentException(
 					"Cannot create TableRowsWindow with columnCharacteristics, id or name equals null/empty.");
 		}
-		SubWindow newTableDesignWindow = new TableDesignWindow(id, tableName, columnCharacteristics);
-		newTableDesignWindow.addPropertyChangeListener(this);
-		this.addSubwindow(newTableDesignWindow);
-		this.setCurrentSubWindow(newTableDesignWindow);
+		this.addCreatedTable(new TableDesignWindow(id, tableName, columnCharacteristics));
 	}
-
+	
+	/**
+	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
+	 * 
+	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
+	 * @effect  The tablesWindow is created and is added to the list of subWindows.
+	 *           | this.addCreatedTable(new TablesWindow(data));
+	 * @throws IllegalArgumentException when the data equals null.
+	 *           | data == null
+	 */
 	public void createTablesWindow(Map<UUID, String> data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Cannot create a tables window when the data equals null");
 		}
-		SubWindow tablesWindow = new TablesWindow(data);
-		tablesWindow.addPropertyChangeListener(this);
-		this.addSubwindow(tablesWindow);
-		this.setCurrentSubWindow(tablesWindow);
+		this.addCreatedTable(new TablesWindow(data));
+	}
+	
+	/**
+	 * Adds this class to the propertyChangeListeners of the subWindow and sets the subWindow as currentWindow.
+	 * @param subWindow The subWindow which needs to be added.
+	 * @effect This class is added to the propertyChange listeners of the subWindow. 
+	 *         The subWindow is added to the list of subWindows.
+	 *         The window is set as currentSubWindow.
+	 *         | subWindow.addPropertyChangeListener(this);
+	 *         | this.addSubwindow(subWindow);
+	 *         | this.setCurrentSubWindow(subWindow);
+	 */
+	private void addCreatedTable(SubWindow subWindow) {
+		if(subWindow == null) {
+			throw new IllegalArgumentException("Cannot add an subWindow which is null");
+		}
+		subWindow.addPropertyChangeListener(this);
+		this.addSubwindow(subWindow);
+		this.setCurrentSubWindow(subWindow);
 	}
 
+	/**
+	 * Updates all the tablesSubWindows with the given data.
+	 * @param tablesListData The data needed to update a tablesSubWindow.
+	 * @effect All the tableSubwindows are updated.
+	 *         | for (SubWindow sw : this.getSubWindows(null)) 
+	 *         |	sw.updateContent(tablesListData);
+	 */
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
 		for (SubWindow sw : this.getSubWindows(null)) {
 			sw.updateContent(tablesListData);
 		}
 	}
 
-	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
+
+	/**
+	 * Updates all the tableRows and design subWindows associated with the given tableId.
+	 * @param id            The id of the table.
+	 * @param designData    The data used for the design.
+	 * @param tableRowsData The data used in the rows.
+	 * @param rowsClassData The rows class data.
+	 * @effect The information is updated for the different tables with the given tableId.
+	 *         |for (SubWindow sw : this.getSubWindows(id)) 
+	 *        		sw.updateContent(designData, tableRowsData, rowsClassData);
+	 */
+	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
 		for (SubWindow sw : this.getSubWindows(id)) {
 			sw.updateContent(tableName, designData, tableRowsData);
 		}
 	}
 
-	/*
-	 * public void updateSubWindows(UUID id, Map<UUID, LinkedHashMap<String,
-	 * Object>> designData, Map<Map<UUID, String>, LinkedHashMap<UUID, Object>>
-	 * tableRowsData, Map<UUID, Class<?>> rowsClassData, Map<UUID, String>
-	 * tablesListData) {
-	 * 
-	 * for (SubWindow sw : getSubWindows(id)) { sw.updateContent(designData,
-	 * tableRowsData, rowsClassData, tablesListData); } }
-	 */
-
 	/**
-	 * Updates the tableDesignViewMode Whenever a domain element is updated, the
-	 * view needs to be updated as well.
-	 * 
-	 * @param tableId               | The tableId of the table that should be shown.
-	 * @param tableName             | The table name of the table that should be
-	 *                              shown.
-	 * @param columnCharacteristics | A map containing all the information of to
-	 *                              show the table.
-	 */
-	/*
-	 * public void updateTableDesignViewMode(UUID tableId, String tableNameOfId,
-	 * Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-	 * TableDesignWindow tableDesignViewMode = (TableDesignWindow)
-	 * getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE);
-	 * tableDesignViewMode.updateDesignTable(columnCharacteristics); }
-	 */
-
-	/**
-	 * Updates the tableRowsViewMode Whenever a domain element is updated, the view
-	 * needs to be updated as well.
-	 * 
-	 * @param tableId     | The tableId of the table that should be shown.
-	 * @param tableName   | The table name of the table that should be shown.
-	 * @param table       | A map containing all the information of to show the
-	 *                    table.
-	 * @param columnTypes | A map containing a class for each column, to determine
-	 *                    if the value is null | What the column type should be.
-	 */
-	/*
-	 * public void updateTableRowsViewMode(UUID tableId, String tableName,
-	 * Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID,
-	 * Class<?>> columnTypes) { TableRowsWindow tableRowsViewMode =
-	 * (TableRowsWindow) getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE);
-	 * tableRowsViewMode.updateRowsTable(table, columnTypes); }
-	 */
-
-	/**
-	 * Pauses the application. Only one 'error' cell should be editable of a certain
-	 * column with index
-	 * 
-	 * @param index | index of the cell of a column
-	 * @param id    | columnId of the column
-	 */
-	/*
-	 * public void pauseApplication(int indexOfCell, UUID columnId) { SubWindow
-	 * currentMode = getCurrentSubWindow(); if (currentMode instanceof TableWindow)
-	 * { TableWindow currentViewMode = (TableWindow) currentMode;
-	 * currentViewMode.pauseViewMode(indexOfCell, columnId); } }
+	 * Pauses the current subWindow for any changes except for the given cell at the given column.
+	 * @param indexOfCell The index of the cell.
+	 * @param columnId    The columnId on which the cell is located.
+	 * @effect The current subWindow is paused using the given parameters.
+	 *        | this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
 	 */
 	public void pauseCurrentSubWindow(int indexOfCell, UUID columnId) {
 		this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
 	}
 
-	/*
-	 * public UUID getCurrentTableViewModeTableId() { SubWindow current =
-	 * getCurrentSubWindow();
-	 * 
-	 * if (current instanceof TableWindow) { TableWindow currentTableViewMode =
-	 * (TableWindow) current; return currentTableViewMode.getId(); } return null; }
+	/**
+	 * Returns the id of the current subWindow.
+	 * @return The id of the current subWindow is returned.
+	 *         | this.getCurrentSubWindow().getId()
 	 */
 	public UUID getCurrentTableSubWindowTableId() {
 		return this.getCurrentSubWindow().getId();
 	}
 
 	/**
-	 * Resumes the application. To make sure we don't add the error twice as
-	 * actionListeners to clicks and keys, give the cell data to the view.
-	 * 
-	 * @param index | index of the cell of a column
-	 * @param id    | columnId of the column
-	 */
-	/*
-	 * public void resume(int columnIndex, UUID columnId) { SubWindow current =
-	 * this.getCurrentSubWindow();
-	 * 
-	 * if (current instanceof TableWindow) { TableWindow currentTableViewMode =
-	 * (TableWindow) current; currentTableViewMode.resumeSubWindow(columnIndex,
-	 * columnId); } }
+	 * Resumes the current subWindow.
+	 * @effect The currentSubWindow is resumed.
+	 *         | this.getCurrentSubWindow().resumeSubWindow();
 	 */
 	public void resume() {
 		this.getCurrentSubWindow().resumeSubWindow();
 	}
 
-//	/**
-//	 * Sets a specific error in a cell in the DesignTable.
-//	 * 
-//	 * @param columnIndex | index of the cell of a column
-//	 * @param columnId    | columnId of the column
-//	 * @param newValue    | the new value of this cell
-//	 */
-//	public void setErrorDesignTableCell(int columnIndex, UUID columnId, Object newValue) {
-//		SubWindow current = this.getCurrentSubWindow();
-//
-//		if (current instanceof TableDesignWindow) {
-//			TableDesignWindow currentDesignViewMode = (TableDesignWindow) current;
-//			currentDesignViewMode.setErrorDesignTableCell(columnIndex, columnId, newValue);
-//		}
-//	}
-
+	/**
+	 * Returns the ctrlPressed variable.
+	 * @return True when ctrl was pressed; otherwise false.
+	 */
 	private boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
-
+	
+	/**
+	 * Sets the ctrlPressed variable
+	 * @param ctrlPressed True when the ctrl-key is pressed otherwise false.
+	 * @post The ctrlPressed variable is set. 
+	 *       | new.isCtrlPressed = ctrlPressed
+	 */
 	private void setCtrlPressed(boolean ctrlPressed) {
 		this.ctrlPressed = ctrlPressed;
 	}
@@ -579,18 +465,20 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	/**
 	 * Gets the PropertyChangeSupport
 	 * 
-	 * @return support
+	 * @return support The PropertyChangeSupport variable.
 	 */
 	private PropertyChangeSupport getSupport() {
 		return support;
 	}
 
 	/**
-	 * Sets the PropertyChangeSupport
+	 * Sets the PropertyChangeSupport.
 	 * 
-	 * @param support | the PropertyChangeSupport
-	 * @throws IllegalArgumentException | the support argument is null
-	 * @post The support given is set | this.support = support
+	 * @param support                    The PropertyChangeSupport variable
+	 * @throws IllegalArgumentException  The support argument equals null
+	 *                                   | support == null
+	 * @post                             The support given is set    
+	 *                                   |new.getSupport() = support
 	 */
 	private void setSupport(PropertyChangeSupport support) {
 		if (support == null) {
@@ -599,6 +487,11 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.support = support;
 	}
 
+	/**
+	 * Returns the number of subWindows.
+	 * @return The number of subWindows.
+	 *         | this.getSubWindows().size()
+	 */
 	private int getNbrOfSubWindows() {
 		return this.getSubWindows().size();
 	}
