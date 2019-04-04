@@ -33,6 +33,8 @@ public class CheckBox extends EditableComponent {
 	 */
 	private final static int STROKE_WIDTH_CROSS = 2;
 
+	private final ChangeEventType action;
+	
 	/**
 	 * The variable storing whether the box is checked or not.
 	 */
@@ -50,8 +52,8 @@ public class CheckBox extends EditableComponent {
 	 * @effect All the variables are set and the x and y coordinates are equal to 0.
 	 *         | this(0, 0, checked, id)
 	 */
-	public CheckBox(boolean checked, UUID id) {
-		this(0, 0, checked, id);
+	public CheckBox(boolean checked, UUID id, ChangeEventType action) {
+		this(0, 0, checked, id, action);
 	}
 
 	/**
@@ -70,8 +72,8 @@ public class CheckBox extends EditableComponent {
 	 * @effect All the variables are set and the width and height are by default the size of the box itself.
 	 *        | this(x, y, SIZE, SIZE, checked, id)
 	 */
-	public CheckBox(int x, int y, boolean checked, UUID id) {
-		this(x, y, SIZE, SIZE, checked, id);
+	public CheckBox(int x, int y, boolean checked, UUID id, ChangeEventType action) {
+		this(x, y, SIZE, SIZE, checked, id, action);
 	}
 
 	/**
@@ -93,9 +95,10 @@ public class CheckBox extends EditableComponent {
 	 *       | super(x, y, width, height, false, id);
 	 *       | setChecked(checked)
 	 */
-	public CheckBox(int x, int y, int width, int height, boolean checked, UUID id) {
+	public CheckBox(int x, int y, int width, int height, boolean checked, UUID id, ChangeEventType action) {
 		super(x, y, width, height, false, id);
 		setChecked(checked);
+		this.action = action;
 	}
 
 	/**
@@ -109,7 +112,10 @@ public class CheckBox extends EditableComponent {
 	 */
 	private void setChecked(boolean checked) {
 		this.checked = checked;
-		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, !this.isChecked(), this.isChecked());
+		if(getAction() != null) {
+			propertyChanged(this.getId(), getAction(), !this.isChecked(), this.isChecked());
+		}
+//		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, !this.isChecked(), this.isChecked());
 	}
 
 	/**
@@ -207,5 +213,10 @@ public class CheckBox extends EditableComponent {
 		// TODO Auto-generated method stub
 
 	}
+
+	private ChangeEventType getAction() {
+		return action;
+	}
+	
 
 }

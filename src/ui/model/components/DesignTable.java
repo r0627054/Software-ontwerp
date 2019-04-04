@@ -82,35 +82,37 @@ public class DesignTable extends EditableComponent {
 				// create these cells
 				switch (obj.getKey()) {
 				case "Type":
-					ToggleTextField toggleTextField = new ToggleTextField(100, 100, obj.getValue().toString(),
-							columnId);
-					newCell = new UICell(toggleTextField, columnId, ChangeEventType.COLUMN_CHANGE_TYPE);
+					ToggleTextField toggleTextField = new ToggleTextField(100, 100, obj.getValue().toString(), columnId,
+							ChangeEventType.COLUMN_CHANGE_TYPE);
+					newCell = new UICell(toggleTextField, columnId);
 					break;
 				case "Column Name":
 					EditableTextField nameTextField = new EditableTextField(0, 0, 100, 100, obj.getValue().toString(),
-							columnId);
-					newCell = new UICell(nameTextField, columnId, ChangeEventType.COLUMN_CHANGE_NAME);
+							columnId, ChangeEventType.COLUMN_CHANGE_NAME, null, null);
+					newCell = new UICell(nameTextField, columnId);
 					break;
 				case "Allow Blanks":
-					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), columnId);
-					newCell = new UICell(blanksCheckBox, columnId, ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
+					CheckBox blanksCheckBox = new CheckBox(0, 0, (Boolean) obj.getValue(), columnId,
+							ChangeEventType.COLUMN_CHANGE_ALLOW_BLANKS);
+					newCell = new UICell(blanksCheckBox, columnId);
 					break;
 				case "Default Value":
 					if (type.equals("Boolean")) {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
-						TextField valueTextField = new ToggleTextField(100, 100, value, columnId);
-						newCell = new UICell(valueTextField, columnId, ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+						TextField valueTextField = new ToggleTextField(100, 100, value, columnId,
+								ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+						newCell = new UICell(valueTextField, columnId);
 
 					} else {
 						String value = obj.getValue() == null ? "" : obj.getValue().toString();
 
-						Component valueTextField = new EditableTextField(0, 0, 100, 100, value, columnId);
-						newCell = new UICell(valueTextField, columnId, ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE);
+						Component valueTextField = new EditableTextField(0, 0, 100, 100, value, columnId,
+								ChangeEventType.COLUMN_CHANGE_DEFAULT_VALUE, null, null);
+						newCell = new UICell(valueTextField, columnId);
 					}
 					break;
 				default:
-					newCell = new UICell(obj.getValue(), columnId, null);
 					break;
 				}
 				allCellsList.add(newCell);

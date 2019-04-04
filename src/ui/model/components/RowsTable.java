@@ -64,6 +64,8 @@ public class RowsTable extends EditableComponent {
 		List<Component> columnList = new ArrayList<>();
 		List<UICell> allCellsList = new ArrayList<>();
 
+		ChangeEventType cellSubmitAction = ChangeEventType.ROW_EDITED;
+
 		for (List<Object> columnData : values.keySet()) {
 			Map<UUID, Object> columnCellsMap = values.get(columnData);
 			UUID columnId = (UUID) columnData.get(0);
@@ -76,7 +78,8 @@ public class RowsTable extends EditableComponent {
 			columnCells.add(header);
 
 			for (UUID cellId : columnCellsMap.keySet()) {
-				UICell newCell = new UICell(columnCellsMap.get(cellId), cellId, tableType, ChangeEventType.ROW_EDITED);
+				UICell newCell = new UICell(columnCellsMap.get(cellId), cellId, tableType, cellSubmitAction, null,
+						null);
 				columnCells.add(newCell);
 				allCellsList.add(newCell);
 			}
