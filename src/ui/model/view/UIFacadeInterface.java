@@ -22,7 +22,6 @@ public interface UIFacadeInterface {
 	 */
 	public void show();
 
-
 	/**
 	 * Adds a propertyChangeListener to the PropertyChangeSupport.
 	 * 
@@ -66,7 +65,7 @@ public interface UIFacadeInterface {
 	 * @param tablesListData The data needed to update a tablesSubWindow.
 	 */
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
-  
+
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
@@ -74,9 +73,9 @@ public interface UIFacadeInterface {
 	 * @param tableRowsData The data used in the rows.
 	 * @param rowsClassData The rows class data.
 	 */
-	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
-
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData);
 
 	/**
 	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.

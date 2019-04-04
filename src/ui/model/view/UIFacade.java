@@ -18,12 +18,12 @@ import controller.observer.PropertyChangeSupport;
  *
  */
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
-	
+
 	/**
 	 * The variable storing the view.
 	 */
 	private View view;
-	
+
 	/**
 	 * The PropertyChangeSupport where the listeners of this class are registered
 	 * and where this class calls his propertyChange function to.
@@ -125,7 +125,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
 		this.getView().updateTablesSubWindows(tablesListData);
 	}
-	
+
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
@@ -135,9 +135,10 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 * @effect The view will update the TableRowsAndDesignSubWindow.
 	 *         | this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData)
 	 */
-	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
-		this.getView().updateTableRowsAndDesignSubWindows(id, designData, tableRowsData, rowsClassData);
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData);
 	}
 
 	/**
@@ -166,7 +167,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void createTablesSubWindow(Map<UUID, String> data) {
 		this.getView().createTablesWindow(data);
 	}
-	
+
 	/**
 	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain
 	 * column with index in the specific subWindow.
@@ -179,7 +180,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	@Override
 	public void pauseCurrentSubWindow(int i, UUID id) {
 		this.getView().pauseCurrentSubWindow(i, id);
-
+	}
 
 	/**
 	 * Resumes the subWindow. To make sure we don't add the error twice as
@@ -234,7 +235,6 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		this.support = support;
 	}
 
-
 	/**
 	 * Closes the currentSubWindow.
 	 * @effect the view closes the currentSubWindow.
@@ -242,7 +242,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public void closeCurrentSubWindow() {
-		this.getView().closeCurrentSubWindow();		
+		this.getView().closeCurrentSubWindow();
 	}
 
 }

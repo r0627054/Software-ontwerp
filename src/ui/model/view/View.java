@@ -302,7 +302,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
-		this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
+		this.addCreatedTable(new TableRowsWindow(id, tableName, table));
 	}
 
 	/**
@@ -384,8 +384,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         |for (SubWindow sw : this.getSubWindows(id)) 
 	 *        		sw.updateContent(designData, tableRowsData, rowsClassData);
 	 */
-	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) {
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> designData,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
 		for (SubWindow sw : this.getSubWindows(id)) {
 			sw.updateContent(tableName, designData, tableRowsData);
 		}
