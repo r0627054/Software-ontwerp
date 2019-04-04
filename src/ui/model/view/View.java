@@ -325,7 +325,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.addCreatedTable(new TableDesignWindow(id, tableName, columnCharacteristics));
 	}
 	
-
 	/**
 	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
 	 * 

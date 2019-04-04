@@ -19,7 +19,7 @@ import controller.observer.PropertyChangeSupport;
 public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	
 	/**
-	 * The view, which handles changing view modes and the CanvasWindow.
+	 * The variable storing the view.
 	 */
 	private View view;
 	
@@ -31,7 +31,6 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	/**
 	 * Initialises a new UIFacade.
-	 * This constructor is only called once.
 	 */
 	public UIFacade() {
 		this.view = new View("Tablr");

@@ -48,44 +48,55 @@ public interface UIFacadeInterface {
 	public void throwError(UUID id, int columnIndex, Object newValue);
 
 	/**
-	 * Opens the tableRowsViewMode To open this mode, we need data to fetch the
-	 * already existing view mode and if this does not exist, we pass data to create
-	 * a new tableRowsViewMode
+	 * Creates a new tableRows window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param tableId     | The tableId of the table that should be shown.
-	 * @param tableName   | The table name of the table that should be shown.
-	 * @param table       | A map containing all the information of to show the
-	 *                    table.
-	 * @param columnTypes | A map containing a class for each column, to determine
-	 *                    if the value is null | What the column type should be.
+	 * @param tableId      The tableId of the table that should be shown.
+	 * @param tableName    The table name of the table that should be shown.
+	 * @param table        A map containing all the information of to show the
+	 *                     table.
+	 * @param columnTypes  A map containing a class for each column, to determine
+	 *                     if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> table, Map<UUID, Class<?>> columnTypes);
 
+	/**
+	 * Updates all the tablesSubWindows with the given data.
+	 * @param tablesListData The data needed to update a tablesSubWindow.
+	 */
 	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
 	
+	/**
+	 * Updates all the tableRows and design subWindows associated with the given tableId.
+	 * @param id            The id of the table.
+	 * @param designData    The data used for the design.
+	 * @param tableRowsData The data used in the rows.
+	 * @param rowsClassData The rows class data.
+	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> tableRowsData, Map<UUID, Class<?>> rowsClassData) ;
 
 	/**
-	 * Opens the tableDesignViewMode To open this mode, we need data to fetch the
-	 * already existing view mode and if this does not exist, we pass data to create
-	 * a new tableDesignViewMode
+	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
 	 * 
-	 * @param id                    | The tableId of the table that should be shown.
-	 * @param tableName             | The table name of the table that should be
-	 *                              shown.
-	 * @param columnCharacteristics | A map containing all the information of to
-	 *                              show the table.
+	 * @param id                    The id of the table.
+	 * @param tableName             The name of the table.
+	 * @param columnCharacteristics The characteristics of the columns of the table.
+	 *
 	 */
 	public void createTableDesignSubWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics);
 
+	/**
+	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
+	 * 
+	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
+	 */
 	public void createTablesSubWindow(Map<UUID, String> data);
 	
 	/**
-	 * Pauses the application. Only one 'error' cell should be editable of a certain
-	 * column with index
+	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain
+	 * column with index in the specific subWindow.
 	 * 
 	 * @param index | index of the cell of a column
 	 * @param id    | columnId of the column
@@ -93,22 +104,20 @@ public interface UIFacadeInterface {
 	public void pauseApplication(int index, UUID id);
 
 	/**
-	 * Resumes the application. To make sure we don't add the error twice as
+	 * Resumes the subWindow. To make sure we don't add the error twice as
 	 * actionListeners to clicks and keys, give the cell data to the view.
-	 * 
-	 * @param index | index of the cell of a column
-	 * @param id    | columnId of the column
 	 */
 	public void resume();
 
 	/**
-	 * Gets the Id of the currently opened TableViewMode. If the view currently is
-	 * in TablesViewMode, this should not return an id.
-	 * 
-	 * @return UUID of the current table | getView.getCurrentTableId();
+	 * Gets the Id of the currently selected subWindow.
+	 * @return The UUID of the table.
 	 */
 	public UUID getCurrentTableId();
 
+	/**
+	 * Closes the currentSubWindow.
+	 */
 	public void closeCurrentSubWindow();
 
 }
