@@ -56,7 +56,7 @@ public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, 
 //			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			uifacade.throwError(columnId, columnIndex, newDefaultValue);
-			uifacade.pauseApplication(columnIndex, columnId);
+			uifacade.pauseCurrentSubWindow(columnIndex, columnId);
 		}
 
 	}

@@ -137,7 +137,7 @@ public class CanvasWindow {
 		int i = 0;
 		{
 			setPreferredSize(new Dimension(width, height));
-			setBackground(new Color(235, 235, 235));
+			setBackground(new Color(240, 240, 240));
 			setFocusable(true);
 
 			addMouseListener(new MouseAdapter() {

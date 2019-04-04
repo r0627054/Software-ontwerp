@@ -95,7 +95,6 @@ public class EditableTextField extends TextField {
 		if (this.getDeleteAction() != null) {
 			propertyChanged(this.getId(), getDeleteAction(), null, null);
 		}
-//		propertyChanged(this.getId(), ChangeEventType.DELETE_TABLE, null, null);
 	}
 
 	/**
@@ -122,7 +121,6 @@ public class EditableTextField extends TextField {
 			this.setSelected(false);
 			propertyChanged(this.getId(), getDoubleClickAction(), null, this.getText());
 		}
-//		propertyChanged(this.getId(), ChangeEventType.OPEN_TABLEVIEWMODE, null, this.getText());
 	}
 
 	/**
@@ -398,7 +396,6 @@ public class EditableTextField extends TextField {
 			this.setError(false);
 			propertyChanged(this.getId(), getSubmitAction(), this.getDefaultValue(), this.getText());
 		}
-//		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, this.getDefaultValue(), this.getText());
 	}
 
 	/**
@@ -418,7 +415,6 @@ public class EditableTextField extends TextField {
 			this.setSelected(false);
 			propertyChanged(this.getId(), getSubmitAction(), "", this.getDefaultValue());
 		}
-//		propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, "", this.getDefaultValue());
 	}
 
 	/**

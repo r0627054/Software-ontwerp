@@ -222,8 +222,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *        | columnId of the column
 	 */
 	@Override
-	public void pauseApplication(int i, UUID id) {
-		this.getView().pauseApplication(i, id);
+	public void pauseCurrentSubWindow(int i, UUID id) {
+		this.getView().pauseCurrentSubWindow(i, id);
 
 	}
 

@@ -78,8 +78,6 @@ public class DesignTable extends EditableComponent {
 			for (Map.Entry<String, Object> obj : entry.getValue().entrySet()) {
 				UICell newCell = null;
 
-				// TODO: create a function (createTextFieldCell/createCheckBoxCell/...) to
-				// create these cells
 				switch (obj.getKey()) {
 				case "Type":
 					ToggleTextField toggleTextField = new ToggleTextField(100, 100, obj.getValue().toString(), columnId,

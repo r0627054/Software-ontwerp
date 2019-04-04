@@ -135,7 +135,7 @@ public interface UIFacadeInterface {
 	 * @param index | index of the cell of a column
 	 * @param id    | columnId of the column
 	 */
-	public void pauseApplication(int index, UUID id);
+	public void pauseCurrentSubWindow(int index, UUID id);
 
 	/**
 	 * Resumes the application. To make sure we don't add the error twice as

@@ -40,7 +40,7 @@ public class TableNameChangeHandler implements ChangeHandlerInterface {
 					domainfacade.getTableWithIds(id));
 		} catch (Exception e) {
 			uifacade.throwError(id, 0, 0);
-			uifacade.pauseApplication(0, id);
+			uifacade.pauseCurrentSubWindow(0, id);
 		}
 	}
 

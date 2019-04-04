@@ -9,27 +9,42 @@ package controller.handlers;
  *
  */
 public enum ChangeEventType {
-	REPAINT,
+	REPAINT(null),
 			
-	CREATE_TABLE, 
-	CREATE_ROW,
-	CREATE_COLUMN,
+	CREATE_TABLE(CreateTableChangeHandler.class), 
+	CREATE_ROW(CreateRowChangeHandler.class),
+	CREATE_COLUMN(CreateColumnChangeHandler.class),
 	
-	DELETE_TABLE,
-	DELETE_ROW,
-	DELETE_COLUMN, 
+	DELETE_TABLE(DeleteTableChangeHandler.class),
+	DELETE_ROW(DeleteRowChangeHandler.class),
+	DELETE_COLUMN(DeleteColumnChangeHandler.class), 
 	
-	COLUMN_CHANGE_NAME,
-	COLUMN_CHANGE_TYPE, 
-	COLUMN_CHANGE_DEFAULT_VALUE, 
-	COLUMN_CHANGE_ALLOW_BLANKS,
+	COLUMN_CHANGE_NAME(ColumnNameChangeHandler.class),
+	COLUMN_CHANGE_TYPE(ColumnTypeChangeHandler.class), 
+	COLUMN_CHANGE_DEFAULT_VALUE(ColumnDefaultValueChangeHandler.class), 
+	COLUMN_CHANGE_ALLOW_BLANKS(ColumnAllowBlanksChangeHandler.class),
 	
-	TABLE_CHANGE_NAME,
-	ROW_EDITED,
+	TABLE_CHANGE_NAME(TableNameChangeHandler.class),
+	ROW_EDITED(RowEditedChangeHandler.class),
 	
-	OPEN_TABLEVIEWMODE,
-	CLOSE_SUBWINDOW, 
-	CREATE_TABLEROWSWINDOW, 
-	CREATE_TABLEDESIGNWINDOW,
-	CREATE_TABLESSUBWINDOW;
+	OPEN_TABLEVIEWMODE(OpenTableViewModeChangeHandler.class),
+	CLOSE_SUBWINDOW(CloseSubWindowChangeHandler.class), 
+	CREATE_TABLEROWSWINDOW(CreateTableRowsSubWindowChangeHandler.class), 
+	CREATE_TABLEDESIGNWINDOW(CreateTableDesignSubWindowChangeHandler.class),
+	CREATE_TABLESSUBWINDOW(CreateTablesSubWindowChangeHandler.class);
+	
+	Class<?> actionHandler;
+	
+	private ChangeEventType(Class<?> changeHandlerClass) {
+		this.setActionHandler(changeHandlerClass);
+	}
+
+	protected Class<?> getActionHandler() {
+		return actionHandler;
+	}
+
+	private void setActionHandler(Class<?> actionHandler) {
+		this.actionHandler = actionHandler;
+	}
+	
 }

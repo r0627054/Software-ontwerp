@@ -62,7 +62,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 //			uifacade.resume();
 		} catch (DomainException | NumberFormatException e) {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
-			uifacade.pauseApplication(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
+			uifacade.pauseCurrentSubWindow(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}
 
 	}

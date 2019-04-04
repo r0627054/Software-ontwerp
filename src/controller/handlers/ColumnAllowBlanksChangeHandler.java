@@ -45,7 +45,7 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 //			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException e) {
 			uifacade.throwError(columnId, columnIndex, newBool);
-			uifacade.pauseApplication(columnIndex, columnId);
+			uifacade.pauseCurrentSubWindow(columnIndex, columnId);
 		}
 
 	}

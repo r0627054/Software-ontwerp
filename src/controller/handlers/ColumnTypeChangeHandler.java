@@ -55,7 +55,7 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 //			uifacade.resume();
 		} catch (DomainException e) {
 			uifacade.throwError(columnId, columnIndex, newType);
-			uifacade.pauseApplication(columnIndex, columnId);
+			uifacade.pauseCurrentSubWindow(columnIndex, columnId);
 		}
 	}
 

@@ -494,7 +494,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * { TableWindow currentViewMode = (TableWindow) currentMode;
 	 * currentViewMode.pauseViewMode(indexOfCell, columnId); } }
 	 */
-	public void pauseApplication(int indexOfCell, UUID columnId) {
+	public void pauseCurrentSubWindow(int indexOfCell, UUID columnId) {
 		this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
 	}
 
