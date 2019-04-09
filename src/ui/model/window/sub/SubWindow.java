@@ -17,9 +17,9 @@ import ui.model.components.Component;
 import ui.model.components.TitleBar;
 
 /**
- * A viewMode is a mode the view can have, it's an abstract class.
- *  A viewMode is the actual view inside one frame.
- *  The viewMode keeps track of all the components and all the clickListeners/KeyListeners of the components.
+ * A SubWindow is a window which can be seen in the view (CanvasWindow)
+ *  A SubWindow is an actual window inside in the view..
+ *  The SubWindow keeps track of all the sizes and all the clickListeners/KeyListeners of the components.
  *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -138,6 +138,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private int windowDragY;
 
+	/**
+	 * Variable storing the titleBar.
+	 */
 	private TitleBar titleBar;
 
 	/**
@@ -156,15 +159,31 @@ public abstract class SubWindow implements PropertyChangeListener {
 	private List<Component> keyListeners = new ArrayList<>();
 
 	/**
+	 * Variable storing all the listeners.
+	 */
+	private List<Component> storedListeners;
+	
+	/**
 	 * The variable storing the propertyChangeSupport.
 	 */
 	private PropertyChangeSupport support;
 
+	/**
+	 * Variable storing the UUID of the window.
+	 */
 	private UUID id;
 
+	/**
+	 * Variable storing whether the subWindow is paused or not.
+	 */
 	private boolean paused = false;
-	private List<Component> storedListeners;
-
+	
+	/**
+	 * Initialises a new Subwindow with a given title and an Id.
+	 *  All the other variables are set using the default values.
+	 * @param id    The id for the subWindow.
+	 * @param title The title for the subWindow.
+	 */
 	public SubWindow(UUID id, String title) {
 		this.setSupport(new PropertyChangeSupport());
 		this.setStoredListeners(new ArrayList<>());
@@ -370,9 +389,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Tells every component of the viewMode whether there was a click inside or outside the component.
+	 * Tells every component of the SubWindow whether there was a click inside or outside the component.
 	 *  A copy is made to make sure there is no editing of the list while it is looping.
-	 *
 	 *
 	 * @param id
 	 *        | The id of the mouse event.
@@ -497,7 +515,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Delegates the keyPressed event to the components of the ViewMode.
+	 * Delegates the keyPressed event to the components of the SubWindow.
 	 * A copy is made to make sure there is no editing of the list while it is looping.
 	 *
 	 * @param id
@@ -540,13 +558,13 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Handles the throw error of a component with the given ID.
 	 * @param id
 	 *        | The id of which element an error is thrown.
-	 * @param newValue 
-	 * @param columnIndex 
+	 * @param newValue   The new value for the component.
+	 * @param columnIndex The index of the component which contains the error.
 	 */
 	public abstract void throwError(UUID id, int columnIndex, Object newValue);
 
 	/**
-	 * Removes all the clickListeners and KeyListeners from the viewMode.
+	 * Removes all the clickListeners and KeyListeners from the SubWindow.
 	 */
 	protected void removeAllClickAndKeyListeners() {
 		this.clickListeners.clear();
@@ -554,7 +572,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Removes all the clickListeners and KeyListeners from the viewMode.
+	 * Removes all the clickListeners and KeyListeners from the SubWindow.
 	 */
 	protected void removeContentClickAndKeyListeners() {
 		this.clickListeners.clear();
@@ -564,22 +582,22 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns all the clickListeners of the viewMode.
+	 * Returns all the clickListeners of the SubWindow.
 	 */
 	protected List<Component> getClickListeners() {
 		return this.clickListeners;
 	}
 
 	/**
-	 * Returns all the KeyListeners of the viewMode.
+	 * Returns all the KeyListeners of the SubWindow.
 	 */
 	protected List<Component> getKeyListeners() {
 		return this.keyListeners;
 	}
 
 	/**
-	 * Sets the propertyChangeSupport of the viewMode.
-	 * @param propertyChangeSupport The propertyChangeSupport which will be set for the viewmode.
+	 * Sets the propertyChangeSupport of the SubWindow.
+	 * @param propertyChangeSupport The propertyChangeSupport which will be set for the SubWindow.
 	 * @throws IllegalArgumentException When the propertyChangeSupport Parameter equals nulls.
 	 *         | propertyChangeSupport == null
 	 * @post The support variable equals the propertyChangeSupport.
@@ -593,21 +611,21 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the propertyChangedSupport of the viewMode.
+	 * Returns the propertyChangedSupport of the SubWindow.
 	 */
 	protected PropertyChangeSupport getSupport() {
 		return this.support;
 	}
 
 	/**
-	 * Checks whether the x and y coordinates are within the subwindow.
+	 * Checks whether the x and y coordinates are within the subWindow.
 	 *
 	 * @param x
 	 *        The x-coordinate of the click.
 	 * @param y
 	 *        The y-coordinate of the click.
 	 * @param dragBorderSize 
-	 * @return True if the x and y coordinates are within the subwindow; otherwise false.
+	 * @return True if the x and y coordinates are within the SubWindow; otherwise false.
 	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
 	 */
 	public boolean isWithinComponent(int x, int y, int dragBorderSize) {
@@ -616,14 +634,14 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the X-coordinate of the viewMode.
+	 * Returns the X-coordinate of the SubWindow.
 	 */
 	protected int getX() {
 		return x;
 	}
 
 	/**
-	 * Sets the x-coordinate of the viewMode, and gives the change to the components of the viewMode.
+	 * Sets the x-coordinate of the SubWindow, and gives the change to the components of the SubWindow.
 	 * @param x The new x-coordinate value.
 	 * @throws IllegalArgumentException when the x value is smaller than 0.
 	 *         | x < 0
@@ -651,7 +669,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Sets the y-coordinate of the viewMode, and gives the change to the components of the viewMode.
+	 * Sets the y-coordinate of the SubWindow, and gives the change to the components of the SubWindow.
 	 * @param y The new y-coordinate value.
 	 * @throws IllegalArgumentException when the y value is smaller than 0.
 	 *         | y < 0
@@ -672,16 +690,16 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the width of the viewMode.
+	 * Returns the width of the SubWindow.
 	 */
 	protected int getWidth() {
 		return width;
 	}
 
 	/**
-	 * Sets the width of the viewMode and changes the width of the title bar if any.
-	 * @param width The new width of the viewMode.
-	 * @effect The width of the viewMode is changed and the width of the titleBar is changed.
+	 * Sets the width of the SubWindow and changes the width of the title bar if any.
+	 * @param width The new width of the SubWindow.
+	 * @effect The width of the SubWindow is changed and the width of the titleBar is changed.
 	 */
 	private void setWidth(int width) {
 		if (width < MIN_WIDTH) {
@@ -695,41 +713,40 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the height of the viewMode.
+	 * Returns the height of the SubWindow.
 	 */
 	protected int getHeight() {
 		return height;
 	}
 
 	/**
-	 * Sets the height of the viewMode.
-	 * When the given height is smaller than the minimal height. The minimal height is set.
-	 * @param height The new height of the viewmode.
+	 * Sets the height of the SubWindow.
+	 * @param height The new height of the SubWindow.
 	 */
 	private void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
-	 * Returns the offset of the x-coordinate of the viewMode.
+	 * Returns the offset of the x-coordinate of the SubWindow.
 	 */
 	private int getOffsetX() {
 		return this.getWidth() + getX();
 	}
 
 	/**
-	 * Returns the offset of the y-coordinate of the viewMode.
+	 * Returns the offset of the y-coordinate of the SubWindow.
 	 */
 	private int getOffsetY() {
 		return this.getHeight() + getY();
 	}
 
 	/**
-	 * Sets the titleBar of the viewMode.
-	 * @param titleBar The titleBar of the viewMode.
+	 * Sets the titleBar of the SubWindow.
+	 * @param titleBar The titleBar of the SubWindow.
 	 * @throws IllegalArgumentException When the titleBar parameter equals null.
 	 *         | titleBar == null
-	 * @post The title bar of the viewMode equals the titleBar parameter.
+	 * @post The title bar of the SubWindow equals the titleBar parameter.
 	 *         | new.getTitleBar() == titleBar.
 	 */
 	private void setTitleBar(TitleBar titleBar) {
@@ -740,12 +757,16 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the titleBar of the viewMode.
+	 * Returns the titleBar of the SubWindow.
 	 */
 	protected TitleBar getTitleBar() {
 		return this.titleBar;
 	}
 
+	/**
+	 * Removes all the click and key listeners which are not equal the given component or the titlebar.
+	 * @param component The component of which the click and key listeners has to be kept.
+	 */
 	protected void removeAllContentListenersButOne(Component component) {
 		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 		for (Component c : currentClickListeners) {
@@ -761,6 +782,14 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Adds the listener to the list of stored listeners.
+	 * @param listener The Component which needs to be added to the list of stored listeners.
+	 * @throws IllegalArgumentException When the listener equals null.
+	 *                                  | listener == null
+	 * @effect The listener is added to the list of stored listeners.
+	 *         | this.storedListeners.add(listener)
+	 */
 	protected void addStoredListener(Component listener) {
 		if (listener == null) {
 			throw new IllegalArgumentException("Cannot add a null component as a stored listener.");
@@ -768,6 +797,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.storedListeners.add(listener);
 	}
 
+	/**
+	 * Adds all the listeners in the storedListeners to the click and key listeners.
+	 */
 	protected void resetAllListeners() {
 		this.removeContentClickAndKeyListeners();
 
@@ -777,22 +809,49 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 	}
 
+	/**
+	 * Clears the list of stored listeners by setting it to an empty ArrayList.
+	 * @effect The stored listeners list is set to an empty ArrayList.
+	 *         | this.setStoredListeners(new ArrayList<Component>());
+	 */
 	protected void clearStoredListeners() {
 		this.setStoredListeners(new ArrayList<Component>());
 	}
 
+	/**
+	 * Returns the value of the paused variable.
+	 * @return the value of the paused variable.
+	 */
 	public boolean isPaused() {
 		return paused;
 	}
 
+	/**
+	 * Sets the paused variable to the given parameter.
+	 * @param paused The paused value which will be set.
+	 * @post The paused variable equals the parameter.
+	 *       | new.isPaused() == paused
+	 */
 	protected void setPaused(boolean paused) {
 		this.paused = paused;
 	}
 
+	/**
+	 * Returns the storedListeners of the SubWindow.
+	 * @return the storedListeners variable of the SubWindow.
+	 */
 	protected List<Component> getStoredListeners() {
 		return storedListeners;
 	}
 
+	/**
+	 * Sets the list of stored listeners.
+	 * @param listeners The listeners which will be set as storedListeners.
+	 * @throws IllegalArgumentException when the listeners variable equals null.
+	 *         |listeners == null
+	 * @post The storedListeners variable equals the listeners parameter
+	 *        |new.getStoredListeners() == listeners.
+	 */
 	protected void setStoredListeners(List<Component> listeners) {
 		if (listeners == null) {
 			throw new IllegalArgumentException("Cannot set null stored listeners");
@@ -800,21 +859,46 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.storedListeners = listeners;
 	}
 
+	/**
+	 * Returns the id of the subWindow.
+	 * @return The id of the subWindow.
+	 */
 	public UUID getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id of the subWindow.
+	 * @param id The id to which it will be set.
+	 * @post The id equals the given parameter id.
+	 *       |new.getId() == id
+	 */
 	private void setId(UUID id) {
 		// null is allowed for tableswindow
 		this.id = id;
 	}
 
+	/**
+	 * Handles the crtl enter behaviour.
+	 */
 	public abstract void ctrlEntrPressed();
 
+	/**
+	 * Updates the content of the SubWindow with the given tableData.
+	 * @param tableData The data containing the data for updating the subWindow.
+	 */
 	public abstract void updateContent(Object... tableData);
 
+	/**
+	 * Pauses the SubWindow at the given index with the given id.
+	 * @param columnIndex The column index of component of the cause of the pause.
+	 * @param columnId    The id of component of the cause of the pause.
+	 */
 	public abstract void pauseSubWindow(int columnIndex, UUID columnId);
 
+	/**
+	 * Resumes the window everything can be handled as normal.
+	 */
 	public abstract void resumeSubWindow();
 
 }
