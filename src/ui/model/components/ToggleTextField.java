@@ -15,6 +15,9 @@ import controller.handlers.ChangeEventType;
  */
 public class ToggleTextField extends TextField {
 
+	/**
+	 * Variable storing the submit action of the toggleTextField.
+	 */
 	private final ChangeEventType submitAction;
 
 	/**
@@ -58,8 +61,6 @@ public class ToggleTextField extends TextField {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		if (id == MouseEvent.MOUSE_PRESSED && getSubmitAction() != null) {
 			this.propertyChanged(this.getId(), getSubmitAction(), getText(), null);
-
-//			this.propertyChanged(this.getId(), ChangeEventType.TABLE_CHANGE_NAME, getText(), null);
 		}
 	}
 
@@ -77,6 +78,10 @@ public class ToggleTextField extends TextField {
 		}
 	}
 
+	/**
+	 * Returns the submit action of the ToggleTextField.
+	 * @return the submit action of the ToggleTextField.
+	 */
 	private ChangeEventType getSubmitAction() {
 		return submitAction;
 	}

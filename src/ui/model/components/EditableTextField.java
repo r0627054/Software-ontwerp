@@ -19,8 +19,19 @@ import controller.handlers.ChangeEventType;
  */
 public class EditableTextField extends TextField {
 
+	/**
+	 * Variable storing the submit action.
+	 */
 	private final ChangeEventType submitAction;
+	
+	/**
+	 * Variable storing the double click action.
+	 */
 	private final ChangeEventType doubleClickAction;
+	
+	/**
+	 * Variable storing the delete action.
+	 */
 	private final ChangeEventType deleteAction;
 
 	/**
@@ -427,14 +438,26 @@ public class EditableTextField extends TextField {
 		}
 	}
 
+	/**
+	 * Returns the submit action of the editableTextField.
+	 * @return The submit action of the editableTextField.
+	 */
 	private ChangeEventType getSubmitAction() {
 		return submitAction;
 	}
 
+	/**
+	 * Returns the double click action of the editableTextField.
+	 * @return the double click action of the editableTextField.
+	 */
 	private ChangeEventType getDoubleClickAction() {
 		return doubleClickAction;
 	}
 
+	/**
+	 * Returns the delete action of the editableTextField.
+	 * @return the delete action of the editableTextField.
+	 */
 	private ChangeEventType getDeleteAction() {
 		return deleteAction;
 	}
