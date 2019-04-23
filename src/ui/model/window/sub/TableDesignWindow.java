@@ -181,7 +181,8 @@ public class TableDesignWindow extends TableWindow {
 
 	/**
 	 * Updates the content of the SubWindow with the given tableData.
-	 * @param tableData updates the table using the data
+	 * @param tableData the table data needed for the update
+	 * @effect The table data is updated.
 	 */
 	@Override
 	public void updateContent(Object... tableData) {
