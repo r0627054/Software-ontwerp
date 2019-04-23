@@ -1,9 +1,9 @@
 package usecases;
 
 public interface TableListConstants {
-	public static final int FIRST_TABLE_X = 60;
-	public static final int FIRST_TABLE_Y = 60;
-	public static final int SECOND_TABLE_Y = 60;
+	public static final int FIRST_TABLE_X = 70;
+	public static final int FIRST_TABLE_Y = 70;
+	public static final int SECOND_TABLE_Y = 130;
 	public static final int LEFT_FIRST_TABLE_X = 80;
 
 	public static final int BELOW_TABLELIST_X = 300;

@@ -14,6 +14,7 @@ import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
 import ui.model.components.Component;
+import ui.model.components.Container;
 import ui.model.components.TitleBar;
 
 /**
@@ -144,6 +145,11 @@ public abstract class SubWindow implements PropertyChangeListener {
 	private TitleBar titleBar;
 
 	/**
+	 * Variable storing the container with the components of the SubWindow.
+	 */
+	private Container container;
+
+	/**
 	 * The variable storing all the components of the specific subWindow.
 	 */
 	private List<Component> components = new ArrayList<>();
@@ -162,7 +168,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Variable storing all the listeners.
 	 */
 	private List<Component> storedListeners;
-	
+
 	/**
 	 * The variable storing the propertyChangeSupport.
 	 */
@@ -177,7 +183,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Variable storing whether the subWindow is paused or not.
 	 */
 	private boolean paused = false;
-	
+
 	/**
 	 * Initialises a new Subwindow with a given title and an Id.
 	 *  All the other variables are set using the default values.
@@ -757,6 +763,22 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private int getOffsetY() {
 		return this.getHeight() + getY();
+	}
+
+
+	/**
+	 * Returns the container of the SubWindow.
+	 */
+	public Container getContainer() {
+		return container;
+	}
+
+	/**
+	 * Sets the container of the SubWindow.
+	 * @param container The new container of the SubWindow.
+	 */
+	protected void setContainer(Container container) {
+		this.container = container;
 	}
 
 	/**

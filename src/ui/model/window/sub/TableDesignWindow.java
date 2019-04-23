@@ -15,7 +15,7 @@ import ui.model.components.UICell;
 /**
  * The tableDesignWindow is a TableWindow specifically used for designing
  * the table. The tableDesignWindow allows edits of the values of the table.
- * 
+ *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
@@ -27,14 +27,10 @@ public class TableDesignWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING_PREFIX = "Designing table: ";
 
-	/**
-	 * Variable storing the container.
-	 */
-	private Container container;
 
 	/**
 	 * Initialises a new TableDesignWindow with the given information.
-	 * 
+	 *
 	 * @param id                    | the id of the table.
 	 * @param tableName             | the name of the table.
 	 * @param columnCharacteristics | the characteristics of a table (it contains
@@ -52,13 +48,13 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Creates a DesignTable with all the given information. ( all the listeners are
 	 * registered )
-	 * 
+	 *
 	 * @param columnCharacteristics | the information needed to create a
 	 *                              designTable.
 	 * @post The table is created and all the listeners are stored.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		container = new Container(getX(), getY(), getWidth(), getHeight());
+		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
 				getHeight(), getTableName(), this.getId());
@@ -80,7 +76,7 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Deletes the previous design table and updates the TableDesignWindow by creating a new
 	 * DesignTable.
-	 * 
+	 *
 	 * @param columnCharacteristics | the information needed to create a
 	 *                              designTable.
 	 */
@@ -120,7 +116,7 @@ public class TableDesignWindow extends TableWindow {
 	 * Pauses the current subwindow information, the only cell which can be edited is the one
 	 * with the given columnIndex and given columnId.
 	 * Everything in the titlebar can still be clicked.
-	 * 
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
 	 * @effect All the keyListeners and clickListeners different from this one cell (and title bar)
@@ -136,7 +132,7 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Resumes the current SubWindow information, adds all the key and click-listeners such that
 	 * the user can edit again.
-	 * 
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
 	 * @effect All the keyListeners and clickListeners different from this one cell
@@ -151,7 +147,7 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Sets an error to the cell inside the design table and updates the value to
 	 * the new value.
-	 * 
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
 	 * @param newValue    | the new Value of the cell inside the subWindow.
