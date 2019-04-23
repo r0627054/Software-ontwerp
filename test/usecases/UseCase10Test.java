@@ -37,8 +37,8 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
 		int firstVerticalListSize = firstVerticalList.getComponentsList().size();
 
-		emulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
@@ -88,9 +88,9 @@ System.err.println(tName);
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
 		int firstVerticalListSize = firstVerticalList.getComponentsList().size();
 
-		emulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
+		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
@@ -140,9 +140,9 @@ System.err.println(tName);
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
 		int firstVerticalListSize = firstVerticalList.getComponentsList().size();
 
-		emulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-		emulateSingleClick(FIRST_ROW_X, SECOND_ROW_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
+		simulateSingleClick(FIRST_ROW_X, SECOND_ROW_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 

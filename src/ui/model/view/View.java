@@ -102,7 +102,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)	: null
 	 */
 	public SubWindow getCurrentSubWindow() {
-		return getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)	: null;
+		return getSubWindows() != null && !getSubWindows().isEmpty() ? getSubWindows().get(getSubWindows().size() - 1)
+				: null;
 	}
 
 	/**
@@ -125,7 +126,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return result;
 	}
 
-
 	/**
 	 * Adds a subWindow to the list of subWindows.
 	 * 
@@ -141,7 +141,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 		this.getSubWindows().add(subWindow);
 	}
-
 
 	/**
 	 * Returns the list of subWindows
@@ -181,13 +180,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * 
 	 */
 	public void closeCurrentSubWindow() {
-		if(this.getCurrentSubWindow() != null) {
+		if (this.getCurrentSubWindow() != null) {
 			this.removeSubWindow(this.getCurrentSubWindow());
 			this.repaint();
 		}
 	}
-	
-	
+
 	/**
 	 * Removes the subWindow out of the list of subWindows.
 	 * @param subWindow The subWindow which will be removed.
@@ -269,7 +267,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.getSupport().firePropertyChange(evt);
 		this.repaint();
 	}
-	
+
 	/**
 	 * Throws an error to a component in the current subWindow.
 	 * @param id          The id of component that needs to receive the error.
@@ -282,7 +280,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void throwErrorOnCurrentSubWindow(UUID id, int columnIndex, Object newValue) {
 		getCurrentSubWindow().throwError(id, columnIndex, newValue);
 	}
-	
+
 	/**
 	 * Creates a new tableRows window with the given data. That subWindow is added to the list of subWindows.
 	 * 
@@ -297,8 +295,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @effect The tableRowsWindow is created and is added to the list of subWindows.
 	 *         | this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	 */
-	public void createTableRowsWindow(UUID id, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
+	public void createTableRowsWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
@@ -324,7 +321,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 		this.addCreatedTable(new TableDesignWindow(id, tableName, columnCharacteristics));
 	}
-	
+
 	/**
 	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
 	 * 
@@ -340,7 +337,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 		this.addCreatedTable(new TablesWindow(data));
 	}
-	
+
 	/**
 	 * Adds this class to the propertyChangeListeners of the subWindow and sets the subWindow as currentWindow.
 	 * @param subWindow The subWindow which needs to be added.
@@ -352,7 +349,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | this.setCurrentSubWindow(subWindow);
 	 */
 	private void addCreatedTable(SubWindow subWindow) {
-		if(subWindow == null) {
+		if (subWindow == null) {
 			throw new IllegalArgumentException("Cannot add an subWindow which is null");
 		}
 		subWindow.addPropertyChangeListener(this);
@@ -373,7 +370,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		}
 	}
 
-
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
@@ -384,7 +380,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         |for (SubWindow sw : this.getSubWindows(id)) 
 	 *        		sw.updateContent(designData, tableRowsData, rowsClassData);
 	 */
-	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName, Map<UUID, LinkedHashMap<String, Object>> designData,
+	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
+			Map<UUID, LinkedHashMap<String, Object>> designData,
 			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
 		for (SubWindow sw : this.getSubWindows(id)) {
 			sw.updateContent(tableName, designData, tableRowsData);
@@ -427,7 +424,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
-	
+
 	/**
 	 * Sets the ctrlPressed variable
 	 * @param ctrlPressed True when the ctrl-key is pressed otherwise false.
@@ -439,28 +436,17 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	// @@@@@@@@ TESTING METHODS @@@@@@@@@
-//	public void emulateClickClicked(int x, int y, int clickCount) {
-//		this.handleMouseEvent(MouseEvent.MOUSE_CLICKED, x, y, clickCount);
-//	}
-//
-//	public void emulateKeyPress(char keyChar) {
-//		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
-//	}
-//
-//	public void emulateKeyPress(int keyCode) {
-//		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
-//	}
-//
-//	public void resetViewModes() {
-//		support = new PropertyChangeSupport();
-//		this.setTablesViewMode(new TablesWindow(new HashMap<UUID, String>()));
-//		this.getTablesViewMode().addPropertyChangeListener(this);
-//
-//		this.setCurrentSubWindow(getTablesViewMode());
-//		this.changeModeTo(null, ViewModeType.TABLESVIEWMODE);
-//		this.setViewModesMap(new HashMap<UUID, List<TableWindow>>());
-//	}
-	// *********************
+	public void simulateClickClicked(int x, int y, int clickCount) {
+		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
+	}
+
+	public void simulateKeyPress(char keyChar) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
+	}
+
+	public void simulateKeyPress(int keyCode) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
+	}
 
 	/**
 	 * Gets the PropertyChangeSupport

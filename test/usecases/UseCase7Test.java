@@ -52,9 +52,9 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
-		emulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
 		
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -113,9 +113,9 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 		
 
 
-		emulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);		
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);		
+		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 		
 
 
@@ -171,9 +171,9 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
-		emulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
+		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);

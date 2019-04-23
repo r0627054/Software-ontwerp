@@ -46,9 +46,9 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
-		emulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
-		emulateKeyPress(EDIT_STRING_TEXT);
-		emulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+		simulateKeyPress(EDIT_STRING_TEXT);
+		simulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
@@ -101,7 +101,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		CheckBox checkBox = (CheckBox) cellBefore.getComponent();
 		boolean isCheckedStart = checkBox.isChecked();
 
-		emulateSingleClick(SECOND_ROW_X, FIRST_ROW_Y);
+		simulateSingleClick(SECOND_ROW_X, FIRST_ROW_Y);
 
 		assertEquals(isCheckedStart, !checkBox.isChecked());
 		assertFalse(checkBox.isError());
@@ -134,18 +134,18 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
-		emulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
+		simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
 
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		assertEquals(0, etf.getText().length());
 		assertNotEquals(textBefore, etf.getText());
 		assertTrue(etf.isError());
 
-		emulateKeyPress(KeyEvent.VK_ESCAPE);
+		simulateKeyPress(KeyEvent.VK_ESCAPE);
 
 		assertEquals(textBefore, etf.getText());
 		assertFalse(etf.isError());
@@ -179,21 +179,21 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
-		emulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
+		simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
 
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		assertEquals(0, etf.getText().length());
 		assertNotEquals(textBefore, etf.getText());
 		assertTrue(etf.isError());
 
-		emulateKeyPress("test");
+		simulateKeyPress("test");
 		assertTrue(etf.isError());
 
-		emulateKeyPress("@");
+		simulateKeyPress("@");
 		assertFalse(etf.isError());
 	}
 
@@ -223,26 +223,26 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		EditableTextField etf = (EditableTextField) cellBefore.getComponent();
 		String textBefore = etf.getText();
 
-		emulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+		simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
 
-		emulateKeyPress("0123");
+		simulateKeyPress("0123");
 
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		assertTrue(etf.isError());
 
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 5);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 5);
 		assertFalse(etf.isError());
 
-		emulateKeyPress(KeyEvent.VK_BACK_SPACE);
+		simulateKeyPress(KeyEvent.VK_BACK_SPACE);
 		assertFalse(etf.isError());
 
-		emulateKeyPress("00");
+		simulateKeyPress("00");
 		assertTrue(etf.isError());
 
-		emulateKeyPress(KeyEvent.VK_BACK_SPACE);
+		simulateKeyPress(KeyEvent.VK_BACK_SPACE);
 		assertEquals(textBefore, etf.getText());
 	}
 }

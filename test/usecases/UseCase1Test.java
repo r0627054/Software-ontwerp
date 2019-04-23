@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import ui.model.components.Component;
 import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
+import ui.model.view.UIFacade;
 
 public class UseCase1Test extends UseCaseTest implements TableListConstants {
 
@@ -23,6 +25,7 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 	@Test
 	public void test1DoubleClickBelowListAddsOneTableWithCorrectName() {
 		try {
+			getUiFacade().createTablesSubWindow(new HashMap<UUID, String>());
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
 			TableList tableList = getTablesViewModeTableList();
@@ -33,8 +36,9 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 
-			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
+			System.out.println(endTableNamesList);
 
 			int changedNamesCounter = 0;
 			for (Map.Entry<UUID, String> entry : endTableNamesList.entrySet()) {
@@ -84,8 +88,8 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 			
-			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
-			emulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 

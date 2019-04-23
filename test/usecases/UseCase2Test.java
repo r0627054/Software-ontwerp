@@ -26,9 +26,9 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			this.addDummyTable(NEW_TABLE_NAME);
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
-			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-			emulateKeyPress(ADD_TABLE_NAME);
-			emulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_NAME);
+			simulateKeyPress(KeyEvent.VK_ENTER);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -75,9 +75,9 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			this.addDummyTable(NEW_TABLE_NAME);
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
-			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-			emulateKeyPress(ADD_TABLE_NAME);
-			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_X);
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_NAME);
+			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_X);
 			
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -124,9 +124,9 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			this.addDummyTable(NEW_TABLE_NAME);
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
-			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-			emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-			emulateKeyPress(KeyEvent.VK_ESCAPE);
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress(KeyEvent.VK_ESCAPE);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -174,10 +174,10 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			this.addDummyTable(NEW_TABLE_NAME);
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
-			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-			emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-			emulateKeyPress(KeyEvent.VK_ENTER);
-			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
@@ -206,7 +206,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			}
 			assertEquals(1, changedNamesCounter);
 
-			emulateKeyPress(KeyEvent.VK_ESCAPE);
+			simulateKeyPress(KeyEvent.VK_ESCAPE);
 			endTableNamesList = getDomainFacade().getTableNames();
 
 			changedNamesCounter = 0;
@@ -250,17 +250,17 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			this.addDummyTable("B");
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
-			emulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-			emulateKeyPress(KeyEvent.VK_BACK_SPACE);
-			emulateKeyPress(KeyEvent.VK_ENTER);
-			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
-			emulateKeyPress('A');
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateKeyPress('A');
 
-			emulateSingleClick(SECOND_TABLE_Y, FIRST_TABLE_Y);
-			emulateKeyPress(KeyEvent.VK_BACK_SPACE);
-			emulateKeyPress(KeyEvent.VK_ENTER);
-			emulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
-			emulateKeyPress('A');
+			simulateSingleClick(SECOND_TABLE_Y, FIRST_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateKeyPress('A');
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 

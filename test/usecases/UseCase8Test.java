@@ -38,7 +38,7 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 		HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();

@@ -20,7 +20,6 @@ import ui.model.components.DesignTable;
 import ui.model.components.RowsTable;
 import ui.model.components.TableList;
 import ui.model.view.UIFacade;
-import ui.model.window.sub.ViewModeType;
 
 public abstract class UseCaseTest {
 	private static UIFacade uiFacade;
@@ -47,41 +46,43 @@ public abstract class UseCaseTest {
 
 	@BeforeEach
 	public void resetDomainAndUiFacade() {
-		this.getDomainFacade().resetTables();
-		this.getUiFacade().resetViewModes();
+		setUiFacade(new UIFacade());
+		setDomainFacade(new DomainFacade());
+		setController(new Controller(uiFacade, domainFacade, false));
+
 	}
 
 	protected void addDummyTable(String tableName) {
 		getDomainFacade().addDummyTable(tableName);
-		getUiFacade().updateTablesViewMode(getDomainFacade().getTableNames());
+		getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 	}
 
-	protected void emulateKeyPress(int keyCode) {
-		getUiFacade().emulateKeyPress(keyCode);
+	protected void simulateKeyPress(int keyCode) {
+		getUiFacade().simulateKeyPress(keyCode);
 	}
 
-	protected void emulateKeyPresses(int keyCode, int amount) {
+	protected void simulateKeyPresses(int keyCode, int amount) {
 		for (int i = 0; i < amount; i++) {
-			getUiFacade().emulateKeyPress(keyCode);
+			getUiFacade().simulateKeyPress(keyCode);
 		}
 	}
 
-	protected void emulateKeyPress(char keyChar) {
-		getUiFacade().emulateKeyPress(keyChar);
+	protected void simulateKeyPress(char keyChar) {
+		getUiFacade().simulateKeyPress(keyChar);
 	}
 
-	protected void emulateKeyPress(String string) {
+	protected void simulateKeyPress(String string) {
 		for (int i = 0; i < string.length(); i++) {
-			getUiFacade().emulateKeyPress(string.charAt(i));
+			getUiFacade().simulateKeyPress(string.charAt(i));
 		}
 	}
 
-	protected void emulateSingleClick(int x, int y) {
-		getUiFacade().emulateClickClicked(x, y, 1);
+	protected void simulateSingleClick(int x, int y) {
+		getUiFacade().simulateClick(x, y, 1);
 	}
 
-	protected void emulateDoubleClick(int x, int y) {
-		getUiFacade().emulateClickClicked(x, y, 2);
+	protected void simulateDoubleClick(int x, int y) {
+		getUiFacade().simulateClick(x, y, 2);
 	}
 
 	protected UIFacade getUiFacade() {
@@ -106,7 +107,7 @@ public abstract class UseCaseTest {
 	}
 
 	protected TableList getTablesViewModeTableList() {
-		for (Component c : getUiFacade().getView().getTablesViewMode().getComponents()) {
+		for (Component c : getUiFacade().getView().getCurrentSubWindow().getComponents()) {
 			if (c instanceof Container) {
 				Container container = (Container) c;
 
@@ -120,37 +121,37 @@ public abstract class UseCaseTest {
 		return null;
 	}
 
-	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
-		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE)
-				.getComponents()) {
-			if (c instanceof Container) {
-				Container container = (Container) c;
-
-				for (Component containerComponents : container.getComponentsList()) {
-					if (containerComponents instanceof DesignTable) {
-						return (DesignTable) containerComponents;
-					}
-				}
-			}
-		}
-		return null;
-	}
-
-	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
-		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE)
-				.getComponents()) {
-			if (c instanceof Container) {
-				Container container = (Container) c;
-
-				for (Component containerComponents : container.getComponentsList()) {
-					if (containerComponents instanceof RowsTable) {
-						return (RowsTable) containerComponents;
-					}
-				}
-			}
-		}
-		return null;
-	}
+//	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
+//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE)
+//				.getComponents()) {
+//			if (c instanceof Container) {
+//				Container container = (Container) c;
+//
+//				for (Component containerComponents : container.getComponentsList()) {
+//					if (containerComponents instanceof DesignTable) {
+//						return (DesignTable) containerComponents;
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
+//
+//	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
+//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE)
+//				.getComponents()) {
+//			if (c instanceof Container) {
+//				Container container = (Container) c;
+//
+//				for (Component containerComponents : container.getComponentsList()) {
+//					if (containerComponents instanceof RowsTable) {
+//						return (RowsTable) containerComponents;
+//					}
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 	protected void addDummyTableEmailColumnEmailCellValues() {
 		DomainCell c1 = new DomainCell(ValueType.EMAIL, "A@");

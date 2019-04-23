@@ -34,7 +34,7 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);

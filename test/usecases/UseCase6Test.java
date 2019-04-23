@@ -43,9 +43,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPress(NEW_COLUMN_NAME);
-		emulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+		simulateKeyPress(NEW_COLUMN_NAME);
+		simulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -96,9 +96,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPress(NEW_COLUMN_NAME);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+		simulateKeyPress(NEW_COLUMN_NAME);
+		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -150,14 +150,14 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
 
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -185,7 +185,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		EditableTextField firstCell = (EditableTextField) cell.getComponent();
 		assertEquals(0, firstCell.getText().length());
 
-		emulateKeyPress(KeyEvent.VK_ESCAPE);
+		simulateKeyPress(KeyEvent.VK_ESCAPE);
 
 		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
 		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
@@ -212,13 +212,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
 
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
 		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
@@ -253,9 +253,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -317,7 +317,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -379,7 +379,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -441,8 +441,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
 		String uiTypeBefore = typeField.getText();
 
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		emulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -504,13 +504,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		emulateKeyPress(KeyEvent.VK_DELETE);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateKeyPress(KeyEvent.VK_ESCAPE);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateKeyPress(KeyEvent.VK_DELETE);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateKeyPress(KeyEvent.VK_ESCAPE);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -554,7 +554,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -597,7 +597,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -640,7 +640,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -681,7 +681,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -735,7 +735,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		CheckBox checkBox = (CheckBox) cell.getComponent();
 		Boolean uiAllowsBefore = checkBox.isChecked();
 
-		emulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -790,13 +790,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
 
-		emulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		emulateKeyPress(KeyEvent.VK_CONTROL);
-		emulateKeyPress(KeyEvent.VK_ENTER);
-		emulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+		simulateKeyPress(KeyEvent.VK_CONTROL);
+		simulateKeyPress(KeyEvent.VK_ENTER);
+		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -825,7 +825,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertNotEquals(defaultBefore, defaultAfter);
 		assertNotEquals(uiDefaultBefore, uiDefaultAfter);
 
-		emulateKeyPress(KeyEvent.VK_ESCAPE);
+		simulateKeyPress(KeyEvent.VK_ESCAPE);
 
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
@@ -873,7 +873,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -902,7 +902,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(defaultBefore, !defaultAfter);
 		assertEquals(uiDefaultBefore, !uiDefaultAfter);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
@@ -922,7 +922,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(null, defaultAfter);
 		assertEquals("", uiDefaultAfterEmptyString);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
@@ -971,7 +971,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1000,7 +1000,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertEquals(defaultBefore, !defaultAfter);
 		assertEquals(uiDefaultBefore, !uiDefaultAfter);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
 		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
@@ -1050,10 +1050,10 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPress(KeyEvent.VK_BACK_SPACE);
-		emulateKeyPress("123");
-		emulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+		simulateKeyPress("123");
+		simulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1114,8 +1114,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPress("123");
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPress("123");
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1175,9 +1175,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		TextField textField = (TextField) cell.getComponent();
 		String uiDefaultBefore = textField.getText();
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		emulateKeyPress(EXAMPLE_EMAIL);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+		simulateKeyPress(EXAMPLE_EMAIL);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1229,9 +1229,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		emulateKeyPress(NEW_COLUMN_NAME);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+		simulateKeyPress(NEW_COLUMN_NAME);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1285,9 +1285,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
-		emulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		emulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		emulateKeyPress(KeyEvent.VK_ENTER);
+		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+		simulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
