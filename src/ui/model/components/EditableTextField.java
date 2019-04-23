@@ -124,7 +124,7 @@ public class EditableTextField extends TextField {
 	}
 
 	/**
-	 * Fires a property change for open tableViewMode
+	 * Fires a property change for double clicking
 	 * and unselects the editableTextField.
 	 */
 	private void doubleClicked() {

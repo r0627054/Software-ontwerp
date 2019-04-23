@@ -48,7 +48,7 @@ public class TableList extends VerticalComponentList {
 	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
 		ChangeEventType submitAction = ChangeEventType.TABLE_CHANGE_NAME;
 		ChangeEventType deleteAction = ChangeEventType.DELETE_TABLE;
-		ChangeEventType doubleClickAction = ChangeEventType.OPEN_TABLEVIEWMODE;
+		ChangeEventType doubleClickAction = ChangeEventType.OPEN_TABLESUBWINDOW;
 
 		for (Map.Entry<UUID, String> entry : map.entrySet()) {
 			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey(), submitAction,

@@ -64,12 +64,12 @@ public abstract class SubWindow implements PropertyChangeListener {
 	public static final int BUTTON_WIDTH = 50;
 
 	/**
-	 * The constant storing the minimal width of the viewmode.
+	 * The constant storing the minimal width of the subWindow.
 	 */
 	public static final int MIN_WIDTH = 200;
 
 	/**
-	 * The constant storing the minimal height of the viewmode.
+	 * The constant storing the minimal height of the subWindow.
 	 */
 	public static final int MIN_HEIGHT = 200;
 
@@ -144,7 +144,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	private TitleBar titleBar;
 
 	/**
-	 * The variable storing all the components of the specific viewMode.
+	 * The variable storing all the components of the specific subWindow.
 	 */
 	private List<Component> components = new ArrayList<>();
 
@@ -205,6 +205,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Adds a propertyChangeListener to support variable.
 	 * @param pcl
 	 *        | The propertyChangeListener which needs to be added.
+	 * @effect The propertyChangeListener is added to the support variable.
+	 *        | support.addPropertyChangeListener(pcl) 
 	 */
 	public void addPropertyChangeListener(PropertyChangeListener pcl) {
 		support.addPropertyChangeListener(pcl);
@@ -214,26 +216,30 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Removes a propertyChangeListener from the support variable.
 	 * @param pcl
 	 *        | the propertyChangeListener which will be removed
+	 * @effect The propertyChangeListener is removed to the support variable.
+	 *        | support.removePropertyChangeListener(pcl) 
 	 */
 	public void removePropertyChangeListener(PropertyChangeListener pcl) {
 		support.removePropertyChangeListener(pcl);
 	}
 
 	/**
-	 * Returns all the components of the viewMode. (copy)
+	 * Returns all the components of the subWindow. (copy)
+	 * @return A copy of the list of components
+	 *         | new ArrayList<>(components)
 	 */
 	public List<Component> getComponents() {
 		return new ArrayList<>(components);
 	}
 
 	/**
-	 * Sets the list of components to the viewMode.
+	 * Sets the list of components to the subWindow.
 	 *
 	 * @param components
 	 *        | A list of components.
-	 * @throws IllegalArgumentException when the components equal null
+	 * @throws IllegalArgumentException when the components argument equal null
 	 *        | components == null
-	 * @post the list of components are equals to the components parameter
+	 * @post The list of components are equals to the components parameter.
 	 *        | new.getComponents() == components
 	 */
 	protected void setComponents(List<Component> components) {
@@ -247,7 +253,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Adds a component to the list of components.
 	 *
 	 * @param component
-	 *        | The component which will be added to the viewMode.
+	 *        | The component which will be added to the subWindow.
 	 * @return whether or not the component is added to the list of components.
 	 * @throws IllegalArgumentException when the component is equal to null.
 	 *       | component == null
@@ -300,7 +306,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Draws all the components of a viewMode.
+	 * Draws all the components of the subWindow.
 	 * @param g
 	 * 		 This object offers the methods that allow you to paint on the canvas.
 	 */
@@ -323,7 +329,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	/**
 	 * Draws the border of the window. It also draws the resizing area's.
-	 * This visualises where the user van resize the window.
+	 * This visualises where the user can resize the window.
 	 *
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 * @post The graphics object draws the different rectangles.
@@ -359,7 +365,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 *        |The component which will be added to the clickListeners
 	 * @throws IllegalArgumentException when the component equals null
 	 *        | c == null
-	 * @effect the component is added to the list of ClickListeners
+	 * @effect the component is added to the list of ClickListeners if the component isn't already inside the list
 	 *        |  if (!this.getClickListeners().contains(c))
 	 *        | 	this.clickListeners.add(c);
 	 */
@@ -377,7 +383,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 *        |The component which will be added to the KeyListeners
 	 * @throws IllegalArgumentException when the component equals null
 	 *        | c == null
-	 * @effect the component is added to the list of KeyListeners
+	 * @effect The component is added to the list of KeyListeners.
 	 *        |  if (!this.getKeyListeners().contains(c))
 	 *        | 	this.keyListeners.add(c);
 	 */
@@ -460,11 +466,11 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	/**
 	 * Handles the resizing feature of the window.
-	 * It resizes the window by dragging the corners.
+	 * It resizes the window by dragging the corners or borders of the subWindow.
 	 * @param id The mouse event id.
 	 * @param x  The x coordinate of the mouse event.
 	 * @param y  The y coordinate of the mouse event.
-	 * @post The new X-coordinate, Y-coordinate, width and height are set depending on the resizing.
+	 * @effect The new X-coordinate, Y-coordinate, width and height are set depending on the resizing.
 	 */
 	protected void handleResizing(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED) {
@@ -524,7 +530,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 *        | The key code of the key pressed event.
 	 * @param keyChar
 	 *        | The key character of a key pressed event.
-	 * @effect The components are called an told whether there was a keyPressed.
+	 * @effect The components are called and the press is given to the component
+	 *        | for (Component c : currentKeyListeners) 
+	 *        | 	c.keyPressed(id, keyCode, keyChar);
 	 */
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		List<Component> currentKeyListeners = new ArrayList<>(getKeyListeners());
@@ -539,6 +547,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param component
 	 *        | The component which will be checked if it is in the list of components.
 	 * @return true if the component occurs in the list of components; otherwise false.
+	 *        | this.getComponents().contains(component)
 	 */
 	public boolean hasComponent(Component component) {
 		return this.getComponents().contains(component);
@@ -548,6 +557,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * This method fires a property change with the given propertyChangeEvent.
 	 * @param evt
 	 *        | The propertyChangeEvent used to fire the change.
+	 * @effect The support variable fires a propertyChange with the given evt.
+	 *        | this.support.firePropertyChange(evt).
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -558,13 +569,16 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * Handles the throw error of a component with the given ID.
 	 * @param id
 	 *        | The id of which element an error is thrown.
-	 * @param newValue   The new value for the component.
+	 * @param newValue    The new value for the component.
 	 * @param columnIndex The index of the component which contains the error.
 	 */
 	public abstract void throwError(UUID id, int columnIndex, Object newValue);
 
 	/**
 	 * Removes all the clickListeners and KeyListeners from the SubWindow.
+	 * @effect The click and key listeners are cleared.
+	 *         | this.clickListeners.clear()
+	 *         | this.keyListeners.clear()
 	 */
 	protected void removeAllClickAndKeyListeners() {
 		this.clickListeners.clear();
@@ -573,6 +587,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	/**
 	 * Removes all the clickListeners and KeyListeners from the SubWindow.
+	 * But the titleBar is kept in the list of components.
 	 */
 	protected void removeContentClickAndKeyListeners() {
 		this.clickListeners.clear();
@@ -601,7 +616,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @throws IllegalArgumentException When the propertyChangeSupport Parameter equals nulls.
 	 *         | propertyChangeSupport == null
 	 * @post The support variable equals the propertyChangeSupport.
-	 *         | new.getSupport() == propertyChangeSupport
+	 *         | new.getSupport() == this.getSupport()
 	 */
 	protected void setSupport(PropertyChangeSupport propertyChangeSupport) {
 		if (propertyChangeSupport == null) {
@@ -612,6 +627,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 
 	/**
 	 * Returns the propertyChangedSupport of the SubWindow.
+	 * @return The propertyChangeSupport of the window.
+	 *         | this.support
 	 */
 	protected PropertyChangeSupport getSupport() {
 		return this.support;
@@ -625,8 +642,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param y
 	 *        The y-coordinate of the click.
 	 * @param dragBorderSize 
-	 * @return True if the x and y coordinates are within the SubWindow; otherwise false.
-	 *        | return x > getX() && x < getOffsetX() && y > getY() && y < getOffsetY();
+	 * @return True if the x and y coordinates are within the SubWindow and not in the draggable areas; otherwise false.
+	 *        | return x > getX() + dragBorderSize && x < getOffsetX() - dragBorderSize && y > getY() + dragBorderSize
+	 *        |		&& y < getOffsetY() - dragBorderSize;
 	 */
 	public boolean isWithinComponent(int x, int y, int dragBorderSize) {
 		return x > getX() + dragBorderSize && x < getOffsetX() - dragBorderSize && y > getY() + dragBorderSize
@@ -645,14 +663,14 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param x The new x-coordinate value.
 	 * @throws IllegalArgumentException when the x value is smaller than 0.
 	 *         | x < 0
-	 * @effect The viewMode changed his x coordinate and the components within are changed to the new x-coordinate.
+	 * @effect The subWindow changed his x coordinate and the components within are changed to the new x-coordinate.
 	 *         | this.x =x;
 	 *         | for (Component c : getComponents()) {
 	 *         |   c.changeX(x - this.x);
 	 */
 	private void setX(int x) {
 		if (x < 0) {
-			throw new IllegalArgumentException("Cannot set negative X on ViewMode");
+			throw new IllegalArgumentException("Cannot set negative X on subWindow");
 		}
 		int change = x - this.x;
 		this.x = x;
@@ -662,7 +680,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns the Y-coordinate of the viewMode.
+	 * Returns the Y-coordinate of the subWindow.
 	 */
 	protected int getY() {
 		return y;
@@ -673,14 +691,14 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param y The new y-coordinate value.
 	 * @throws IllegalArgumentException when the y value is smaller than 0.
 	 *         | y < 0
-	 * @effect The viewMode changed his y coordinate and the components within are changed to the new y-coordinate.
+	 * @effect The subWindow changed his y-coordinate and the components within are changed to the new y-coordinate.
 	 *         | this.y =y;
 	 *         | for (Component c : getComponents()) {
 	 *         |   c.changeY(y - this.y);
 	 */
 	private void setY(int y) {
 		if (y < 0) {
-			throw new IllegalArgumentException("Cannot set negative Y on ViewMode");
+			throw new IllegalArgumentException("Cannot set negative Y on subWindow");
 		}
 		int change = y - this.y;
 		this.y = y;
@@ -751,7 +769,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private void setTitleBar(TitleBar titleBar) {
 		if (titleBar == null) {
-			throw new IllegalArgumentException("Cannot set null titleBar in viewmode");
+			throw new IllegalArgumentException("Cannot set null titleBar in subWindow");
 		}
 		this.titleBar = titleBar;
 	}
@@ -764,8 +782,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Removes all the click and key listeners which are not equal the given component or the titlebar.
+	 * Removes all the click and key listeners which are not equal the given component or the titleBar.
 	 * @param component The component of which the click and key listeners has to be kept.
+	 * @effect The all other click and key listeners are removed.
 	 */
 	protected void removeAllContentListenersButOne(Component component) {
 		List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
