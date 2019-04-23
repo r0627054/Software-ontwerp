@@ -469,15 +469,34 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		return this.getSubWindows().size();
 	}
 	
-	
+	/**
+	 * Handles the incoming click simulation with the given parameters.
+	 * @param x The x-coordinate of the click.
+	 * @param y The y-coordinate of the click.
+	 * @param clickCount The amount of clicks which will be simulated.
+	 * @effect The click (mouseEvent) is handled with the given parameters
+	 *          | this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
+	 */
 	public void simulateClickClicked(int x, int y, int clickCount) {
 		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
 	}
 
+	/**
+	 * Simulates a key press with the given character.
+	 * @param keyChar The key (character) which will be simulated.
+	 * @effect The click (mouseEvent) is handled with the given parameters
+	 *          | this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar)
+	 */
 	public void simulateKeyPress(char keyChar) {
 		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
 	}
 
+	/**
+	 * Simulates a key press with the given key code.
+	 * @param keyChar The key (code) which will be simulated.
+	 * @effect The click (mouseEvent) is handled with the given parameters
+	 *          | this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
+	 */
 	public void simulateKeyPress(int keyCode) {
 		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
 	}

@@ -13,10 +13,9 @@ import ui.model.components.DesignTable;
 import ui.model.components.UICell;
 
 /**
- * The tableDesignViewMode is a TableViewMode specifically used for designing
- * the table. The tableDesignViewMode can allow edits of the table and can
- * handles pauses.
- * 
+ * The tableDesignWindow is a TableWindow specifically used for designing
+ * the table. The tableDesignWindow allows edits of the values of the table.
+ *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
@@ -26,32 +25,33 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Variable holding the title String that comes before the table name.
 	 */
-	public static final String TITLE_STRING = "Designing table: ";
+	public static final String TITLE_STRING_PREFIX = "Designing table: ";
 
 
 	/**
-	 * Initialises a new TableDesignViewMode with the given information.
-	 * 
+	 * Initialises a new TableDesignWindow with the given information.
+	 *
 	 * @param id                    | the id of the table.
 	 * @param tableName             | the name of the table.
 	 * @param columnCharacteristics | the characteristics of a table (it contains
 	 *                              all the information needed to edit and show the
 	 *                              design.
-	 * @effect the viewMode is created with the given information and a designTable
-	 *         is created and added to the viewMode.
+	 * @effect the TableDesignWindow is created with the given information and a designTable
+	 *         is created.
 	 */
 	public TableDesignWindow(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		super(id, TITLE_STRING + tableName);
+		super(id, TITLE_STRING_PREFIX + tableName);
 		this.createDesignTable(columnCharacteristics);
 	}
 
 	/**
 	 * Creates a DesignTable with all the given information. ( all the listeners are
 	 * registered )
-	 * 
+	 *
 	 * @param columnCharacteristics | the information needed to create a
 	 *                              designTable.
+	 * @post The table is created and all the listeners are stored.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
@@ -74,9 +74,9 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Deletes the previous design table and updates the viewMode by creating a new
+	 * Deletes the previous design table and updates the TableDesignWindow by creating a new
 	 * DesignTable.
-	 * 
+	 *
 	 * @param columnCharacteristics | the information needed to create a
 	 *                              designTable.
 	 */
@@ -89,7 +89,7 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Returns the DesignTable stored in the container of the ViewMode.
+	 * Returns the DesignTable stored in the container of the SubWindow.
 	 */
 	private DesignTable getDesignTable() {
 		for (Component container : getComponents()) {
@@ -106,12 +106,13 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Pauses the current viewMode, the only cell which can be edited is the one
+	 * Pauses the current subwindow information, the only cell which can be edited is the one
 	 * with the given columnIndex and given columnId.
-	 * 
+	 * Everything in the titlebar can still be clicked.
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
-	 * @effect All the keyListeners and clickListeners different from this one cell
+	 * @effect All the keyListeners and clickListeners different from this one cell (and title bar)
 	 *         are removed.
 	 */
 	public void pauseSubWindow(int columnIndex, UUID columnId) {
@@ -122,9 +123,9 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Resumes the current viewMode, adds all the key and click-listeners such that
+	 * Resumes the current SubWindow information, adds all the key and click-listeners such that
 	 * the user can edit again.
-	 * 
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
 	 * @effect All the keyListeners and clickListeners different from this one cell
@@ -139,10 +140,10 @@ public class TableDesignWindow extends TableWindow {
 	/**
 	 * Sets an error to the cell inside the design table and updates the value to
 	 * the new value.
-	 * 
+	 *
 	 * @param columnIndex | the index of the column where the cell is situated.
 	 * @param columnId    | the columnId of the column where the cell is situated.
-	 * @param newValue    | the new Value of the cell inside the DesignViewMode.
+	 * @param newValue    | the new Value of the cell inside the subWindow.
 	 * @effect the cell is updated to the newValue and the cell is in error state.
 	 */
 	public void setErrorDesignTableCell(UUID columnId, int columnIndex, Object newValue) {
@@ -151,9 +152,8 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Returns whether there is a cell in the viewMode that is selected.
-	 * 
-	 * @return true if there is a cell selected in the viewMode; otherwise false.
+	 * Returns whether there is a cell in the table that is selected.
+	 * @return true if there is a cell selected in the table; otherwise false.
 	 */
 	public boolean hasASelectedCell() {
 		for (Component comp : getStoredListeners()) {
@@ -167,6 +167,10 @@ public class TableDesignWindow extends TableWindow {
 		return false;
 	}
 
+	/**
+	 * Handles the crtl enter behaviour.
+	 * Fires the create_tableRowsWindow propertyChangeEvent
+	 */
 	@Override
 	public void ctrlEntrPressed() {
 		if (!isPaused() && !hasASelectedCell()) {
@@ -175,13 +179,26 @@ public class TableDesignWindow extends TableWindow {
 		}
 	}
 
+	/**
+	 * Updates the content of the SubWindow with the given tableData.
+	 * @param tableData updates the table using the data
+	 */
 	@Override
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
 		this.updateDesignTable((Map<UUID, LinkedHashMap<String, Object>>) tableData[1]);
-		this.setTableName(TITLE_STRING + (String) tableData[0]);
+		this.setTableName(TITLE_STRING_PREFIX + (String) tableData[0]);
 	}
 
+	/**
+	 * Handles the throw error of a component with the given ID.
+	 * @param id
+	 *        | The id of which element an error is thrown.
+	 * @param newValue    The new value for the component.
+	 * @param columnIndex The index of the component which contains the error.
+	 * @effect Calls the setErrorDesignTable function which will handle the error.
+	 *         |this.setErrorDesignTableCell(id, columnIndex, newValue)
+	 */
 	@Override
 	public void throwError(UUID id, int columnIndex, Object newValue) {
 		this.setErrorDesignTableCell(id, columnIndex, newValue);
