@@ -46,7 +46,7 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 		
-		System.out.println(columnDataAfter);
+
 		
 		
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
