@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import ui.model.components.Component;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
@@ -23,22 +24,31 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 		
 		String tableName = null;
 		UUID tableId = null;
-
+		
 		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
+		
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+		for(Component uir: uiRowsBefore.getComponentsList()) {
+			System.out.println(uir);
+		}
 
 		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
+		
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
-
+		
+		System.out.println(columnDataAfter);
+		
+		
 		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
 		assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());

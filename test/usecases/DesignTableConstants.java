@@ -3,8 +3,8 @@ package usecases;
 public interface DesignTableConstants {
 	public static final String NEW_TABLE_NAME = "Table";
 
-	public static final int BELOW_TABLE_X = 500;
-	public static final int BELOW_TABLE_Y = 500;
+	public static final int BELOW_TABLE_X = 400;
+	public static final int BELOW_TABLE_Y = 400;
 	public static final int LEFT_TABLE_X = 40;
 	
 	public static final int COLUMN_NAME_X = 60;
