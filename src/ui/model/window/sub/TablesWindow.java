@@ -11,8 +11,8 @@ import ui.model.components.TableList;
 import ui.model.components.UICell;
 
 /**
- * A TablesViewMode is specific ViewMode.
- *  It contains a container which stores all the names of tables.
+ * A TablesWindow is specific SubWindow.
+ *  It contains a container which stores all the names of the tables.
  * 
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -23,12 +23,7 @@ public class TablesWindow extends SubWindow {
 	/**
 	 * Variable holding the title String.
 	 */
-	public static final String TITLE_STRING = "TABLES LIST";
-
-	/**
-	 * Variable storing the container.
-	 */
-	private Container container;
+	public static final String TITLE_STRING_PREFIX = "TABLES LIST";
 
 	/**
 	 * Initialises a new TablesViewMode with the given information.
@@ -38,7 +33,7 @@ public class TablesWindow extends SubWindow {
 	 * @effect the full Tables list is created and all the information is set.
 	 */
 	public TablesWindow(Map<UUID, String> map) {
-		super(null, TITLE_STRING);
+		super(null, TITLE_STRING_PREFIX);
 		this.createTableList(map);
 	}
 
@@ -48,7 +43,7 @@ public class TablesWindow extends SubWindow {
 	 *        | the map containing all the information of a viewMode.
 	 */
 	private void createTableList(Map<UUID, String> map) {
-		container = new Container(getX(), getY(), getWidth(), getHeight());
+		this.setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 		this.addComponent(getContainer());
 
 		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
