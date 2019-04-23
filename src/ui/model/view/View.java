@@ -435,19 +435,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.ctrlPressed = ctrlPressed;
 	}
 
-	// @@@@@@@@ TESTING METHODS @@@@@@@@@
-	public void simulateClickClicked(int x, int y, int clickCount) {
-		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
-	}
-
-	public void simulateKeyPress(char keyChar) {
-		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
-	}
-
-	public void simulateKeyPress(int keyCode) {
-		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
-	}
-
 	/**
 	 * Gets the PropertyChangeSupport
 	 * 
@@ -480,6 +467,19 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	private int getNbrOfSubWindows() {
 		return this.getSubWindows().size();
+	}
+	
+	
+	public void simulateClickClicked(int x, int y, int clickCount) {
+		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
+	}
+
+	public void simulateKeyPress(char keyChar) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, KeyEvent.VK_UNDEFINED, keyChar);
+	}
+
+	public void simulateKeyPress(int keyCode) {
+		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
 	}
 
 }
