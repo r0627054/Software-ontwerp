@@ -68,7 +68,6 @@ public class TablesWindow extends SubWindow {
 		this.setPaused(false);
 	}
 
-
 	@Override
 	public void ctrlEntrPressed() {
 	}
@@ -100,14 +99,9 @@ public class TablesWindow extends SubWindow {
 	}
 
 	private TableList getTableList() {
-		for (Component container : getComponents()) {
-			if (container instanceof Container) {
-				Container containerCasted = (Container) container;
-				for (Component c : containerCasted.getComponentsList()) {
-					if (c instanceof RowsTable) {
-						return (TableList) c;
-					}
-				}
+		for (Component c : getContainer().getComponentsList()) {
+			if (c instanceof TableList) {
+				return (TableList) c;
 			}
 		}
 		return null;

@@ -107,7 +107,6 @@ public abstract class UseCaseTest {
 
 	protected TableList getTablesViewModeTableList() {
 		Container container = getUiFacade().getView().getCurrentSubWindow().getContainer();
-		System.out.println("Container in usecasetest: " +container.getComponentsList());
 		
 		for (Component containerComponents : container.getComponentsList()) {
 			if (containerComponents instanceof TableList) {
