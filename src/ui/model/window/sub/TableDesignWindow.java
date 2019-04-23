@@ -89,13 +89,6 @@ public class TableDesignWindow extends TableWindow {
 	}
 
 	/**
-	 * Returns the container of the Table.
-	 */
-	private Container getContainer() {
-		return container;
-	}
-
-	/**
 	 * Returns the DesignTable stored in the container of the SubWindow.
 	 */
 	private DesignTable getDesignTable() {

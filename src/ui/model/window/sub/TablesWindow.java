@@ -73,12 +73,6 @@ public class TablesWindow extends SubWindow {
 		this.setPaused(false);
 	}
 
-	/**
-	 * Returns the container variable of the TablesViewMode.
-	 */
-	private Container getContainer() {
-		return container;
-	}
 
 	@Override
 	public void ctrlEntrPressed() {
