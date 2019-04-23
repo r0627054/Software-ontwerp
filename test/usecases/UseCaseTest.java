@@ -54,7 +54,7 @@ public abstract class UseCaseTest {
 
 	protected void addDummyTable(String tableName) {
 		getDomainFacade().addDummyTable(tableName);
-		getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
+		getUiFacade().updateTablesSubWindows(getDomainFacade().getTableNames());
 	}
 
 	protected void simulateKeyPress(int keyCode) {

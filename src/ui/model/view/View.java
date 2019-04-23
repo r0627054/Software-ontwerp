@@ -389,14 +389,14 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Pauses the current subWindow for any changes except for the given cell at the given column.
+	 * Pauses the current subWindow for any changes except for the given cell at the given id.
 	 * @param indexOfCell The index of the cell.
-	 * @param columnId    The columnId on which the cell is located.
+	 * @param id          The id on which the cell is located.
 	 * @effect The current subWindow is paused using the given parameters.
-	 *        | this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
+	 *        | this.getCurrentSubWindow().pauseSubWindow(indexOfCell, idd);
 	 */
-	public void pauseCurrentSubWindow(int indexOfCell, UUID columnId) {
-		this.getCurrentSubWindow().pauseSubWindow(indexOfCell, columnId);
+	public void pauseCurrentSubWindow(int indexOfCell, UUID id) {
+		this.getCurrentSubWindow().pauseSubWindow(indexOfCell, id);
 	}
 
 	/**
