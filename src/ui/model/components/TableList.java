@@ -136,18 +136,19 @@ public class TableList extends VerticalComponentList {
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (!hasCurrentError()) {
 			if (id == MouseEvent.MOUSE_PRESSED) {
+				
 				if (clickCount == 2 && y > this.getOffsetY()) {
 					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}
-
+				
 				for (Component c : getComponentsList()) {
 					UICell cell = (UICell) c;
 					c.outsideClick(id, x, y, clickCount);
-
 					EditableTextField textField = (EditableTextField) cell.getComponent();
 					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
 						textField.setSelectedForDelete(true);
 					} else {
+						
 						textField.setSelectedForDelete(false);
 					}
 				}

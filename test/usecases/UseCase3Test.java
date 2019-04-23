@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import ui.model.components.Component;
 import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
+import ui.model.components.UICell;
 
 public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	
@@ -25,8 +27,11 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	@Test
 	public void test1clickingLeftOfTableNameAndPressingDeleteShouldDeleteTable() {
 		this.addDummyTable(NEW_TABLE_NAME);
+		
+		
 		Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
-
+		
+		
 		simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
 		simulateKeyPress(KeyEvent.VK_DELETE);
 
@@ -75,9 +80,9 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
 		List<String> uiNamesList = new ArrayList<>();
 		for (Component c : tableList.getComponentsList()) {
-			if (c instanceof EditableTextField) {
-				EditableTextField etf = (EditableTextField) c;
-				System.out.println(etf.getText());
+			UICell cell = (UICell) c;
+ 			if (cell.getComponent() instanceof EditableTextField) {
+				EditableTextField etf = (EditableTextField) cell.getComponent();
 				uiNamesList.add(etf.getText());
 			}
 		}
@@ -85,6 +90,7 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 		for (String s : startTableNames.values()) {
 			assertTrue(uiNamesList.contains(s));
 		}
+
 	}
 	
 	/**
@@ -108,8 +114,9 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
 		List<String> uiNamesList = new ArrayList<>();
 		for (Component c : tableList.getComponentsList()) {
-			if (c instanceof EditableTextField) {
-				EditableTextField etf = (EditableTextField) c;
+			UICell cell = (UICell) c;
+			if (cell.getComponent() instanceof EditableTextField) {
+				EditableTextField etf = (EditableTextField) cell.getComponent();
 				uiNamesList.add(etf.getText());
 			}
 		}

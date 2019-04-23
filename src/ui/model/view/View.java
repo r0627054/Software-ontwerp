@@ -206,6 +206,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
+		
 		boolean isFound = false;
 
 		for (int i = this.getNbrOfSubWindows() - 1; i >= 0 && !isFound; i--) {
