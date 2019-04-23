@@ -33,16 +33,35 @@ public enum ChangeEventType {
 	CREATE_TABLEDESIGNWINDOW(CreateTableDesignSubWindowChangeHandler.class),
 	CREATE_TABLESSUBWINDOW(CreateTablesSubWindowChangeHandler.class);
 	
-	Class<?> actionHandler;
+	/**
+	 * Variable storing the actionHandler class.
+	 */
+	private Class<?> actionHandler;
 	
+	/**
+	 * Initialise a changeEventType with the corresponding class.
+	 * @param changeHandlerClass The class linked with the event.
+	 * @effect The changeHanlerClass is set
+	 *         | this.setActionHandler(changeHandlerClass)
+	 */
 	private ChangeEventType(Class<?> changeHandlerClass) {
 		this.setActionHandler(changeHandlerClass);
 	}
 
+	/**
+	 * Returns the class of the ChangeHandler event.
+	 * @return the class of the ChangeHandler event.
+	 */
 	protected Class<?> getActionHandler() {
 		return actionHandler;
 	}
 
+	/**
+	 * Sets the actionHandler class.
+	 * @param actionHandler The handler class to which it will be set.
+	 * @post The actionHanlder variable equals the actionHandler parameter
+	 *       | new.getActionHanlder() == actionHandler
+	 */
 	private void setActionHandler(Class<?> actionHandler) {
 		this.actionHandler = actionHandler;
 	}
