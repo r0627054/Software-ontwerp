@@ -26,6 +26,7 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 	public void test1DoubleClickBelowListAddsOneTableWithCorrectName() {
 		try {
 			getUiFacade().createTablesSubWindow(new HashMap<UUID, String>());
+			
 			Map<UUID, String> startTableNamesList = getDomainFacade().getTableNames();
 
 			TableList tableList = getTablesViewModeTableList();
@@ -38,7 +39,6 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 
 			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
-			System.out.println(endTableNamesList);
 
 			int changedNamesCounter = 0;
 			for (Map.Entry<UUID, String> entry : endTableNamesList.entrySet()) {

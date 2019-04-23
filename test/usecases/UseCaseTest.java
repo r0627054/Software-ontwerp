@@ -54,7 +54,7 @@ public abstract class UseCaseTest {
 
 	protected void addDummyTable(String tableName) {
 		getDomainFacade().addDummyTable(tableName);
-		getUiFacade().updateTablesSubWindows(getDomainFacade().getTableNames());
+		getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 	}
 
 	protected void simulateKeyPress(int keyCode) {
@@ -101,23 +101,19 @@ public abstract class UseCaseTest {
 		domainFacade = domainfacade;
 	}
 
-
 	private static void setController(Controller controller) {
 		UseCaseTest.controller = controller;
 	}
 
 	protected TableList getTablesViewModeTableList() {
-		for (Component c : getUiFacade().getView().getCurrentSubWindow().getComponents()) {
-			if (c instanceof Container) {
-				Container container = (Container) c;
-
-				for (Component containerComponents : container.getComponentsList()) {
-					if (containerComponents instanceof TableList) {
-						return (TableList) containerComponents;
-					}
-				}
+		Container container = getUiFacade().getView().getCurrentSubWindow().getContainer();
+		
+		for (Component containerComponents : container.getComponentsList()) {
+			if (containerComponents instanceof TableList) {
+				return (TableList) containerComponents;
 			}
 		}
+
 		return null;
 	}
 
@@ -213,7 +209,7 @@ public abstract class UseCaseTest {
 		DomainCell c3 = new DomainCell(ValueType.INTEGER, 123);
 
 		DomainCell row1cells[] = { c1 };
-		DomainCell row2cells[] = { c2 }; 
+		DomainCell row2cells[] = { c2 };
 		DomainCell row3cells[] = { c3 };
 
 		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
@@ -455,7 +451,7 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(table);
 	}
-	
+
 	protected void addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed() {
 		DomainCell c1 = new DomainCell(ValueType.EMAIL, "@E");
 		DomainCell c2 = new DomainCell(ValueType.EMAIL, "M@");

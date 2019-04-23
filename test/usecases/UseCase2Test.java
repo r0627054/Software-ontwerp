@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import ui.model.components.Component;
 import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
+import ui.model.components.UICell;
 
 public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
@@ -46,8 +47,8 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
 			int testStringCounter = 0;
 			for (Component c : tableList.getComponentsList()) {
-				if (c instanceof EditableTextField) {
-					EditableTextField etf = (EditableTextField) c;
+				if (c instanceof UICell) {
+					EditableTextField etf = (EditableTextField) ((UICell) c).getComponent();
 					assertTrue(endTableNamesList.containsValue(etf.getText()));
 
 					if (etf.getText().indexOf(ADD_TABLE_NAME) >= 0) {
@@ -63,7 +64,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			assertTrue(false);
 		}
 	}
-	
+
 	/**
 	 * Test 2 : Editing the table name correctly
 	 * | After clicking the table name once and changing the name, 
@@ -78,7 +79,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			simulateKeyPress(ADD_TABLE_NAME);
 			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_X);
-			
+
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
 			int changedNamesCounter = 0;
@@ -93,25 +94,26 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
 			TableList tableList = this.getTablesViewModeTableList();
 
-			int testStringCounter = 0;
+			changedNamesCounter = 0;
 			for (Component c : tableList.getComponentsList()) {
-				if (c instanceof EditableTextField) {
-					EditableTextField etf = (EditableTextField) c;
+				if (c instanceof UICell) {
+					EditableTextField etf = (EditableTextField) ((UICell) c).getComponent();
 					assertTrue(endTableNamesList.containsValue(etf.getText()));
 
 					if (etf.getText().indexOf(ADD_TABLE_NAME) >= 0) {
-						testStringCounter++;
+						changedNamesCounter++;
 					}
 				}
 			}
 
-			assertEquals(1, testStringCounter);
+			assertEquals(1, changedNamesCounter);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
 		}
 	}
+
 	/**
 	 * Test 3 : Erasing the name and pressing escape should reset the name
 	 * | After clicking the table name once and clearing the textfield,
@@ -181,22 +183,14 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
 			Map<UUID, String> endTableNamesList = getDomainFacade().getTableNames();
 
-			int changedNamesCounter = 0;
-			for (Map.Entry<UUID, String> entry : startTableNamesList.entrySet()) {
-				assertTrue(endTableNamesList.containsKey(entry.getKey()));
-
-				if (!(entry.getValue().equals(endTableNamesList.get(entry.getKey())))) {
-					changedNamesCounter++;
-				}
-			}
-			assertEquals(1, changedNamesCounter);
+			assertEquals(startTableNamesList, endTableNamesList);
 
 			TableList tableList = this.getTablesViewModeTableList();
 
-			changedNamesCounter = 0;
+			int changedNamesCounter = 0;
 			for (Component c : tableList.getComponentsList()) {
-				if (c instanceof EditableTextField) {
-					EditableTextField etf = (EditableTextField) c;
+				if (c instanceof UICell) {
+					EditableTextField etf = (EditableTextField) ((UICell) c).getComponent();
 					assertTrue(!endTableNamesList.containsValue(etf.getText()));
 
 					if (!(endTableNamesList.containsValue(etf.getText()))) {
@@ -238,6 +232,7 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			assertTrue(false);
 		}
 	}
+
 	/**
 	 * Test 5 : Changing the table name to an already existing table name should not save the name.
 	 * | After clicking the table name once changing the table name to a table name that already exists,
@@ -278,6 +273,5 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			assertTrue(false);
 		}
 	}
-
 
 }

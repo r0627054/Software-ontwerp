@@ -13,7 +13,7 @@ import ui.model.components.UICell;
 /**
  * A TablesWindow is specific SubWindow.
  *  It contains a container which stores all the names of the tables.
- * 
+ *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
@@ -27,7 +27,7 @@ public class TablesWindow extends SubWindow {
 
 	/**
 	 * Initialises a new TablesWindow with the given information.
-	 * 
+	 *
 	 * @param map
 	 *        | Containing all the UUID's and names of the tables.
 	 * @effect the full Tables list is created and all the information is set.
@@ -71,7 +71,7 @@ public class TablesWindow extends SubWindow {
 		this.createTableList(map);
 		this.setPaused(false);
 	}
-	
+
 	/**
 	 * Handles the crtl enter behaviour.
 	 * The tablesWindow does nothing.
@@ -84,7 +84,7 @@ public class TablesWindow extends SubWindow {
 	 * Updates the content of the SubWindow with the given data.
 	 * @param data the table data needed for the update
 	 * @effect The table is updated.
-	 *         | updateTables((Map<UUID, String>) data[0])      
+	 *         | updateTables((Map<UUID, String>) data[0])
 	 */
 	@Override
 	public void updateContent(Object... data) {
@@ -123,7 +123,7 @@ public class TablesWindow extends SubWindow {
 	 * @param newValue    The new value for the component.
 	 * @param columnIndex The index of the component which contains the error.
 	 * @effect All the components are called and the error is given.
-	 *        | for (Component c : getComponents()) 
+	 *        | for (Component c : getComponents())
 	 *        |		c.throwError(id);
 	 */
 	@Override
@@ -138,14 +138,9 @@ public class TablesWindow extends SubWindow {
 	 * @return the rowsTable (TableList) of the tablesWindow.
 	 */
 	private TableList getTableList() {
-		for (Component container : getComponents()) {
-			if (container instanceof Container) {
-				Container containerCasted = (Container) container;
-				for (Component c : containerCasted.getComponentsList()) {
-					if (c instanceof RowsTable) {
-						return (TableList) c;
-					}
-				}
+		for (Component c : getContainer().getComponentsList()) {
+			if (c instanceof TableList) {
+				return (TableList) c;
 			}
 		}
 		return null;
