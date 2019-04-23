@@ -28,10 +28,6 @@ public class TableDesignWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING = "Designing table: ";
 
-	/**
-	 * Variable storing the container.
-	 */
-	private Container container;
 
 	/**
 	 * Initialises a new TableDesignViewMode with the given information.
@@ -58,7 +54,7 @@ public class TableDesignWindow extends TableWindow {
 	 *                              designTable.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		container = new Container(getX(), getY(), getWidth(), getHeight());
+		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		DesignTable table = new DesignTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
 				getHeight(), getTableName(), this.getId());
@@ -90,13 +86,6 @@ public class TableDesignWindow extends TableWindow {
 		this.clearStoredListeners();
 		this.createDesignTable(columnCharacteristics);
 		this.setPaused(false);
-	}
-
-	/**
-	 * Returns the container variable of the TablesViewMode.
-	 */
-	private Container getContainer() {
-		return container;
 	}
 
 	/**

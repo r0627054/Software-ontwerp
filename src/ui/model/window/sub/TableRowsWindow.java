@@ -19,15 +19,13 @@ public class TableRowsWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING = "Table rows of table: ";
 
-	private Container container;
-
 	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
 		super(tableId, TITLE_STRING + tableName);
 		createTable(table);
 	}
 
 	private void createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
-		container = new Container(getX(), getY(), getWidth(), getHeight());
+		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId());
 		List<UICell> cellList = rowsTable.createTable(tableInformation);
@@ -79,10 +77,6 @@ public class TableRowsWindow extends TableWindow {
 			}
 		}
 		return null;
-	}
-
-	private Container getContainer() {
-		return container;
 	}
 
 	@Override
