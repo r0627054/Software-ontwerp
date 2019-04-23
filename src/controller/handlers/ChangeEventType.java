@@ -27,7 +27,7 @@ public enum ChangeEventType {
 	TABLE_CHANGE_NAME(TableNameChangeHandler.class),
 	ROW_EDITED(RowEditedChangeHandler.class),
 	
-	OPEN_TABLEVIEWMODE(OpenTableViewModeChangeHandler.class),
+	OPEN_TABLESUBWINDOW(OpenTableSubWindowChangeHandler.class),
 	CLOSE_SUBWINDOW(CloseSubWindowChangeHandler.class), 
 	CREATE_TABLEROWSWINDOW(CreateTableRowsSubWindowChangeHandler.class), 
 	CREATE_TABLEDESIGNWINDOW(CreateTableDesignSubWindowChangeHandler.class),

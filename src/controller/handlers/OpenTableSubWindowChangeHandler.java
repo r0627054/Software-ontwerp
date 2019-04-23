@@ -10,14 +10,14 @@ import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
 /** 
-* A OpenTableViewModeChangeHandler is a ChangeHandler,
+* A OpenTableSubWindowChangeHandler is a ChangeHandler,
 * specifically made for opening a TableWindow (TableDesignWindow or a TableRowsWindow).
 * 
 * @version 2.0
 * @author Dries Janse, Steven Ghekiere, Laurens Druwel
 *
 */
-public class OpenTableViewModeChangeHandler implements ChangeHandlerInterface {
+public class OpenTableSubWindowChangeHandler implements ChangeHandlerInterface {
 
 	/**
 	 * Opens a tableWindow of a table with the given id.
