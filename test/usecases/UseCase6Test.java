@@ -37,7 +37,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -90,8 +91,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
@@ -127,69 +129,69 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
 	}
 
-	/**
-	 * Test 3 : Editing the column name
-	 * | When you select the column name and clear the text field, the application should pause.
-	 * | You should only be able to edit the textfield or press escape to reset the value to the value when you clicked on the textfield.
-	 * | After pressing escape, the old value should be saved.
-	 */
-	@Test
-	public void test3clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
-		addDummyTable(NEW_TABLE_NAME);
-
-		String tableName = null;
-		UUID tableId = null;
-
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-
-		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_CONTROL);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
-
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
-		assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
-
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
-
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
-
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_NAME)) {
-						String columnName = (String) columnEntry.getValue();
-						assertEquals(1, columnName.length());
-					}
-				}
-			}
-		}
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(0);
-		EditableTextField firstCell = (EditableTextField) cell.getComponent();
-		assertEquals(0, firstCell.getText().length());
-
-		simulateKeyPress(KeyEvent.VK_ESCAPE);
-
-		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
-		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
-	}
+//	/**
+//	 * Test 3 : Editing the column name
+//	 * | When you select the column name and clear the text field, the application should pause.
+//	 * | You should only be able to edit the textfield or press escape to reset the value to the value when you clicked on the textfield.
+//	 * | After pressing escape, the old value should be saved.
+//	 */
+//	@Test
+//	public void test3clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
+//		addDummyTable(NEW_TABLE_NAME);
+//
+//		String tableName = null;
+//		UUID tableId = null;
+//
+//		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+//			tableName = entry.getValue();
+//			tableId = entry.getKey();
+//		}
+////		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+//				.getColumnCharacteristics(tableId);
+//		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+//
+//		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+//		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+//
+//		simulateKeyPress(KeyEvent.VK_ENTER);
+//		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+//		simulateKeyPress(KeyEvent.VK_CONTROL);
+//		simulateKeyPress(KeyEvent.VK_ENTER);
+//		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+//
+//		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+//				.getColumnCharacteristics(tableId);
+//		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+//
+//		assertEquals(columnDataBefore.size(), columnDataAfter.size());
+//		assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
+//
+//		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+//			UUID columnId = entry.getKey();
+//
+//			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+//
+//				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+//					if (columnEntry.getKey().equals(COLUMN_NAME)) {
+//						String columnName = (String) columnEntry.getValue();
+//						assertEquals(1, columnName.length());
+//					}
+//				}
+//			}
+//		}
+//
+//		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
+//		UICell cell = (UICell) hzcl.getComponentsList().get(0);
+//		EditableTextField firstCell = (EditableTextField) cell.getComponent();
+//		assertEquals(0, firstCell.getText().length());
+//
+//		simulateKeyPress(KeyEvent.VK_ESCAPE);
+//
+//		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
+//		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
+//	}
 
 	/**
 	 * Test 4 : Editing the column name
@@ -206,8 +208,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
@@ -242,7 +244,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -306,8 +308,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -368,8 +370,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -430,8 +432,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -493,8 +495,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -543,8 +545,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -586,8 +588,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -629,8 +631,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -660,7 +662,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 * | since you're broadening the constraints. This should be shown in the ui and saved.
 	 */
 	@Test
-	public void test14disablingAllowBlanksSucceedIfTableHasNoBlanks() {
+	public void test13disablingAllowBlanksSucceedIfTableHasNoBlanks() {
 		addDummyTableEmailColumnEmailCellValues();
 
 		String tableName = null;
@@ -670,8 +672,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -724,8 +726,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -779,7 +781,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -862,7 +865,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -960,7 +964,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1039,7 +1044,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1103,7 +1109,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1164,7 +1171,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1189,17 +1197,24 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 
 		String defaultBefore = null;
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+			
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (String) mapEntry.getValue();
+				
+				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
+					if (mapEntry.getValue() instanceof Boolean) defaultBefore = String.valueOf(mapEntry);
+					else defaultBefore = (String) mapEntry.getValue().toString();
+				}
 			}
 		}
 
 		String defaultAfter = null;
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (String) mapEntry.getValue();
+				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
+					if (mapEntry.getValue() instanceof Boolean) defaultAfter = String.valueOf(mapEntry);
+					else defaultAfter = (String) mapEntry.getValue().toString();
+				}
+					
 			}
 		}
 		assertEquals(defaultBefore, uiDefaultBefore);
@@ -1224,8 +1239,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
@@ -1280,8 +1295,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
 
