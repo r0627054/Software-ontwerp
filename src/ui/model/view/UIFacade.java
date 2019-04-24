@@ -244,6 +244,16 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void closeCurrentSubWindow() {
 		this.getView().closeCurrentSubWindow();
 	}
+	
+	/**
+	 * Closes all the SubWindows which contain information of the table with the given tableID.
+	 * @param tableID The UUID of the table.
+	 * @effect The view closes all the subWindows of containing information of the table with the given tableID
+	 *         | this.getView().closeAllSubWindowsOfTable(tableID)
+	 */
+	public void closeAllSubWindowsOfTable(UUID tableID) {
+		this.getView().closeAllSubWindowsOfTable(tableID);
+	}
 
 	/**
 	 * Simulates a click to the view.
