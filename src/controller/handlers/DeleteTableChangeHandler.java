@@ -30,6 +30,7 @@ public class DeleteTableChangeHandler implements ChangeHandlerInterface {
 		try {
 			UUID tableId = evt.getSource();
 			domainfacade.deleteTable(tableId);
+			uifacade.closeAllSubWindowsOfTable(tableId);
 			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 		} catch (Exception e) {
 			e.printStackTrace();
