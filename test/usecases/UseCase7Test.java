@@ -33,8 +33,8 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 		
 		List<UICell> uiCellListBefore = new ArrayList<>();
@@ -93,8 +93,8 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 			tableId = entry.getKey();
 		}
 		 
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
 		List<UICell> uiCellListBefore = new ArrayList<>();
@@ -153,8 +153,8 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 			tableName = entry.getValue();
 			tableId = entry.getKey();
 		}
-		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
+//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
 		List<UICell> uiCellListBefore = new ArrayList<>();
