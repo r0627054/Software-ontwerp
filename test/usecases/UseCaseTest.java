@@ -136,22 +136,25 @@ public abstract class UseCaseTest {
 		}
 		return null;
 	}
-//
-//	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
-//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE)
-//				.getComponents()) {
-//			if (c instanceof Container) {
-//				Container container = (Container) c;
-//
-//				for (Component containerComponents : container.getComponentsList()) {
-//					if (containerComponents instanceof RowsTable) {
-//						return (RowsTable) containerComponents;
-//					}
-//				}
-//			}
-//		}
-//		return null;
-//	}
+
+	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
+//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE).getComponents();
+		SubWindow tableRowsTable = getUiFacade().getView().getSubWindows(tableId).get(0);
+			if(tableRowsTable != null) {
+				for(Component c : tableRowsTable.getComponents()) {
+				if (c instanceof Container) {
+					Container container = (Container) c;
+
+					for (Component containerComponents : container.getComponentsList()) {
+						if (containerComponents instanceof RowsTable) {
+							return (RowsTable) containerComponents;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
 
 	protected void addDummyTableEmailColumnEmailCellValues() {
 		DomainCell c1 = new DomainCell(ValueType.EMAIL, "A@");

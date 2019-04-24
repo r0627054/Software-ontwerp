@@ -844,6 +844,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			}
 		}
 
+
 		assertEquals(defaultBefore, defaultAfter);
 		assertEquals(uiDefaultBefore, uiDefaultAfter);
 	}

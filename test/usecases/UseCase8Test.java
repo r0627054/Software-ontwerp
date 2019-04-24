@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,17 +36,19 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 		
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+		
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 
 		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 		HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
-			for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry2 : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry2 : dataMapAfter.entrySet()) {
 				assertEquals(entry.getValue().size() + 1, entry2.getValue().size());
 			}
 		}
@@ -60,14 +64,14 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 		}
 
 		Set<UUID> oldCellIds = new HashSet<>();
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
 			for (Map.Entry<UUID, Object> valueEntry : entry.getValue().entrySet()) {
 				oldCellIds.add(valueEntry.getKey());
 			}
 		}
 
 		Set<Object> newValues = new HashSet<>();
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
 			for (Map.Entry<UUID, Object> valueEntry : entry.getValue().entrySet()) {
 				if (!oldCellIds.contains(valueEntry.getKey())) {
 					newValues.add(valueEntry.getValue());
