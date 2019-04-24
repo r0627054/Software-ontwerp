@@ -1,10 +1,12 @@
 package usecases;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.window.sub.ViewModeType;
+import ui.model.window.sub.TableDesignWindow;
+import ui.model.window.sub.TableRowsWindow;
 
 public class UseCase4Test extends UseCaseTest implements TableListConstants{
 	
@@ -14,10 +16,11 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants{
 	 */
 	@Test
 	public void test1openTableWithNewTableShouldOpenDesignMode() {
+		addDummyTable(NEW_TABLE_NAME);
 		simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 		simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 		
-		assertEquals(this.getUiFacade().getCurrentViewModeType(), ViewModeType.TABLEDESIGNVIEWMODE);	
+		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);
 	}
 	
 	/**
@@ -29,8 +32,7 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants{
 		addDummyTable(NEW_TABLE_NAME);
 
 		simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-
-		assertEquals(this.getUiFacade().getCurrentViewModeType(), ViewModeType.TABLEROWSVIEWMODE);	
+		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
 	}
 	
 }
