@@ -825,7 +825,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			}
 		}
 
-		assertNotEquals(defaultBefore, defaultAfter);
+		assertNotEquals(defaultBefore, defaultAfter); // data wordt toch niet geupdate tot je enter duwt
 		assertNotEquals(uiDefaultBefore, uiDefaultAfter);
 
 		simulateKeyPress(KeyEvent.VK_ESCAPE);
@@ -1186,6 +1186,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
 		simulateKeyPress(EXAMPLE_EMAIL);
+		simulateKeyPress(KeyEvent.VK_ENTER);
 
 		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
@@ -1195,29 +1196,31 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		textField = (TextField) cell.getComponent();
 		String uiDefaultAfter = textField.getText();
 
+
+		
+		
 		String defaultBefore = null;
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
-					if (mapEntry.getValue() instanceof Boolean) defaultBefore = String.valueOf(mapEntry);
-					else defaultBefore = (String) mapEntry.getValue().toString();
-				}
+				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+					defaultBefore = mapEntry.getValue().toString();
 			}
 		}
 
 		String defaultAfter = null;
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
-					if (mapEntry.getValue() instanceof Boolean) defaultAfter = String.valueOf(mapEntry);
-					else defaultAfter = (String) mapEntry.getValue().toString();
-				}
-					
+				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+					defaultAfter = mapEntry.getValue().toString();
 			}
 		}
+		System.out.println(defaultBefore);
+		System.out.println(uiDefaultBefore);
+		System.out.println(defaultAfter);
+		System.out.println(uiDefaultAfter);
+		
 		assertEquals(defaultBefore, uiDefaultBefore);
+		
 		assertEquals(defaultAfter, uiDefaultAfter);
 	}
 
@@ -1243,6 +1246,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 				.getColumnCharacteristics(tableId);
+		
+		System.out.println();
 
 		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
@@ -1261,7 +1266,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
 				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (String) mapEntry.getValue();
+					defaultBefore = mapEntry.getValue().toString();
 			}
 		}
 
@@ -1269,7 +1274,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
 				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (String) mapEntry.getValue();
+					defaultAfter = mapEntry.getValue().toString();
 			}
 		}
 		assertEquals(defaultBefore, defaultAfter);
@@ -1317,15 +1322,18 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
 				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (String) mapEntry.getValue();
+					defaultBefore = mapEntry.getValue().toString();
 			}
 		}
 
 		String defaultAfter = null;
 		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
+					System.out.println(mapEntry.getValue());
 					defaultAfter = (String) mapEntry.getValue();
+				}
+					
 			}
 		}
 		assertNotEquals(defaultBefore, defaultAfter);
