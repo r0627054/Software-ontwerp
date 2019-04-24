@@ -7,7 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -36,9 +38,10 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
-
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+		
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
@@ -50,10 +53,10 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		simulateKeyPress(EDIT_STRING_TEXT);
 		simulateKeyPress(KeyEvent.VK_ENTER);
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 		int newTextCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
 			for (Map.Entry<UUID, Object> entry2 : entry.getValue().entrySet()) {
 				if (String.valueOf(entry2.getValue()).contains(EDIT_STRING_TEXT)) {
 					newTextCounter++;
@@ -63,7 +66,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		assertEquals(0, newTextCounter);
 
 		newTextCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
 			for (Map.Entry<UUID, Object> entry2 : entry.getValue().entrySet()) {
 				if (String.valueOf(entry2.getValue()).contains(EDIT_STRING_TEXT)) {
 					newTextCounter++;
@@ -92,16 +95,30 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+		
+
+
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(1);
+		
+		
 		UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
 		CheckBox checkBox = (CheckBox) cellBefore.getComponent();
 		boolean isCheckedStart = checkBox.isChecked();
+		
+//		System.out.println(checkBox.isError());
 
 		simulateSingleClick(SECOND_ROW_X, FIRST_ROW_Y);
+		
+		VerticalComponentList verticalCompListAfter = (VerticalComponentList) rowsTableBefore.getComponentsList()
+				.get(1);
+		UICell cellAfter = (UICell) verticalCompListBefore.getComponentsList().get(1);
+		CheckBox checkBoxx = (CheckBox) cellBefore.getComponent();
+//		System.out.println(checkBoxx.isChecked());
 
 		assertEquals(isCheckedStart, !checkBox.isChecked());
 		assertFalse(checkBox.isError());
@@ -124,9 +141,10 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
-
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+		
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
@@ -169,9 +187,9 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
-
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
@@ -191,6 +209,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		assertTrue(etf.isError());
 
 		simulateKeyPress("test");
+		simulateKeyPress(KeyEvent.VK_ENTER);
 		assertTrue(etf.isError());
 
 		simulateKeyPress("@");
@@ -198,7 +217,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 	}
 
 	/**
-	 * Test 4 : Editing a row
+	 * Test 5 : Editing a row
 	 * | An Integer text field never allows leading zeroes.
 	 */
 	@Test
@@ -213,9 +232,9 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
-
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 				.get(0);
@@ -227,10 +246,10 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 
 		simulateKeyPress("0123");
 
+
 		simulateKeyPress(KeyEvent.VK_CONTROL);
 		simulateKeyPress(KeyEvent.VK_ENTER);
 		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
 		assertTrue(etf.isError());
 
 		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 5);
@@ -240,6 +259,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 		assertFalse(etf.isError());
 
 		simulateKeyPress("00");
+		simulateKeyPress(KeyEvent.VK_ENTER);
 		assertTrue(etf.isError());
 
 		simulateKeyPress(KeyEvent.VK_BACK_SPACE);
