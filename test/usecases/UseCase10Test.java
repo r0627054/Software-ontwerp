@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -30,9 +32,10 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
-
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+		
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
 		int firstVerticalListSize = firstVerticalList.getComponentsList().size();
@@ -40,7 +43,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 		simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
 		simulateKeyPress(KeyEvent.VK_DELETE);
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 		HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -48,14 +51,14 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 		int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 		int beforeRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
 			if (entry.getValue().size() > beforeRowsCounter) {
 				beforeRowsCounter = entry.getValue().size();
 			}
 		}
 
 		int afterRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
 			if (entry.getValue().size() > afterRowsCounter) {
 				afterRowsCounter = entry.getValue().size();
 			}
@@ -81,8 +84,9 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			tableId = entry.getKey();
 		}
 System.err.println(tName);
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
@@ -92,7 +96,7 @@ System.err.println(tName);
 		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 		simulateKeyPress(KeyEvent.VK_DELETE);
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 		HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -100,14 +104,14 @@ System.err.println(tName);
 		int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 		int beforeRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
 			if (entry.getValue().size() > beforeRowsCounter) {
 				beforeRowsCounter = entry.getValue().size();
 			}
 		}
 
 		int afterRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
 			if (entry.getValue().size() > afterRowsCounter) {
 				afterRowsCounter = entry.getValue().size();
 			}
@@ -133,8 +137,10 @@ System.err.println(tName);
 			tableId = entry.getKey();
 		}
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+		
+//		getUiFacade().openTableRowsViewMode(tableId, tName, dataMapBefore, getDomainFacade().getColumnTypes(tableId));
+		getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
 
 		HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
@@ -144,7 +150,7 @@ System.err.println(tName);
 		simulateSingleClick(FIRST_ROW_X, SECOND_ROW_Y);
 		simulateKeyPress(KeyEvent.VK_DELETE);
 
-		Map<Map<UUID, String>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+		Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 		HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 		VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -152,14 +158,14 @@ System.err.println(tName);
 		int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 		int beforeRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
 			if (entry.getValue().size() > beforeRowsCounter) {
 				beforeRowsCounter = entry.getValue().size();
 			}
 		}
 
 		int afterRowsCounter = 0;
-		for (Map.Entry<Map<UUID, String>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+		for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
 			if (entry.getValue().size() > afterRowsCounter) {
 				afterRowsCounter = entry.getValue().size();
 			}
