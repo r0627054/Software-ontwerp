@@ -128,7 +128,7 @@ public class Container extends Component {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
-		for (Component c : components) {
+		for (Component c : getComponentsList()) {
 			c.paint((Graphics2D) g.create());
 		}
 	}

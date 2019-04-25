@@ -27,7 +27,6 @@ public class TableDesignWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING_PREFIX = "Designing table: ";
 
-
 	/**
 	 * Initialises a new TableDesignWindow with the given information.
 	 *
@@ -69,7 +68,6 @@ public class TableDesignWindow extends TableWindow {
 		table.addPropertyChangeListener(this);
 
 		getContainer().addComponent(table);
-		this.addComponent(getContainer());
 		this.resetAllListeners();
 	}
 
@@ -81,7 +79,6 @@ public class TableDesignWindow extends TableWindow {
 	 *                              designTable.
 	 */
 	public void updateDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
-		this.removeComponent(getContainer());
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
 		this.createDesignTable(columnCharacteristics);
@@ -92,14 +89,9 @@ public class TableDesignWindow extends TableWindow {
 	 * Returns the DesignTable stored in the container of the SubWindow.
 	 */
 	private DesignTable getDesignTable() {
-		for (Component container : getComponents()) {
-			if (container instanceof Container) {
-				Container containerCasted = (Container) container;
-				for (Component c : containerCasted.getComponentsList()) {
-					if (c instanceof DesignTable) {
-						return (DesignTable) c;
-					}
-				}
+		for (Component c : getContainer().getComponentsList()) {
+			if (c instanceof DesignTable) {
+				return (DesignTable) c;
 			}
 		}
 		return null;

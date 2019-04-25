@@ -39,12 +39,10 @@ public class TableRowsWindow extends TableWindow {
 		rowsTable.addPropertyChangeListener(this);
 
 		getContainer().addComponent(rowsTable);
-		this.addComponent(getContainer());
 		this.resetAllListeners();
 	}
 
 	public void updateRowsTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
-		this.removeComponent(getContainer());
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
 		this.createTable(tableInformation);
@@ -66,7 +64,7 @@ public class TableRowsWindow extends TableWindow {
 	}
 
 	private RowsTable getRowsTable() {
-		for (Component container : getComponents()) {
+		for (Component container : getContainer().getComponentsList()) {
 			if (container instanceof Container) {
 				Container containerCasted = (Container) container;
 				for (Component c : containerCasted.getComponentsList()) {
@@ -96,7 +94,7 @@ public class TableRowsWindow extends TableWindow {
 
 	@Override
 	public void throwError(UUID id, int columnIndex, Object newValue) {
-		for (Component c : getComponents()) {
+		for (Component c : getContainer().getComponentsList()) {
 			c.throwError(id);
 		}
 	}

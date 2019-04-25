@@ -1,5 +1,6 @@
 package ui.model.components;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import controller.handlers.ChangeEventType;
@@ -32,11 +33,11 @@ public class TitleBar extends Container implements PropertyChangeListener {
 			String titleText) {
 		super(x, y, width, height);
 
-		setTitle(new TextField(contentOffset, y, width, height, titleText));
-		addComponent(getTitle());
 		Button closeButton = new Button(width - buttonWidth - borderMargin, y + borderMargin, buttonWidth,
 				height - borderMargin, "Close", ChangeEventType.CLOSE_SUBWINDOW);
 		addComponent(closeButton);
+		setTitle(new TextField(contentOffset, y, width, height, titleText));
+		addComponent(getTitle());
 		closeButton.addPropertyChangeListener(this);
 	}
 
@@ -51,6 +52,9 @@ public class TitleBar extends Container implements PropertyChangeListener {
 	 */
 	@Override
 	public void paint(Graphics2D g) {
+//		System.out.println("Titlebar Paint " + getX() + " " + getY() + " " + getHeight() + " " + getX() + " "
+//				+ getWidth() + " " + getY() + " " + getHeight());
+		g.setColor(Color.BLACK);
 		g.drawLine(getX(), getY() + getHeight(), getX() + getWidth(), getY() + getHeight());
 		super.paint(g);
 	}
@@ -94,7 +98,7 @@ public class TitleBar extends Container implements PropertyChangeListener {
 	 *         | newTitle == null
 	 */
 	public void updateTitle(String newTitle) {
-		if(newTitle == null) {
+		if (newTitle == null) {
 			throw new IllegalArgumentException("The title of in the titleBar cannot be null.");
 		}
 		this.getTitle().setText(newTitle);

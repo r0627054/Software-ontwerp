@@ -207,7 +207,9 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		getComponent().mouseClicked(id, x, y, clickCount);
+		if (!isError()) {
+			getComponent().mouseClicked(id, x, y, clickCount);
+		}
 	}
 
 	/**
@@ -286,6 +288,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        | Whether or not the component has an error.
 	 */
 	public void setError(boolean error) {
+		super.setError(error);
 		if (getComponent() instanceof EditableComponent) {
 			EditableComponent editable = (EditableComponent) getComponent();
 			editable.setError(error);

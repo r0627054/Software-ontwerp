@@ -150,11 +150,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 	private Container container;
 
 	/**
-	 * The variable storing all the components of the specific subWindow.
-	 */
-	private List<Component> components = new ArrayList<>();
-
-	/**
 	 * The variable storing all the clickListeners of the components.
 	 */
 	private List<Component> clickListeners = new ArrayList<>();
@@ -195,16 +190,15 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.setStoredListeners(new ArrayList<>());
 		this.setId(id);
 
-		this.setX(DEFAULT_X);
-		this.setY(DEFAULT_Y);
-		this.setWidth(DEFAULT_WIDTH);
-		this.setHeight(DEFAULT_HEIGHT);
-
 		this.setTitleBar(new TitleBar(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, TITLE_BAR_SIZE, DRAG_BORDER_SIZE,
 				CONTENT_OFFSET_X, BUTTON_WIDTH, title));
-		this.addComponent(getTitleBar());
 		this.addClickListener(getTitleBar());
 		this.getTitleBar().addPropertyChangeListener(this);
+
+		this.setX(DEFAULT_X);
+		this.setY(DEFAULT_Y);
+		this.width = DEFAULT_WIDTH;
+		this.height = DEFAULT_HEIGHT;
 	}
 
 	/**
@@ -230,88 +224,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 	}
 
 	/**
-	 * Returns all the components of the subWindow. (copy)
-	 * @return A copy of the list of components
-	 *         | new ArrayList<>(components)
-	 */
-	public List<Component> getComponents() {
-		return new ArrayList<>(components);
-	}
-
-	/**
-	 * Sets the list of components to the subWindow.
-	 *
-	 * @param components
-	 *        | A list of components.
-	 * @throws IllegalArgumentException when the components argument equal null
-	 *        | components == null
-	 * @post The list of components are equals to the components parameter.
-	 *        | new.getComponents() == components
-	 */
-	protected void setComponents(List<Component> components) {
-		if (components == null) {
-			throw new IllegalArgumentException("The components of a view mode cannot be null");
-		}
-		this.components = components;
-	}
-
-	/**
-	 * Adds a component to the list of components.
-	 *
-	 * @param component
-	 *        | The component which will be added to the subWindow.
-	 * @return whether or not the component is added to the list of components.
-	 * @throws IllegalArgumentException when the component is equal to null.
-	 *       | component == null
-	 * @effect the component is added to the list of components.
-	 *       | components.add(component)
-	 */
-	public boolean addComponent(Component component) {
-		if (component == null) {
-			throw new IllegalArgumentException("Cannot add null as component to the view mode.");
-		}
-		return components.add(component);
-	}
-
-	/**
-	 * Adds a list of components to the list of components.
-	 *
-	 * @param c
-	 *       | The collection of components which needs to be added to the list of components.
-	 * @return whether or not the collection is added to the list of components.
-	 * @effect The collection of components is added to the list of components
-	 *       |components.addAll(c)
-	 */
-	public boolean addAllComponents(Collection<? extends Component> c) {
-		return components.addAll(c);
-	}
-
-	/**
-	 * Removes a component at a given index.
-	 *
-	 * @param index
-	 *        | The index of which the component needs to be deleted.
-	 * @effect The component is removed at the given index.
-	 *        | components.remove(index)
-	 */
-	public void removeComponent(int index) {
-		components.remove(index);
-	}
-
-	/**
-	 *
-	 * Removes a components from the list of components.
-	 *
-	 * @param component
-	 *        | The component which needs to be deleted.
-	 * @effect The component is removed from the list.
-	 *        | components.remove(component)
-	 */
-	public void removeComponent(Component component) {
-		components.remove(component);
-	}
-
-	/**
 	 * Draws all the components of the subWindow.
 	 * @param g
 	 * 		 This object offers the methods that allow you to paint on the canvas.
@@ -326,11 +238,13 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(oldColor);
-		for (Component component : components) {
+		this.getTitleBar().paint((Graphics2D) g);
+		for (Component component : getContainer().getComponentsList()) {
 			component.paint((Graphics2D) g.create());
 		}
 
 		this.drawBorder((Graphics2D) g);
+
 	}
 
 	/**
@@ -556,7 +470,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 *        | this.getComponents().contains(component)
 	 */
 	public boolean hasComponent(Component component) {
-		return this.getComponents().contains(component);
+		return this.getContainer().getComponentsList().contains(component);
 	}
 
 	/**
@@ -680,9 +594,10 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		int change = x - this.x;
 		this.x = x;
-		for (Component c : getComponents()) {
-			c.changeX(change);
+		if (getContainer() != null) {
+			getContainer().changeX(change);
 		}
+		getTitleBar().changeX(change);
 	}
 
 	/**
@@ -708,9 +623,11 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		int change = y - this.y;
 		this.y = y;
-		for (Component c : getComponents()) {
-			c.changeY(change);
+
+		if (getContainer() != null) {
+			getContainer().changeY(change);
 		}
+		getTitleBar().changeY(change);
 	}
 
 	/**
@@ -764,7 +681,6 @@ public abstract class SubWindow implements PropertyChangeListener {
 	private int getOffsetY() {
 		return this.getHeight() + getY();
 	}
-
 
 	/**
 	 * Returns the container of the SubWindow.
