@@ -20,8 +20,8 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
-		UUID id = addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
-		getUiFacade().createTableDesignSubWindow(id, getDomainFacade().getTableNameOfId(id), getDomainFacade().getColumnCharacteristics(id));
+//		UUID id = addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
+//		getUiFacade().createTableDesignSubWindow(id, getDomainFacade().getTableNameOfId(id), getDomainFacade().getColumnCharacteristics(id));
 		
 		String tableName = null;
 		UUID tableId = null;
