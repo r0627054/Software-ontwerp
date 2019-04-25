@@ -575,7 +575,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	/**
 	 * Returns the X-coordinate of the SubWindow.
 	 */
-	protected int getX() {
+	public int getX() {
 		return x;
 	}
 
@@ -604,7 +604,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	/**
 	 * Returns the Y-coordinate of the subWindow.
 	 */
-	protected int getY() {
+	public int getY() {
 		return y;
 	}
 
@@ -634,7 +634,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	/**
 	 * Returns the width of the SubWindow.
 	 */
-	protected int getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
@@ -657,7 +657,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	/**
 	 * Returns the height of the SubWindow.
 	 */
-	protected int getHeight() {
+	public int getHeight() {
 		return height;
 	}
 

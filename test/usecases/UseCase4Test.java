@@ -20,7 +20,6 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 	@Test
 	public void test1openTableWithNewTableShouldOpenDesignMode() {
 		try {
-
 			getUiFacade().createTablesSubWindow(new HashMap<UUID, String>());
 
 			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);

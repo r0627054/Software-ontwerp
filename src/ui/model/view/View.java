@@ -506,6 +506,28 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void simulateClickClicked(int x, int y, int clickCount) {
 		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
 	}
+	
+	/**
+	 * Handles the incoming click release simulation with the given parameters.
+	 * @param x The x-coordinate of the click.
+	 * @param y The y-coordinate of the click.
+	 * @effect The click (mouseEvent) is handled with the given parameters
+	 *          | this.handleMouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 1);
+	 */
+	public void simulateClickRelease(int x, int y) {
+		this.handleMouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 1);
+	}
+	
+	/**
+	 * Handles the incoming click drag simulation with the given parameters.
+	 * @param x The x-coordinate of the click.
+	 * @param y The y-coordinate of the click.
+	 * @effect The click (mouseEvent) is handled with the given parameters
+	 *          | this.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, x, y, 1);
+	 */
+	public void simulateClickDrag(int x, int y) {
+		this.handleMouseEvent(MouseEvent.MOUSE_DRAGGED, x, y, 1);
+	}
 
 	/**
 	 * Simulates a key press with the given character.

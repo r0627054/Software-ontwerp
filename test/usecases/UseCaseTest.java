@@ -85,6 +85,14 @@ public abstract class UseCaseTest {
 	protected void simulateDoubleClick(int x, int y) {
 		getUiFacade().simulateClick(x, y, 2);
 	}
+	
+	protected void simulateClickRelease(int x, int y) {
+		getUiFacade().simulateClickRelease(x, y);
+	}
+	
+	protected void simulateClickDrag(int x, int y) {
+		getUiFacade().simulateClickDrag(x, y);
+	}
 
 	protected UIFacade getUiFacade() {
 		return uiFacade;
