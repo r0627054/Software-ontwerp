@@ -20,7 +20,7 @@ import ui.model.components.ToggleTextField;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
-	
+
 	/**
 	 * Test 1 : Editing the column name
 	 * | When you select the column name and edit it without leaving a blank or writing the same column name twice,
@@ -28,51 +28,56 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test1clickingColumnNameAndEditingItCorrectlyAndPressingEnterShouldSetName() {
-		addDummyTable(NEW_TABLE_NAME);
+		try {
+			addDummyTable(NEW_TABLE_NAME);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		simulateKeyPress(NEW_COLUMN_NAME);
-		simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(NEW_COLUMN_NAME);
+			simulateKeyPress(KeyEvent.VK_ENTER);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
-		assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+			assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
 
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				UUID columnId = entry.getKey();
 
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+				if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
 
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_NAME)) {
-						String columnName = (String) columnEntry.getValue();
-						assertTrue(columnName.contains(NEW_COLUMN_NAME));
+					for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+						if (columnEntry.getKey().equals(COLUMN_NAME)) {
+							String columnName = (String) columnEntry.getValue();
+							assertTrue(columnName.contains(NEW_COLUMN_NAME));
+						}
 					}
 				}
 			}
-		}
 
-		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(0);
-		EditableTextField firstCell = (EditableTextField) cell.getComponent();
-		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
+			HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(0);
+			EditableTextField firstCell = (EditableTextField) cell.getComponent();
+			assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -82,51 +87,56 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test2clickingColumnNameAndEditingItCorrectlyAndClickingOutOfTextFieldShouldSetName() {
-		addDummyTable(NEW_TABLE_NAME);
+		try {
+			addDummyTable(NEW_TABLE_NAME);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		simulateKeyPress(NEW_COLUMN_NAME);
-		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(NEW_COLUMN_NAME);
+			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
-		assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+			assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
 
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				UUID columnId = entry.getKey();
 
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_NAME)) {
-						String columnName = (String) columnEntry.getValue();
-						assertTrue(columnName.contains(NEW_COLUMN_NAME));
+				if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+
+					for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+						if (columnEntry.getKey().equals(COLUMN_NAME)) {
+							String columnName = (String) columnEntry.getValue();
+							assertTrue(columnName.contains(NEW_COLUMN_NAME));
+						}
 					}
 				}
 			}
-		}
 
-		HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(0);
-		EditableTextField firstCell = (EditableTextField) cell.getComponent();
-		assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
+			HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(0);
+			EditableTextField firstCell = (EditableTextField) cell.getComponent();
+			assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 //	/**
@@ -137,7 +147,9 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 //	 */
 //	@Test
 //	public void test3clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
-//		addDummyTable(NEW_TABLE_NAME);
+//			try {
+//	
+//	addDummyTable(NEW_TABLE_NAME);
 //
 //		String tableName = null;
 //		UUID tableId = null;
@@ -146,7 +158,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 //			tableName = entry.getValue();
 //			tableId = entry.getKey();
 //		}
-////		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 //		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
 //		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 //				.getColumnCharacteristics(tableId);
@@ -191,6 +202,10 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 //
 //		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
 //		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
+//} catch (Exception e) {
+//	e.printStackTrace();
+//	assertTrue(false);
+//}
 //	}
 
 	/**
@@ -199,33 +214,38 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 * | the application should be paused. The newest value should not be saved but is still shown in the UI.
 	 */
 	public void test4clickingColumnTypeShouldPauseApplicationWhenConflictingValuesAndShouldNotChangeValueInDomain() {
-		addDummyTableEmailColumnEmailCellValues();
+		try {
+			addDummyTableEmailColumnEmailCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_CONTROL);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+
+			assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
+			assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_CONTROL);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-		assertEquals(columnDataBefore, this.getDomainFacade().getColumnCharacteristics(tableId));
-		assertEquals(uiRowsBefore, getTableViewModeDesignTable(tableId).getRows());
 	}
-	
+
 	/**
 	 * Test 5 : Editing the column type (EMAIL -> STRING)
 	 * | When you select to edit the column type (with correct values in the table data)
@@ -235,59 +255,65 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test5clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
-		addDummyTableEmailColumnEmailCellValues();
+		try {
+			addDummyTableEmailColumnEmailCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(1);
-		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeBefore = typeField.getText();
-
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(1);
-		typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeAfter = typeField.getText();
-
-		String typeBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeBefore = (String) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		String typeAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeAfter = (String) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(1);
+			ToggleTextField typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeBefore = typeField.getText();
+
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(1);
+			typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeAfter = typeField.getText();
+
+			String typeBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeBefore = (String) mapEntry.getValue();
+				}
 			}
+
+			String typeAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeAfter = (String) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(EMAIL, typeBefore);
+			assertEquals(EMAIL, uiTypeBefore);
+
+			assertEquals(STRING, typeAfter);
+			assertEquals(STRING, uiTypeAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-
-		assertEquals(EMAIL, typeBefore);
-		assertEquals(EMAIL, uiTypeBefore);
-
-		assertEquals(STRING, typeAfter);
-		assertEquals(STRING, uiTypeAfter);
 	}
 
 	/**
@@ -299,57 +325,62 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test6clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
-		addDummyTableStringColumnEmailCellValues();
+		try {
+			addDummyTableStringColumnEmailCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(1);
-		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeBefore = typeField.getText();
-
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(1);
-		typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeAfter = typeField.getText();
-
-		String typeBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeBefore = (String) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		String typeAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeAfter = (String) mapEntry.getValue();
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(1);
+			ToggleTextField typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeBefore = typeField.getText();
+
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(1);
+			typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeAfter = typeField.getText();
+
+			String typeBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeBefore = (String) mapEntry.getValue();
+				}
 			}
+
+			String typeAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeAfter = (String) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(STRING, typeBefore);
+			assertEquals(STRING, uiTypeBefore);
+
+			assertEquals(EMAIL, typeAfter);
+			assertEquals(EMAIL, uiTypeAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-
-		assertEquals(STRING, typeBefore);
-		assertEquals(STRING, uiTypeBefore);
-
-		assertEquals(EMAIL, typeAfter);
-		assertEquals(EMAIL, uiTypeAfter);
 	}
 
 	/**
@@ -361,57 +392,62 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test7clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
-		addDummyTableIntColumnStringCellValues();
+		try {
+			addDummyTableIntColumnStringCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(1);
-		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeBefore = typeField.getText();
-
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(1);
-		typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeAfter = typeField.getText();
-
-		String typeBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeBefore = (String) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		String typeAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeAfter = (String) mapEntry.getValue();
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(1);
+			ToggleTextField typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeBefore = typeField.getText();
+
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(1);
+			typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeAfter = typeField.getText();
+
+			String typeBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeBefore = (String) mapEntry.getValue();
+				}
 			}
+
+			String typeAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeAfter = (String) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(INTEGER, typeBefore);
+			assertEquals(INTEGER, uiTypeBefore);
+
+			assertEquals(STRING, typeAfter);
+			assertEquals(STRING, uiTypeAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-
-		assertEquals(INTEGER, typeBefore);
-		assertEquals(INTEGER, uiTypeBefore);
-
-		assertEquals(STRING, typeAfter);
-		assertEquals(STRING, uiTypeAfter);
 	}
 
 	/**
@@ -423,58 +459,63 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test8clickingColumnTypeShouldChangeTypeIfDefaultValueAndRowValuesAreValid() {
-		addDummyTableStringColumnStringBoolanValues();
+		try {
+			addDummyTableStringColumnStringBoolanValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(1);
-		ToggleTextField typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeBefore = typeField.getText();
-
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-		simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(1);
-		typeField = (ToggleTextField) cell.getComponent();
-		String uiTypeAfter = typeField.getText();
-
-		String typeBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeBefore = (String) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		String typeAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_TYPE))
-					typeAfter = (String) mapEntry.getValue();
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(1);
+			ToggleTextField typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeBefore = typeField.getText();
+
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_TYPE_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(1);
+			typeField = (ToggleTextField) cell.getComponent();
+			String uiTypeAfter = typeField.getText();
+
+			String typeBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeBefore = (String) mapEntry.getValue();
+				}
 			}
+
+			String typeAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_TYPE))
+						typeAfter = (String) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(STRING, typeBefore);
+			assertEquals(STRING, uiTypeBefore);
+
+			assertEquals(BOOLEAN, typeAfter);
+			assertEquals(BOOLEAN, uiTypeAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-
-		assertEquals(STRING, typeBefore);
-		assertEquals(STRING, uiTypeBefore);
-
-		assertEquals(BOOLEAN, typeAfter);
-		assertEquals(BOOLEAN, uiTypeAfter);
 	}
 
 	/**
@@ -486,46 +527,50 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test9disablingAllowBlanksShouldNotSucceedAndPauseTheApplicationIfTableHasBlanks() {
-		addDummyTableStringColumnNullCellValues();
+		try {
+			addDummyTableStringColumnNullCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
+
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateKeyPress(KeyEvent.VK_ESCAPE);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
+
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(columnDataBefore, columnDataAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
-
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateKeyPress(KeyEvent.VK_ESCAPE);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
-		assertEquals(columnDataBefore, columnDataAfter);
 	}
-
 
 	/**
 	 * Test 10 : Editing if the column allows blank values.
@@ -536,38 +581,43 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test10disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
-		addDummyTableEmailColumnNullCellValues();
+		try {
+			addDummyTableEmailColumnNullCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
+
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
+
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(columnDataBefore, columnDataAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
-
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
-		assertEquals(columnDataBefore, columnDataAfter);
 	}
 
 	/**
@@ -579,38 +629,43 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test11disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
-		addDummyTableBooleanColumnNullCellValues();
+		try {
+			addDummyTableBooleanColumnNullCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
+
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
+
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(columnDataBefore, columnDataAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
-
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
-		assertEquals(columnDataBefore, columnDataAfter);
 	}
 
 	/**
@@ -622,40 +677,45 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test12disablingAllowBlanksShouldNotSucceedIfTableHasBlanks() {
-		addDummyTableIntegerColumnNullCellValues();
+		try {
+			addDummyTableIntegerColumnNullCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
+
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
+
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(columnDataBefore, columnDataAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
-
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
-
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
-		assertEquals(columnDataBefore, columnDataAfter);
 	}
-	
+
 	/**
 	 * Test 13 : Editing if the column allows blank values.
 	 * | When you toggle the allows blanks checkbox from false to true, this should always be possible
@@ -663,50 +723,55 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test13disablingAllowBlanksSucceedIfTableHasNoBlanks() {
-		addDummyTableEmailColumnEmailCellValues();
+		try {
+			addDummyTableEmailColumnEmailCellValues();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
 
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
 
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
 
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				UUID columnId = entry.getKey();
 
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+				if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
 
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_ALLOW_BLANKS)) {
-						Boolean changedAllowBlanks = (Boolean) columnEntry.getValue();
-						assertEquals(false, changedAllowBlanks);
+					for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+						if (columnEntry.getKey().equals(COLUMN_ALLOW_BLANKS)) {
+							Boolean changedAllowBlanks = (Boolean) columnEntry.getValue();
+							assertEquals(false, changedAllowBlanks);
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -717,50 +782,55 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test14disablingAllowBlanksSucceedIfTableHasNoBlanksAndDefaultValueIsNotBlank() {
-		addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue();
+		try {
+			addDummyTableStringColumnEmailCellValuesNotEmptyDefaultColumnValue();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(2);
-		CheckBox checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsBefore = checkBox.isChecked();
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(2);
+			CheckBox checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsBefore = checkBox.isChecked();
 
-		simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_BLANKS_X, FIRST_ROW_Y);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(2);
-		checkBox = (CheckBox) cell.getComponent();
-		Boolean uiAllowsAfter = checkBox.isChecked();
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(2);
+			checkBox = (CheckBox) cell.getComponent();
+			Boolean uiAllowsAfter = checkBox.isChecked();
 
-		assertEquals(uiAllowsBefore, !uiAllowsAfter);
+			assertEquals(uiAllowsBefore, !uiAllowsAfter);
 
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			UUID columnId = entry.getKey();
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				UUID columnId = entry.getKey();
 
-			if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+				if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
 
-				for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
-					if (columnEntry.getKey().equals(COLUMN_ALLOW_BLANKS)) {
-						Boolean changedAllowBlanks = (Boolean) columnEntry.getValue();
-						assertEquals(false, changedAllowBlanks);
+					for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+						if (columnEntry.getKey().equals(COLUMN_ALLOW_BLANKS)) {
+							Boolean changedAllowBlanks = (Boolean) columnEntry.getValue();
+							assertEquals(false, changedAllowBlanks);
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 
@@ -772,81 +842,85 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test15changingTheDefaultValueToAnInvalidValueShouldPauseTheApplicationAndEscapeShouldResetTheValue() {
-		addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed();
+		try {
+			addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed();
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultBefore = textField.getText();
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-
-		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		simulateKeyPress(KeyEvent.VK_CONTROL);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-		String defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (String) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		String defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (String) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultBefore = textField.getText();
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(KeyEvent.VK_CONTROL);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			String defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = (String) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertNotEquals(defaultBefore, defaultAfter); // data wordt toch niet geupdate tot je enter duwt
-		assertNotEquals(uiDefaultBefore, uiDefaultAfter);
-
-		simulateKeyPress(KeyEvent.VK_ESCAPE);
-
-		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		uiDefaultAfter = textField.getText();
-
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (String) mapEntry.getValue();
+			String defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (String) mapEntry.getValue();
+				}
 			}
+
+			assertNotEquals(defaultBefore, defaultAfter); // data wordt toch niet geupdate tot je enter duwt
+			assertNotEquals(uiDefaultBefore, uiDefaultAfter);
+
+			simulateKeyPress(KeyEvent.VK_ESCAPE);
+
+			columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			uiDefaultAfter = textField.getText();
+
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (String) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(defaultBefore, defaultAfter);
+			assertEquals(uiDefaultBefore, uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-
-
-		assertEquals(defaultBefore, defaultAfter);
-		assertEquals(uiDefaultBefore, uiDefaultAfter);
 	}
 
 	/**
@@ -857,95 +931,100 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test16changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksAllowed() {
-		addDummyEmptyTableBooleanColumnVariableAllowsBlank(true);
+		try {
+			addDummyEmptyTableBooleanColumnVariableAllowsBlank(true);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
-
-		Boolean defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (Boolean) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		Boolean defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Boolean) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
+
+			Boolean defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = (Boolean) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(defaultBefore, !defaultAfter);
-		assertEquals(uiDefaultBefore, !uiDefaultAfter);
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-
-		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		String uiDefaultAfterEmptyString = textField.getText();
-
-		defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Boolean) mapEntry.getValue();
+			Boolean defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Boolean) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(null, defaultAfter);
-		assertEquals("", uiDefaultAfterEmptyString);
+			assertEquals(defaultBefore, !defaultAfter);
+			assertEquals(uiDefaultBefore, !uiDefaultAfter);
 
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
 
-		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
+			columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
 
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		uiDefaultAfter = Boolean.parseBoolean(textField.getText());
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			String uiDefaultAfterEmptyString = textField.getText();
 
-		defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Boolean) mapEntry.getValue();
+			defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Boolean) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(defaultBefore, defaultAfter);
-		assertEquals(uiDefaultBefore, uiDefaultAfter);
+			assertEquals(null, defaultAfter);
+			assertEquals("", uiDefaultAfterEmptyString);
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+
+			columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			uiDefaultAfter = Boolean.parseBoolean(textField.getText());
+
+			defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Boolean) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(defaultBefore, defaultAfter);
+			assertEquals(uiDefaultBefore, uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -956,75 +1035,80 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test17changingBooleanDefaultValueShouldChangeValuesCorrectlyWithBlanksNotAllowed() {
-		addDummyEmptyTableBooleanColumnVariableAllowsBlank(false);
+		try {
+			addDummyEmptyTableBooleanColumnVariableAllowsBlank(false);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
-
-		Boolean defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (Boolean) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		Boolean defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Boolean) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			Boolean uiDefaultBefore = Boolean.parseBoolean(textField.getText());
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			Boolean uiDefaultAfter = Boolean.parseBoolean(textField.getText());
+
+			Boolean defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = (Boolean) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(defaultBefore, !defaultAfter);
-		assertEquals(uiDefaultBefore, !uiDefaultAfter);
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-
-		columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		uiDefaultAfter = Boolean.parseBoolean(textField.getText());
-
-		defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Boolean) mapEntry.getValue();
+			Boolean defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Boolean) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(defaultBefore, defaultAfter);
-		assertEquals(uiDefaultBefore, uiDefaultAfter);
+			assertEquals(defaultBefore, !defaultAfter);
+			assertEquals(uiDefaultBefore, !uiDefaultAfter);
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+
+			columnDataAfter = this.getDomainFacade().getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			uiDefaultAfter = Boolean.parseBoolean(textField.getText());
+
+			defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Boolean) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(defaultBefore, defaultAfter);
+			assertEquals(uiDefaultBefore, uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -1036,60 +1120,65 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test18changingCorrectIntDefaultValueShouldChangeValuesCorrectlyToInt() {
-		addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
+		try {
+			addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultBefore = textField.getText();
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPress(KeyEvent.VK_BACK_SPACE);
-		simulateKeyPress("123");
-		simulateKeyPress(KeyEvent.VK_ENTER);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-		Integer defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (Integer) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		Integer defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Integer) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultBefore = textField.getText();
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			simulateKeyPress("123");
+			simulateKeyPress(KeyEvent.VK_ENTER);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			Integer defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = (Integer) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(0, defaultBefore.intValue());
-		assertEquals("0", uiDefaultBefore);
-		assertEquals(123, defaultAfter.intValue());
-		assertEquals("123", uiDefaultAfter);
+			Integer defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Integer) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(0, defaultBefore.intValue());
+			assertEquals("0", uiDefaultBefore);
+			assertEquals(123, defaultAfter.intValue());
+			assertEquals("123", uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -1101,57 +1190,62 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test19changingWrongIntegerDefaultValueShouldNotSetValue() {
-		addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
+		try {
+			addDummyEmptyIntegerColumnWithVariableAllowsBlank(false);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultBefore = textField.getText();
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPress("123");
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-		Integer defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = (Integer) mapEntry.getValue();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		Integer defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = (Integer) mapEntry.getValue();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultBefore = textField.getText();
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPress("123");
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			Integer defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = (Integer) mapEntry.getValue();
+				}
 			}
-		}
 
-		assertEquals(defaultBefore.intValue(), defaultAfter.intValue());
-		assertEquals("0", uiDefaultBefore);
-		assertEquals("0123", uiDefaultAfter);
+			Integer defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = (Integer) mapEntry.getValue();
+				}
+			}
+
+			assertEquals(defaultBefore.intValue(), defaultAfter.intValue());
+			assertEquals("0", uiDefaultBefore);
+			assertEquals("0123", uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -1163,66 +1257,64 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test20changingCorrectEmailDefaultValueShouldSetValue() {
-		addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
+		try {
+			addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultBefore = textField.getText();
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		simulateKeyPress(EXAMPLE_EMAIL);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
-		cell = (UICell) hzcl.getComponentsList().get(3);
-		textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-
-		
-		
-		String defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = mapEntry.getValue().toString();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
 
-		String defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = mapEntry.getValue().toString();
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultBefore = textField.getText();
+
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress(EXAMPLE_EMAIL);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows().getComponentsList().get(1);
+			cell = (UICell) hzcl.getComponentsList().get(3);
+			textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			String defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = mapEntry.getValue().toString();
+				}
 			}
+
+			String defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = mapEntry.getValue().toString();
+				}
+			}
+
+			assertEquals(defaultBefore, uiDefaultBefore);
+
+			assertEquals(defaultAfter, uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		System.out.println(defaultBefore);
-		System.out.println(uiDefaultBefore);
-		System.out.println(defaultAfter);
-		System.out.println(uiDefaultAfter);
-		
-		assertEquals(defaultBefore, uiDefaultBefore);
-		
-		assertEquals(defaultAfter, uiDefaultAfter);
 	}
 
 	/**
@@ -1234,53 +1326,56 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test21changingInvalidEmailDefaultValueShouldNotSetValue() {
-		addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
+		try {
+			addDummyEmptyTableEmailColumnVariableAllowsBlank(false);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		
-		System.out.println();
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		simulateKeyPress(NEW_COLUMN_NAME);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-		String defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = mapEntry.getValue().toString();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		String defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultAfter = mapEntry.getValue().toString();
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress(NEW_COLUMN_NAME);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			String defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = mapEntry.getValue().toString();
+				}
 			}
+
+			String defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultAfter = mapEntry.getValue().toString();
+				}
+			}
+			assertEquals(defaultBefore, defaultAfter);
+			assertNotEquals(NEW_COLUMN_NAME, defaultAfter);
+			assertEquals(NEW_COLUMN_NAME, uiDefaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		assertEquals(defaultBefore, defaultAfter);
-		assertNotEquals(NEW_COLUMN_NAME, defaultAfter);
-		assertEquals(NEW_COLUMN_NAME, uiDefaultAfter);
 	}
 
 	/**
@@ -1292,54 +1387,59 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test22changingBlankEmailDefaultValueShouldSetValueIfColumnAllowsBlanks() {
-		addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
+		try {
+			addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
 
-		String tableName = null;
-		UUID tableId = null;
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
-		simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
-		simulateKeyPress(KeyEvent.VK_ENTER);
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-
-		HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
-				.getComponentsList().get(1);
-		UICell cell = (UICell) hzcl.getComponentsList().get(3);
-		TextField textField = (TextField) cell.getComponent();
-		String uiDefaultAfter = textField.getText();
-
-		String defaultBefore = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT))
-					defaultBefore = mapEntry.getValue().toString();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
 			}
-		}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		String defaultAfter = null;
-		for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
-			for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
-				if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
-					System.out.println(mapEntry.getValue());
-					defaultAfter = (String) mapEntry.getValue();
+			simulateSingleClick(COLUMN_DEFAULT_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			HorizontalComponentList hzcl = (HorizontalComponentList) getTableViewModeDesignTable(tableId).getRows()
+					.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(3);
+			TextField textField = (TextField) cell.getComponent();
+			String uiDefaultAfter = textField.getText();
+
+			String defaultBefore = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataBefore.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT))
+						defaultBefore = mapEntry.getValue().toString();
 				}
-					
 			}
+
+			String defaultAfter = null;
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
+					if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
+						System.out.println(mapEntry.getValue());
+						defaultAfter = (String) mapEntry.getValue();
+					}
+
+				}
+			}
+			assertNotEquals(defaultBefore, defaultAfter);
+			assertEquals("", uiDefaultAfter);
+			assertEquals(null, defaultAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		assertNotEquals(defaultBefore, defaultAfter);
-		assertEquals("", uiDefaultAfter);
-		assertEquals(null, defaultAfter);
 	}
 
 }

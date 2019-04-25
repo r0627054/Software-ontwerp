@@ -1,5 +1,6 @@
 package usecases;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
@@ -20,40 +21,38 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
-//		UUID id = addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
-//		getUiFacade().createTableDesignSubWindow(id, getDomainFacade().getTableNameOfId(id), getDomainFacade().getColumnCharacteristics(id));
-		
-		String tableName = null;
-		UUID tableId = null;
-		
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
+		try {
+			String tableName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+			for (Component uir : uiRowsBefore.getComponentsList()) {
+				System.out.println(uir);
+			}
+
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());
+			assertEquals(uiRowsBefore.getComponentsList().size() + 1, uiRowsAfter.getComponentsList().size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-		for(Component uir: uiRowsBefore.getComponentsList()) {
-			System.out.println(uir);
-		}
-
-		simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		
-
-		
-		
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
-
-		assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());
-		assertEquals(uiRowsBefore.getComponentsList().size() + 1, uiRowsAfter.getComponentsList().size());
-
 	}
 
 }

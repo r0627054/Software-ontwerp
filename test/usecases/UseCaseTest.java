@@ -108,7 +108,7 @@ public abstract class UseCaseTest {
 
 	protected TableList getTablesViewModeTableList() {
 		Container container = getUiFacade().getView().getCurrentSubWindow().getContainer();
-		
+
 		for (Component containerComponents : container.getComponentsList()) {
 			if (containerComponents instanceof TableList) {
 				return (TableList) containerComponents;
@@ -119,10 +119,12 @@ public abstract class UseCaseTest {
 	}
 
 	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
-//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE).getComponents()) {
-		SubWindow designTableSubWindow = getUiFacade().getView().getSubWindows(tableId).get(0); // get any bcs all windows with same id should display the same info.	
-		if(designTableSubWindow != null) {
-			for(Component c : designTableSubWindow.getComponents()) {
+		SubWindow designTableSubWindow = getUiFacade().getView().getSubWindows(tableId).get(0); // get any bcs all
+																								// windows with same id
+																								// should display the
+																								// same info.
+		if (designTableSubWindow != null) {
+			for (Component c : designTableSubWindow.getContainer().getComponentsList()) {
 				if (c instanceof Container) {
 					Container container = (Container) c;
 					for (Component containerComponents : container.getComponentsList()) {
@@ -132,16 +134,14 @@ public abstract class UseCaseTest {
 					}
 				}
 			}
-//			
 		}
 		return null;
 	}
 
 	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
-//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE).getComponents();
 		SubWindow tableRowsTable = getUiFacade().getView().getSubWindows(tableId).get(0);
-			if(tableRowsTable != null) {
-				for(Component c : tableRowsTable.getComponents()) {
+		if (tableRowsTable != null) {
+			for (Component c : tableRowsTable.getContainer().getComponentsList()) {
 				if (c instanceof Container) {
 					Container container = (Container) c;
 

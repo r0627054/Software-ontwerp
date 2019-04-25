@@ -18,7 +18,7 @@ import ui.model.components.TableList;
 import ui.model.components.UICell;
 
 public class UseCase3Test extends UseCaseTest implements TableListConstants {
-	
+
 	/**
 	 * Test 1 : Deleting the table name correctly
 	 * | After clicking left of the table name once and pressing delete, 
@@ -26,37 +26,38 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	 */
 	@Test
 	public void test1clickingLeftOfTableNameAndPressingDeleteShouldDeleteTable() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		
-		
-		Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
-		
-		
-		simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
+		try {
 
-		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
-		
+			addDummyTable(NEW_TABLE_NAME);
 
-		
-		assertEquals(startTableNames.size() - 1, endTableNames.size());
+			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
 
-		TableList tableList = getTablesViewModeTableList();
+			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
-		List<String> uiNamesList = new ArrayList<>();
-		for (Component c : tableList.getComponentsList()) {
-			if (c instanceof EditableTextField) {
-				EditableTextField etf = (EditableTextField) c;
-				uiNamesList.add(etf.getText());
+			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+
+			assertEquals(startTableNames.size() - 1, endTableNames.size());
+
+			TableList tableList = getTablesViewModeTableList();
+
+			List<String> uiNamesList = new ArrayList<>();
+			for (Component c : tableList.getComponentsList()) {
+				if (c instanceof EditableTextField) {
+					EditableTextField etf = (EditableTextField) c;
+					uiNamesList.add(etf.getText());
+				}
 			}
-		}
-		
 
-		for (String s : endTableNames.values()) {
-			assertTrue(uiNamesList.contains(s));
+			for (String s : endTableNames.values()) {
+				assertTrue(uiNamesList.contains(s));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
-	
+
 	/**
 	 * Test 2 : Clicking left of the table and then clicking away should reset the delete behaviour.
 	 * | After clicking left of the table name once and then clicking somewhere else, 
@@ -64,35 +65,40 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	 */
 	@Test
 	public void test2clickingLeftOfTableNameAndClickingAwayBeforePressingDeleteShouldNotDeleteTable() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
 
-		simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
-		simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
 
-		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
-		
-				
-		assertEquals(startTableNames, endTableNames);
-		
-		TableList tableList = getTablesViewModeTableList();
+			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
-		List<String> uiNamesList = new ArrayList<>();
-		for (Component c : tableList.getComponentsList()) {
-			UICell cell = (UICell) c;
- 			if (cell.getComponent() instanceof EditableTextField) {
-				EditableTextField etf = (EditableTextField) cell.getComponent();
-				uiNamesList.add(etf.getText());
+			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+
+			assertEquals(startTableNames, endTableNames);
+
+			TableList tableList = getTablesViewModeTableList();
+
+			List<String> uiNamesList = new ArrayList<>();
+			for (Component c : tableList.getComponentsList()) {
+				UICell cell = (UICell) c;
+				if (cell.getComponent() instanceof EditableTextField) {
+					EditableTextField etf = (EditableTextField) cell.getComponent();
+					uiNamesList.add(etf.getText());
+				}
 			}
-		}
 
-		for (String s : startTableNames.values()) {
-			assertTrue(uiNamesList.contains(s));
+			for (String s : startTableNames.values()) {
+				assertTrue(uiNamesList.contains(s));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 
 	}
-	
+
 	/**
 	 * Test 3 : Clicking left of the table and then clicking away should reset the delete behaviour.
 	 * | After clicking left of the table name once and then clicking inside the table name text field, 
@@ -100,29 +106,34 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	 */
 	@Test
 	public void test3clickingLeftOfTableNameAndClickingInTheTableTextFieldBeforePressingDeleteShouldNotDeleteTable() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
 
-		simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
-		simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
+			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
-		Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
-		assertEquals(startTableNames, endTableNames);
-		
-		TableList tableList = getTablesViewModeTableList();
+			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+			assertEquals(startTableNames, endTableNames);
 
-		List<String> uiNamesList = new ArrayList<>();
-		for (Component c : tableList.getComponentsList()) {
-			UICell cell = (UICell) c;
-			if (cell.getComponent() instanceof EditableTextField) {
-				EditableTextField etf = (EditableTextField) cell.getComponent();
-				uiNamesList.add(etf.getText());
+			TableList tableList = getTablesViewModeTableList();
+
+			List<String> uiNamesList = new ArrayList<>();
+			for (Component c : tableList.getComponentsList()) {
+				UICell cell = (UICell) c;
+				if (cell.getComponent() instanceof EditableTextField) {
+					EditableTextField etf = (EditableTextField) cell.getComponent();
+					uiNamesList.add(etf.getText());
+				}
 			}
-		}
 
-		for (String s : startTableNames.values()) {
-			assertTrue(uiNamesList.contains(s));
+			for (String s : startTableNames.values()) {
+				assertTrue(uiNamesList.contains(s));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
 	}
 

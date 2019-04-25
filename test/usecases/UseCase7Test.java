@@ -1,5 +1,6 @@
 package usecases;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
@@ -25,56 +26,58 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test1clickingLeftOfColumnNameAndPressingDeleteShouldDeleteColumn() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		String tableName = null;
-		UUID tableId = null;
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-		
-		List<UICell> uiCellListBefore = new ArrayList<>();
-		for (Component component : uiRowsBefore.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListBefore.add((UICell) hzclComponent);
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
+					}
 				}
 			}
-		}
-		System.err.println(uiCellListBefore.size());
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
 
-		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
-		
-		simulateKeyPress(KeyEvent.VK_DELETE);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
 
-		List<UICell> uiCellListAfter = new ArrayList<>();
-		for (Component component : uiRowsAfter.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListAfter.add((UICell) hzclComponent);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
 				}
 			}
-		}
-		
-		System.err.println(uiCellListAfter.size());
-		
-		assertEquals(uiCellListBefore.size() - 4, uiCellListAfter.size());
+
+			assertEquals(uiCellListBefore.size() - 4, uiCellListAfter.size());
 //		assertEquals(columnDataBefore.size() - 1, columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
 	}
 
 	/**
@@ -84,60 +87,62 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test2clickingLeftOfColumnNameAndClickingAwayAndPressingDeleteShouldNotDeleteColumn() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		String tableName = null;
-		UUID tableId = null;
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-		 
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
 
-		List<UICell> uiCellListBefore = new ArrayList<>();
-		for (Component component : uiRowsBefore.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListBefore.add((UICell) hzclComponent);
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
+					}
 				}
 			}
-		}
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		
 
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);		
-		simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
-		
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-		List<UICell> uiCellListAfter = new ArrayList<>();
-		for (Component component : uiRowsAfter.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListAfter.add((UICell) hzclComponent);
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
 				}
 			}
+
+			assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		
-		assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
 	}
+
 	/**
 	 * Test 3 : Clicking left of the table and then clicking in the row should reset the delete behaviour.
 	 * | After clicking left of the column name once and then clicking inside the same row, 
@@ -145,53 +150,58 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 	 */
 	@Test
 	public void test3clickingLeftOfColumnNameAndInTheTableAndPressingDeleteShouldNotDeleteColumn() {
-		this.addDummyTable(NEW_TABLE_NAME);
-		String tableName = null;
-		UUID tableId = null;
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			String tableName = null;
+			UUID tableId = null;
 
-		for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-			tableName = entry.getValue();
-			tableId = entry.getKey();
-		}
-//		getUiFacade().openTableDesignViewMode(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId));
-		VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue();
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-		List<UICell> uiCellListBefore = new ArrayList<>();
-		for (Component component : uiRowsBefore.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListBefore.add((UICell) hzclComponent);
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
+					}
 				}
 			}
-		}
-		
-		Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
 
-		simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
-		simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-		simulateKeyPress(KeyEvent.VK_DELETE);
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
 
-		Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-				.getColumnCharacteristics(tableId);
-		VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
 
-		List<UICell> uiCellListAfter = new ArrayList<>();
-		for (Component component : uiRowsAfter.getComponentsList()) {
-			HorizontalComponentList hzcl = (HorizontalComponentList) component;
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
 
-			for (Component hzclComponent : hzcl.getComponentsList()) {
-				if (hzclComponent instanceof UICell) {
-					uiCellListAfter.add((UICell) hzclComponent);
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
 				}
 			}
+
+			assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
 		}
-		
-		assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
-		assertEquals(columnDataBefore.size(), columnDataAfter.size());
 	}
 
 }
