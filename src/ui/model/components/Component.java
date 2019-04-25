@@ -12,8 +12,8 @@ import controller.observer.PropertyChangeSupport;
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
  * height and whether the component is hidden or not.
  * 
- * @version 1.0
- * @author Dries Janse
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public abstract class Component {
@@ -365,7 +365,8 @@ public abstract class Component {
 	 * @param id
 	 *        | The id of which element an error is thrown.
 	 */
-	public void throwError(UUID id) {}
+	public void throwError(UUID id) {
+	}
 
 	/**
 	 * Returns the PropertyChangeSupport.
@@ -393,7 +394,11 @@ public abstract class Component {
 	 *         | this.setX(this.getX() + x)
 	 */
 	public void changeX(int x) {
-		this.setX(this.getX() + x);
+		if (this.getX() + x < 0) {
+			this.setX(0);
+		} else {
+			this.setX(this.getX() + x);
+		}
 	}
 
 	/**
@@ -403,7 +408,11 @@ public abstract class Component {
 	 *         | this.setY(this.getY() + y)
 	 */
 	public void changeY(int y) {
-		this.setY(this.getY() + y);
+		if (this.getY() + y < 0) {
+			this.setY(0);
+		} else {
+			this.setY(this.getY() + y);
+		}
 	}
 
 }

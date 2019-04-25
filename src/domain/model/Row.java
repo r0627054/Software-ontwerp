@@ -8,7 +8,7 @@ import java.util.UUID;
  * A class of rows; a row contains multiple cells.
  * 
  * @version 1.0
- * @author Dries Janse
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class Row extends ObjectIdentifier {

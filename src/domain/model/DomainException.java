@@ -4,7 +4,7 @@ package domain.model;
  *  A custom RuntimeException class made for Exceptions in the domain.
  * 
  * @version 1.0
- * @author Dries Janse
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  * 
  */
 public class DomainException extends RuntimeException {
