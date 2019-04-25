@@ -3,6 +3,9 @@ package usecases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 
 import ui.model.window.sub.TableDesignWindow;
@@ -16,11 +19,12 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants{
 	 */
 	@Test
 	public void test1openTableWithNewTableShouldOpenDesignMode() {
-		addDummyTable(NEW_TABLE_NAME);
+		getUiFacade().createTablesSubWindow(new HashMap<UUID, String>());
+		
 		simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 		simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 		
-		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);
+		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);	
 	}
 	
 	/**
@@ -32,7 +36,8 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants{
 		addDummyTable(NEW_TABLE_NAME);
 
 		simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
-		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
+
+		assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);	
 	}
 	
 }

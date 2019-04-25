@@ -1,6 +1,8 @@
 package ui.model.components;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -45,7 +47,8 @@ public class TableList extends VerticalComponentList {
 	 * @param pcl
 	 *        | The propertyChangeListener used in the TableList (Observer)
 	 */
-	public void createTableList(Map<UUID, String> map, PropertyChangeListener pcl) {
+	public List<UICell> createTableList(Map<UUID, String> map) {
+		List<UICell> listOfAllCells = new ArrayList<>();
 		ChangeEventType submitAction = ChangeEventType.TABLE_CHANGE_NAME;
 		ChangeEventType deleteAction = ChangeEventType.DELETE_TABLE;
 		ChangeEventType doubleClickAction = ChangeEventType.OPEN_TABLESUBWINDOW;
@@ -54,31 +57,11 @@ public class TableList extends VerticalComponentList {
 			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey(), submitAction,
 					doubleClickAction, deleteAction);
 			UICell cell = new UICell(textField, entry.getKey());
-			cell.addPropertyChangeListener(pcl);
 			this.addComponent(cell);
+			listOfAllCells.add(cell);
 		}
 		this.positionChildren();
-	}
-
-	/**
-	 * 
-	 * Delegates the the keyPressed event to all the components of the TableList.
-	 *  
-	 * @param id
-	 *        | The id of the key pressed event. 
-	 * @param keyCode
-	 *        | The key code of the key pressed event.
-	 * @param keyChar
-	 *        | The key character of a key pressed event.
-	 * @effect The keyPressed event is passed to all the components of the TableList.
-	 *        | for (Component c : getComponentsList()) {
-	 *        |  	c.keyPressed(id, keyCode, keyChar);
-	 */
-	@Override
-	public void keyPressed(int id, int keyCode, char keyChar) {
-		for (Component c : getComponentsList()) {
-			c.keyPressed(id, keyCode, keyChar);
-		}
+		return listOfAllCells;
 	}
 
 	/**
@@ -108,15 +91,26 @@ public class TableList extends VerticalComponentList {
 	 *        | The y-coordinate of the component.
 	 * @param clickCount
 	 *        | The count of clicks.
-	 * @effect If non of the components has an error, the super class should handle the mouseClicked event.
-	 *        | if (!hasCurrentError()) 
-		      | 	super.mouseClicked(id, x, y, clickCount)
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (!hasCurrentError()) {
-			super.mouseClicked(id, x, y, clickCount);
-		}
+		// DO NOTHING
+	}
+
+	/**
+	 * 
+	 * Delegates the the keyPressed event to all the components of the TableList.
+	 *  
+	 * @param id
+	 *        | The id of the key pressed event. 
+	 * @param keyCode
+	 *        | The key code of the key pressed event.
+	 * @param keyChar
+	 *        | The key character of a key pressed event.
+	 */
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		// Do nothing
 	}
 
 	/**

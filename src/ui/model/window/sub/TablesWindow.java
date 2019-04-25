@@ -1,5 +1,6 @@
 package ui.model.window.sub;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,17 +47,22 @@ public class TablesWindow extends SubWindow {
 	 * @effect A new Table is created.
 	 */
 	private void createTableList(Map<UUID, String> map) {
-		this.setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
-		this.addComponent(getContainer());
+		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
 				getHeight());
-		tableList.createTableList(map, this);
-		this.addClickListener(tableList);
-		this.addKeyListener(tableList);
+		List<UICell> cellList = tableList.createTableList(map);
+		
+		for (UICell c : cellList) {
+			this.addStoredListener(c);
+			c.addPropertyChangeListener(this);
+		}
+		
+		this.addStoredListener(tableList);
 		tableList.addPropertyChangeListener(this);
 
 		getContainer().addComponent(tableList);
+		this.resetAllListeners();
 	}
 
 	/**
@@ -67,7 +73,7 @@ public class TablesWindow extends SubWindow {
 	 */
 	public void updateTables(Map<UUID, String> map) {
 		this.removeContentClickAndKeyListeners();
-		this.removeComponent(getContainer());
+		this.clearStoredListeners();
 		this.createTableList(map);
 		this.setPaused(false);
 	}
@@ -88,7 +94,10 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void updateContent(Object... data) {
+		this.removeContentClickAndKeyListeners();
+		this.clearStoredListeners();
 		updateTables((Map<UUID, String>) data[0]);
+		this.setPaused(false);
 	}
 
 	/**
@@ -128,7 +137,7 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void throwError(UUID id, int columnIndex, Object newValue) {
-		for (Component c : getComponents()) {
+		for (Component c : getContainer().getComponentsList()) {
 			c.throwError(id);
 		}
 	}
