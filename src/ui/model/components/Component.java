@@ -12,8 +12,8 @@ import controller.observer.PropertyChangeSupport;
  * A component is an abstract class which has a given X-coordinate, Y-coordinate, width,
  * height and whether the component is hidden or not.
  * 
- * @version 1.0
- * @author Dries Janse
+ * @version 2.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public abstract class Component {

@@ -10,6 +10,7 @@ import controller.observer.PropertyChangeListener;
 /**
  * The titleBar is a specific Container.
  * It is contains all the information the upper bar (= titlebar) of a window.
+ * 
  * @version 1.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *

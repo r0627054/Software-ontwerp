@@ -11,7 +11,7 @@ import java.util.UUID;
  * A class of columns, containing a name, type and if the column allows blanks.
  *
  * @version 1.0
- * @author Dries Janse
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  */
 public class Column extends ObjectIdentifier {
 

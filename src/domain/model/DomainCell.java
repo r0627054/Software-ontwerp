@@ -4,7 +4,7 @@ package domain.model;
  * A class of a cell involving a columType and a value.
  * 
  * @version 1.0
- * @author Dries Janse
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class DomainCell extends ObjectIdentifier {
