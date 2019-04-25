@@ -47,7 +47,6 @@ public class ColumnTypeChangeHandler implements ChangeHandlerInterface {
 		ValueType currentType = ValueType.getValueTypeForString((String) evt.getOldValue());
 
 		ValueType newType = getNextValueType(currentType);
-
 		try {
 			domainfacade.setColumnType(tableId, columnId, newType);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),

@@ -868,7 +868,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
 
 			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
-			simulateKeyPress(KeyEvent.VK_CONTROL);
 			simulateKeyPress(KeyEvent.VK_ENTER);
 			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
@@ -896,7 +895,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 				}
 			}
 
-			assertNotEquals(defaultBefore, defaultAfter); // data wordt toch niet geupdate tot je enter duwt
+			assertEquals(defaultBefore, defaultAfter);
 			assertNotEquals(uiDefaultBefore, uiDefaultAfter);
 
 			simulateKeyPress(KeyEvent.VK_ESCAPE);
