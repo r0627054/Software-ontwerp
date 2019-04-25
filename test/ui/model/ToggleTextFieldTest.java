@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import controller.handlers.ChangeEventType;
 import ui.model.components.ToggleTextField;
 
 class ToggleTextFieldTest {
@@ -25,7 +26,7 @@ class ToggleTextFieldTest {
 	 */
 	@Test
 	void test() {
-		ttf = new ToggleTextField(width, height, text, id);
+		ttf = new ToggleTextField(width, height, text, id, ChangeEventType.REPAINT);
 		assertAll(
 				() -> assertEquals(this.width, ttf.getWidth()),
 				() -> assertEquals(this.height, ttf.getHeight()),
@@ -39,7 +40,7 @@ class ToggleTextFieldTest {
 	 */
 	@Test
 	void test2MouseClicked() {
-		ttf = new ToggleTextField(width, height, text, id);
+		ttf = new ToggleTextField(width, height, text, id, ChangeEventType.REPAINT);
 		ttf.mouseClicked(MouseEvent.MOUSE_CLICKED, x, y, 1);
 	}
 	
@@ -49,7 +50,7 @@ class ToggleTextFieldTest {
 	 */
 	@Test
 	void test3MouseClickedWrongEvent() {
-		ttf = new ToggleTextField(width, height, text, id);
+		ttf = new ToggleTextField(width, height, text, id, ChangeEventType.REPAINT);
 		ttf.mouseClicked(MouseEvent.BUTTON2, x, y, 1);
 	}
 	
@@ -58,7 +59,7 @@ class ToggleTextFieldTest {
 	 */
 	@Test
 	void test4ThrowAnErrorIdsMatch() {
-		ttf = new ToggleTextField(width, height, text, id);
+		ttf = new ToggleTextField(width, height, text, id, ChangeEventType.REPAINT);
 		ttf.throwError(id);
 	}
 	
@@ -68,7 +69,7 @@ class ToggleTextFieldTest {
 	 */
 	@Test
 	void test5ThrowAnErrorIdsNoMatch() {
-		ttf = new ToggleTextField(width, height, text, id);
+		ttf = new ToggleTextField(width, height, text, id, ChangeEventType.REPAINT);
 		ttf.throwError(UUID.randomUUID());
 	}
 	

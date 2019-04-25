@@ -118,14 +118,9 @@ public class TableRowsWindow extends TableWindow {
 	 * @return The rowsTable inside the TableRowsWindow.
 	 */
 	private RowsTable getRowsTable() {
-		for (Component container : getContainer().getComponentsList()) {
-			if (container instanceof Container) {
-				Container containerCasted = (Container) container;
-				for (Component c : containerCasted.getComponentsList()) {
-					if (c instanceof RowsTable) {
-						return (RowsTable) c;
-					}
-				}
+		for (Component c : getContainer().getComponentsList()) {
+			if (c instanceof RowsTable) {
+				return (RowsTable) c;
 			}
 		}
 		return null;

@@ -125,13 +125,8 @@ public abstract class UseCaseTest {
 																								// same info.
 		if (designTableSubWindow != null) {
 			for (Component c : designTableSubWindow.getContainer().getComponentsList()) {
-				if (c instanceof Container) {
-					Container container = (Container) c;
-					for (Component containerComponents : container.getComponentsList()) {
-						if (containerComponents instanceof DesignTable) {
-							return (DesignTable) containerComponents;
-						}
-					}
+				if (c instanceof DesignTable) {
+					return (DesignTable) c;
 				}
 			}
 		}
@@ -142,14 +137,8 @@ public abstract class UseCaseTest {
 		SubWindow tableRowsTable = getUiFacade().getView().getSubWindows(tableId).get(0);
 		if (tableRowsTable != null) {
 			for (Component c : tableRowsTable.getContainer().getComponentsList()) {
-				if (c instanceof Container) {
-					Container container = (Container) c;
-
-					for (Component containerComponents : container.getComponentsList()) {
-						if (containerComponents instanceof RowsTable) {
-							return (RowsTable) containerComponents;
-						}
-					}
+				if (c instanceof RowsTable) {
+					return (RowsTable) c;
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import controller.handlers.ChangeEventType;
 import ui.model.components.CheckBox;
 
 class CheckBoxTest {
@@ -24,7 +25,7 @@ class CheckBoxTest {
 	 */
 	@Test
 	void CreateCBAndReturnCheckedValue() {
-		cb = new CheckBox(false, id);
+		cb = new CheckBox(false, id, ChangeEventType.REPAINT);
 		assertFalse(cb.isChecked());
 	}
 	
@@ -36,7 +37,7 @@ class CheckBoxTest {
 	void test2CreateCBWithCoords() {
 		int x = 20;
 	    int y = 40;
-		cb = new CheckBox(x, y, true, id);
+		cb = new CheckBox(x, y, true, id, ChangeEventType.REPAINT);
 		assertTrue(x == cb.getX() && y == cb.getY() && cb.isChecked() == true && id == cb.getId());
 		
 	}
@@ -47,7 +48,7 @@ class CheckBoxTest {
 	    int y = 50;
 	    int width = 100;
 	    int height = 60;
-		cb = new CheckBox(x, y, width, height, true, id);
+		cb = new CheckBox(x, y, width, height, true, id, ChangeEventType.REPAINT);
 		assertTrue(x == cb.getX() && y == cb.getY() && cb.getWidth() == width && height == cb.getHeight() && cb.isChecked() == true && id == cb.getId());
 	}
 

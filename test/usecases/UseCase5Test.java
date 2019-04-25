@@ -22,6 +22,7 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test1doubleClickBelowDesignTableToCreateAColumn() {
 		try {
+			addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
 			String tableName = null;
 			UUID tableId = null;
 

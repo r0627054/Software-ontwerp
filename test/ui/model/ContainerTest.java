@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import controller.handlers.ChangeEventType;
 import ui.model.components.CheckBox;
 import ui.model.components.Component;
 import ui.model.components.Container;
@@ -20,9 +21,10 @@ class ContainerTest {
 	private int width = 90;
 	private int height = 50;
 	private List<Component> listItems = new ArrayList<>();
-	private Component comp1 = new CheckBox(false, UUID.randomUUID());
-	private Component comp2 = new EditableTextField("teststring", UUID.randomUUID());
-	private Component comp3 = new CheckBox(true, UUID.randomUUID());
+	private Component comp1 = new CheckBox(false, UUID.randomUUID(), ChangeEventType.REPAINT);
+	private Component comp2 = new EditableTextField("teststring", UUID.randomUUID(), ChangeEventType.REPAINT, null,
+			null);
+	private Component comp3 = new CheckBox(true, UUID.randomUUID(), ChangeEventType.REPAINT);
 	private Container correctContainer = new Container(x, y, width, height);
 
 	

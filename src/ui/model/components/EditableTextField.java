@@ -23,12 +23,12 @@ public class EditableTextField extends TextField {
 	 * Variable storing the submit action.
 	 */
 	private final ChangeEventType submitAction;
-	
+
 	/**
 	 * Variable storing the double click action.
 	 */
 	private final ChangeEventType doubleClickAction;
-	
+
 	/**
 	 * Variable storing the delete action.
 	 */
@@ -113,9 +113,9 @@ public class EditableTextField extends TextField {
 	 * Deletes a character of the text.
 	 */
 	private void deleteChar() {
-		if (position != 0) {
-			String left = getText().substring(0, position - 1);
-			String right = getText().substring(position, getText().length());
+		if (getPosition() != 0) {
+			String left = getText().substring(0, getPosition() - 1);
+			String right = getText().substring(getPosition(), getText().length());
 			setText(left + right);
 			moveCursorLocationLeft();
 			if (isError())
@@ -196,29 +196,25 @@ public class EditableTextField extends TextField {
 	 */
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
+
 		if (isSelected()) {
 			if (id == KeyEvent.KEY_PRESSED) {
 				if (keyCode == KeyEvent.VK_LEFT) {
 					moveCursorLocationLeft();
-				}
-				if (keyCode == KeyEvent.VK_RIGHT) {
+				} else if (keyCode == KeyEvent.VK_RIGHT) {
 					moveCursorLocationRight();
-				}
-				if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
+				} else if (keyCode == KeyEvent.VK_BACK_SPACE) {
+					deleteChar();
+				} else if (keyCode == KeyEvent.VK_ENTER) {
+					textChangeSubmit();
+				} else if (keyCode == KeyEvent.VK_ESCAPE) {
+					this.setText(getDefaultValue());
+					textResetSubmit();
+				} else if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
 					String text = getText();
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
 					this.setError(false);
-				}
-				if (keyCode == KeyEvent.VK_BACK_SPACE) {
-					deleteChar();
-				}
-				if (keyCode == KeyEvent.VK_ENTER) {
-					textChangeSubmit();
-				}
-				if (keyCode == KeyEvent.VK_ESCAPE) {
-					this.setText(getDefaultValue());
-					textResetSubmit();
 				}
 			}
 		}
