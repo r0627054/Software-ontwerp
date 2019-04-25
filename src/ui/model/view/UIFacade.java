@@ -266,6 +266,28 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void simulateClick(int x, int y, int clickCount) {
 		getView().simulateClickClicked(x, y, clickCount);
 	}
+	
+	/**
+	 * Simulates a click release to the view.
+	 * @param x The x-coordinate of the click.
+	 * @param y The y-coordinate of the click.
+	 * @effect The click is further simulated in the view.
+	 *         | getView().simulateClickRelease(x, y)
+	 */
+	public void simulateClickRelease(int x, int y) {
+		getView().simulateClickRelease(x, y);
+	}
+	
+	/**
+	 * Simulates a click drag to the view.
+	 * @param x The x-coordinate of the click.
+	 * @param y The y-coordinate of the click.
+	 * @effect The click is further simulated in the view.
+	 *         | getView().simulateClickDrag(x, y)
+	 */
+	public void simulateClickDrag(int x, int y) {
+		getView().simulateClickDrag(x, y);
+	}
 
 	/**
 	 * Simulates a key press with the given character.
