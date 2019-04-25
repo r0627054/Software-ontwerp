@@ -40,7 +40,7 @@ public class TitleBar extends Container implements PropertyChangeListener {
 		addComponent(getTitle());
 		closeButton.addPropertyChangeListener(this);
 	}
-
+	
 	/**
 	 * Draws a line under the title bar.
 	 *  method to handle the other drawings (components in the container).
