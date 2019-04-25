@@ -338,6 +338,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 				if (c.isWithinComponent(x, y)) {
 					c.mouseClicked(id, x, y, clickCount);
 				} else {
+//					System.out.println(c);
 					c.outsideClick(id, x, y, clickCount);
 				}
 			}
@@ -355,7 +356,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private void handleMoving(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE) && y <= this.getY() + TITLE_BAR_SIZE
-				&& x > getX() && x < getX() + getWidth() - BUTTON_WIDTH) {
+				&& x > (getX()+DRAG_BORDER_SIZE) && x < getX() + getWidth() - BUTTON_WIDTH) {
 			this.dragWindow = true;
 			this.windowDragX = x - getX();
 			this.windowDragY = y - getY();

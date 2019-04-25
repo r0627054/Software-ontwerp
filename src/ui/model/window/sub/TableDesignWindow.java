@@ -14,7 +14,7 @@ import ui.model.components.UICell;
 
 /**
  * The tableDesignWindow is a TableWindow specifically used for designing
- * the table. The tableDesignWindow allows edits of the values of the table.
+ * the table. The tableDesignWindow allows edits of the design of the table.
  *
  * @version 2.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
@@ -50,7 +50,7 @@ public class TableDesignWindow extends TableWindow {
 	 *
 	 * @param columnCharacteristics | the information needed to create a
 	 *                              designTable.
-	 * @post The table is created and all the listeners are stored.
+	 * @effect The table is created and all the listeners are stored.
 	 */
 	private void createDesignTable(Map<UUID, LinkedHashMap<String, Object>> columnCharacteristics) {
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
@@ -87,6 +87,7 @@ public class TableDesignWindow extends TableWindow {
 
 	/**
 	 * Returns the DesignTable stored in the container of the SubWindow.
+	 * @return The designTable inside the designTable.
 	 */
 	private DesignTable getDesignTable() {
 		for (Component c : getContainer().getComponentsList()) {

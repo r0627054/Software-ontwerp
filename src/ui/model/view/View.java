@@ -164,7 +164,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	private void setCurrentSubWindow(SubWindow currentWindow) {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
-			throw new IllegalArgumentException("Current window cannt be null nor can be set if it is not in the list.");
+			throw new IllegalArgumentException("Current window cannot be null nor can be set if it is not in the list.");
 		}
 		this.removeSubWindow(currentWindow);
 		this.getSubWindows().add(currentWindow);
@@ -184,6 +184,31 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			this.removeSubWindow(this.getCurrentSubWindow());
 			this.repaint();
 		}
+	}
+	
+	/**
+	 * Closes all the SubWindows which contain information of the table with the given tableID.
+	 * @param tableID The UUID of the table.
+	 * @throws IllegalArgumentException When the tableID equals null.
+	 *                                 | tableID == null
+	 * @effect All the subWindows are removed from the list of subWindows.
+	 *         | for (SubWindow subWindow : copySubWindows) {
+	 *         |	if(subWindow!= null && subWindow.getId() != null && subWindow.getId() == tableID) {
+	 *         |    	this.removeSubWindow(subWindow);
+	 * @effect The view is repainted.
+	 *         | this.repaint();   
+	 */
+	public void closeAllSubWindowsOfTable(UUID tableID) {
+		if(tableID == null) {
+			throw new IllegalArgumentException("TableID cannot equal null for subWindow deletion");
+		}
+		List<SubWindow> copySubWindows = new ArrayList<>(this.getSubWindows());
+		for (SubWindow subWindow : copySubWindows) {
+			if(subWindow!= null && subWindow.getId() != null && subWindow.getId() == tableID) {
+				this.removeSubWindow(subWindow);
+			}
+		}
+		this.repaint();
 	}
 
 	/**
@@ -206,6 +231,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
+		
 		boolean isFound = false;
 
 		for (int i = this.getNbrOfSubWindows() - 1; i >= 0 && !isFound; i--) {

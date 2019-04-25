@@ -20,6 +20,7 @@ import ui.model.components.DesignTable;
 import ui.model.components.RowsTable;
 import ui.model.components.TableList;
 import ui.model.view.UIFacade;
+import ui.model.window.sub.SubWindow;
 
 public abstract class UseCaseTest {
 	private static UIFacade uiFacade;
@@ -117,21 +118,24 @@ public abstract class UseCaseTest {
 		return null;
 	}
 
-//	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
-//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE)
-//				.getComponents()) {
-//			if (c instanceof Container) {
-//				Container container = (Container) c;
-//
-//				for (Component containerComponents : container.getComponentsList()) {
-//					if (containerComponents instanceof DesignTable) {
-//						return (DesignTable) containerComponents;
-//					}
-//				}
-//			}
-//		}
-//		return null;
-//	}
+	protected DesignTable getTableViewModeDesignTable(UUID tableId) {
+//		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEDESIGNVIEWMODE).getComponents()) {
+		SubWindow designTableSubWindow = getUiFacade().getView().getSubWindows(tableId).get(0); // get any bcs all windows with same id should display the same info.	
+		if(designTableSubWindow != null) {
+			for(Component c : designTableSubWindow.getComponents()) {
+				if (c instanceof Container) {
+					Container container = (Container) c;
+					for (Component containerComponents : container.getComponentsList()) {
+						if (containerComponents instanceof DesignTable) {
+							return (DesignTable) containerComponents;
+						}
+					}
+				}
+			}
+//			
+		}
+		return null;
+	}
 //
 //	protected RowsTable getTableViewModeRowsTable(UUID tableId) {
 //		for (Component c : getUiFacade().getView().getViewMode(tableId, ViewModeType.TABLEROWSVIEWMODE)
