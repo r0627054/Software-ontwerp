@@ -207,7 +207,7 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 */
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
-		if (!isError() || this.getComponent() instanceof ToggleTextField) {
+		if (!isError() || this.getComponent() instanceof ToggleTextField || this.getComponent() instanceof CheckBox) {
 			getComponent().mouseClicked(id, x, y, clickCount);
 		}
 	}
