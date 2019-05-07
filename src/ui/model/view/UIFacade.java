@@ -309,4 +309,11 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		getView().simulateKeyPress(keyCode);
 	}
 
+	@Override
+	public void createFormSubWindow(UUID tableId, String tableNameOfId,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
+		getView().createFormSubWindow(tableId, tableNameOfId, tableData);
+		
+	}
+
 }

@@ -1,13 +1,15 @@
 package ui.model.window.sub;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import controller.handlers.ChangeEventType;
+import controller.observer.PropertyChangeEvent;
 import ui.model.components.Component;
 import ui.model.components.Container;
-import ui.model.components.HorizontalComponentList;
-import ui.model.components.RowsTable;
+import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
 import ui.model.components.UICell;
 
@@ -52,12 +54,12 @@ public class TablesWindow extends SubWindow {
 		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
 				getHeight());
 		List<UICell> cellList = tableList.createTableList(map);
-		
+
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
 			c.addPropertyChangeListener(this);
 		}
-		
+
 		this.addStoredListener(tableList);
 		tableList.addPropertyChangeListener(this);
 
@@ -76,14 +78,6 @@ public class TablesWindow extends SubWindow {
 		this.clearStoredListeners();
 		this.createTableList(map);
 		this.setPaused(false);
-	}
-
-	/**
-	 * Handles the crtl enter behaviour.
-	 * The tablesWindow does nothing.
-	 */
-	@Override
-	public void ctrlEntrPressed() {
 	}
 
 	/**
@@ -153,6 +147,30 @@ public class TablesWindow extends SubWindow {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		super.keyPressed(id, keyCode, keyChar);
+		
+		if (keyCode == KeyEvent.VK_CONTROL) {
+			this.setCtrlPressed(true);
+		} else if (keyCode == 70 && this.isCtrlPressed()) {
+			this.ctrlFPressed();
+			this.setCtrlPressed(false);
+		} else {
+			setCtrlPressed(false);
+		}
+	}
+
+	private void ctrlFPressed() {
+		UICell selected = getTableList().getSelectedCell();
+
+		if (selected != null) {
+			EditableTextField etf = (EditableTextField) selected.getComponent();
+			getSupport().firePropertyChange(new PropertyChangeEvent(selected.getId(),
+					ChangeEventType.CREATE_FORMDESIGNSUBWINDOW, etf.getText(), null));
+		}
 	}
 
 }

@@ -1,5 +1,6 @@
 package ui.model.window.sub;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,11 +131,24 @@ public class TableRowsWindow extends TableWindow {
 	 * Handles the crtl enter behaviour.
 	 * Fires the CREATE_TABLEDESIGNWINDOW propertyChangeEvent
 	 */
-	@Override
-	public void ctrlEntrPressed() {
+	private void ctrlEntrPressed() {
 		if (!isPaused()) {
 			getSupport().firePropertyChange(
 					new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_TABLEDESIGNWINDOW, null, null));
+		}
+	}
+
+	@Override
+	public void keyPressed(int id, int keyCode, char keyChar) {
+		super.keyPressed(id, keyCode, keyChar);
+
+		if (keyCode == KeyEvent.VK_CONTROL) {
+			this.setCtrlPressed(true);
+		} else if (keyCode == KeyEvent.VK_ENTER && this.isCtrlPressed()) {
+			this.ctrlEntrPressed();
+			this.setCtrlPressed(false);
+		} else {
+			setCtrlPressed(false);
 		}
 	}
 
@@ -166,4 +180,5 @@ public class TableRowsWindow extends TableWindow {
 			c.throwError(id);
 		}
 	}
+
 }

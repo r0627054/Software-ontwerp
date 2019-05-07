@@ -31,7 +31,8 @@ public enum ChangeEventType {
 	CLOSE_SUBWINDOW(CloseSubWindowChangeHandler.class), 
 	CREATE_TABLEROWSWINDOW(CreateTableRowsSubWindowChangeHandler.class), 
 	CREATE_TABLEDESIGNWINDOW(CreateTableDesignSubWindowChangeHandler.class),
-	CREATE_TABLESSUBWINDOW(CreateTablesSubWindowChangeHandler.class);
+	CREATE_TABLESSUBWINDOW(CreateTablesSubWindowChangeHandler.class), 
+	CREATE_FORMDESIGNSUBWINDOW(CreateFormDesignSubWindowChangeHandler.class);
 	
 	/**
 	 * Variable storing the actionHandler class.

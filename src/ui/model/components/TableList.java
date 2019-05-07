@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
-import controller.observer.PropertyChangeListener;
 
 /**
  * TableList is a subClass of a VerticalComponentList.
@@ -130,11 +129,11 @@ public class TableList extends VerticalComponentList {
 	public void outsideClick(int id, int x, int y, int clickCount) {
 		if (!hasCurrentError()) {
 			if (id == MouseEvent.MOUSE_PRESSED) {
-				
+
 				if (clickCount == 2 && y > this.getOffsetY()) {
 					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}
-				
+
 				for (Component c : getComponentsList()) {
 					UICell cell = (UICell) c;
 					c.outsideClick(id, x, y, clickCount);
@@ -142,7 +141,7 @@ public class TableList extends VerticalComponentList {
 					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
 						textField.setSelectedForDelete(true);
 					} else {
-						
+
 						textField.setSelectedForDelete(false);
 					}
 				}
@@ -163,6 +162,20 @@ public class TableList extends VerticalComponentList {
 
 				if (((UICell) comp).getId() == tableId) {
 					return ((UICell) comp);
+				}
+			}
+		}
+		return null;
+	}
+
+	public UICell getSelectedCell() {
+		for (Component c : getComponentsList()) {
+			if (c instanceof UICell) {
+				if (((UICell) c).getComponent() instanceof EditableTextField) {
+					EditableTextField etf = (EditableTextField) ((UICell) c).getComponent();
+					if (etf.isSelected()) {
+						return (UICell) c;
+					}
 				}
 			}
 		}

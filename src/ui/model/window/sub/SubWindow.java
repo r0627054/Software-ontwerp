@@ -3,9 +3,9 @@ package ui.model.window.sub;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -179,6 +179,8 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private boolean paused = false;
 
+	private boolean ctrlPressed = false;
+
 	/**
 	 * Initialises a new Subwindow with a given title and an Id.
 	 *  All the other variables are set using the default values.
@@ -254,7 +256,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param g This object offers the methods that allow you to paint on the canvas.
 	 * @post The graphics object draws the different rectangles.
 	 */
-	private void drawBorder(Graphics2D g) {
+	protected void drawBorder(Graphics2D g) {
 		g.setColor(new Color((float) 0.9, (float) 0.9, (float) 0.9, (float) 0.5));
 		// vertical bars
 		g.fillRect(getOffsetX() - DRAG_BORDER_SIZE, getY() + DRAG_BORDER_SIZE, DRAG_BORDER_SIZE,
@@ -356,7 +358,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private void handleMoving(int id, int x, int y) {
 		if (id == MouseEvent.MOUSE_PRESSED && y >= (this.getY() + DRAG_BORDER_SIZE) && y <= this.getY() + TITLE_BAR_SIZE
-				&& x > (getX()+DRAG_BORDER_SIZE) && x < getX() + getWidth() - BUTTON_WIDTH) {
+				&& x > (getX() + DRAG_BORDER_SIZE) && x < getX() + getWidth() - BUTTON_WIDTH) {
 			this.dragWindow = true;
 			this.windowDragX = x - getX();
 			this.windowDragY = y - getY();
@@ -836,10 +838,13 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.id = id;
 	}
 
-	/**
-	 * Handles the crtl enter behaviour.
-	 */
-	public abstract void ctrlEntrPressed();
+	protected boolean isCtrlPressed() {
+		return ctrlPressed;
+	}
+
+	protected void setCtrlPressed(boolean ctrlPressed) {
+		this.ctrlPressed = ctrlPressed;
+	}
 
 	/**
 	 * Updates the content of the SubWindow with the given tableData.

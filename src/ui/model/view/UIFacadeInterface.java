@@ -127,4 +127,7 @@ public interface UIFacadeInterface {
 	 */
 	public void closeAllSubWindowsOfTable(UUID tableID);
 
+	public void createFormSubWindow(UUID tableId, String tableNameOfId,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData);
+
 }

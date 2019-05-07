@@ -14,6 +14,7 @@ import controller.observer.PropertyChangeEvent;
 import controller.observer.PropertyChangeListener;
 import controller.observer.PropertyChangeSupport;
 import ui.model.window.CanvasWindow;
+import ui.model.window.sub.FormWindow;
 import ui.model.window.sub.SubWindow;
 import ui.model.window.sub.TableDesignWindow;
 import ui.model.window.sub.TableRowsWindow;
@@ -164,7 +165,8 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	private void setCurrentSubWindow(SubWindow currentWindow) {
 		if (currentWindow == null || !this.getSubWindows().contains(currentWindow)) {
-			throw new IllegalArgumentException("Current window cannot be null nor can be set if it is not in the list.");
+			throw new IllegalArgumentException(
+					"Current window cannot be null nor can be set if it is not in the list.");
 		}
 		this.removeSubWindow(currentWindow);
 		this.getSubWindows().add(currentWindow);
@@ -185,7 +187,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			this.repaint();
 		}
 	}
-	
+
 	/**
 	 * Closes all the SubWindows which contain information of the table with the given tableID.
 	 * @param tableID The UUID of the table.
@@ -199,12 +201,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | this.repaint();   
 	 */
 	public void closeAllSubWindowsOfTable(UUID tableID) {
-		if(tableID == null) {
+		if (tableID == null) {
 			throw new IllegalArgumentException("TableID cannot equal null for subWindow deletion");
 		}
 		List<SubWindow> copySubWindows = new ArrayList<>(this.getSubWindows());
 		for (SubWindow subWindow : copySubWindows) {
-			if(subWindow!= null && subWindow.getId() != null && subWindow.getId() == tableID) {
+			if (subWindow != null && subWindow.getId() != null && subWindow.getId() == tableID) {
 				this.removeSubWindow(subWindow);
 			}
 		}
@@ -231,7 +233,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	@Override
 	protected void handleMouseEvent(int id, int x, int y, int clickCount) {
-		
+
 		boolean isFound = false;
 
 		for (int i = this.getNbrOfSubWindows() - 1; i >= 0 && !isFound; i--) {
@@ -266,9 +268,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 			}
 			if (keyCode == KeyEvent.VK_CONTROL) {
 				this.setCtrlPressed(true);
-			} else if (keyCode == KeyEvent.VK_ENTER && this.isCtrlPressed() && this.getCurrentSubWindow() != null) {
-				this.getCurrentSubWindow().ctrlEntrPressed();
-				this.setCtrlPressed(false);
 			} else if (keyCode == 84 && this.isCtrlPressed()) {
 				this.propertyChange(new PropertyChangeEvent(null, ChangeEventType.CREATE_TABLESSUBWINDOW, null, null));
 				this.setCtrlPressed(false);
@@ -494,7 +493,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	private int getNbrOfSubWindows() {
 		return this.getSubWindows().size();
 	}
-	
+
 	/**
 	 * Handles the incoming click simulation with the given parameters.
 	 * @param x The x-coordinate of the click.
@@ -506,7 +505,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void simulateClickClicked(int x, int y, int clickCount) {
 		this.handleMouseEvent(MouseEvent.MOUSE_PRESSED, x, y, clickCount);
 	}
-	
+
 	/**
 	 * Handles the incoming click release simulation with the given parameters.
 	 * @param x The x-coordinate of the click.
@@ -517,7 +516,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void simulateClickRelease(int x, int y) {
 		this.handleMouseEvent(MouseEvent.MOUSE_RELEASED, x, y, 1);
 	}
-	
+
 	/**
 	 * Handles the incoming click drag simulation with the given parameters.
 	 * @param x The x-coordinate of the click.
@@ -547,6 +546,15 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	public void simulateKeyPress(int keyCode) {
 		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
+	}
+
+	public void createFormSubWindow(UUID tableId, String tableName,
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
+		if (tableId == null || tableName == null || tableName.isEmpty() || tableData == null) {
+			throw new IllegalArgumentException(
+					"Cannot create FormWindow with tableData, id or name equals null/empty.");
+		}
+		this.addCreatedTable(new FormWindow(tableId, tableName, tableData));
 	}
 
 }
