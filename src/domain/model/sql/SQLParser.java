@@ -1,9 +1,11 @@
-package domain.model;
+package domain.model.sql;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SQLParser extends StreamTokenizer {
 
@@ -208,6 +210,27 @@ public class SQLParser extends StreamTokenizer {
 		String cond = parseExpr();
 		result.append(" WHERE " + cond);
 		return result.toString();
+	}
+	
+	
+	public String getColumns() {
+		List<String> colNames = new ArrayList<>();
+		List<String> tableNames = new ArrayList<>();
+		String result = "";
+		expect(TT_SELECT);
+		while(true) {
+			String e = parseExpr();
+			expect(TT_AS);
+			String colName = expectIdent();
+			
+			result.append(e + " AS " + colName);
+			if (ttype == ',') {
+				nextToken();
+				result.append(", ");
+			} else
+				break;
+		}
+		return result;
 	}
 
 	public static class ParseException extends RuntimeException {

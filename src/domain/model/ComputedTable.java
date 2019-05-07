@@ -2,35 +2,31 @@ package domain.model;
 
 import java.util.List;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
+import domain.model.sql.Query;
+import domain.model.sql.SQLParser;
+import domain.model.sql.SQLParser.ParseException;
+
 
 public class ComputedTable extends Table {
 
-	private String query;
-
-	public ComputedTable(String name, String query, List<Table> originalTables) {
+	private Query query;
+	
+	public ComputedTable(String name, Query query) {
 		super(name);
-		this.updateQuery(query, originalTables);
+		this.setQuery(query);
 	}
 
-	public void updateQuery(String query, List<Table> originalTables) {
-		try {
-			SQLParser.parseQuery(query);
-			this.setQuery(query);
-			// TODO: Add logic that edits columns/rows
-		} catch (ParseException e) {
-		}
-	}
-
-	public String getQuery() {
+	private Query getQuery() {
 		return query;
 	}
 
-	private void setQuery(String query) {
-		if (query == null || query.trim().isEmpty()) {
-			throw new DomainException("Query cannot be null of a ComputedTable");
+	private void setQuery(Query query) {
+		if(query == null) {
+			throw new DomainException("Query cannot be null.");
 		}
 		this.query = query;
 	}
-
+	
+	
+	
 }
