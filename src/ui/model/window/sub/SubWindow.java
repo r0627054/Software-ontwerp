@@ -597,10 +597,12 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		int change = x - this.x;
 		this.x = x;
+		
 		if (getContainer() != null) {
+			getTitleBar().changeX(change);
 			getContainer().changeX(change);
 		}
-		getTitleBar().changeX(change);
+		
 	}
 
 	/**
@@ -628,9 +630,10 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.y = y;
 
 		if (getContainer() != null) {
+			getTitleBar().changeY(change);
 			getContainer().changeY(change);
 		}
-		getTitleBar().changeY(change);
+		
 	}
 
 	/**
