@@ -18,10 +18,4 @@ public class LiteralString implements Expression {
 		}
 		this.value = value;
 	}
-
-	@Override
-	public Expression getResult() {
-		return this;
-	}
-
 }
