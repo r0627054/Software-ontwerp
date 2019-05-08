@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import domain.model.sql.Query;
+import domain.model.sql.SQLParser;
 
 /**
  * The actual implementation of the domainFacadeInterface.
@@ -703,25 +704,37 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.getTableWithIds(tableId).isEmpty();
 	}
 
-/*	public void createComputedTable(UUID tableId, String query) {
+	public void createComputedTable(UUID tableId, String query) {
+		SQLParser parser = new SQLParser(query);
+		Query newQuery = parser.getQueryFromString();
 
-		Query newQuery = new Query(query);
 		List<Table> tables = new ArrayList<>();
+		String oldTableName = getTableNameOfId(tableId);
 
-		for (String tableName : newQuery.getRealTableNames()) {
+		for (String tableName : newQuery.getAllUsedTables()) {
 
+			// A query cannot contain a reference to itself, if so throw error
 			if (tableName.equals(getTableNameOfId(tableId))) {
 				throw new DomainException("Computed table cannot refer to itself.");
 			}
 
-			tables.add(getTableOfTableName(tableName));
+			// If no table found, throw error (inside function)
+			Table table = getTableOfTableName(tableName);
+
+			//2 computed tables cannot point to eachother
+			if (table instanceof ComputedTable && ((ComputedTable) table).containsMatchingTable(oldTableName)) {
+				throw new DomainException(
+						"A new computed table cannot create a table with a reference to another computed table.");
+			}
+
+			tables.add(table);
 		}
 
 		ComputedTable newTable = new ComputedTable(getTableNameOfId(tableId), newQuery, tables);
-		
+
 		this.deleteTable(tableId);
 //		return newTable.getData();
-	}*/
+	}
 
 	public void updateComputedTable(UUID tableId, String query) {
 

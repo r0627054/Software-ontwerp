@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.sql.statements.FromStatement;
+import domain.model.sql.statements.SelectStatement;
+import domain.model.sql.statements.WhereStatement;
+
 public class Query {
 	private SelectStatement selectStatement;
 	private FromStatement fromStatement;
@@ -46,6 +50,10 @@ public class Query {
 			throw new SqlException("Cannot set null whereStatement.");
 		}
 		this.whereStatement = whereStatement;
+	}
+
+	public List<String> getAllUsedTables() {
+		return getFromStatement().getAllTables();
 	}
 
 }

@@ -7,7 +7,7 @@ public class OperatorExpression implements Expression {
 	private Expression leftExpression;
 	private Expression rightExpression;
 	private Operator operator;
-	
+
 	public OperatorExpression(Expression leftExpression, Expression rightExpression, Operator operator) {
 		this.setLeftExpression(leftExpression);
 		this.setRightExpression(rightExpression);
@@ -19,7 +19,7 @@ public class OperatorExpression implements Expression {
 	}
 
 	private void setLeftExpression(Expression leftExpression) {
-		if(leftExpression == null) {
+		if (leftExpression == null) {
 			throw new SqlException("The leftExpression cannot be null.");
 		}
 		this.leftExpression = leftExpression;
@@ -30,7 +30,7 @@ public class OperatorExpression implements Expression {
 	}
 
 	private void setRightExpression(Expression rightExpression) {
-		if(rightExpression == null) {
+		if (rightExpression == null) {
 			throw new SqlException("The rightExpression cannot be null.");
 		}
 		this.rightExpression = rightExpression;
@@ -41,17 +41,39 @@ public class OperatorExpression implements Expression {
 	}
 
 	private void setOperator(Operator operator) {
-		if(operator == null) {
+		if (operator == null) {
 			throw new SqlException("The operator cannot be null.");
 		}
 		this.operator = operator;
 	}
-	
+
 	@Override
 	public Expression getResult() {
 		return this.getOperator().getResult(this.getLeftExpression(), this.getRightExpression());
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof OperatorExpression) {
+			OperatorExpression value = (OperatorExpression) obj;
+
+			return value.getLeftExpression().equals(this.getLeftExpression())
+					&& value.getRightExpression().equals(this.getRightExpression())
+					&& value.getOperator().equals(this.getOperator());
+		}
+		return false;
+	}
+
+	@Override
+	public boolean greaterThan(Expression e) {
+		return e != null && e instanceof OperatorExpression
+				&& this.getResult().greaterThan(((OperatorExpression) e).getResult());
+	}
+
+	@Override
+	public boolean smallerThan(Expression e) {
+		return e != null && e instanceof OperatorExpression
+				&& this.getResult().smallerThan(((OperatorExpression) e).getResult());
+	}
+
 }

@@ -20,4 +20,22 @@ public class LiteralStringExpression implements Expression {
 		}
 		this.value = value;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj instanceof LiteralStringExpression
+				&& ((LiteralStringExpression) obj).getValue().equals(this.getValue());
+	}
+
+	@Override
+	public boolean greaterThan(Expression e) {
+		return e != null && e instanceof LiteralStringExpression
+				&& ((LiteralStringExpression) e).getValue().compareTo(this.getValue()) > 0;
+	}
+
+	@Override
+	public boolean smallerThan(Expression e) {
+		return e != null && e instanceof LiteralStringExpression
+				&& ((LiteralStringExpression) e).getValue().compareTo(this.getValue()) < 0;
+	}
 }

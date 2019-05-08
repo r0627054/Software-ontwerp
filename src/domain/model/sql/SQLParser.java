@@ -9,6 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.sql.statements.FromStatement;
+import domain.model.sql.statements.SelectStatement;
+import domain.model.sql.statements.WhereStatement;
+import domain.model.sql.tablespecs.InnerJoinTableSpec;
+import domain.model.sql.tablespecs.SingleTableSpec;
+import domain.model.sql.tablespecs.TableSpec;
+
 public class SQLParser extends StreamTokenizer {
 
 	private static HashMap<String, Integer> keywords = new HashMap<>();
@@ -214,48 +221,18 @@ public class SQLParser extends StreamTokenizer {
 		return result.toString();
 	}
 
-	
-	public Query getQueryFromString(String stringQuery) {
+	public Query getQueryFromString() {
 		SelectStatement selectStatement = this.createSelectStatement();
-		FromStatement fromStatement     = this.createFromStatement();
-		WhereStatement whereStatement   = this.createWhereStatement();
+		FromStatement fromStatement = this.createFromStatement();
+		WhereStatement whereStatement = this.createWhereStatement();
 		return new Query(selectStatement, fromStatement, whereStatement);
-	}
-	
-
-
-
-	private WhereStatement createWhereStatement() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private FromStatement createFromStatement() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	private SelectStatement createSelectStatement() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-
-
-
-	public static class ParseException extends RuntimeException {
-	}
-
-/*	
- * 
- * 
- * 
- * 
- *
- 
- private void readSelect() {
+		// TODO
 		expect(TT_SELECT);
-		while (true) {
+		for (;;) {
 			parseExpr();
 			expect(TT_AS);
 			expectIdent();
@@ -264,67 +241,94 @@ public class SQLParser extends StreamTokenizer {
 			} else
 				break;
 		}
+
+		return new SelectStatement();
 	}
- 
- 	public Map<String, String> getTableNames() {
-		Map<String, String> result = new LinkedHashMap<>();
 
-		readSelect();
-
+	private FromStatement createFromStatement() {
+		FromStatement fromStatement = new FromStatement();
+		TableSpec single = null;
 		expect(TT_FROM);
-
-		String tableName = expectIdent();
-		expect(TT_AS);
-		String rowId = expectIdent();
-		result.put(tableName, rowId);
-
+		{
+			String tableName = expectIdent();
+			expect(TT_AS);
+			String rowId = expectIdent();
+			single = new SingleTableSpec(tableName, rowId);
+			fromStatement.addTableSpec(single);
+		}
+		TableSpec temp = single;
 		while (ttype == TT_INNER) {
 			nextToken();
 			expect(TT_JOIN);
-			tableName = expectIdent();
+			String tableName = expectIdent();
 			expect(TT_AS);
-			rowId = expectIdent();
-			result.put(tableName, rowId);
+			String rowId = expectIdent();
 			expect(TT_ON);
-			parseCellId();
+			String cell1 = parseCellId();
 			expect('=');
-			parseCellId();
+			String cell2 = parseCellId();
+
+			CellId cellId1 = new CellId(cell1);
+			CellId cellId2 = new CellId(cell2);
+			TableSpec newSpec = new InnerJoinTableSpec(tableName, rowId, temp, cellId1, cellId2);
+			fromStatement.addTableSpec(newSpec);
+			temp = newSpec;
 		}
-		return result;
+		return fromStatement;
 	}
- 
- 
- public List<InnerJoinCondition> getJoinConditions() {
-		List<InnerJoinCondition> result = new ArrayList<>();
-		readSelect();
 
-		expect(TT_FROM);
-
-		expectIdent();
-		expect(TT_AS);
-		expectIdent();
-
-		while (ttype == TT_INNER) {
-			nextToken();
-			expect(TT_JOIN);
-			expectIdent();
-			expect(TT_AS);
-			expectIdent();
-			expect(TT_ON);
-			String colTable1 = parseCellId();
-			expect('=');
-			String colTable2 = parseCellId();
-			
-			String table1 = colTable1.split("\\.")[0];
-			String table2 = colTable2.split("\\.")[0];
-			String col1 = colTable1.split("\\.")[1];
-			String col2 = colTable2.split("\\.")[1];
-			result.add(new InnerJoinCondition(table1, table2, col1, col2));
-		}
-
-		return result;
+	private WhereStatement createWhereStatement() {
+		return new WhereStatement();
 	}
-*/
+
+	public static class ParseException extends RuntimeException {
+	}
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 *
+	 * 
+	 * private void readSelect() { expect(TT_SELECT); while (true) { parseExpr();
+	 * expect(TT_AS); expectIdent(); if (ttype == ',') { nextToken(); } else break;
+	 * } }
+	 * 
+	 * public Map<String, String> getTableNames() { Map<String, String> result = new
+	 * LinkedHashMap<>();
+	 * 
+	 * readSelect();
+	 * 
+	 * expect(TT_FROM);
+	 * 
+	 * String tableName = expectIdent(); expect(TT_AS); String rowId =
+	 * expectIdent(); result.put(tableName, rowId);
+	 * 
+	 * while (ttype == TT_INNER) { nextToken(); expect(TT_JOIN); tableName =
+	 * expectIdent(); expect(TT_AS); rowId = expectIdent(); result.put(tableName,
+	 * rowId); expect(TT_ON); parseCellId(); expect('='); parseCellId(); } return
+	 * result; }
+	 * 
+	 * 
+	 * public List<InnerJoinCondition> getJoinConditions() {
+	 * List<InnerJoinCondition> result = new ArrayList<>(); readSelect();
+	 * 
+	 * expect(TT_FROM);
+	 * 
+	 * expectIdent(); expect(TT_AS); expectIdent();
+	 * 
+	 * while (ttype == TT_INNER) { nextToken(); expect(TT_JOIN); expectIdent();
+	 * expect(TT_AS); expectIdent(); expect(TT_ON); String colTable1 =
+	 * parseCellId(); expect('='); String colTable2 = parseCellId();
+	 * 
+	 * String table1 = colTable1.split("\\.")[0]; String table2 =
+	 * colTable2.split("\\.")[0]; String col1 = colTable1.split("\\.")[1]; String
+	 * col2 = colTable2.split("\\.")[1]; result.add(new InnerJoinCondition(table1,
+	 * table2, col1, col2)); }
+	 * 
+	 * return result; }
+	 */
 }
 
 /*

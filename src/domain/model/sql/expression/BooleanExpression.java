@@ -9,11 +9,11 @@ public class BooleanExpression implements Expression {
 	public BooleanExpression(String stringValue) {
 		this.setValue(this.parseToBoolean(stringValue));
 	}
-	
+
 	public BooleanExpression(boolean value) {
 		this.setValue(value);
 	}
-	
+
 	public Boolean getValue() {
 		return value;
 	}
@@ -21,7 +21,7 @@ public class BooleanExpression implements Expression {
 	private void setValue(boolean value) {
 		this.value = value;
 	}
-	
+
 	private boolean parseToBoolean(String stringValue) {
 		try {
 			return Boolean.valueOf(stringValue);
@@ -29,5 +29,19 @@ public class BooleanExpression implements Expression {
 			throw new SqlException("Invalid boolean Expression");
 		}
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		return obj != null && obj instanceof BooleanExpression && ((BooleanExpression) obj).getValue() == getValue();
+	}
+
+	@Override
+	public boolean greaterThan(Expression e) {
+		return e != null && e instanceof BooleanExpression && !((BooleanExpression)e).getValue() && this.getValue();
+	}
+
+	@Override
+	public boolean smallerThan(Expression e) {
+		return e != null && e instanceof BooleanExpression && (((BooleanExpression)e).getValue() && !this.getValue());
+	}
 }

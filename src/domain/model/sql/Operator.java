@@ -32,8 +32,7 @@ public enum Operator {
 	EQUAL("=") {
 		@Override
 		public Expression getResult(Expression e1, Expression e2) {
-			// TODO Auto-generated method stub
-			return null;
+			return new BooleanExpression(e1.equals(e2));
 		}
 	},
 	GREATER(">") {
