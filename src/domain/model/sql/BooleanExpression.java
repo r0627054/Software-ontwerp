@@ -28,9 +28,4 @@ public class BooleanExpression implements Expression {
 		}
 	}
 	
-	@Override
-	public Expression getResult() {
-		return this;
-	}
-
 }

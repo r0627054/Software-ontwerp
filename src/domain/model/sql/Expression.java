@@ -2,5 +2,7 @@ package domain.model.sql;
 
 public interface Expression {
 
-	public Expression getResult();
+	public default Expression getResult() {
+		return this;
+	}
 }
