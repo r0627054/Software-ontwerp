@@ -1,10 +1,12 @@
-package domain.model.sql;
+package domain.model.sql.expression;
 
-public class LiteralString implements Expression {
+import domain.model.sql.SqlException;
+
+public class LiteralStringExpression implements Expression {
 
 	private String value;
 
-	public LiteralString(String value) {
+	public LiteralStringExpression(String value) {
 		this.setValue(value);
 	}
 

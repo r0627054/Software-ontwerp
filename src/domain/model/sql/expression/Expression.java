@@ -1,4 +1,4 @@
-package domain.model.sql;
+package domain.model.sql.expression;
 
 public interface Expression {
 

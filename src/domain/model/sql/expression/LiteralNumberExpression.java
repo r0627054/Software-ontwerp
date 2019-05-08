@@ -1,13 +1,15 @@
-package domain.model.sql;
+package domain.model.sql.expression;
 
-public class LiteralNumber implements Expression {
+import domain.model.sql.SqlException;
+
+public class LiteralNumberExpression implements Expression {
 	private int value;
 
-	public LiteralNumber(int value) {
+	public LiteralNumberExpression(int value) {
 		this.setValue(value);
 	}
 	
-	public LiteralNumber(String intString) {
+	public LiteralNumberExpression(String intString) {
 		this.setValue(this.parsetoInteger(intString));
 	}
 

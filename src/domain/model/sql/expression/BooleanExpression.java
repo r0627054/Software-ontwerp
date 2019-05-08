@@ -1,4 +1,6 @@
-package domain.model.sql;
+package domain.model.sql.expression;
+
+import domain.model.sql.SqlException;
 
 public class BooleanExpression implements Expression {
 
