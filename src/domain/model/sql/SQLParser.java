@@ -201,7 +201,6 @@ public class SQLParser extends StreamTokenizer {
 			expect(TT_AS);
 			String rowId = expectIdent();
 			result.append(tableName + " AS " + rowId);
-
 		}
 		while (ttype == TT_INNER) {
 			nextToken();

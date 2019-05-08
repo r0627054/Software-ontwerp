@@ -721,7 +721,7 @@ public class DomainFacade implements DomainFacadeInterface {
 			// If no table found, throw error (inside function)
 			Table table = getTableOfTableName(tableName);
 
-			//2 computed tables cannot point to eachother
+			//2 computed tables cannot point to each other
 			if (table instanceof ComputedTable && ((ComputedTable) table).containsMatchingTable(oldTableName)) {
 				throw new DomainException(
 						"A new computed table cannot create a table with a reference to another computed table.");

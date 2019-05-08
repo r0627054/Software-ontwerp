@@ -1,9 +1,13 @@
 package domain.model.sql.statements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
+import domain.model.sql.tablespecs.InnerJoinTableSpec;
 import domain.model.sql.tablespecs.TableSpec;
 
 public class FromStatement {
@@ -56,6 +60,28 @@ public class FromStatement {
 			result.add(ts.getRealTableName());
 		}
 
+		return result;
+	}
+
+	public List<CellId> getAllCellIds() {
+		List<CellId> result = new ArrayList<CellId>();
+
+		for (TableSpec ts : getTableSpecs()) {
+			if (ts instanceof InnerJoinTableSpec) {
+				InnerJoinTableSpec casted = (InnerJoinTableSpec) ts;
+				result.add(casted.getCellIdLeft());
+				result.add(casted.getCellIdRight());
+			}
+		}
+		return result;
+	}
+
+	public Map<String, String> getDisplayToRealNamesMap() {
+		Map<String, String> result = new HashMap<>();
+
+		for (TableSpec ts : getTableSpecs()) {
+			result.put(ts.getDisplayTableName(), ts.getRealTableName());
+		}
 		return result;
 	}
 

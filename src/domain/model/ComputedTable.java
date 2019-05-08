@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import domain.model.sql.CellId;
 import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
 import domain.model.sql.SQLParser.ParseException;
+import domain.model.sql.statements.FromStatement;
 
 public class ComputedTable extends Table {
 
@@ -18,6 +20,45 @@ public class ComputedTable extends Table {
 		super(name);
 		this.setQuery(query);
 		setQueryTables(tables);
+
+		executeFromStatement();
+
+	}
+
+	private void executeFromStatement() {
+		FromStatement from = getQuery().getFromStatement();
+
+		checkValidColumnsAndTables(from);
+	}
+
+	private void checkValidColumnsAndTables(FromStatement from) {
+		List<CellId> list = from.getAllCellIds();
+		Map<String, String> namesMap = from.getDisplayToRealNamesMap();
+
+		for (CellId id : list) {
+			Table table = getTableOfName(namesMap.get(id.getTableId()));
+
+			if (table == null) {
+				throw new DomainException("Invalid table in ON condition in INNER JOIN.");
+			}
+
+			if (!table.columnNameExists(id.getColumnName())) {
+				throw new DomainException("Invalid table column in ON condition in INNER JOIN.");
+			}
+		}
+	}
+
+	private Table getTableOfName(String name) {
+		if (name == null || name.trim().isEmpty()) {
+			throw new DomainException("Cannot get a table of an empty name in ComputedTable");
+		}
+
+		for (Table t : getQueryTables()) {
+			if (t.getName().equals(name)) {
+				return t;
+			}
+		}
+		return null;
 	}
 
 	public boolean containsMatchingTable(String tableName) {

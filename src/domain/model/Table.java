@@ -277,7 +277,7 @@ public class Table extends ObjectIdentifier {
 		String columnName = null;
 		while (!newIndexIsFound) {
 			columnName = "Column" + i++;
-			if (!this.columnNameAlreadyExists(columnName)) {
+			if (!this.columnNameExists(columnName)) {
 				newIndexIsFound = true;
 			}
 		}
@@ -299,7 +299,7 @@ public class Table extends ObjectIdentifier {
 	 * @throws DomainException if the column name equals null
 	 *        | columnName == null 
 	 */
-	public boolean columnNameAlreadyExists(String columnName) {
+	public boolean columnNameExists(String columnName) {
 		if (columnName == null) {
 			throw new DomainException("ColumnName cannot be null to check whether the name already exists.");
 		}
