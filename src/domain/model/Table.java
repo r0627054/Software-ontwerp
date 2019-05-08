@@ -116,7 +116,7 @@ public class Table extends ObjectIdentifier {
 	 * @post the columns of the table are equal to the given columns.
 	 *          | new.getColumns().equals(columns)
 	 */
-	private void setColumns(List<Column> columns) {
+	protected void setColumns(List<Column> columns) {
 		if (columns == null) {
 			throw new DomainException("Invalid list of columns.");
 		}
@@ -140,7 +140,7 @@ public class Table extends ObjectIdentifier {
 	 * @post The rows of the table are equal to the given rows.
 	 *         | new.getRows().equals(rows)
 	 */
-	private void setRows(List<Row> rows) {
+	protected void setRows(List<Row> rows) {
 		if (this.rows == null) {
 			throw new DomainException("Invalid list of Rows.");
 		}

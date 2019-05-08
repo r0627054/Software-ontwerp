@@ -28,7 +28,7 @@ public class FromStatement {
 	/**
 	 * @return the tableSpecs
 	 */
-	private List<TableSpec> getTableSpecs() {
+	public List<TableSpec> getTableSpecs() {
 		return tableSpecs;
 	}
 

@@ -22,17 +22,19 @@ public class TestMain {
 		tableList.add(dummyTable1());
 		tableList.add(dummyTable2());
 
-		String sql = "SELECT movie.Name AS title "
-				+ "FROM TEST1 AS movie INNER JOIN TEST2 AS a ON movie.Age = movie.Name "
-				+ "WHERE movie.imdb_score > 7\r\n";
+		//String sql = "SELECT movie.Name AS title "
+		//		+ "FROM TEST1 AS movie INNER JOIN TEST2 AS a ON movie.Age = movie.Name "
+		//		+ "WHERE movie.imdb_score > 7\r\n";
 
+		String sql = "SELECT qfd.dd AS h FROM TEST1 AS a INNER JOIN TEST2 AS b ON a.Name = b.Namee WHERE TRUE";
+		
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
 		Query query = parser.getQueryFromString();
 
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
-
+		System.out.println(comp.getRows().size());
 	}
 
 	public static Table dummyTable1() {

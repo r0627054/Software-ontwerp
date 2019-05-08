@@ -1,5 +1,6 @@
 package domain.model;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,8 @@ import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
 import domain.model.sql.SQLParser.ParseException;
 import domain.model.sql.statements.FromStatement;
+import domain.model.sql.tablespecs.InnerJoinTableSpec;
+import domain.model.sql.tablespecs.TableSpec;
 
 public class ComputedTable extends Table {
 
@@ -20,15 +23,46 @@ public class ComputedTable extends Table {
 		super(name);
 		this.setQuery(query);
 		setQueryTables(tables);
-
 		executeFromStatement();
-
 	}
 
 	private void executeFromStatement() {
 		FromStatement from = getQuery().getFromStatement();
-
 		checkValidColumnsAndTables(from);
+		Table subTotalTable = this.getTableAtIndex(0).copy();
+		
+		for (TableSpec spec : from.getTableSpecs()) {
+			if(spec instanceof InnerJoinTableSpec) {
+				
+				
+				
+				Table tempTable = new Table(this.getName());
+				Table newTable  = this.getTableOfName(spec.getRealTableName());
+				for (Column c : subTotalTable.getColumns()) {
+					tempTable.addColumn(c.blindCopy());
+				}
+				for(Column c : newTable.getColumns()) {
+					tempTable.addColumn(c.blindCopy());
+				}
+				
+				for(Row subTotalRow: subTotalTable.getRows()) {
+					for(Row newTableRow: newTable.getRows()) {
+						ArrayList<DomainCell> allRowCells = new ArrayList<>(subTotalRow.getCells());
+						allRowCells.addAll(newTableRow.getCells());
+						Row newRow = new Row(allRowCells);
+						tempTable.addRow(newRow);
+					}
+				}
+				subTotalTable = tempTable;
+			}
+		}
+		this.setColumns(subTotalTable.getColumns());
+		this.setRows(subTotalTable.getRows());
+		
+	}
+	
+	private Table getTableAtIndex(int i) {
+		return this.getQueryTables().get(i);
 	}
 
 	private void checkValidColumnsAndTables(FromStatement from) {

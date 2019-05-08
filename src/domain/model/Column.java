@@ -83,11 +83,26 @@ public class Column extends ObjectIdentifier {
 	 *	       |this.setDefaultValue(type.getDefaultValue())
 	 */
 	public Column(String name, ValueType type, boolean allowsBlanks) {
+		this(name,type,allowsBlanks, type.getDefaultValue());
+	}
+	
+	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue) {
+		super();
 		this.setName(name);
 		this.setType(type);
 		this.setAllowsBlanks(allowsBlanks);
-		this.setDefaultValue(type.getDefaultValue());
+		this.setDefaultValue(defaultValue);
 	}
+	
+	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue, UUID id) {
+		super(id);
+		this.setName(name);
+		this.setType(type);
+		this.setAllowsBlanks(allowsBlanks);
+		this.setDefaultValue(defaultValue);
+	}
+	
+	
 
 	/**
 	 * Returns the name of the column.
@@ -520,5 +535,10 @@ public class Column extends ObjectIdentifier {
 		cells.remove(rowIndex);
 		this.setCells(cells);
 	}
+	
+	public Column blindCopy() {
+		return new Column(getName(), getType(), isAllowsBlanks(), getDefaultValue(), getId());
+	}
+	
 
 }
