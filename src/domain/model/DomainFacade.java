@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import domain.model.sql.Query;
+
 /**
  * The actual implementation of the domainFacadeInterface.
  * This handles all the controls defined in the domainFacadeInterface.
@@ -124,7 +126,14 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.tableMap.get(id);
 	}
 
-	
+	private Table getTableOfTableName(String tableName) {
+		for (Table t : getTableMap().values()) {
+			if (t.getName().equals(tableName)) {
+				return t;
+			}
+		}
+		throw new DomainException("No table is found for certain tableName");
+	}
 
 	/**
 	 * Returns a map of all the table names.
@@ -692,5 +701,29 @@ public class DomainFacade implements DomainFacadeInterface {
 	@Override
 	public boolean isTableWithIdEmpty(UUID tableId) {
 		return this.getTableWithIds(tableId).isEmpty();
+	}
+
+	public void createComputedTable(UUID tableId, String query) {
+
+		Query newQuery = new Query(query);
+		List<Table> tables = new ArrayList<>();
+
+		for (String tableName : newQuery.getRealTableNames()) {
+
+			if (tableName.equals(getTableNameOfId(tableId))) {
+				throw new DomainException("Computed table cannot refer to itself.");
+			}
+
+			tables.add(getTableOfTableName(tableName));
+		}
+
+		ComputedTable newTable = new ComputedTable(getTableNameOfId(tableId), newQuery, tables);
+		
+		this.deleteTable(tableId);
+//		return newTable.getData();
+	}
+
+	public void updateComputedTable(UUID tableId, String query) {
+
 	}
 }

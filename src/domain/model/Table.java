@@ -42,6 +42,13 @@ public class Table extends ObjectIdentifier {
 		this.setName(name);
 	}
 
+	public Table(String name, UUID id, List<Row> rows, List<Column> cols) {
+		super(id);
+		this.setName(name);
+		this.setRows(rows);
+		this.setColumns(cols);
+	}
+
 	/**
 	 * Returns the name of the table.
 	 */
@@ -258,7 +265,7 @@ public class Table extends ObjectIdentifier {
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Creates a new Column with a unique name.
 	 * Its name is columnN, where N is a number, and it is different from the names of the existing columns.
@@ -292,7 +299,7 @@ public class Table extends ObjectIdentifier {
 	 * @throws DomainException if the column name equals null
 	 *        | columnName == null 
 	 */
-	private boolean columnNameAlreadyExists(String columnName) {
+	public boolean columnNameAlreadyExists(String columnName) {
 		if (columnName == null) {
 			throw new DomainException("ColumnName cannot be null to check whether the name already exists.");
 		}
@@ -562,5 +569,9 @@ public class Table extends ObjectIdentifier {
 			}
 		}
 		throw new DomainException("No column id found for given cellId");
+	}
+
+	public Table copy() {
+		return new Table(getName(), getId(), getRows(), getColumns());
 	}
 }

@@ -1,13 +1,11 @@
-package domain.model.sql;
+package domain.model;
 
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SQLParser extends StreamTokenizer {
 
@@ -214,42 +212,20 @@ public class SQLParser extends StreamTokenizer {
 		return result.toString();
 	}
 
-	private void readSelect() {
+	public List<String> getTableNames() {
+		List<String> result = new ArrayList<>();
+
 		expect(TT_SELECT);
 		while (true) {
-			parseExpr();
+			result.add(parseExpr());
+
 			expect(TT_AS);
 			expectIdent();
+
 			if (ttype == ',') {
 				nextToken();
 			} else
 				break;
-		}
-	}
-
-	public Map<String, String> getTableNames() {
-		Map<String, String> result = new LinkedHashMap<>();
-
-		readSelect();
-
-		expect(TT_FROM);
-
-		String tableName = expectIdent();
-		expect(TT_AS);
-		String rowId = expectIdent();
-		result.put(tableName, rowId);
-
-		while (ttype == TT_INNER) {
-			nextToken();
-			expect(TT_JOIN);
-			tableName = expectIdent();
-			expect(TT_AS);
-			rowId = expectIdent();
-			result.put(tableName, rowId);
-			expect(TT_ON);
-			parseCellId();
-			expect('=');
-			parseCellId();
 		}
 		return result;
 	}
@@ -257,43 +233,4 @@ public class SQLParser extends StreamTokenizer {
 	public static class ParseException extends RuntimeException {
 	}
 
-	public List<InnerJoinCondition> getJoinConditions() {
-		List<InnerJoinCondition> result = new ArrayList<>();
-		readSelect();
-
-		expect(TT_FROM);
-
-		expectIdent();
-		expect(TT_AS);
-		expectIdent();
-
-		while (ttype == TT_INNER) {
-			nextToken();
-			expect(TT_JOIN);
-			expectIdent();
-			expect(TT_AS);
-			expectIdent();
-			expect(TT_ON);
-			String colTable1 = parseCellId();
-			expect('=');
-			String colTable2 = parseCellId();
-			
-			String table1 = colTable1.split("\\.")[0];
-			String table2 = colTable2.split("\\.")[0];
-			String col1 = colTable1.split("\\.")[1];
-			String col2 = colTable2.split("\\.")[1];
-			result.add(new InnerJoinCondition(table1, table2, col1, col2));
-		}
-
-		return result;
-	}
-
 }
-
-/*
- * EXAMPLES
- * 
- * String sql = "SELECT movie.title AS title " + "FROM movies AS movie " +
- * "INNER JOIN appel AS peer ON movie.id = peer.id " +
- * "INNER JOIN a AS b ON a.id = peer.id " + "WHERE movie.imdb_score > 7\r\n";
- */

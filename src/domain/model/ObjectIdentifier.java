@@ -16,12 +16,16 @@ public abstract class ObjectIdentifier {
 	 * Variable storing the Unique id.
 	 */
 	private final UUID id;
-	
+
 	/**
 	 * Initialise a new ObjectIdentifier which generates and sets a unique id.
 	 */
 	public ObjectIdentifier() {
-		id = UUID.randomUUID();
+		this(UUID.randomUUID());
+	}
+
+	public ObjectIdentifier(UUID id) {
+		this.id = id;
 	}
 
 	/**
@@ -30,5 +34,5 @@ public abstract class ObjectIdentifier {
 	 */
 	public UUID getId() {
 		return id;
-	}	
+	}
 }
