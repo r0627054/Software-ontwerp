@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import domain.model.sql.InnerJoinCondition;
 import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
 import domain.model.sql.SQLParser.ParseException;
@@ -22,7 +21,7 @@ public class ComputedTable extends Table {
 	}
 
 	public Map<List<Object>, LinkedHashMap<UUID, Object>> getData() {
-		Table currentComputedTable = getQueryTables().get(0).copy();
+	/*	Table currentComputedTable = getQueryTables().get(0).copy();
 
 		List<InnerJoinCondition> joinConditions = getQuery().getJoinConditions();
 		List<String> displayNamesList = getQuery().getDisplayTableNames();
@@ -68,7 +67,8 @@ public class ComputedTable extends Table {
 		}
 //this.setColumns(temptable.getcolumns)
 		// this.setRows(temptTable.getRows);
-		return this.getTableWithIds();
+		return this.getTableWithIds();*/
+		return null;
 	}
 
 	private Query getQuery() {

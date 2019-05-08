@@ -703,7 +703,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.getTableWithIds(tableId).isEmpty();
 	}
 
-	public void createComputedTable(UUID tableId, String query) {
+/*	public void createComputedTable(UUID tableId, String query) {
 
 		Query newQuery = new Query(query);
 		List<Table> tables = new ArrayList<>();
@@ -721,7 +721,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		
 		this.deleteTable(tableId);
 //		return newTable.getData();
-	}
+	}*/
 
 	public void updateComputedTable(UUID tableId, String query) {
 

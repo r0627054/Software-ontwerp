@@ -214,7 +214,46 @@ public class SQLParser extends StreamTokenizer {
 		return result.toString();
 	}
 
-	private void readSelect() {
+	
+	public Query getQueryFromString(String stringQuery) {
+		SelectStatement selectStatement = this.createSelectStatement();
+		FromStatement fromStatement     = this.createFromStatement();
+		WhereStatement whereStatement   = this.createWhereStatement();
+		return new Query(selectStatement, fromStatement, whereStatement);
+	}
+	
+
+
+
+	private WhereStatement createWhereStatement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private FromStatement createFromStatement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private SelectStatement createSelectStatement() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+	public static class ParseException extends RuntimeException {
+	}
+
+/*	
+ * 
+ * 
+ * 
+ * 
+ *
+ 
+ private void readSelect() {
 		expect(TT_SELECT);
 		while (true) {
 			parseExpr();
@@ -226,8 +265,8 @@ public class SQLParser extends StreamTokenizer {
 				break;
 		}
 	}
-
-	public Map<String, String> getTableNames() {
+ 
+ 	public Map<String, String> getTableNames() {
 		Map<String, String> result = new LinkedHashMap<>();
 
 		readSelect();
@@ -253,11 +292,9 @@ public class SQLParser extends StreamTokenizer {
 		}
 		return result;
 	}
-
-	public static class ParseException extends RuntimeException {
-	}
-
-	public List<InnerJoinCondition> getJoinConditions() {
+ 
+ 
+ public List<InnerJoinCondition> getJoinConditions() {
 		List<InnerJoinCondition> result = new ArrayList<>();
 		readSelect();
 
@@ -287,7 +324,7 @@ public class SQLParser extends StreamTokenizer {
 
 		return result;
 	}
-
+*/
 }
 
 /*

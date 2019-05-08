@@ -5,39 +5,47 @@ import java.util.List;
 import java.util.Map;
 
 public class Query {
-	private String query;
+	private SelectStatement selectStatement;
+	private FromStatement fromStatement;
+	private WhereStatement whereStatement;
 
-	public Query(String query) {
-		this.setQuery(SQLParser.parseQuery(query));
-	}
-
-	public String getQuery() {
-		return query;
-	}
-
-	private void setQuery(String query) {
-		this.query = query;
-	}
-	
-	public List<String> getDisplayTableNames() {
-		return new ArrayList<String>(getTableNames().values());
+	public Query(SelectStatement selectStatement, FromStatement fromStatement, WhereStatement whereStatement) {
+		this.setSelectStatement(selectStatement);
+		this.setFromStatement(fromStatement);
+		this.setWhereStatement(whereStatement);
 	}
 
-	public List<String> getRealTableNames() {
-		return new ArrayList<String>(getTableNames().keySet());
+	public SelectStatement getSelectStatement() {
+		return selectStatement;
 	}
 
-	public Map<String, String> getTableNames() {
-		return new SQLParser(getQuery()).getTableNames();
-	}
-	
-	public List<InnerJoinCondition> getJoinConditions(){
-		return new SQLParser(getQuery()).getJoinConditions();
+	private void setSelectStatement(SelectStatement selectStatement) {
+		if(selectStatement == null) {
+			throw new SqlException("Cannot set null selectStatement.");
+		}
+		this.selectStatement = selectStatement;
 	}
 
-	public List<String> getColumnNames() {
-		// TO DO implementation
-		return null;
+	public FromStatement getFromStatement() {
+		return fromStatement;
+	}
+
+	private void setFromStatement(FromStatement fromStatement) {
+		if(fromStatement == null) {
+			throw new SqlException("Cannot set null fromStatement.");
+		}
+		this.fromStatement = fromStatement;
+	}
+
+	public WhereStatement getWhereStatement() {
+		return whereStatement;
+	}
+
+	private void setWhereStatement(WhereStatement whereStatement) {
+		if(whereStatement == null) {
+			throw new SqlException("Cannot set null whereStatement.");
+		}
+		this.whereStatement = whereStatement;
 	}
 
 }
