@@ -75,5 +75,19 @@ public class Email {
 	public String toString() {
 		return this.getEmail();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj != null && obj instanceof Email) {
+			Email castedMail = (Email) obj;
+			if(this.getEmail() == null && castedMail.getEmail() == null) {
+				return true;
+			}
+			if(this.getEmail() != null && castedMail.getEmail() != null && this.getEmail().equals(castedMail.getEmail())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

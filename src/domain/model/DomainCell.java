@@ -91,4 +91,28 @@ public class DomainCell extends ObjectIdentifier {
 			throw new DomainException("Invalid value for this cell.");
 		this.value = value;
 	}
+	
+	public boolean hasSameValueAs(DomainCell cell) {
+		if(cell == null) {
+			return false;
+		}
+		if(this.getType() != null && cell.getType().equals(this.getType())) {
+			ValueType type = this.getType();
+			try {
+				return type.haveSameValue(this.getValue(), cell.getValue());
+			} catch (Exception e) {
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		if(this.getValue() == null) {
+			return "null";
+		}else {
+			return this.getValue().toString();
+		}
+	}
 }

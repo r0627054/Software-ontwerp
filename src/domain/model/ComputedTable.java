@@ -1,6 +1,7 @@
 package domain.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,37 +30,80 @@ public class ComputedTable extends Table {
 	private void executeFromStatement() {
 		FromStatement from = getQuery().getFromStatement();
 		checkValidColumnsAndTables(from);
+		Table result = this.executeSingleAndInnerJoins(from);
+		this.setColumns(result.getColumns());
+		this.setRows(result.getRows());
+	}
+	
+	
+	private Table executeSingleAndInnerJoins(FromStatement from) {
 		Table subTotalTable = this.getTableAtIndex(0).copy();
+		List<String> joinedDisplayTableNames = new ArrayList<>();
+		joinedDisplayTableNames.add(from.getTableSpecs().get(0).getDisplayTableName());
 		
 		for (TableSpec spec : from.getTableSpecs()) {
 			if(spec instanceof InnerJoinTableSpec) {
+				InnerJoinTableSpec innerSpec = (InnerJoinTableSpec) spec;
 				
 				
 				
 				Table tempTable = new Table(this.getName());
-				Table newTable  = this.getTableOfName(spec.getRealTableName());
+				Table newTable  = this.getTableOfName(innerSpec.getRealTableName());
+				joinedDisplayTableNames.add(innerSpec.getDisplayTableName());
+								
+				//voeg alle kolommen toe
 				for (Column c : subTotalTable.getColumns()) {
 					tempTable.addColumn(c.blindCopy());
 				}
 				for(Column c : newTable.getColumns()) {
 					tempTable.addColumn(c.blindCopy());
 				}
-				
+				//rijen toevoegen
 				for(Row subTotalRow: subTotalTable.getRows()) {
 					for(Row newTableRow: newTable.getRows()) {
 						ArrayList<DomainCell> allRowCells = new ArrayList<>(subTotalRow.getCells());
 						allRowCells.addAll(newTableRow.getCells());
 						Row newRow = new Row(allRowCells);
-						tempTable.addRow(newRow);
+						int leftComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames, innerSpec.getCellIdLeft(), from);
+						int rightComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames, innerSpec.getCellIdRight(), from);
+						DomainCell leftComparedObject = newRow.getCellAtIndex(leftComparedIndex);
+						DomainCell rightComparedObject = newRow.getCellAtIndex(rightComparedIndex);
+						if(leftComparedObject != null && rightComparedObject != null && leftComparedObject.hasSameValueAs(rightComparedObject)) {
+							tempTable.addRow(newRow);
+						}
 					}
 				}
 				subTotalTable = tempTable;
 			}
 		}
-		this.setColumns(subTotalTable.getColumns());
-		this.setRows(subTotalTable.getRows());
-		
+		return subTotalTable;
 	}
+	
+	
+	/**
+	 * 
+	 * @param tables List of already joined tables (containing the display tableNames)
+	 * @param cellId
+	 * @param from
+	 * @return
+	 */
+	public int getTableIndexFromCellId(List<String> displayTableNames, CellId cellId, FromStatement from) {
+		Map<String, String> displayToRealNameMap = from.getDisplayToRealNamesMap();
+		String currentDisplayTableName = cellId.getTableId();
+		String currentActualcolumnName = cellId.getColumnName();
+		if(!displayTableNames.contains(currentDisplayTableName)) {
+			throw new DomainException("Join condition does not contain the table!");
+		}
+		//tables before
+		int result =0;
+		for (int i = 0; i < displayTableNames.indexOf(currentDisplayTableName); i++) {
+			result += this.getNbrOfColumnsOfTable(displayToRealNameMap.get(displayTableNames.get(i)));
+		}
+		//in actual table
+		result += this.getIndexOfColumnName(displayToRealNameMap.get(currentDisplayTableName), currentActualcolumnName);		
+		return result ;
+	}
+	
 	
 	private Table getTableAtIndex(int i) {
 		return this.getQueryTables().get(i);
@@ -128,6 +172,18 @@ public class ComputedTable extends Table {
 			throw new DomainException("QueryTables cannot be null.");
 		}
 		this.queryTables = queryTables;
+	}
+	
+	private int getNbrOfColumnsOfTable(String realTableName) {
+		return this.getTableOfName(realTableName).getNbrOfColumns();
+	}
+	
+	private int getIndexOfColumnName(String actualTableName, String columnName) {
+		int index = this.getTableOfName(actualTableName).getColumnIndexOfName(columnName);
+		if(index < 0) {
+			throw new DomainException("Table does not contain a column on the given index.");
+		}
+		return index;
 	}
 
 }

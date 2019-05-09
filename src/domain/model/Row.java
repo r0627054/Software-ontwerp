@@ -140,4 +140,13 @@ public class Row extends ObjectIdentifier {
 		return false;
 	}
 
+	@Override
+	public String toString() {
+		String result ="";
+		for (DomainCell domainCell : cells) {
+			result += "|\t" +domainCell.toString() + "\t";
+		}
+		result+= "|";
+		return result;
+	}
 }

@@ -176,5 +176,37 @@ public enum ValueType {
 		}
 		return value;
 	}
+	
+	public boolean haveSameValue(Object value1, Object value2) {
+		//only call methode when both values are from the same type
+		//assuming that the already have the same type.
+		boolean result = false;
+		if (value1 == null && value2 == null) {
+			result = true;
+		} else if(value1 != null && value2 != null) {
+			try {
+				if (this.equals(ValueType.STRING)) {
+					String casted1 = String.valueOf(value1);
+					String casted2 = String.valueOf(value2);
+					result = casted1.equals(casted2);
+				} else if (this.equals(ValueType.BOOLEAN)) {
+					Boolean casted1  = (boolean) value1;
+					Boolean casted2  = (boolean) value2;
+					result = casted1.equals(casted2);
+				} else if (this.equals(ValueType.INTEGER)) {
+					Integer casted1  = (int) value1;
+					Integer casted2  = (int) value2;
+					result = casted1.equals(casted2);
+				} else if (this.equals(ValueType.EMAIL)) {
+					Email casted1  = (Email) value1;
+					Email casted2  = (Email) value2;
+					result = casted1.equals(casted2);
+				}
+			} catch (Exception e) {
+				result = false;
+			}
+		}		
+		return result;
+	}
 
 }

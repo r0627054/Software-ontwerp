@@ -570,8 +570,41 @@ public class Table extends ObjectIdentifier {
 		}
 		throw new DomainException("No column id found for given cellId");
 	}
+	
+	public int getNbrOfColumns() {
+		return this.getColumns().size();
+	}
+	
+	public int getColumnIndexOfName(String columnName) {
+		if(columnName == null) {
+			throw new DomainException("ColumnName cannot be null.");
+		}
+		for (int i = 0; i < this.getNbrOfColumns(); i++) {
+			Column currentColumn = this.getColumns().get(i);
+			if(columnName.equals(currentColumn.getName())) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 
 	public Table copy() {
 		return new Table(getName(), getId(), getRows(), getColumns());
 	}
+	
+	@Override
+	public String toString() {
+		String result ="";
+		for (Column c : this.getColumns()) {
+			result += "|\t" +c.getName().toString() + "\t";
+		}
+		result+= "|\n";
+		for (Row r : this.getRows()) {
+			result +=r.toString() + "\n";
+		}
+		return result;
+	}
+	
+	
 }
