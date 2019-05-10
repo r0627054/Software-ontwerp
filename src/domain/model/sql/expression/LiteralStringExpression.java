@@ -20,8 +20,13 @@ public class LiteralStringExpression implements Expression {
 		}
 		this.value = value;
 	}
-
+	
 	@Override
+	public String toString() {
+		return " \"" + this.getValue() + "\" ";
+	}
+
+	/*@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj instanceof LiteralStringExpression
 				&& ((LiteralStringExpression) obj).getValue().equals(this.getValue());
@@ -37,5 +42,5 @@ public class LiteralStringExpression implements Expression {
 	public boolean smallerThan(Expression e) {
 		return e != null && e instanceof LiteralStringExpression
 				&& ((LiteralStringExpression) e).getValue().compareTo(this.getValue()) < 0;
-	}
+	}*/
 }

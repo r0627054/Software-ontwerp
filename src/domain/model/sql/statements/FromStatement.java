@@ -10,7 +10,7 @@ import domain.model.sql.SqlException;
 import domain.model.sql.tablespecs.InnerJoinTableSpec;
 import domain.model.sql.tablespecs.TableSpec;
 
-public class FromStatement {
+public class FromStatement implements Statement {
 
 	private List<TableSpec> tableSpecs;
 

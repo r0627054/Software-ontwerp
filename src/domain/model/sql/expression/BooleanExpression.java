@@ -29,8 +29,13 @@ public class BooleanExpression implements Expression {
 			throw new SqlException("Invalid boolean Expression");
 		}
 	}
-
+	
 	@Override
+	public String toString() {
+		return " " + this.getValue().toString() + " ";
+	}
+
+	/*@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj instanceof BooleanExpression && ((BooleanExpression) obj).getValue() == getValue();
 	}
@@ -44,4 +49,5 @@ public class BooleanExpression implements Expression {
 	public boolean smallerThan(Expression e) {
 		return e != null && e instanceof BooleanExpression && (((BooleanExpression)e).getValue() && !this.getValue());
 	}
+*/
 }

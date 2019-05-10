@@ -1,5 +1,8 @@
 package domain.model.sql.expression;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 
@@ -31,8 +34,29 @@ public class CellIdExpression implements Expression {
 			return false;
 		}
 	}
+	
+	public String getColumnNameOfCellId() {
+		return this.getValue().getColumnName();
+	}
 
+	public String getTableNameOfCellId() {
+		return this.getValue().getTableId();
+	}
+	
 	@Override
+	public String toString() {
+		return " " + this.getTableNameOfCellId() + "." + this.getColumnNameOfCellId() +" ";
+	}
+	
+	@Override
+	public List<CellId> getAllCellIds() {
+		List<CellId> result =new ArrayList<>();
+		result.add(this.getValue());
+		return result;
+	}
+	
+	
+	/*@Override
 	public boolean greaterThan(Expression e) {
 		// TODO Auto-generated method stub
 		return false;
@@ -42,5 +66,5 @@ public class CellIdExpression implements Expression {
 	public boolean smallerThan(Expression e) {
 		// TODO Auto-generated method stub
 		return false;
-	}
+	}*/
 }

@@ -9,6 +9,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.sql.expression.BooleanExpression;
+import domain.model.sql.expression.BracketExpression;
+import domain.model.sql.expression.CellIdExpression;
+import domain.model.sql.expression.Expression;
+import domain.model.sql.expression.LiteralNumberExpression;
+import domain.model.sql.expression.LiteralStringExpression;
+import domain.model.sql.expression.OperatorExpression;
 import domain.model.sql.statements.FromStatement;
 import domain.model.sql.statements.SelectStatement;
 import domain.model.sql.statements.WhereStatement;
@@ -88,6 +95,44 @@ public class SQLParser extends StreamTokenizer {
 		String colName = expectIdent();
 		return rowId + "." + colName;
 	}
+	
+	public Expression parseCellIdSqlExpression() {
+		String rowId = expectIdent();
+		expect('.');
+		String colName = expectIdent();
+		return new CellIdExpression(new CellId(rowId, colName));
+	}
+	
+	public Expression parsePrimarySqlExpression() {
+		switch (ttype) {
+		case TT_TRUE:
+			nextToken();
+			return new BooleanExpression(true);
+		case TT_FALSE:
+			nextToken();
+			return new BooleanExpression(false);
+		case TT_NUMBER: {
+			int value = (int) nval;
+			nextToken();
+			return new LiteralNumberExpression(value);
+		}
+		case '"': {
+			String value = sval;
+			nextToken();
+			return new LiteralStringExpression(value);
+		}
+		case TT_IDENT:
+			return parseCellIdSqlExpression();
+		case '(': {
+			nextToken();
+			Expression result = new BracketExpression(parseSqlExpression());
+			expect(')');
+			return result;
+		}
+		default:
+			throw error();
+		}
+	}
 
 	public String parsePrimaryExpr() {
 		switch (ttype) {
@@ -119,6 +164,8 @@ public class SQLParser extends StreamTokenizer {
 			throw error();
 		}
 	}
+	
+	
 
 	public String parseSum() {
 		String e = parsePrimaryExpr();
@@ -138,6 +185,24 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	public Expression parseSqlExpressionSum() {
+		Expression e = this.parsePrimarySqlExpression();
+		for (;;) {
+			switch (ttype) {
+			case '+':
+				nextToken();
+				e = new OperatorExpression(e, parsePrimarySqlExpression(), Operator.PLUS);
+				break;
+			case '-':
+				nextToken();
+				e = new OperatorExpression(e, parsePrimarySqlExpression(), Operator.MINUS);
+				break;
+			default:
+				return e;
+			}
+		}
+	}
+	
 	public String parseRelationalExpr() {
 		String e = parseSum();
 		switch (ttype) {
@@ -147,6 +212,23 @@ public class SQLParser extends StreamTokenizer {
 			char operator = (char) ttype;
 			nextToken();
 			return e + " " + operator + " " + parseSum();
+		default:
+			return e;
+		}
+	}
+	
+	public Expression parseSqlRelationalExpression() {
+		Expression e = parseSqlExpressionSum();
+		switch (ttype) {
+		case '=':
+			nextToken();
+			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.EQUAL);
+		case '<':
+			nextToken();
+			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.SMALLER);
+		case '>':
+			nextToken();
+			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.GREATER);
 		default:
 			return e;
 		}
@@ -162,6 +244,18 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
+	
+	public Expression parseSqlConjunctionExpression() {
+		Expression e = parseSqlRelationalExpression();
+		switch (ttype) {
+		case TT_AND:
+			nextToken();
+			return new OperatorExpression(e, parseSqlConjunctionExpression(), Operator.AND);
+		default:
+			return e;
+		}
+	}
+	
 
 	public String parseDisjunction() {
 		String e = parseConjunction();
@@ -173,9 +267,24 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
+	
+	public Expression parseSqlDisjunctionExpression() {
+		Expression e = parseSqlConjunctionExpression();
+		switch (ttype) {
+		case TT_OR:
+			nextToken();
+			return new OperatorExpression(e, parseSqlDisjunctionExpression(), Operator.OR);
+		default:
+			return e;
+		}
+	}
 
 	public String parseExpr() {
 		return parseDisjunction();
+	}
+	
+	public Expression parseSqlExpression() {
+		return parseSqlDisjunctionExpression();
 	}
 
 	public String parseQuery() {
@@ -277,7 +386,8 @@ public class SQLParser extends StreamTokenizer {
 	}
 
 	private WhereStatement createWhereStatement() {
-		return new WhereStatement();
+		expect(TT_WHERE);
+		return new WhereStatement(this.parseSqlExpression());
 	}
 
 	public static class ParseException extends RuntimeException {

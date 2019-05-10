@@ -55,5 +55,17 @@ public class Query {
 	public List<String> getAllUsedTables() {
 		return getFromStatement().getAllTables();
 	}
+	
+	public List<CellId> getAllCellIds(){
+		List<CellId> result =new ArrayList<>();
+		result.addAll(this.getSelectStatement().getAllCellIds());
+		result.addAll(this.getFromStatement().getAllCellIds());
+		result.addAll(this.getWhereStatement().getAllCellIds());
+		return result;
+	}
+
+	public Map<String, String> getDisplayToRealNamesMap() {
+		return this.getFromStatement().getDisplayToRealNamesMap();
+	}
 
 }

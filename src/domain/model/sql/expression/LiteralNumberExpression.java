@@ -28,8 +28,13 @@ public class LiteralNumberExpression implements Expression {
 			throw new SqlException("Invalid integer Expression.");
 		}
 	}
-
+	
 	@Override
+	public String toString() {
+		return " " + this.getValue() + " ";
+	}
+
+	/*@Override
 	public boolean equals(Object obj) {
 		return obj != null && obj instanceof LiteralNumberExpression
 				&& ((LiteralNumberExpression) obj).getValue() == this.getValue();
@@ -45,5 +50,5 @@ public class LiteralNumberExpression implements Expression {
 	public boolean smallerThan(Expression e) {
 		return e != null && e instanceof LiteralNumberExpression
 				&& ((LiteralNumberExpression) e).getValue() < this.getValue();
-	}
+	}*/
 }

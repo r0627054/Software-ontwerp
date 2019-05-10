@@ -25,14 +25,29 @@ public class ComputedTable extends Table {
 		this.setQuery(query);
 		setQueryTables(tables);
 		executeFromStatement();
-	}
-
-	private void executeFromStatement() {
-		FromStatement from = getQuery().getFromStatement();
-		checkValidColumnsAndTables(from);
-		Table result = this.executeSingleAndInnerJoins(from);
+		Table result = this.executeFromStatement();
+		//result = this.executeWhereStatement(result);
 		this.setColumns(result.getColumns());
 		this.setRows(result.getRows());
+	}
+
+	private Table executeWhereStatement(Table table) {
+		
+		//Create a empty table with correct columns
+		Table result = new Table(this.getName());
+		for (Column c : table.getColumns()) {
+			result.addColumn(c.blindCopy());
+		}
+		for (Row row : table.getRows()) {
+			
+		}
+		return null;
+	}
+
+	private Table executeFromStatement() {
+		FromStatement from = getQuery().getFromStatement();
+		checkValidColumnsAndTables();
+		return this.executeSingleAndInnerJoins(from);		
 	}
 	
 	
@@ -64,6 +79,7 @@ public class ComputedTable extends Table {
 						ArrayList<DomainCell> allRowCells = new ArrayList<>(subTotalRow.getCells());
 						allRowCells.addAll(newTableRow.getCells());
 						Row newRow = new Row(allRowCells);
+						
 						int leftComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames, innerSpec.getCellIdLeft(), from);
 						int rightComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames, innerSpec.getCellIdRight(), from);
 						DomainCell leftComparedObject = newRow.getCellAtIndex(leftComparedIndex);
@@ -109,9 +125,9 @@ public class ComputedTable extends Table {
 		return this.getQueryTables().get(i);
 	}
 
-	private void checkValidColumnsAndTables(FromStatement from) {
-		List<CellId> list = from.getAllCellIds();
-		Map<String, String> namesMap = from.getDisplayToRealNamesMap();
+	private void checkValidColumnsAndTables() {
+		List<CellId> list = this.getQuery().getAllCellIds();
+		Map<String, String> namesMap = this.getQuery().getDisplayToRealNamesMap();
 
 		for (CellId id : list) {
 			Table table = getTableOfName(namesMap.get(id.getTableId()));

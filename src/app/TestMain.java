@@ -27,15 +27,27 @@ public class TestMain {
 		//		+ "FROM TEST1 AS movie INNER JOIN TEST2 AS a ON movie.Age = movie.Name "
 		//		+ "WHERE movie.imdb_score > 7\r\n";
 
-		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS a INNER JOIN TEST2 AS b ON b.Studente = a.Student                 WHERE TRUE";
+		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
+				+ "    INNER JOIN TEST2 AS table2 ON table2.Ema = table1.Email    "
+				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
+				+ "         WHERE TRUE AND FALSE AND 55 AND (TRUE) AND table1.Email > 7 ";
 		
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
 		Query query = parser.getQueryFromString();
-
+		
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
-		System.out.println(comp);
+		/*System.out.println("TABLE1:\n");
+		System.out.println(tableList.get(0));
+		
+		System.out.println("TABLE3:\n");
+		System.out.println(tableList.get(2));
+		
+		System.out.println("\n\n\n");
+		
+		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
+		System.out.println(comp);*/
 	}
 
 	public static Table dummyTable1() {
@@ -134,10 +146,10 @@ public class TestMain {
 		DomainCell colCells3[] = { c21, c22, c23, c24 };
 		DomainCell colCells4[] = { c31, c32, c33, c34 };
 
-		Column col1 = new Column("Namee", ValueType.STRING);
-		Column col2 = new Column("Studente", ValueType.BOOLEAN);
-		Column col3 = new Column("Agee", ValueType.INTEGER);
-		Column col4 = new Column("Emaile", ValueType.EMAIL);
+		Column col1 = new Column("Na", ValueType.STRING);
+		Column col2 = new Column("Stude", ValueType.BOOLEAN);
+		Column col3 = new Column("A", ValueType.INTEGER);
+		Column col4 = new Column("Ema", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));
@@ -160,25 +172,25 @@ public class TestMain {
 	
 	
 	public static Table dummyTable3() {
-		DomainCell c01 = new DomainCell(ValueType.STRING, "Steven");
-		DomainCell c02 = new DomainCell(ValueType.STRING, "Mauro");
-		DomainCell c03 = new DomainCell(ValueType.STRING, "Dries");
-		DomainCell c04 = new DomainCell(ValueType.STRING, "Laurens");
+		DomainCell c01 = new DomainCell(ValueType.STRING, "Dirk");
+		DomainCell c02 = new DomainCell(ValueType.STRING, "Rita");
+		DomainCell c03 = new DomainCell(ValueType.STRING, "Jos");
+		DomainCell c04 = new DomainCell(ValueType.STRING, "Filip");
 
-		DomainCell c11 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c11 = new DomainCell(ValueType.BOOLEAN, false);
 		DomainCell c12 = new DomainCell(ValueType.BOOLEAN, true);
 		DomainCell c13 = new DomainCell(ValueType.BOOLEAN, null);
 		DomainCell c14 = new DomainCell(ValueType.BOOLEAN, false);
 
-		DomainCell c21 = new DomainCell(ValueType.INTEGER, 10);
+		DomainCell c21 = new DomainCell(ValueType.INTEGER, 20);
 		DomainCell c22 = new DomainCell(ValueType.INTEGER, 20);
-		DomainCell c23 = new DomainCell(ValueType.INTEGER, 30);
+		DomainCell c23 = new DomainCell(ValueType.INTEGER, 20);
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
 		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
-		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("S@"));
-		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("D@"));
-		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("L@"));
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
+		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
+		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
 
 		DomainCell c1[] = { c01, c11, c21, c31 };
 		DomainCell c2[] = { c02, c12, c22, c32 };
@@ -195,10 +207,10 @@ public class TestMain {
 		DomainCell colCells3[] = { c21, c22, c23, c24 };
 		DomainCell colCells4[] = { c31, c32, c33, c34 };
 
-		Column col1 = new Column("Nameee", ValueType.STRING);
-		Column col2 = new Column("Studentee", ValueType.BOOLEAN);
-		Column col3 = new Column("Ageee", ValueType.INTEGER);
-		Column col4 = new Column("Emailee", ValueType.EMAIL);
+		Column col1 = new Column("Nam", ValueType.STRING);
+		Column col2 = new Column("Studen", ValueType.BOOLEAN);
+		Column col3 = new Column("Ag", ValueType.INTEGER);
+		Column col4 = new Column("Emai", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));
