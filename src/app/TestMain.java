@@ -30,7 +30,7 @@ public class TestMain {
 		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
 				+ "    INNER JOIN TEST2 AS table2 ON table2.Ema = table1.Email    "
 				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
-				+ "         WHERE TRUE AND FALSE AND 55 AND (TRUE) AND table1.Email > 7 ";
+				+ "         WHERE (TRUE AND FALSE AND 55 AND (TRUE) AND table1.Email > 7 OR FALSE) OR table2.Ema = 99 ";
 		
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
@@ -38,6 +38,7 @@ public class TestMain {
 		Query query = parser.getQueryFromString();
 		
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
+		System.out.println(comp);
 		/*System.out.println("TABLE1:\n");
 		System.out.println(tableList.get(0));
 		
