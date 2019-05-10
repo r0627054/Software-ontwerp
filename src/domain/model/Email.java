@@ -41,7 +41,7 @@ public class Email {
 	 *         | email == null || !Email.hasOneAtSign(email)
 	 */
 	public void setEmail(String email) {
-		if(email == null || !Email.hasOneAtSign(email)) {
+		if (email == null || !Email.hasOneAtSign(email)) {
 			throw new IllegalArgumentException("The email string cannot equal null");
 		}
 		this.email = email;
@@ -54,7 +54,8 @@ public class Email {
 	 *        | emailString != null && emailString.indexOf("@") >= 0 && (emailString.indexOf("@") == emailString.lastIndexOf("@"))
 	 */
 	public static boolean hasOneAtSign(String emailString) {
-		return  emailString != null && emailString.indexOf("@") >= 0 && (emailString.indexOf("@") == emailString.lastIndexOf("@"));
+		return emailString != null && emailString.indexOf("@") >= 0
+				&& (emailString.indexOf("@") == emailString.lastIndexOf("@"));
 	}
 
 	/**
@@ -66,7 +67,7 @@ public class Email {
 	public boolean isEmpty() {
 		return this.getEmail() == null || this.getEmail().isEmpty();
 	}
-	
+
 	/**
 	 * The string representation of the email.
 	 * @return the String representation of the email (the email variable).
@@ -75,19 +76,24 @@ public class Email {
 	public String toString() {
 		return this.getEmail();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj != null && obj instanceof Email) {
+		if (obj != null && obj instanceof Email) {
 			Email castedMail = (Email) obj;
-			if(this.getEmail() == null && castedMail.getEmail() == null) {
+			if (this.getEmail() == null && castedMail.getEmail() == null) {
 				return true;
 			}
-			if(this.getEmail() != null && castedMail.getEmail() != null && this.getEmail().equals(castedMail.getEmail())) {
+			if (this.getEmail() != null && castedMail.getEmail() != null
+					&& this.getEmail().equals(castedMail.getEmail())) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public int compareTo(Email email) {
+		return this.getEmail().compareTo(email.getEmail());
 	}
 
 }

@@ -1,5 +1,9 @@
 package domain.model.sql.expression;
 
+import java.util.Map;
+
+import domain.model.Row;
+import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 
 public class BooleanExpression implements Expression {
@@ -29,25 +33,14 @@ public class BooleanExpression implements Expression {
 			throw new SqlException("Invalid boolean Expression");
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return " " + this.getValue().toString() + " ";
 	}
 
-	/*@Override
-	public boolean equals(Object obj) {
-		return obj != null && obj instanceof BooleanExpression && ((BooleanExpression) obj).getValue() == getValue();
-	}
-
 	@Override
-	public boolean greaterThan(Expression e) {
-		return e != null && e instanceof BooleanExpression && !((BooleanExpression)e).getValue() && this.getValue();
+	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
+		return this;
 	}
-
-	@Override
-	public boolean smallerThan(Expression e) {
-		return e != null && e instanceof BooleanExpression && (((BooleanExpression)e).getValue() && !this.getValue());
-	}
-*/
 }

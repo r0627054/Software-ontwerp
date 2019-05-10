@@ -12,10 +12,14 @@ import java.util.Map;
 import domain.model.sql.expression.BooleanExpression;
 import domain.model.sql.expression.BracketExpression;
 import domain.model.sql.expression.CellIdExpression;
+import domain.model.sql.expression.ConjunctionOperatorExpression;
+import domain.model.sql.expression.DisjunctionOperatorExpression;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.expression.LiteralNumberExpression;
 import domain.model.sql.expression.LiteralStringExpression;
+import domain.model.sql.expression.MathOperatorExpression;
 import domain.model.sql.expression.OperatorExpression;
+import domain.model.sql.expression.RelationalOperatorExpression;
 import domain.model.sql.statements.FromStatement;
 import domain.model.sql.statements.SelectStatement;
 import domain.model.sql.statements.WhereStatement;
@@ -191,11 +195,11 @@ public class SQLParser extends StreamTokenizer {
 			switch (ttype) {
 			case '+':
 				nextToken();
-				e = new OperatorExpression(e, parsePrimarySqlExpression(), Operator.PLUS);
+				e = new MathOperatorExpression(e, parsePrimarySqlExpression(), Operator.PLUS);
 				break;
 			case '-':
 				nextToken();
-				e = new OperatorExpression(e, parsePrimarySqlExpression(), Operator.MINUS);
+				e = new MathOperatorExpression(e, parsePrimarySqlExpression(), Operator.MINUS);
 				break;
 			default:
 				return e;
@@ -222,13 +226,13 @@ public class SQLParser extends StreamTokenizer {
 		switch (ttype) {
 		case '=':
 			nextToken();
-			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.EQUAL);
+			return new RelationalOperatorExpression(e, parseSqlExpressionSum(), Operator.EQUAL);
 		case '<':
 			nextToken();
-			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.SMALLER);
+			return new RelationalOperatorExpression(e, parseSqlExpressionSum(), Operator.SMALLER);
 		case '>':
 			nextToken();
-			return new OperatorExpression(e, parseSqlExpressionSum(), Operator.GREATER);
+			return new RelationalOperatorExpression(e, parseSqlExpressionSum(), Operator.GREATER);
 		default:
 			return e;
 		}
@@ -250,7 +254,7 @@ public class SQLParser extends StreamTokenizer {
 		switch (ttype) {
 		case TT_AND:
 			nextToken();
-			return new OperatorExpression(e, parseSqlConjunctionExpression(), Operator.AND);
+			return new ConjunctionOperatorExpression(e, parseSqlConjunctionExpression(), Operator.AND);
 		default:
 			return e;
 		}
@@ -273,7 +277,7 @@ public class SQLParser extends StreamTokenizer {
 		switch (ttype) {
 		case TT_OR:
 			nextToken();
-			return new OperatorExpression(e, parseSqlDisjunctionExpression(), Operator.OR);
+			return new DisjunctionOperatorExpression(e, parseSqlDisjunctionExpression(), Operator.OR);
 		default:
 			return e;
 		}

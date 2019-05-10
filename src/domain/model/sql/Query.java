@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.Column;
+import domain.model.Row;
+import domain.model.sql.expression.Expression;
 import domain.model.sql.statements.FromStatement;
 import domain.model.sql.statements.SelectStatement;
 import domain.model.sql.statements.WhereStatement;
@@ -63,9 +66,21 @@ public class Query {
 		result.addAll(this.getWhereStatement().getAllCellIds());
 		return result;
 	}
+	
+	public List<CellId> getCellIdsOfWhere(){
+		return this.getWhereStatement().getAllCellIds();
+	}
 
 	public Map<String, String> getDisplayToRealNamesMap() {
 		return this.getFromStatement().getDisplayToRealNamesMap();
+	}
+	
+	public List<String> getAllDisplayTableNames(){
+		return this.getFromStatement().getAllDisplayTableNames();
+	}
+
+	public Expression getWhereExpression() {
+		return getWhereStatement().getExpression();
 	}
 
 }

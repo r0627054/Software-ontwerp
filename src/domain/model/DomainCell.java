@@ -1,5 +1,7 @@
 package domain.model;
 
+import domain.model.sql.Operator;
+
 /**
  * A class of a cell involving a columType and a value.
  * 
@@ -91,12 +93,12 @@ public class DomainCell extends ObjectIdentifier {
 			throw new DomainException("Invalid value for this cell.");
 		this.value = value;
 	}
-	
-	public boolean hasSameValueAs(DomainCell cell) {
-		if(cell == null) {
+
+	private boolean hasSameValueAsCell(DomainCell cell) {
+		if (cell == null) {
 			return false;
 		}
-		if(this.getType() != null && cell.getType().equals(this.getType())) {
+		if (this.getType() != null && cell.getType().equals(this.getType())) {
 			ValueType type = this.getType();
 			try {
 				return type.haveSameValue(this.getValue(), cell.getValue());
@@ -106,13 +108,38 @@ public class DomainCell extends ObjectIdentifier {
 		}
 		return false;
 	}
-	
+
+	public boolean hasSameValueAs(Object obj) {
+		try {
+			return getType().haveSameValue(this.getValue(), obj);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	@Override
 	public String toString() {
-		if(this.getValue() == null) {
+		if (this.getValue() == null) {
 			return "null";
-		}else {
+		} else {
 			return this.getValue().toString();
+		}
+	}
+
+	public boolean compare(DomainCell rightCell, Operator op) {
+		return this.compare(rightCell.getValue(), op);
+	}
+	
+	public boolean compare(Object otherValue, Operator op) {
+		switch (op) {
+		case EQUAL:
+			return getType().haveSameValue(this.getValue(), otherValue);
+		case GREATER:
+			return getType().isGreaterThan(this.getValue(), otherValue);
+		case SMALLER:
+			return getType().isSmallerThan(this.getValue(), otherValue);
+		default:
+			throw new DomainException("Operator not implemented");
 		}
 	}
 }

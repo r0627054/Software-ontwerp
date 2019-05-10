@@ -85,7 +85,8 @@ public enum ValueType {
 			} else if (this.equals(ValueType.EMAIL)) {
 				String stringCast = String.valueOf(value);
 				Email email = new Email(stringCast);
-				return (Email.hasOneAtSign(stringCast) || stringCast.isEmpty()) && email.getClass().equals(this.getTypeClass());
+				return (Email.hasOneAtSign(stringCast) || stringCast.isEmpty())
+						&& email.getClass().equals(this.getTypeClass());
 			} else if (this.equals(ValueType.BOOLEAN)) {
 				if (value instanceof String
 						&& (String.valueOf(value).equals("true") || String.valueOf(value).equals("false"))) {
@@ -176,37 +177,47 @@ public enum ValueType {
 		}
 		return value;
 	}
-	
+
 	public boolean haveSameValue(Object value1, Object value2) {
-		//only call methode when both values are from the same type
-		//assuming that the already have the same type.
-		boolean result = false;
+		return this.compareTo(value1, value2) == 0;
+	}
+
+	public boolean isGreaterThan(Object value1, Object value2) {
+		return this.compareTo(value1, value2) == 1;
+	}
+
+	public boolean isSmallerThan(Object value1, Object value2) {
+		return this.compareTo(value1, value2) == -1;
+	}
+
+	private int compareTo(Object value1, Object value2) {
+		int result = -2;
+
 		if (value1 == null && value2 == null) {
-			result = true;
-		} else if(value1 != null && value2 != null) {
+			result = 0;
+		} else if (value1 != null && value2 != null) {
 			try {
 				if (this.equals(ValueType.STRING)) {
 					String casted1 = String.valueOf(value1);
 					String casted2 = String.valueOf(value2);
-					result = casted1.equals(casted2);
+					result = casted1.compareTo(casted2);
 				} else if (this.equals(ValueType.BOOLEAN)) {
-					Boolean casted1  = (boolean) value1;
-					Boolean casted2  = (boolean) value2;
-					result = casted1.equals(casted2);
+					Boolean casted1 = (boolean) value1;
+					Boolean casted2 = (boolean) value2;
+					result = casted1.compareTo(casted2);
 				} else if (this.equals(ValueType.INTEGER)) {
-					Integer casted1  = (int) value1;
-					Integer casted2  = (int) value2;
-					result = casted1.equals(casted2);
+					Integer casted1 = (int) value1;
+					Integer casted2 = (int) value2;
+					result = casted1.compareTo(casted2);
 				} else if (this.equals(ValueType.EMAIL)) {
-					Email casted1  = (Email) value1;
-					Email casted2  = (Email) value2;
-					result = casted1.equals(casted2);
+					Email casted1 = (Email) value1;
+					Email casted2 = (Email) value2;
+					result = casted1.compareTo(casted2);
 				}
 			} catch (Exception e) {
-				result = false;
+				result = -2;
 			}
-		}		
+		}
 		return result;
 	}
-
 }

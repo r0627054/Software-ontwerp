@@ -2,7 +2,9 @@ package domain.model.sql.expression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import domain.model.Row;
 import domain.model.sql.CellId;
 
 public interface Expression {
@@ -19,5 +21,5 @@ public interface Expression {
 	//boolean greaterThan(Expression e);
 	//boolean smallerThan(Expression e);
 	
-	//Expression simplify();
+	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap);
 }

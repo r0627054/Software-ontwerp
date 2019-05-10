@@ -28,9 +28,9 @@ public class TestMain {
 		//		+ "WHERE movie.imdb_score > 7\r\n";
 
 		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
-				+ "    INNER JOIN TEST2 AS table2 ON table2.Ema = table1.Email    "
-				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
-				+ "         WHERE (TRUE AND FALSE AND 55 AND (TRUE) AND table1.Email > 7 OR FALSE) OR table2.Ema = 99 ";
+//				+ "    INNER JOIN TEST3 AS table3 ON table3.Emai = table1.Email    "
+//				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
+				+ "         WHERE 1";
 		
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
@@ -39,16 +39,15 @@ public class TestMain {
 		
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
 		System.out.println(comp);
-		/*System.out.println("TABLE1:\n");
+		System.out.println("TABLE1:\n");
 		System.out.println(tableList.get(0));
 		
 		System.out.println("TABLE3:\n");
 		System.out.println(tableList.get(2));
 		
 		System.out.println("\n\n\n");
+	
 		
-		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
-		System.out.println(comp);*/
 	}
 
 	public static Table dummyTable1() {
@@ -68,7 +67,7 @@ public class TestMain {
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
 		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
-		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("S@"));
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
 		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("D@"));
 		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("L@"));
 

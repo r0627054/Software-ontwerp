@@ -2,7 +2,9 @@ package domain.model.sql.expression;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import domain.model.Row;
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 
@@ -13,7 +15,7 @@ public class CellIdExpression implements Expression {
 		this.setValue(cellId);
 	}
 
-	private CellId getValue() {
+	public CellId getValue() {
 		return value;
 	}
 
@@ -54,17 +56,10 @@ public class CellIdExpression implements Expression {
 		result.add(this.getValue());
 		return result;
 	}
-	
-	
-	/*@Override
-	public boolean greaterThan(Expression e) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 	@Override
-	public boolean smallerThan(Expression e) {
-		// TODO Auto-generated method stub
-		return false;
-	}*/
+	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
+		return this;
+	}
+
 }

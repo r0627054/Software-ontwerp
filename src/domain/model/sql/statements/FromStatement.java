@@ -85,4 +85,13 @@ public class FromStatement implements Statement {
 		return result;
 	}
 
+	public List<String> getAllDisplayTableNames() {
+		List<String> result = new ArrayList<>();
+
+		for (TableSpec ts : getTableSpecs()) {
+			result.add(ts.getDisplayTableName());
+		}
+		return result;
+	}
+
 }

@@ -7,7 +7,7 @@ import domain.model.sql.CellId;
 import domain.model.sql.Operator;
 import domain.model.sql.SqlException;
 
-public class OperatorExpression implements Expression {
+public abstract class OperatorExpression implements Expression {
 	private Expression leftExpression;
 	private Expression rightExpression;
 	private Operator operator;
@@ -68,6 +68,7 @@ public class OperatorExpression implements Expression {
 		result.addAll(this.getRightExpression().getAllCellIds());
 		return result;
 	}
+
 
 	/*@Override
 	public boolean equals(Object obj) {

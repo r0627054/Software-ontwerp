@@ -1,15 +1,19 @@
 package domain.model.sql.statements;
 
 import java.util.List;
+import java.util.Map;
 
+import domain.model.Column;
+import domain.model.Row;
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
+import domain.model.sql.expression.BooleanExpression;
 import domain.model.sql.expression.Expression;
 
 public class WhereStatement implements Statement {
 
 	private Expression expression;
-	
+
 	public WhereStatement(Expression parseSqlExpression) {
 		this.setExpression(parseSqlExpression);
 	}
@@ -19,12 +23,12 @@ public class WhereStatement implements Statement {
 	}
 
 	private void setExpression(Expression expression) {
-		if(expression == null) {
+		if (expression == null) {
 			throw new SqlException("The expression in the where statement cannot be null");
 		}
 		this.expression = expression;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "WHERE " + this.getExpression().toString();
@@ -34,4 +38,10 @@ public class WhereStatement implements Statement {
 	public List<CellId> getAllCellIds() {
 		return this.getExpression().getAllCellIds();
 	}
+
+	public boolean isRowValid(Row row, Map<CellId, Integer> cellIdMap) {
+		Expression result = this.getExpression().simplify(row, cellIdMap);
+		return result instanceof BooleanExpression && ((BooleanExpression) result).getValue();
+	}
+
 }

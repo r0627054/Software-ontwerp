@@ -1,5 +1,9 @@
 package domain.model.sql.expression;
 
+import java.util.Map;
+
+import domain.model.Row;
+import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 
 public class LiteralStringExpression implements Expression {
@@ -20,27 +24,15 @@ public class LiteralStringExpression implements Expression {
 		}
 		this.value = value;
 	}
-	
+
 	@Override
 	public String toString() {
 		return " \"" + this.getValue() + "\" ";
 	}
 
-	/*@Override
-	public boolean equals(Object obj) {
-		return obj != null && obj instanceof LiteralStringExpression
-				&& ((LiteralStringExpression) obj).getValue().equals(this.getValue());
+	@Override
+	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
+		return this;
 	}
 
-	@Override
-	public boolean greaterThan(Expression e) {
-		return e != null && e instanceof LiteralStringExpression
-				&& ((LiteralStringExpression) e).getValue().compareTo(this.getValue()) > 0;
-	}
-
-	@Override
-	public boolean smallerThan(Expression e) {
-		return e != null && e instanceof LiteralStringExpression
-				&& ((LiteralStringExpression) e).getValue().compareTo(this.getValue()) < 0;
-	}*/
 }
