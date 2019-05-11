@@ -333,14 +333,12 @@ public abstract class SubWindow implements PropertyChangeListener {
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
-
 		if (isWithinComponent(x, y, DRAG_BORDER_SIZE)) {
 			List<Component> currentClickListeners = new ArrayList<>(getClickListeners());
 			for (Component c : currentClickListeners) {
 				if (c.isWithinComponent(x, y)) {
 					c.mouseClicked(id, x, y, clickCount);
 				} else {
-//					System.out.println(c);
 					c.outsideClick(id, x, y, clickCount);
 				}
 			}
@@ -654,6 +652,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 		}
 		int change = width - this.width;
 		this.width = width;
+		
 		if (getTitleBar() != null) {
 			this.getTitleBar().changeWidth(change);
 		}

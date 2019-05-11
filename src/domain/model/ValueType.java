@@ -179,45 +179,55 @@ public enum ValueType {
 	}
 
 	public boolean haveSameValue(Object value1, Object value2) {
-		return this.compareTo(value1, value2) == 0;
+		try {
+			return this.compareTo(value1, value2) == 0;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public boolean isGreaterThan(Object value1, Object value2) {
-		return this.compareTo(value1, value2) == 1;
+		try {
+			return this.compareTo(value1, value2) > 0;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public boolean isSmallerThan(Object value1, Object value2) {
-		return this.compareTo(value1, value2) == -1;
+		try {
+			return this.compareTo(value1, value2) < 0;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private int compareTo(Object value1, Object value2) {
-		int result = -2;
-
 		if (value1 == null && value2 == null) {
-			result = 0;
+			return 0;
 		} else if (value1 != null && value2 != null) {
-			try {
-				if (this.equals(ValueType.STRING)) {
-					String casted1 = String.valueOf(value1);
-					String casted2 = String.valueOf(value2);
-					result = casted1.compareTo(casted2);
-				} else if (this.equals(ValueType.BOOLEAN)) {
-					Boolean casted1 = (boolean) value1;
-					Boolean casted2 = (boolean) value2;
-					result = casted1.compareTo(casted2);
-				} else if (this.equals(ValueType.INTEGER)) {
-					Integer casted1 = (int) value1;
-					Integer casted2 = (int) value2;
-					result = casted1.compareTo(casted2);
-				} else if (this.equals(ValueType.EMAIL)) {
-					Email casted1 = (Email) value1;
-					Email casted2 = (Email) value2;
-					result = casted1.compareTo(casted2);
+			if (this.equals(ValueType.STRING)) {
+				String casted1 = (String) value1;
+				String casted2 = (String) value2;
+				return casted1.compareTo(casted2);
+			} else if (this.equals(ValueType.BOOLEAN)) {
+				Boolean casted1 = (boolean) value1;
+				Boolean casted2 = (boolean) value2;
+				return casted1.compareTo(casted2);
+			} else if (this.equals(ValueType.INTEGER)) {
+				Integer casted1 = (int) value1;
+				Integer casted2 = (int) value2;
+				return casted1.compareTo(casted2);
+			} else if (this.equals(ValueType.EMAIL)) {
+				if (value1 instanceof Email && value2 instanceof String) {
+					return ((Email) value1).getEmail().compareTo((String) value2);
+				} else if (value2 instanceof Email && value1 instanceof String) {
+					return ((Email) value2).getEmail().compareTo((String) value1);
+				} else {
+					return ((Email) value2).getEmail().compareTo(((Email) value1).getEmail());
 				}
-			} catch (Exception e) {
-				result = -2;
 			}
 		}
-		return result;
+		throw new DomainException("Cannot compare two objects");
 	}
 }

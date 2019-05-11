@@ -23,14 +23,10 @@ public class TestMain {
 		tableList.add(dummyTable2());
 		tableList.add(dummyTable3());
 
-		//String sql = "SELECT movie.Name AS title "
-		//		+ "FROM TEST1 AS movie INNER JOIN TEST2 AS a ON movie.Age = movie.Name "
-		//		+ "WHERE movie.imdb_score > 7\r\n";
-
 		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
 //				+ "    INNER JOIN TEST3 AS table3 ON table3.Emai = table1.Email    "
 //				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
-				+ "         WHERE 1";
+				+ "         WHERE table1.Student > TRUE";
 		
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 

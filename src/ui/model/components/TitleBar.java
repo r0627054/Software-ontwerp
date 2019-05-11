@@ -41,7 +41,7 @@ public class TitleBar extends Container implements PropertyChangeListener {
 		addComponent(getTitle());
 		closeButton.addPropertyChangeListener(this);
 	}
-	
+
 	/**
 	 * Draws a line under the title bar.
 	 *  method to handle the other drawings (components in the container).
@@ -126,6 +126,16 @@ public class TitleBar extends Container implements PropertyChangeListener {
 			throw new IllegalArgumentException("Cannot set empty title in TitleBar");
 		}
 		this.title = title;
+	}
+
+	@Override
+	public int getOffsetX() {
+		return this.getX() + this.getWidth();
+	}
+
+	@Override
+	public int getOffsetY() {
+		return this.getY() + this.getHeight();
 	}
 
 }
