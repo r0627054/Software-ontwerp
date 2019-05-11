@@ -51,7 +51,11 @@ public class FormWindow extends TableWindow {
 
 		for (List<Object> key : getTableData().keySet()) {
 			LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
+			Set<UUID> idList = cellData.keySet();
+			
 			Object[] list = cellData.values().toArray();
+			UUID cellUUID = idList.iterator().next();
+
 
 			getContainer().addComponent(new TextField(x1, y, 200, 40, key.get(1).toString()));
 
@@ -59,7 +63,8 @@ public class FormWindow extends TableWindow {
 					? cellValue = String.valueOf(list[getCurrentRow()])
 					: "";
 
-			EditableTextField etf = new EditableTextField(x2, y, 200, 40, cellValue, null, null, null, null);
+
+			EditableTextField etf = new EditableTextField(x2, y, 200, 40, cellValue, cellUUID,ChangeEventType.ROW_EDITED , null, null);
 			getContainer().addComponent(etf);
 
 			this.addStoredListener(etf);
@@ -115,6 +120,7 @@ public class FormWindow extends TableWindow {
 				// Do nothing
 			}
 		}
+		
 
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
@@ -127,6 +133,7 @@ public class FormWindow extends TableWindow {
 		}
 	}
 
+	
 	private void createNewRow() {
 		this.getSupport().firePropertyChange(new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_ROW, null, null));
 		this.updateForm();
@@ -134,7 +141,6 @@ public class FormWindow extends TableWindow {
 
 	private void deleteCurrentRow() {
 		UICell deleteCell = null;
-		System.out.println(tableData);
 		
 		Set<UUID> keyList = null;
 		for (Component c : getContainer().getComponentsList()) {
@@ -142,19 +148,14 @@ public class FormWindow extends TableWindow {
 			for (List<Object> key : getTableData().keySet()) {
 				
 				LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
-				System.out.println(cellData);
 				Object[] list = cellData.values().toArray();
 				keyList = cellData.keySet();
 				break;
 			}
-			
-			
-
-			System.err.println(tableData);
 		}
 		
 		UUID deleteCellID = keyList.iterator().next();		
-		System.out.println(deleteCell);
+
 		this.getSupport().firePropertyChange(new PropertyChangeEvent(deleteCellID,ChangeEventType.DELETE_ROW, null, null));
 	
 		
