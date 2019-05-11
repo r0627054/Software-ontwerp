@@ -30,6 +30,7 @@ public class DeleteRowChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		UUID cellIdOfFirstElement = evt.getSource();
+		System.err.println(cellIdOfFirstElement);
 		UUID tableId = uifacade.getCurrentTableId();
 
 		try {
