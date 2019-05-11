@@ -9,12 +9,13 @@ import domain.model.Row;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.statements.FromStatement;
 import domain.model.sql.statements.SelectStatement;
+import domain.model.sql.statements.Statement;
 import domain.model.sql.statements.WhereStatement;
 
 public class Query {
-	private SelectStatement selectStatement;
-	private FromStatement fromStatement;
-	private WhereStatement whereStatement;
+	private Statement selectStatement;
+	private Statement fromStatement;
+	private Statement whereStatement;
 
 	public Query(SelectStatement selectStatement, FromStatement fromStatement, WhereStatement whereStatement) {
 		this.setSelectStatement(selectStatement);
@@ -22,7 +23,7 @@ public class Query {
 		this.setWhereStatement(whereStatement);
 	}
 
-	public SelectStatement getSelectStatement() {
+	public Statement getSelectStatement() {
 		return selectStatement;
 	}
 
@@ -34,7 +35,7 @@ public class Query {
 	}
 
 	public FromStatement getFromStatement() {
-		return fromStatement;
+		return (FromStatement) fromStatement;
 	}
 
 	private void setFromStatement(FromStatement fromStatement) {
@@ -45,7 +46,7 @@ public class Query {
 	}
 
 	public WhereStatement getWhereStatement() {
-		return whereStatement;
+		return (WhereStatement) whereStatement;
 	}
 
 	private void setWhereStatement(WhereStatement whereStatement) {
