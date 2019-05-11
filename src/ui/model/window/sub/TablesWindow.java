@@ -41,6 +41,7 @@ public class TablesWindow extends SubWindow {
 		super(null, TITLE_STRING_PREFIX);
 		this.createTableList(map);
 	}
+	
 
 	/**
 	 * Creates a tableList out of the given information.
@@ -165,7 +166,6 @@ public class TablesWindow extends SubWindow {
 
 	private void ctrlFPressed() {
 		UICell selected = getTableList().getSelectedCell();
-
 		if (selected != null) {
 			EditableTextField etf = (EditableTextField) selected.getComponent();
 			getSupport().firePropertyChange(new PropertyChangeEvent(selected.getId(),

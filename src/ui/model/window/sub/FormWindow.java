@@ -4,7 +4,11 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
+
+import javax.swing.text.TabExpander;
 
 import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
@@ -124,16 +128,36 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void createNewRow() {
-
+		this.getSupport().firePropertyChange(new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_ROW, null, null));
+		this.updateForm();
 	}
 
 	private void deleteCurrentRow() {
 		UICell deleteCell = null;
-
+		System.out.println(tableData);
+		
+		Set<UUID> keyList = null;
 		for (Component c : getContainer().getComponentsList()) {
-//			deleteCell = 
+			
+			for (List<Object> key : getTableData().keySet()) {
+				
+				LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
+				System.out.println(cellData);
+				Object[] list = cellData.values().toArray();
+				keyList = cellData.keySet();
+				break;
+			}
+			
+			
+
+			System.err.println(tableData);
 		}
-		this.getSupport().firePropertyChange(new PropertyChangeEvent(ChangeEventType.DELETE_ROW));
+		
+		UUID deleteCellID = keyList.iterator().next();		
+		System.out.println(deleteCell);
+		this.getSupport().firePropertyChange(new PropertyChangeEvent(deleteCellID,ChangeEventType.DELETE_ROW, null, null));
+	
+		
 	}
 
 	private int getCurrentRow() {
