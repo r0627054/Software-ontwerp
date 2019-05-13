@@ -16,7 +16,7 @@ public class ConjunctionOperatorExpression extends OperatorExpression {
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
 		Expression right = getRightExpression().simplify(row, cellIdMap);
-		
+		 
 		if (left instanceof BooleanExpression && ((BooleanExpression) left).getValue()
 				&& right instanceof BooleanExpression && ((BooleanExpression) right).getValue()) {
 			return new BooleanExpression(true);

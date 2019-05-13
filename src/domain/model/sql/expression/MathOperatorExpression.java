@@ -23,7 +23,7 @@ public class MathOperatorExpression extends OperatorExpression {
 				result = ((LiteralNumberExpression) left).getValue() + ((LiteralNumberExpression) right).getValue();
 			} else if (getOperator().equals(Operator.MINUS)) {
 				result = ((LiteralNumberExpression) left).getValue() - ((LiteralNumberExpression) right).getValue();
-			}
+			} 
 			return new LiteralNumberExpression(result);
 
 		} else if (left instanceof LiteralStringExpression && right instanceof LiteralStringExpression) {

@@ -59,7 +59,7 @@ public class CellIdExpression implements Expression {
 
 	@Override
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
-		return this;
+		return this; 
 	}
 
 }

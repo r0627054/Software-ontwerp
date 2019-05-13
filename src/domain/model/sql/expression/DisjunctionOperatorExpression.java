@@ -20,7 +20,7 @@ public class DisjunctionOperatorExpression extends OperatorExpression {
 		if ((left instanceof BooleanExpression && ((BooleanExpression) left).getValue())
 				|| (right instanceof BooleanExpression && ((BooleanExpression) right).getValue())) {
 			return new BooleanExpression(true);
-		} else
+		} else 
 			return new BooleanExpression(false);
 	}
 
