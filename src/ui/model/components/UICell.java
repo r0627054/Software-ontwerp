@@ -61,6 +61,12 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 		this.setComponent(cellComponent);
 		setComponentCoordinates(0, 0, defaultWidth, defaultHeight);
 	}
+	
+	public UICell(Component cellComponent, UUID id, int width, int height) {
+		super(0, 0, width, height, false, id);
+		this.setComponent(cellComponent);
+		setComponentCoordinates(0, 0, width, height);
+	}
 
 	/**
 	 * Initialise this new cell with all the given variables and a cellType equals null.

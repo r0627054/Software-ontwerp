@@ -108,7 +108,7 @@ public class CanvasWindow {
 	}
 
 	private void handleKeyEvent_(KeyEvent e) {
-		System.out.println(e);
+//		System.out.println(e);
 		if (recording != null)
 			recording.items.add(new KeyEventItem(e.getID(), e.getKeyCode(), e.getKeyChar()));
 		handleKeyEvent(e.getID(), e.getKeyCode(), e.getKeyChar());
@@ -185,7 +185,7 @@ public class CanvasWindow {
 
 		@Override
 		protected void paintComponent(Graphics g) {
-			System.out.println("Painting..." + ++i);
+//			System.out.println("Painting..." + ++i);
 			super.paintComponent(g);
 
 			if (recording != null) {

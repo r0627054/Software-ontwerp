@@ -210,7 +210,7 @@ public class EditableTextField extends TextField {
 				} else if (keyCode == KeyEvent.VK_ESCAPE) {
 					this.setText(getDefaultValue());
 					textResetSubmit();
-				} else if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.') {
+				} else if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.' || keyChar == ' ') {
 					String text = getText();
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();

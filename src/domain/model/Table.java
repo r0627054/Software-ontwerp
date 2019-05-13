@@ -32,6 +32,7 @@ public class Table extends ObjectIdentifier {
 
 	/**
 	 * Initialise a new Table with a given name.
+	 * @param tableId 
 	 * 
 	 * @param name 
 	 * 			The name given to a table.
@@ -39,6 +40,10 @@ public class Table extends ObjectIdentifier {
 	 * 			| setName(name)
 	 */
 	public Table(String name) {
+		this.setName(name);
+	}
+	public Table(UUID tableId, String name) {
+		super(tableId);
 		this.setName(name);
 	}
 

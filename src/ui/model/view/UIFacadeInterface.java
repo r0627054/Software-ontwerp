@@ -62,9 +62,9 @@ public interface UIFacadeInterface {
 
 	/**
 	 * Updates all the tablesSubWindows with the given data.
-	 * @param tablesListData The data needed to update a tablesSubWindow.
+	 * @param map The data needed to update a tablesSubWindow.
 	 */
-	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
+	public void updateTablesSubWindows(Map<UUID, List<String>> map);
 
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
@@ -91,9 +91,9 @@ public interface UIFacadeInterface {
 	/**
 	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
 	 * 
-	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
+	 * @param map  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
 	 */
-	public void createTablesSubWindow(Map<UUID, String> data);
+	public void createTablesSubWindow(Map<UUID, List<String>> map);
 
 	/**
 	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain

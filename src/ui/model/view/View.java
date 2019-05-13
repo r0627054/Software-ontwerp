@@ -356,7 +356,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @throws IllegalArgumentException when the data equals null.
 	 *           | data == null
 	 */
-	public void createTablesWindow(Map<UUID, String> data) {
+	public void createTablesWindow(Map<UUID, List<String>> data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Cannot create a tables window when the data equals null");
 		}
@@ -389,7 +389,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | for (SubWindow sw : this.getSubWindows(null)) 
 	 *         |	sw.updateContent(tablesListData);
 	 */
-	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
+	public void updateTablesSubWindows(Map<UUID, List<String>> tablesListData) {
 		for (SubWindow sw : this.getSubWindows(null)) {
 			sw.updateContent(tablesListData);
 		}
