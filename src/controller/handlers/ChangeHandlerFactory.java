@@ -32,7 +32,6 @@ public final class ChangeHandlerFactory {
 			ChangeHandlerInterface handler = (ChangeHandlerInterface) value.getActionHandler().newInstance();
 
 			if (handler != null) {
-				System.out.println("EVT" + evt.getSource());
 				handler.handleChange(evt, uifacade, domainfacade);
 			}
 		} catch (Exception e) {

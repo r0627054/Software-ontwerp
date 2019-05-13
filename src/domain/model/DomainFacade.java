@@ -678,8 +678,6 @@ public class DomainFacade implements DomainFacadeInterface {
 	 */
 	@Override
 	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement) {
-		System.out.println("domainFacade" + cellIdOfFirstElement);
-
 		if (tableId == null || cellIdOfFirstElement == null) {
 			throw new DomainException("Cannot get a column of a table with a null id.");
 		}

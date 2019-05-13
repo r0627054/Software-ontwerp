@@ -1,6 +1,8 @@
 package ui.model.window.sub;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import javax.swing.text.TabExpander;
 
 import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;
+import ui.model.components.CheckBox;
 import ui.model.components.Component;
 import ui.model.components.Container;
 import ui.model.components.EditableTextField;
@@ -44,31 +47,49 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void updateForm() {
+		this.setStoredListeners(new ArrayList<Component>());
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 		int y = getY() + 50;
 		int x1 = getX() + 50;
 		int x2 = getX() + 100;
+		
+		
 
-		for (List<Object> key : getTableData().keySet()) {
+		for (List<Object> key : getTableData().keySet()) {  // vb select name row 
+			
+			Boolean isBoolean = key.get(key.size() -1).toString().contains("Boolean");
+			
 			LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
 			Set<UUID> idList = cellData.keySet();
 			
-			Object[] list = cellData.values().toArray();
-			UUID cellUUID = idList.iterator().next();
+			Object[] list = cellData.values().toArray();		
+			Object[] idArray = (Object[]) idList.toArray();
+			UUID cellUUID = getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1 // vb get id of number 2
+					? cellUUID = (UUID) idArray[getCurrentRow()]
+					: UUID.randomUUID();
 
 
 			getContainer().addComponent(new TextField(x1, y, 200, 40, key.get(1).toString()));
 
-			String cellValue = getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1
+			String cellValue = getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1 // vb get value of number 2
 					? cellValue = String.valueOf(list[getCurrentRow()])
 					: "";
 
+			if(isBoolean) {
+				CheckBox cb = new CheckBox(x2, y, 200, 40, Boolean.valueOf(cellValue), cellUUID, ChangeEventType.ROW_EDITED);
+				getContainer().addComponent(cb);
+				this.addStoredListener(cb);
+				cb.addPropertyChangeListener(this);
+			}
+			else {
+				EditableTextField etf = new EditableTextField(x2, y, 200, 40, cellValue, cellUUID,ChangeEventType.ROW_EDITED , null, null);
+				getContainer().addComponent(etf);
+				this.addStoredListener(etf);
+				etf.addPropertyChangeListener(this);
+			}
 
-			EditableTextField etf = new EditableTextField(x2, y, 200, 40, cellValue, cellUUID,ChangeEventType.ROW_EDITED , null, null);
-			getContainer().addComponent(etf);
 
-			this.addStoredListener(etf);
-			etf.addPropertyChangeListener(this);
+			
 
 			y += 40;
 		}
