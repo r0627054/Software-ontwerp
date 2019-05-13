@@ -32,6 +32,7 @@ public class Table extends ObjectIdentifier {
 
 	/**
 	 * Initialise a new Table with a given name.
+	 * @param tableId 
 	 * 
 	 * @param name 
 	 * 			The name given to a table.
@@ -39,6 +40,10 @@ public class Table extends ObjectIdentifier {
 	 * 			| setName(name)
 	 */
 	public Table(String name) {
+		this.setName(name);
+	}
+	public Table(UUID tableId, String name) {
+		super(tableId);
 		this.setName(name);
 	}
 
@@ -219,6 +224,9 @@ public class Table extends ObjectIdentifier {
 	public void addRow(Row r) {
 		if (r == null) {
 			throw new DomainException("A new row cannot be null when adding a row");
+		}
+		for (int i = 0; i < r.getCells().size(); i++) {
+			this.getColumns().get(i).addCell(r.getCells().get(i));
 		}
 		this.rows.add(r);
 	}

@@ -22,8 +22,8 @@ public class ComputedTable extends Table {
 	private Query query;
 	private List<Table> queryTables;
 
-	public ComputedTable(String name, Query query, List<Table> tables) {
-		super(name);
+	public ComputedTable(UUID tableId, String name, Query query, List<Table> tables) {
+		super(tableId, name);
 		this.setQuery(query);
 		setQueryTables(tables);
 		executeFromStatement();
@@ -180,11 +180,7 @@ public class ComputedTable extends Table {
 		return false;
 	}
 
-	public Map<List<Object>, LinkedHashMap<UUID, Object>> getData() {
-		return null;
-	}
-
-	private Query getQuery() {
+	public Query getQuery() {
 		return query;
 	}
 

@@ -122,7 +122,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *          
 	 */
 	@Override
-	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
+	public void updateTablesSubWindows(Map<UUID, List<String>> tablesListData) {
 		this.getView().updateTablesSubWindows(tablesListData);
 	}
 
@@ -164,7 +164,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 *         | this.getView().createTablesWindow(data)
 	 */
 	@Override
-	public void createTablesSubWindow(Map<UUID, String> data) {
+	public void createTablesSubWindow(Map<UUID, List<String>> data) {
 		this.getView().createTablesWindow(data);
 	}
 

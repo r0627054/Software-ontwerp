@@ -23,11 +23,13 @@ public class TestMain {
 		tableList.add(dummyTable2());
 		tableList.add(dummyTable3());
 
-		String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
+		//String sql = "SELECT qfd.dd AS h              FROM TEST1 AS table1   "
 //				+ "    INNER JOIN TEST3 AS table3 ON table3.Emai = table1.Email    "
 //				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
-				+ "         WHERE table1.Student > TRUE";
+		//		+ "         WHERE table1.Student > TRUE";
 		
+		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Grade = w.Age          WHERE stud.Name < \"Mauro\"";
+				 
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
@@ -35,10 +37,13 @@ public class TestMain {
 		
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
 		System.out.println(comp);
-		System.out.println("TABLE1:\n");
+		System.out.println("Students:\n");
 		System.out.println(tableList.get(0));
+		 
+		System.out.println("Work:\n");
+		System.out.println(tableList.get(1));
 		
-		System.out.println("TABLE3:\n");
+		System.out.println("Group:\n");
 		System.out.println(tableList.get(2));
 		
 		System.out.println("\n\n\n");
@@ -57,9 +62,9 @@ public class TestMain {
 		DomainCell c13 = new DomainCell(ValueType.BOOLEAN, null);
 		DomainCell c14 = new DomainCell(ValueType.BOOLEAN, false);
 
-		DomainCell c21 = new DomainCell(ValueType.INTEGER, 10);
+		DomainCell c21 = new DomainCell(ValueType.INTEGER, 5);
 		DomainCell c22 = new DomainCell(ValueType.INTEGER, 20);
-		DomainCell c23 = new DomainCell(ValueType.INTEGER, 30);
+		DomainCell c23 = new DomainCell(ValueType.INTEGER, 15);
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
 		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
@@ -84,7 +89,7 @@ public class TestMain {
 
 		Column col1 = new Column("Name", ValueType.STRING);
 		Column col2 = new Column("Student", ValueType.BOOLEAN);
-		Column col3 = new Column("Age", ValueType.INTEGER);
+		Column col3 = new Column("Grade", ValueType.INTEGER);
 		Column col4 = new Column("Email", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
@@ -92,7 +97,7 @@ public class TestMain {
 		col3.addCells(Arrays.asList(colCells3));
 		col4.addCells(Arrays.asList(colCells4));
 
-		Table persons = new Table("TEST1");
+		Table persons = new Table("Students");
 
 		persons.addColumn(col1);
 		persons.addColumn(col2);
@@ -107,17 +112,17 @@ public class TestMain {
 	}
 
 	public static Table dummyTable2() {
-		DomainCell c01 = new DomainCell(ValueType.STRING, "Steven");
-		DomainCell c02 = new DomainCell(ValueType.STRING, "Mauro");
+		DomainCell c01 = new DomainCell(ValueType.STRING, "John");
+		DomainCell c02 = new DomainCell(ValueType.STRING, "Quinten");
 		DomainCell c03 = new DomainCell(ValueType.STRING, "Dries");
-		DomainCell c04 = new DomainCell(ValueType.STRING, "Laurens");
+		DomainCell c04 = new DomainCell(ValueType.STRING, "Frederik");
 
 		DomainCell c11 = new DomainCell(ValueType.BOOLEAN, true);
 		DomainCell c12 = new DomainCell(ValueType.BOOLEAN, true);
 		DomainCell c13 = new DomainCell(ValueType.BOOLEAN, null);
 		DomainCell c14 = new DomainCell(ValueType.BOOLEAN, false);
 
-		DomainCell c21 = new DomainCell(ValueType.INTEGER, 10);
+		DomainCell c21 = new DomainCell(ValueType.INTEGER, 20);
 		DomainCell c22 = new DomainCell(ValueType.INTEGER, 20);
 		DomainCell c23 = new DomainCell(ValueType.INTEGER, 30);
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
@@ -142,17 +147,17 @@ public class TestMain {
 		DomainCell colCells3[] = { c21, c22, c23, c24 };
 		DomainCell colCells4[] = { c31, c32, c33, c34 };
 
-		Column col1 = new Column("Na", ValueType.STRING);
-		Column col2 = new Column("Stude", ValueType.BOOLEAN);
-		Column col3 = new Column("A", ValueType.INTEGER);
-		Column col4 = new Column("Ema", ValueType.EMAIL);
+		Column col1 = new Column("Firstname", ValueType.STRING);
+		Column col2 = new Column("Smart", ValueType.BOOLEAN);
+		Column col3 = new Column("Age", ValueType.INTEGER);
+		Column col4 = new Column("Email", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));
 		col3.addCells(Arrays.asList(colCells3));
 		col4.addCells(Arrays.asList(colCells4));
 
-		Table persons = new Table("TEST2");
+		Table persons = new Table("Work");
 
 		persons.addColumn(col1);
 		persons.addColumn(col2);
@@ -184,9 +189,9 @@ public class TestMain {
 		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
 
 		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
-		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
-		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
-		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("Info@R.be"));
+		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("Info@J.be"));
+		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("Info@F.be"));
 
 		DomainCell c1[] = { c01, c11, c21, c31 };
 		DomainCell c2[] = { c02, c12, c22, c32 };
@@ -203,17 +208,17 @@ public class TestMain {
 		DomainCell colCells3[] = { c21, c22, c23, c24 };
 		DomainCell colCells4[] = { c31, c32, c33, c34 };
 
-		Column col1 = new Column("Nam", ValueType.STRING);
-		Column col2 = new Column("Studen", ValueType.BOOLEAN);
-		Column col3 = new Column("Ag", ValueType.INTEGER);
-		Column col4 = new Column("Emai", ValueType.EMAIL);
+		Column col1 = new Column("Nickname", ValueType.STRING);
+		Column col2 = new Column("Paid", ValueType.BOOLEAN);
+		Column col3 = new Column("Money", ValueType.INTEGER);
+		Column col4 = new Column("Email", ValueType.EMAIL);
 
 		col1.addCells(Arrays.asList(colCells1));
 		col2.addCells(Arrays.asList(colCells2));
 		col3.addCells(Arrays.asList(colCells3));
 		col4.addCells(Arrays.asList(colCells4));
 
-		Table persons = new Table("TEST3");
+		Table persons = new Table("Group");
 
 		persons.addColumn(col1);
 		persons.addColumn(col2);

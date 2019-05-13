@@ -8,6 +8,7 @@ import domain.model.Row;
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 import domain.model.sql.expression.BooleanExpression;
+import domain.model.sql.expression.CellIdExpression;
 import domain.model.sql.expression.Expression;
 
 public class WhereStatement implements Statement {
@@ -41,7 +42,7 @@ public class WhereStatement implements Statement {
 
 	public boolean isRowValid(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression result = this.getExpression().simplify(row, cellIdMap);
-		return result instanceof BooleanExpression && ((BooleanExpression) result).getValue();
+		return (result instanceof BooleanExpression && ((BooleanExpression) result).getValue());
 	}
 
 }

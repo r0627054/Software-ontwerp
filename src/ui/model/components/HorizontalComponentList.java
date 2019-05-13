@@ -57,7 +57,7 @@ public class HorizontalComponentList extends Container {
 	/**
 	 * Automatically positions all the components inside the HorizontalComponentList.
 	 */
-	private void positionChildren() {
+	protected void positionChildren() {
 		int tempX = getX();
 		for (Component c : getComponentsList()) {
 			c.setX(tempX);
