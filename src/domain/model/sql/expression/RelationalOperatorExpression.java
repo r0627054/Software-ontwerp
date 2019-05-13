@@ -13,7 +13,7 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		super(leftExpression, rightExpression, operator);
 	}
 
-	@Override
+	@Override 
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
 		Expression right = getRightExpression().simplify(row, cellIdMap);

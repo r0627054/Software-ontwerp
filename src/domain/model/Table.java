@@ -225,6 +225,9 @@ public class Table extends ObjectIdentifier {
 		if (r == null) {
 			throw new DomainException("A new row cannot be null when adding a row");
 		}
+		for (int i = 0; i < r.getCells().size(); i++) {
+			this.getColumns().get(i).addCell(r.getCells().get(i));
+		}
 		this.rows.add(r);
 	}
 
