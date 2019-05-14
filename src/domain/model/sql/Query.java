@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import domain.model.Column;
+import domain.model.DomainCell;
 import domain.model.Row;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.statements.FromStatement;
@@ -84,14 +85,18 @@ public class Query {
 		return this.getFromStatement().getAllDisplayTableNames();
 	}
 
-	public Expression getWhereExpression() {
-		return getWhereStatement().getExpression();
-	}
-
 	@Override
 	public String toString() {
 		return getSelectStatement().toString() + " " + getFromStatement().toString() + " "
 				+ getWhereStatement().toString();
 	}
-
+	
+	public boolean isRowValid(Row row, Map<CellId, Integer> cellIdMap) {
+		return this.getWhereStatement().isRowValid(row, cellIdMap);
+	}
+	
+	public DomainCell computeCell(Row row, Map<CellId, Integer> cellIdMap, int specIndex) {
+		return this.getSelectStatement().computeCell(row, cellIdMap,specIndex);
+	}
+	
 }

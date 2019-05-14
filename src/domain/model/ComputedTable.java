@@ -41,17 +41,18 @@ public class ComputedTable extends Table {
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
 
-		for (ColumnSpec cs : select.getColumnSpecs()) {
-			tempTable.addColumn(new Column(cs.getColumnName()));
-		}
-
-		for (Column col : getColumns()) {
+		//for (ColumnSpec cs : select.getColumnSpecs()) {
+		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 			
-
+			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));
+			//---------------------------------------------------------------------------------------------
+			for (Row row : this.getRows()) {
+				DomainCell cell = getQuery().computeCell(row,cellIdMap,specIndex);
+				c.addCell(cell);
+			}
+			tempTable.addColumn(c);
 		}
 
-//		List<Column> resultColumns = select.executeColumnSpecs(getColumns(), cellIdMap);
-		// TODO set rows
 		return result;
 	}
 
@@ -62,7 +63,7 @@ public class ComputedTable extends Table {
 		for (Column c : table.getColumns()) {
 			result.addColumn(c.blindCopy());
 		}
-//		Expression whereExpression = getQuery().getWhereExpression();
+
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfWhere());
 
 		for (Row row : table.getRows()) {

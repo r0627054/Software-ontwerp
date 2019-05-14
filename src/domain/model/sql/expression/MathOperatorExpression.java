@@ -1,6 +1,8 @@
 package domain.model.sql.expression;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import domain.model.DomainCell;
 import domain.model.Row;
@@ -20,22 +22,25 @@ public class MathOperatorExpression extends OperatorExpression {
 
 		if (left instanceof LiteralNumberExpression && right instanceof LiteralNumberExpression) {
 			int result = 0;
+			int subtotal = 0;
+			LiteralNumberExpression lne = ((LiteralNumberExpression) left);
+			LiteralNumberExpression rne = ((LiteralNumberExpression) right);
 			if (getOperator().equals(Operator.PLUS)) {
-				result = ((LiteralNumberExpression) left).getValue() + ((LiteralNumberExpression) right).getValue();
+				result = lne.getValue() + rne.getValue();
+				subtotal = lne.getSubTotal() + rne.getSubTotal();
 			} else if (getOperator().equals(Operator.MINUS)) {
-				result = ((LiteralNumberExpression) left).getValue() - ((LiteralNumberExpression) right).getValue();
-			} 
-			return new LiteralNumberExpression(result);
-
-		} else if (left instanceof LiteralStringExpression && right instanceof LiteralStringExpression) {
-			if (getOperator().equals(Operator.PLUS)) {
-				String result = ((LiteralStringExpression) left).getValue()
-						+ ((LiteralStringExpression) right).getValue();
-				return new LiteralNumberExpression(result);
+				result = lne.getValue() - rne.getValue();
+				subtotal = lne.getSubTotal() - rne.getSubTotal();
 			}
+			Map<UUID,Integer> usedIds = this.mergeUsedIds(lne.getUsedIds(), rne.getUsedIds());
+			//return new LiteralNumberExpression(result);
+			return new LiteralNumberExpression(result, subtotal, usedIds);
+
 		} else if(left instanceof CellIdExpression && right instanceof CellIdExpression) {
 			DomainCell leftCell = this.getDomainCellOfOutOfCellId(left, row, cellIdMap);
 			DomainCell rightCell = this.getDomainCellOfOutOfCellId(right, row, cellIdMap);
+			Map<UUID,Integer> usedIds = new HashMap<>();
+			//-----------------------------------------------------------------------------------
 			if( (leftCell.getValue() instanceof Integer) && (rightCell.getValue() instanceof Integer) ) {
 				int result = 0;
 				Integer lc = (Integer) leftCell.getValue();
@@ -73,6 +78,18 @@ public class MathOperatorExpression extends OperatorExpression {
 			}
 		}
 		return new BooleanExpression(false);
+	}
+	
+	private Map<UUID, Integer> mergeUsedIds(Map<UUID, Integer> map1, Map<UUID, Integer> map2){
+		Map<UUID, Integer> result = new HashMap<>(map1);
+		for (UUID id : map2.keySet()) {
+			if(map1.containsKey(id)) {
+				result.put(id, (map1.get(id)+map2.get(id)) );
+			}else {
+				result.put(id, map2.get(id));
+			}
+		}
+		return result;
 	}
 	
 	private DomainCell getDomainCellOfOutOfCellId(Expression exp, Row row, Map<CellId, Integer> cellIdMap) {
