@@ -47,6 +47,8 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 
 		try {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
+//			System.out.println(columnId);
+//			System.out.println(cellId);
 			ValueType columnValueType = domainfacade.getValueTypeOfColumn(tableId, columnId);
 
 			if (columnValueType.equals(ValueType.INTEGER)) {
