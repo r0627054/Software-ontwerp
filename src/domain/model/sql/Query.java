@@ -23,12 +23,12 @@ public class Query {
 		this.setWhereStatement(whereStatement);
 	}
 
-	public Statement getSelectStatement() {
-		return selectStatement;
+	public SelectStatement getSelectStatement() {
+		return (SelectStatement) selectStatement;
 	}
 
 	private void setSelectStatement(SelectStatement selectStatement) {
-		if(selectStatement == null) {
+		if (selectStatement == null) {
 			throw new SqlException("Cannot set null selectStatement.");
 		}
 		this.selectStatement = selectStatement;
@@ -39,7 +39,7 @@ public class Query {
 	}
 
 	private void setFromStatement(FromStatement fromStatement) {
-		if(fromStatement == null) {
+		if (fromStatement == null) {
 			throw new SqlException("Cannot set null fromStatement.");
 		}
 		this.fromStatement = fromStatement;
@@ -50,7 +50,7 @@ public class Query {
 	}
 
 	private void setWhereStatement(WhereStatement whereStatement) {
-		if(whereStatement == null) {
+		if (whereStatement == null) {
 			throw new SqlException("Cannot set null whereStatement.");
 		}
 		this.whereStatement = whereStatement;
@@ -59,29 +59,39 @@ public class Query {
 	public List<String> getAllUsedTables() {
 		return getFromStatement().getAllTables();
 	}
-	
-	public List<CellId> getAllCellIds(){
-		List<CellId> result =new ArrayList<>();
+
+	public List<CellId> getAllCellIds() {
+		List<CellId> result = new ArrayList<>();
 		result.addAll(this.getSelectStatement().getAllCellIds());
 		result.addAll(this.getFromStatement().getAllCellIds());
 		result.addAll(this.getWhereStatement().getAllCellIds());
 		return result;
 	}
-	
-	public List<CellId> getCellIdsOfWhere(){
+
+	public List<CellId> getCellIdsOfWhere() {
 		return this.getWhereStatement().getAllCellIds();
+	}
+
+	public List<CellId> getCellIdsOfSelect() {
+		return getSelectStatement().getAllCellIds();
 	}
 
 	public Map<String, String> getDisplayToRealNamesMap() {
 		return this.getFromStatement().getDisplayToRealNamesMap();
 	}
-	
-	public List<String> getAllDisplayTableNames(){
+
+	public List<String> getAllDisplayTableNames() {
 		return this.getFromStatement().getAllDisplayTableNames();
 	}
 
 	public Expression getWhereExpression() {
 		return getWhereStatement().getExpression();
+	}
+
+	@Override
+	public String toString() {
+		return getSelectStatement().toString() + " " + getFromStatement().toString() + " "
+				+ getWhereStatement().toString();
 	}
 
 }

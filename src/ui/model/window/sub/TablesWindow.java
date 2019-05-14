@@ -31,30 +31,29 @@ public class TablesWindow extends SubWindow {
 	/**
 	 * Initialises a new TablesWindow with the given information.
 	 *
-	 * @param map
+	 * @param data
 	 *        | Containing all the UUID's and names of the tables.
 	 * @effect the full Tables list is created and all the information is set.
 	 *        | super(null, TITLE_STRING_PREFIX);
 	 *        |	this.createTableList(map);
 	 */
-	public TablesWindow(Map<UUID, String> map) {
+	public TablesWindow(Map<UUID, List<String>> data) {
 		super(null, TITLE_STRING_PREFIX);
-		this.createTableList(map);
+		this.createTableList(data);
 	}
-	
 
 	/**
 	 * Creates a tableList out of the given information.
-	 * @param map
+	 * @param data
 	 *        | the map containing all the information for the list.
 	 * @effect A new Table is created.
 	 */
-	private void createTableList(Map<UUID, String> map) {
+	private void createTableList(Map<UUID, List<String>> data) {
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		TableList tableList = new TableList(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getWidth(),
 				getHeight());
-		List<UICell> cellList = tableList.createTableList(map);
+		List<UICell> cellList = tableList.createTableList(data);
 
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
@@ -70,14 +69,14 @@ public class TablesWindow extends SubWindow {
 
 	/**
 	 * Updates the old table and initialises it with all the new information.
-	 * @param map
+	 * @param data
 	 *        | the map containing all the information for the list.
 	 * @effect the current table is updated with the new information.
 	 */
-	public void updateTables(Map<UUID, String> map) {
+	public void updateTables(Map<UUID, List<String>> data) {
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
-		this.createTableList(map);
+		this.createTableList(data);
 		this.setPaused(false);
 	}
 
@@ -91,7 +90,7 @@ public class TablesWindow extends SubWindow {
 	public void updateContent(Object... data) {
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
-		updateTables((Map<UUID, String>) data[0]);
+		updateTables((Map<UUID, List<String>>) data[0]);
 		this.setPaused(false);
 	}
 
@@ -107,7 +106,7 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void pauseSubWindow(int columnIndex, UUID id) {
-		UICell errorCell = this.getTableList().getCell(id);
+		UICell errorCell = this.getTableList().getCell(id, columnIndex);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
 		this.setPaused(true);
@@ -132,9 +131,8 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void throwError(UUID id, int columnIndex, Object newValue) {
-		for (Component c : getContainer().getComponentsList()) {
-			c.throwError(id);
-		}
+		UICell errorCell = this.getTableList().getCell(id, columnIndex);
+		errorCell.throwError(id);
 	}
 
 	/**
@@ -153,7 +151,7 @@ public class TablesWindow extends SubWindow {
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		super.keyPressed(id, keyCode, keyChar);
-		
+
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
 		} else if (keyCode == 70 && this.isCtrlPressed()) {

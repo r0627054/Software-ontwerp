@@ -31,16 +31,16 @@ public class TableNameChangeHandler implements ChangeHandlerInterface {
 	@Override
 	public void handleChange(PropertyChangeEvent evt, UIFacadeInterface uifacade, DomainFacadeInterface domainfacade) {
 		String newTableName = (String) evt.getNewValue();
-		UUID id = evt.getSource();
+		UUID tableId = evt.getSource();
 
 		try {
-			domainfacade.updateTableName(id, newTableName);
+			domainfacade.updateTableName(tableId, newTableName);
 			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
-			uifacade.updateTableRowsAndDesignSubWindows(id, newTableName, domainfacade.getColumnCharacteristics(id),
-					domainfacade.getTableWithIds(id));
+			uifacade.updateTableRowsAndDesignSubWindows(tableId, newTableName, domainfacade.getColumnCharacteristics(tableId),
+					domainfacade.getTableWithIds(tableId), domainfacade.isComputedTable(tableId));
 		} catch (Exception e) {
-			uifacade.throwError(id, 0, 0);
-			uifacade.pauseCurrentSubWindow(0, id);
+			uifacade.throwError(tableId, 0, 0);
+			uifacade.pauseCurrentSubWindow(0, tableId);
 		}
 	}
 

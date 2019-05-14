@@ -16,7 +16,11 @@ import controller.handlers.ChangeEventType;
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
-public class TableList extends VerticalComponentList {
+public class TableList extends HorizontalComponentList {
+
+	public static final int TABLE_NAMES_WIDTH = 100;
+	public static final int QUERY_WIDTH = 700;
+	public static final int ROW_HEIGHT = 30;
 
 	/**
 	 * Initialise this new TableList with all the given variables.
@@ -33,33 +37,49 @@ public class TableList extends VerticalComponentList {
 	 *         | super(x, y, width, height)
 	 */
 	public TableList(int x, int y, int width, int height) {
-		super(x, y, width, height);
+		super(x, y);
 	}
 
 	/**
 	 * Creates the full table with all the data and components.
 	 * an automatically positions the children.
 	 * 
-	 * @param map
+	 * @param data
 	 *        | Map containing all the information used to create the tableList.
 	 *        | The UUID of the table and the name of the table.
 	 * @param pcl
 	 *        | The propertyChangeListener used in the TableList (Observer)
 	 */
-	public List<UICell> createTableList(Map<UUID, String> map) {
+	public List<UICell> createTableList(Map<UUID, List<String>> data) {
 		List<UICell> listOfAllCells = new ArrayList<>();
 		ChangeEventType submitAction = ChangeEventType.TABLE_CHANGE_NAME;
 		ChangeEventType deleteAction = ChangeEventType.DELETE_TABLE;
 		ChangeEventType doubleClickAction = ChangeEventType.OPEN_TABLESUBWINDOW;
+		ChangeEventType queryAction = ChangeEventType.CREATE_COMPUTED_TABLE;
 
-		for (Map.Entry<UUID, String> entry : map.entrySet()) {
-			TextField textField = new EditableTextField(0, 0, 200, 40, entry.getValue(), entry.getKey(), submitAction,
-					doubleClickAction, deleteAction);
-			UICell cell = new UICell(textField, entry.getKey());
-			this.addComponent(cell);
-			listOfAllCells.add(cell);
+		VerticalComponentList tableList = new VerticalComponentList(getX(), getY(), TABLE_NAMES_WIDTH, getHeight());
+		VerticalComponentList queryList = new VerticalComponentList(getX(), getY(), QUERY_WIDTH, getHeight());
+
+		for (Map.Entry<UUID, List<String>> entry : data.entrySet()) {
+			TextField textField = new EditableTextField(0, 0, TABLE_NAMES_WIDTH, ROW_HEIGHT, entry.getValue().get(0),
+					entry.getKey(), submitAction, doubleClickAction, deleteAction);
+			UICell textCell = new UICell(textField, entry.getKey(), TABLE_NAMES_WIDTH, ROW_HEIGHT);
+
+			String queryString = entry.getValue().size() > 1 ? entry.getValue().get(1) : "";
+			TextField queryField = new EditableTextField(0, 0, QUERY_WIDTH, ROW_HEIGHT, queryString, entry.getKey(),
+					queryAction, null, null);
+			UICell queryCell = new UICell(queryField, entry.getKey(), QUERY_WIDTH, ROW_HEIGHT);
+
+			queryList.addComponent(queryCell);
+			tableList.addComponent(textCell);
+			listOfAllCells.add(textCell);
+			listOfAllCells.add(queryCell);
 		}
-		this.positionChildren();
+		tableList.positionChildren();
+		queryList.positionChildren();
+
+		this.addComponent(tableList);
+		this.addComponent(queryList);
 		return listOfAllCells;
 	}
 
@@ -70,9 +90,11 @@ public class TableList extends VerticalComponentList {
 	private boolean hasCurrentError() {
 		boolean hasCurrentlyError = false;
 		for (Component c : getComponentsList()) {
-			UICell cell = (UICell) c;
-			if (cell.isError()) {
-				hasCurrentlyError = true;
+			for (Component comp : ((VerticalComponentList) c).getComponentsList()) {
+				UICell cell = (UICell) comp;
+				if (cell.isError()) {
+					hasCurrentlyError = true;
+				}
 			}
 		}
 		return hasCurrentlyError;
@@ -130,19 +152,20 @@ public class TableList extends VerticalComponentList {
 		if (!hasCurrentError()) {
 			if (id == MouseEvent.MOUSE_PRESSED) {
 
-				if (clickCount == 2 && y > this.getOffsetY()) {
+				if (clickCount == 2 && y > (this.getY() + getMaxHeightFromChildren())) {
 					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}
-
-				for (Component c : getComponentsList()) {
-					UICell cell = (UICell) c;
-					c.outsideClick(id, x, y, clickCount);
-					EditableTextField textField = (EditableTextField) cell.getComponent();
-					if (y > c.getY() && y < c.getOffsetY() && x < c.getX()) {
-						textField.setSelectedForDelete(true);
-					} else {
-
-						textField.setSelectedForDelete(false);
+				VerticalComponentList namesList = (VerticalComponentList) getComponentsList().get(0);
+				for (Component comp : namesList.getComponentsList()) {
+					if (!comp.isWithinComponent(x, y)) {
+						UICell cell = (UICell) comp;
+						cell.outsideClick(id, x, y, clickCount);
+						EditableTextField textField = (EditableTextField) cell.getComponent();
+						if (y > comp.getY() && y < comp.getOffsetY() && x < comp.getX()) {
+							textField.setSelectedForDelete(true);
+						} else {
+							textField.setSelectedForDelete(false);
+						}
 					}
 				}
 			}
@@ -154,15 +177,14 @@ public class TableList extends VerticalComponentList {
 	 * 
 	 * @param tableId
 	 *        | The id of the column.
+	 * @param columnIndex 
 	 * @return the cell at the given index in the given column.
 	 */
-	public UICell getCell(UUID tableId) {
-		for (Component comp : getComponentsList()) {
-			if (comp instanceof UICell) {
-
-				if (((UICell) comp).getId() == tableId) {
-					return ((UICell) comp);
-				}
+	public UICell getCell(UUID tableId, int columnIndex) {
+		VerticalComponentList list = (VerticalComponentList) this.getComponentsList().get(columnIndex);
+		for (Component c : list.getComponentsList()) {
+			if (((UICell) c).getId() == tableId) {
+				return ((UICell) c);
 			}
 		}
 		return null;
@@ -170,11 +192,13 @@ public class TableList extends VerticalComponentList {
 
 	public UICell getSelectedCell() {
 		for (Component c : getComponentsList()) {
-			if (c instanceof UICell) {
-				if (((UICell) c).getComponent() instanceof EditableTextField) {
-					EditableTextField etf = (EditableTextField) ((UICell) c).getComponent();
-					if (etf.isSelected()) {
-						return (UICell) c;
+			for (Component comp : ((VerticalComponentList) c).getComponentsList()) {
+				if (comp instanceof UICell) {
+					if (((UICell) comp).getComponent() instanceof EditableTextField) {
+						EditableTextField etf = (EditableTextField) ((UICell) comp).getComponent();
+						if (etf.isSelected()) {
+							return (UICell) comp;
+						}
 					}
 				}
 			}

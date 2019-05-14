@@ -313,6 +313,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @param tableName    The table name of the table that should be shown.
 	 * @param table        A map containing all the information of to show the
 	 *                     table.
+	 * @param isComputed 
 	 * @param columnTypes  A map containing a class for each column, to determine
 	 *                     if the value is null | What the column type should be.
 	 * @throws IllegalArgumentException when the id equals null or when the table equals null.
@@ -320,11 +321,11 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @effect The tableRowsWindow is created and is added to the list of subWindows.
 	 *         | this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	 */
-	public void createTableRowsWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
+	public void createTableRowsWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputed) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
-		this.addCreatedTable(new TableRowsWindow(id, tableName, table));
+		this.addCreatedTable(new TableRowsWindow(id, tableName, table, isComputed));
 	}
 
 	/**
@@ -356,7 +357,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @throws IllegalArgumentException when the data equals null.
 	 *           | data == null
 	 */
-	public void createTablesWindow(Map<UUID, String> data) {
+	public void createTablesWindow(Map<UUID, List<String>> data) {
 		if (data == null) {
 			throw new IllegalArgumentException("Cannot create a tables window when the data equals null");
 		}
@@ -389,7 +390,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 *         | for (SubWindow sw : this.getSubWindows(null)) 
 	 *         |	sw.updateContent(tablesListData);
 	 */
-	public void updateTablesSubWindows(Map<UUID, String> tablesListData) {
+	public void updateTablesSubWindows(Map<UUID, List<String>> tablesListData) {
 		for (SubWindow sw : this.getSubWindows(null)) {
 			sw.updateContent(tablesListData);
 		}
@@ -400,6 +401,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @param id            The id of the table.
 	 * @param designData    The data used for the design.
 	 * @param tableRowsData The data used in the rows.
+	 * @param isComputedTable 
 	 * @param rowsClassData The rows class data.
 	 * @effect The information is updated for the different tables with the given tableId.
 	 *         |for (SubWindow sw : this.getSubWindows(id)) 
@@ -407,9 +409,9 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable) {
 		for (SubWindow sw : this.getSubWindows(id)) {
-			sw.updateContent(tableName, designData, tableRowsData);
+			sw.updateContent(tableName, designData, tableRowsData, isComputedTable);
 		}
 	}
 

@@ -41,9 +41,10 @@ public interface DomainFacadeInterface {
 	public void updateColumnName(UUID tableId, UUID columnId, String newName);
 
 	/**
-	 * Returns a map of all the table names. The key is the UUID of the table and the value is the name of table.
+	 * Returns a map of all the table names and queries. 
+	 * The key is the UUID of the table and the value is a list containing the name of table and maybe the query.
 	 */
-	public Map<UUID, String> getTableNames();
+	public Map<UUID, List<String>> getTableNames();
 
 	/**
 	 * Returns a map with all the table information of the given tableId.
@@ -294,5 +295,9 @@ public interface DomainFacadeInterface {
 	 * @return the truth value of the table with an id
 	 */
 	public boolean isTableWithIdEmpty(UUID tableId);
+
+	public void createComputedTable(UUID tableId, String query);
+
+	public boolean isComputedTable(UUID tableId);
 
 }

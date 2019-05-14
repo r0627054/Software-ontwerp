@@ -54,28 +54,30 @@ public interface UIFacadeInterface {
 	 * @param tableName    The table name of the table that should be shown.
 	 * @param table        A map containing all the information of to show the
 	 *                     table.
+	 * @param isComputedTable Is this table a computedTable 
 	 * @param columnTypes  A map containing a class for each column, to determine
 	 *                     if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputedTable);
 
 	/**
 	 * Updates all the tablesSubWindows with the given data.
-	 * @param tablesListData The data needed to update a tablesSubWindow.
+	 * @param map The data needed to update a tablesSubWindow.
 	 */
-	public void updateTablesSubWindows(Map<UUID, String> tablesListData);
+	public void updateTablesSubWindows(Map<UUID, List<String>> map);
 
 	/**
 	 * Updates all the tableRows and design subWindows associated with the given tableId.
 	 * @param id            The id of the table.
 	 * @param designData    The data used for the design.
 	 * @param tableRowsData The data used in the rows.
+	 * @param isComputedTable Is this table a computed table
 	 * @param rowsClassData The rows class data.
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable);
 
 	/**
 	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
@@ -91,9 +93,9 @@ public interface UIFacadeInterface {
 	/**
 	 * Creates a Table window with the given data. The subWindow is added to the list of subWindows.
 	 * 
-	 * @param data  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
+	 * @param map  The data containing all the information needed to create a TablesWindow. (The table UUID and tableName)
 	 */
-	public void createTablesSubWindow(Map<UUID, String> data);
+	public void createTablesSubWindow(Map<UUID, List<String>> map);
 
 	/**
 	 * Pauses the subWindow. Only one 'error' cell should be editable of a certain

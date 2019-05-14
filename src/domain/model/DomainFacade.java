@@ -140,10 +140,16 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Returns a map of all the table names.
 	 * The key is the UUID of the table and the value is the name of table.
 	 */
-	public Map<UUID, String> getTableNames() {
-		Map<UUID, String> map = new HashMap<>();
+	public Map<UUID, List<String>> getTableNames() {
+		Map<UUID, List<String>> map = new HashMap<>();
 		for (Table table : getTableMap().values()) {
-			map.put(table.getId(), table.getName());
+			List<String> tableNameAndQueryList = new ArrayList<>();
+			tableNameAndQueryList.add(table.getName());
+			if (table instanceof ComputedTable) {
+				tableNameAndQueryList.add(((ComputedTable) table).getQuery().toString());
+			}
+
+			map.put(table.getId(), tableNameAndQueryList);
 		}
 		return map;
 	}
@@ -672,8 +678,6 @@ public class DomainFacade implements DomainFacadeInterface {
 	 */
 	@Override
 	public UUID getRowId(UUID tableId, UUID cellIdOfFirstElement) {
-		System.out.println("domainFacade" +cellIdOfFirstElement);
-		
 		if (tableId == null || cellIdOfFirstElement == null) {
 			throw new DomainException("Cannot get a column of a table with a null id.");
 		}
@@ -706,8 +710,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.getTableWithIds(tableId).isEmpty();
 	}
 
+	@Override
 	public void createComputedTable(UUID tableId, String query) {
-		SQLParser parser = new SQLParser(query);
+		String parsedQuery = SQLParser.parseQuery(query);
+		SQLParser parser = new SQLParser(parsedQuery);
 		Query newQuery = parser.getQueryFromString();
 
 		List<Table> tables = new ArrayList<>();
@@ -723,7 +729,7 @@ public class DomainFacade implements DomainFacadeInterface {
 			// If no table found, throw error (inside function)
 			Table table = getTableOfTableName(tableName);
 
-			//2 computed tables cannot point to each other
+			// 2 computed tables cannot point to each other
 			if (table instanceof ComputedTable && ((ComputedTable) table).containsMatchingTable(oldTableName)) {
 				throw new DomainException(
 						"A new computed table cannot create a table with a reference to another computed table.");
@@ -731,14 +737,14 @@ public class DomainFacade implements DomainFacadeInterface {
 
 			tables.add(table);
 		}
-
-		ComputedTable newTable = new ComputedTable(getTableNameOfId(tableId), newQuery, tables);
-
 		this.deleteTable(tableId);
-//		return newTable.getData();
+		ComputedTable newTable = new ComputedTable(tableId, oldTableName, newQuery, tables);
+		this.getTableMap().put(tableId, newTable);
 	}
 
-	public void updateComputedTable(UUID tableId, String query) {
-
+	@Override
+	public boolean isComputedTable(UUID tableId) {
+		return getTable(tableId) instanceof ComputedTable;
 	}
+
 }
