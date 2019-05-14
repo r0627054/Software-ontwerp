@@ -83,6 +83,8 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		} else if (left instanceof LiteralStringExpression && right instanceof LiteralStringExpression) {
 			return compareTwoStrings(((LiteralStringExpression) left).getValue(),
 					((LiteralStringExpression) right).getValue());
+		} else if (left instanceof BooleanExpression && right instanceof BooleanExpression) {
+			return compareTwoBooleans(((BooleanExpression) left).getValue(), ((BooleanExpression) right).getValue());
 		}
 
 		return new BooleanExpression(false);
@@ -142,6 +144,25 @@ public class RelationalOperatorExpression extends OperatorExpression {
 			break;
 		case EQUAL:
 			result = left.compareTo(right) == 0;
+			break;
+		default:
+			result = false;
+			break;
+		}
+		return new BooleanExpression(result);
+	}
+	
+	private BooleanExpression compareTwoBooleans(boolean left, boolean right) {
+		boolean result;
+		switch(getOperator()) {
+		case GREATER:
+			result = left && !right;
+			break;
+		case SMALLER:
+			result = !left && right;
+			break;
+		case EQUAL:
+			result = (left && right) || (!left && !right);
 			break;
 		default:
 			result = false;

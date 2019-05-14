@@ -28,8 +28,10 @@ public class TestMain {
 //				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
 		//		+ "         WHERE table1.Student > TRUE";
 		
-		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Grade = w.Age          WHERE stud.Name < \"Mauro\"";
-				 
+		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
+				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
+				//+ "         WHERE TRUE";
+			     + "    WHERE  (stud.Grade + 15 = 20 OR stud.Name = \"Dries\") AND  w.Age - stud.Grade = 15";
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);

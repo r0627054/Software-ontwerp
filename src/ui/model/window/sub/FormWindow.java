@@ -33,7 +33,7 @@ public class FormWindow extends TableWindow {
 	/**
 	 * Variable holding the row number which is displayed.
 	 */
-	private int currentRow = 0;
+	private int currentRow = 0; 
 
 	private Map<List<Object>, LinkedHashMap<UUID, Object>> tableData;
 
@@ -44,6 +44,7 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void updateForm() {
+		
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 		int y = getY() + 50;
 		int x1 = getX() + 50;
