@@ -54,11 +54,12 @@ public interface UIFacadeInterface {
 	 * @param tableName    The table name of the table that should be shown.
 	 * @param table        A map containing all the information of to show the
 	 *                     table.
+	 * @param isComputedTable Is this table a computedTable 
 	 * @param columnTypes  A map containing a class for each column, to determine
 	 *                     if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputedTable);
 
 	/**
 	 * Updates all the tablesSubWindows with the given data.
@@ -71,11 +72,12 @@ public interface UIFacadeInterface {
 	 * @param id            The id of the table.
 	 * @param designData    The data used for the design.
 	 * @param tableRowsData The data used in the rows.
+	 * @param isComputedTable Is this table a computed table
 	 * @param rowsClassData The rows class data.
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable);
 
 	/**
 	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.

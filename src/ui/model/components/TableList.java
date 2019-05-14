@@ -19,7 +19,7 @@ import controller.handlers.ChangeEventType;
 public class TableList extends HorizontalComponentList {
 
 	public static final int TABLE_NAMES_WIDTH = 100;
-	public static final int QUERY_WIDTH = 500;
+	public static final int QUERY_WIDTH = 700;
 	public static final int ROW_HEIGHT = 30;
 
 	/**
@@ -80,8 +80,6 @@ public class TableList extends HorizontalComponentList {
 
 		this.addComponent(tableList);
 		this.addComponent(queryList);
-
-		this.positionChildren();
 		return listOfAllCells;
 	}
 
@@ -154,7 +152,7 @@ public class TableList extends HorizontalComponentList {
 		if (!hasCurrentError()) {
 			if (id == MouseEvent.MOUSE_PRESSED) {
 
-				if (clickCount == 2 && y > this.getY() + getSumHeightFromChildren()) {
+				if (clickCount == 2 && y > (this.getY() + getMaxHeightFromChildren())) {
 					propertyChanged(null, ChangeEventType.CREATE_TABLE, null, null);
 				}
 				VerticalComponentList namesList = (VerticalComponentList) getComponentsList().get(0);

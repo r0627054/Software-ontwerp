@@ -4,11 +4,8 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
-
-import javax.swing.text.TabExpander;
 
 import controller.handlers.ChangeEventType;
 import controller.observer.PropertyChangeEvent;

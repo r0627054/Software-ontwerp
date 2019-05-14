@@ -29,17 +29,24 @@ public class TableRowsWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING_PREFIX = "Table rows of table: ";
 
+	public static final String COMPUTED_PREFIX = "COMPUTED ";
+
+	private boolean isComputedTable;
+
 	/**
 	 * Initialises a new TableRowsWindow with the given information.
 	 * @param tableId    The id of the table.
 	 * @param tableName  The name of the table.
 	 * @param table      The information of the table.
+	 * @param isComputed 
 	 * @effect The TableRowsWindow is created with the given information.
 	 *         | super(tableId, TITLE_STRING_PREFIX + tableName);
 	 *         | createTable(table);
 	 */
-	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
-		super(tableId, TITLE_STRING_PREFIX + tableName);
+	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table,
+			boolean isComputed) {
+		super(tableId, (isComputed ? COMPUTED_PREFIX : "") + TITLE_STRING_PREFIX + tableName);
+		setComputedTable(isComputed);
 		createTable(table);
 	}
 
@@ -52,7 +59,8 @@ public class TableRowsWindow extends TableWindow {
 	private void createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
-		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId());
+		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId(),
+				isComputedTable());
 		List<UICell> cellList = rowsTable.createTable(tableInformation);
 
 		for (UICell c : cellList) {
@@ -128,6 +136,19 @@ public class TableRowsWindow extends TableWindow {
 	}
 
 	/**
+	 * Updates the content of the SubWindow with the given tableData.
+	 * @param tableData the table data needed for the update
+	 * @effect The table data is updated.
+	 */
+	@Override
+	public void updateContent(Object... tableData) {
+		super.updateContent(tableData);
+		this.updateRowsTable((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
+		this.setComputedTable((boolean) tableData[3]);
+		this.setTableName(isComputedTable() ? COMPUTED_PREFIX : "") +TITLE_STRING_PREFIX + (String) tableData[0]);
+	}
+
+	/**
 	 * Handles the crtl enter behaviour.
 	 * Fires the CREATE_TABLEDESIGNWINDOW propertyChangeEvent
 	 */
@@ -141,27 +162,14 @@ public class TableRowsWindow extends TableWindow {
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		super.keyPressed(id, keyCode, keyChar);
-
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
-		} else if (keyCode == KeyEvent.VK_ENTER && this.isCtrlPressed()) {
+		} else if (keyCode == KeyEvent.VK_ENTER && this.isCtrlPressed() && !isComputedTable()) {
 			this.ctrlEntrPressed();
 			this.setCtrlPressed(false);
 		} else {
 			setCtrlPressed(false);
 		}
-	}
-
-	/**
-	 * Updates the content of the SubWindow with the given tableData.
-	 * @param tableData the table data needed for the update
-	 * @effect The table data is updated.
-	 */
-	@Override
-	public void updateContent(Object... tableData) {
-		super.updateContent(tableData);
-		this.updateRowsTable((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
-		this.setTableName(TITLE_STRING_PREFIX + (String) tableData[0]);
 	}
 
 	/**
@@ -179,6 +187,20 @@ public class TableRowsWindow extends TableWindow {
 		for (Component c : getContainer().getComponentsList()) {
 			c.throwError(id);
 		}
+	}
+
+	/**
+	 * @return the isComputedTable
+	 */
+	private boolean isComputedTable() {
+		return isComputedTable;
+	}
+
+	/**
+	 * @param isComputedTable the isComputedTable to set
+	 */
+	private void setComputedTable(boolean isComputedTable) {
+		this.isComputedTable = isComputedTable;
 	}
 
 }

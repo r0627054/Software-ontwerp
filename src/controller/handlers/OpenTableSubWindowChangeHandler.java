@@ -48,7 +48,7 @@ public class OpenTableSubWindowChangeHandler implements ChangeHandlerInterface {
 				if (domainfacade.isTableWithIdEmpty(tableId)) {
 					uifacade.createTableDesignSubWindow(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
 				} else {
-					uifacade.createTableRowsSubWindow(tableId, tableName, table);
+					uifacade.createTableRowsSubWindow(tableId, tableName, table, domainfacade.isComputedTable(tableId));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

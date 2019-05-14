@@ -18,7 +18,8 @@ public class CreateComputedTableChangeHandler implements ChangeHandlerInterface 
 			domainfacade.createComputedTable(tableId, newQuery);
 			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, tableName,
-					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
+					domainfacade.isComputedTable(tableId));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

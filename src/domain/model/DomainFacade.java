@@ -742,8 +742,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.deleteTable(tableId);
 		ComputedTable newTable = new ComputedTable(tableId, oldTableName, newQuery, tables);
 		this.getTableMap().put(tableId, newTable);
-		System.out.println("CREATED \n" + newTable);
-		System.out.println("Name of id = " + getTable(tableId));
+	}
+
+	@Override
+	public boolean isComputedTable(UUID tableId) {
+		return getTable(tableId) instanceof ComputedTable;
 	}
 
 }

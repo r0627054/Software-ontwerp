@@ -298,4 +298,6 @@ public interface DomainFacadeInterface {
 
 	public void createComputedTable(UUID tableId, String query);
 
+	public boolean isComputedTable(UUID tableId);
+
 }

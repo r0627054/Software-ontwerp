@@ -31,6 +31,8 @@ public class RowsTable extends EditableComponent {
 	 */
 	private List<UICell> deleteCells;
 
+	private boolean isComputedTable;
+
 	/**
 	 * Initialise the RowsTable with the given information.
 	 *  By default there are no cells selected for deletion.
@@ -41,12 +43,15 @@ public class RowsTable extends EditableComponent {
 	 *        The y-coordinate of the component.
 	 * @param id
 	 *        The id of the table.
+	 * @param isComputedTable 
+	 * 		  Is this table a computed table
 	 * @effect The variables are set and the rowsTable is initialised with an empty list of cells selected for deletion.
 	 *        | super(x, y, 0, 0, false, id);
 	 *        |	this.deleteCells = new ArrayList<>();
 	 */
-	public RowsTable(int x, int y, UUID id) {
+	public RowsTable(int x, int y, UUID id, boolean isComputedTable) {
 		super(x, y, 0, 0, false, id);
+		this.setComputedTable(isComputedTable);
 		this.deleteCells = new ArrayList<>();
 	}
 
@@ -134,7 +139,9 @@ public class RowsTable extends EditableComponent {
 	@Override
 	public void mouseClicked(int id, int x, int y, int clickCount) {
 		// Don't call the mouseClicked on the children!
-		this.resetDeleteCells();
+		if (!this.isComputedTable()) {
+			this.resetDeleteCells();
+		}
 	}
 
 	/**
@@ -153,7 +160,7 @@ public class RowsTable extends EditableComponent {
 	 */
 	@Override
 	public void outsideClick(int id, int x, int y, int clickCount) {
-		if (id == MouseEvent.MOUSE_PRESSED) {
+		if (id == MouseEvent.MOUSE_PRESSED && !isComputedTable()) {
 			if (clickCount == 2 && y > getColumns().getOffsetY()) {
 				propertyChanged(getId(), ChangeEventType.CREATE_ROW, null, null);
 			}
@@ -186,7 +193,7 @@ public class RowsTable extends EditableComponent {
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		// Don't call the keyPressed on the children!
-		if (keyCode == KeyEvent.VK_DELETE) {
+		if (keyCode == KeyEvent.VK_DELETE && !isComputedTable()) {
 			if (!this.getDeleteCells().isEmpty()) {
 				UUID cellId = getDeleteCells().get(0).getId();
 				propertyChanged(cellId, ChangeEventType.DELETE_ROW, null, null);
@@ -319,6 +326,20 @@ public class RowsTable extends EditableComponent {
 				}
 			}
 		}
+	}
+
+	/**
+	 * @return the isComputedTable
+	 */
+	private boolean isComputedTable() {
+		return isComputedTable;
+	}
+
+	/**
+	 * @param isComputedTable the isComputedTable to set
+	 */
+	private void setComputedTable(boolean isComputedTable) {
+		this.isComputedTable = isComputedTable;
 	}
 
 }
