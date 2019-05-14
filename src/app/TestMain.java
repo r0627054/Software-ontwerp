@@ -27,23 +27,23 @@
 ////				+ "    INNER JOIN TEST3 AS table3 ON table3.Emai = table1.Email    "
 ////				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
 //				+ "         WHERE table1.Student > TRUE";
-//		
+//
 //		System.out.println(SQLParser.parseQuery(sql) + "\n");
 //
 //		SQLParser parser = new SQLParser(sql);
 //		Query query = parser.getQueryFromString();
-//		
+//
 //		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
 //		System.out.println(comp);
 //		System.out.println("TABLE1:\n");
 //		System.out.println(tableList.get(0));
-//		
+//
 //		System.out.println("TABLE3:\n");
 //		System.out.println(tableList.get(2));
-//		
+//
 //		System.out.println("\n\n\n");
-//	
-//		
+//
+//
 //	}
 //
 //	public static Table dummyTable1() {
@@ -165,8 +165,8 @@
 //		persons.addRow(r4);
 //		return persons;
 //	}
-//	
-//	
+//
+//
 //	public static Table dummyTable3() {
 //		DomainCell c01 = new DomainCell(ValueType.STRING, "Dirk");
 //		DomainCell c02 = new DomainCell(ValueType.STRING, "Rita");
@@ -226,7 +226,7 @@
 //		persons.addRow(r4);
 //		return persons;
 //	}
-//	
+//
 //}
 
 import java.util.ArrayList;
@@ -256,30 +256,27 @@ public class TestMain {
 //				+ "    INNER JOIN TEST3 AS table3 ON table3.Emai = table1.Email    "
 //				+ "   INNER JOIN TEST3 AS table3 ON table1.Age = table1.Age       "
 				+ "         WHERE table1.Student > TRUE";
-		
-<<<<<<< HEAD
+
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
 				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
 				//+ "         WHERE TRUE";
 			     + "    WHERE  (stud.Grade + 15 = 20 OR stud.Name = \"Dries\") AND  w.Age - stud.Grade = 15";
-=======
->>>>>>> 8611044a3b8a591d53aa38f9f1fe99908fc52585
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
 		Query query = parser.getQueryFromString();
-		
+
 		ComputedTable comp = new ComputedTable("TEST1", query, tableList);
 		System.out.println(comp);
 		System.out.println("TABLE1:\n");
 		System.out.println(tableList.get(0));
-		
+
 		System.out.println("TABLE3:\n");
 		System.out.println(tableList.get(2));
-		
+
 		System.out.println("\n\n\n");
-	
-		
+
+
 	}
 
 	public static Table dummyTable1() {
@@ -401,8 +398,8 @@ public class TestMain {
 		persons.addRow(r4);
 		return persons;
 	}
-	
-	
+
+
 	public static Table dummyTable3() {
 		DomainCell c01 = new DomainCell(ValueType.STRING, "Dirk");
 		DomainCell c02 = new DomainCell(ValueType.STRING, "Rita");
@@ -462,5 +459,5 @@ public class TestMain {
 		persons.addRow(r4);
 		return persons;
 	}
-	
+
 }

@@ -33,7 +33,7 @@ public class FormWindow extends TableWindow {
 	/**
 	 * Variable holding the row number which is displayed.
 	 */
-	private int currentRow = 0; 
+	private int currentRow = 0;
 
 	private Map<List<Object>, LinkedHashMap<UUID, Object>> tableData;
 
@@ -44,26 +44,22 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void updateForm() {
-<<<<<<< HEAD
-		
-=======
 		this.setStoredListeners(new ArrayList<Component>());
->>>>>>> 8611044a3b8a591d53aa38f9f1fe99908fc52585
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 		int y = getY() + 50;
 		int x1 = getX() + 50;
 		int x2 = getX() + 100;
-		
-		
 
-		for (List<Object> key : getTableData().keySet()) {  // vb select name row 
-			
+
+
+		for (List<Object> key : getTableData().keySet()) {  // vb select name row
+
 			Boolean isBoolean = key.get(key.size() -1).toString().contains("Boolean");
-			
+
 			LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
 			Set<UUID> idList = cellData.keySet();
-			
-			Object[] list = cellData.values().toArray();		
+
+			Object[] list = cellData.values().toArray();
 			Object[] idArray = (Object[]) idList.toArray();
 			UUID cellUUID = getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1 // vb get id of number 2
 					? cellUUID = (UUID) idArray[getCurrentRow()]
@@ -90,7 +86,7 @@ public class FormWindow extends TableWindow {
 			}
 
 
-			
+
 
 			y += 40;
 		}
@@ -142,7 +138,7 @@ public class FormWindow extends TableWindow {
 				// Do nothing
 			}
 		}
-		
+
 
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
@@ -155,7 +151,7 @@ public class FormWindow extends TableWindow {
 		}
 	}
 
-	
+
 	private void createNewRow() {
 		this.getSupport().firePropertyChange(new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_ROW, null, null));
 		this.updateForm();
@@ -163,24 +159,24 @@ public class FormWindow extends TableWindow {
 
 	private void deleteCurrentRow() {
 		UICell deleteCell = null;
-		
+
 		Set<UUID> keyList = null;
 		for (Component c : getContainer().getComponentsList()) {
-			
+
 			for (List<Object> key : getTableData().keySet()) {
-				
+
 				LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
 				Object[] list = cellData.values().toArray();
 				keyList = cellData.keySet();
 				break;
 			}
 		}
-		
-		UUID deleteCellID = keyList.iterator().next();		
+
+		UUID deleteCellID = keyList.iterator().next();
 
 		this.getSupport().firePropertyChange(new PropertyChangeEvent(deleteCellID,ChangeEventType.DELETE_ROW, null, null));
-	
-		
+
+
 	}
 
 	private int getCurrentRow() {
