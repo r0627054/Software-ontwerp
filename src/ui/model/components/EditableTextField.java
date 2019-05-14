@@ -405,7 +405,6 @@ public class EditableTextField extends TextField {
 	 * Submits a textChange and unselects the editableTextField.
 	 */
 	private void textChangeSubmit() {
-		System.out.println(this.isSelected());
 		this.setSelected(false);
 		textChanged();
 	}
