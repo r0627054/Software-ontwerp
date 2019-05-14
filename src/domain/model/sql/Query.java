@@ -23,8 +23,8 @@ public class Query {
 		this.setWhereStatement(whereStatement);
 	}
 
-	public Statement getSelectStatement() {
-		return selectStatement;
+	public SelectStatement getSelectStatement() {
+		return (SelectStatement) selectStatement;
 	}
 
 	private void setSelectStatement(SelectStatement selectStatement) {
@@ -70,6 +70,10 @@ public class Query {
 
 	public List<CellId> getCellIdsOfWhere() {
 		return this.getWhereStatement().getAllCellIds();
+	}
+
+	public List<CellId> getCellIdsOfSelect() {
+		return getSelectStatement().getAllCellIds();
 	}
 
 	public Map<String, String> getDisplayToRealNamesMap() {

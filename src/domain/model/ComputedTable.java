@@ -12,8 +12,10 @@ import domain.model.sql.Operator;
 import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
 import domain.model.sql.SQLParser.ParseException;
+import domain.model.sql.columnSpec.ColumnSpec;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.statements.FromStatement;
+import domain.model.sql.statements.SelectStatement;
 import domain.model.sql.tablespecs.InnerJoinTableSpec;
 import domain.model.sql.tablespecs.TableSpec;
 
@@ -29,8 +31,28 @@ public class ComputedTable extends Table {
 		executeFromStatement();
 		Table result = this.executeFromStatement();
 		result = this.executeWhereStatement(result);
+		result = this.executeSelectStatement(result);
 		this.setColumns(result.getColumns());
 		this.setRows(result.getRows());
+	}
+
+	private Table executeSelectStatement(Table result) {
+		SelectStatement select = getQuery().getSelectStatement();
+		Table tempTable = new Table(getName());
+		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
+
+		for (ColumnSpec cs : select.getColumnSpecs()) {
+			tempTable.addColumn(new Column(cs.getColumnName()));
+		}
+
+		for (Column col : getColumns()) {
+			
+
+		}
+
+//		List<Column> resultColumns = select.executeColumnSpecs(getColumns(), cellIdMap);
+		// TODO set rows
+		return result;
 	}
 
 	private Table executeWhereStatement(Table table) {
@@ -63,12 +85,12 @@ public class ComputedTable extends Table {
 	}
 
 	private Table executeFromStatement() {
-		FromStatement from = getQuery().getFromStatement();
 		checkValidColumnsAndTables();
-		return this.executeSingleAndInnerJoins(from);
+		return this.executeSingleAndInnerJoins();
 	}
 
-	private Table executeSingleAndInnerJoins(FromStatement from) {
+	private Table executeSingleAndInnerJoins() {
+		FromStatement from = getQuery().getFromStatement();
 		Table subTotalTable = this.getTableAtIndex(0).copy();
 		List<String> joinedDisplayTableNames = new ArrayList<>();
 		joinedDisplayTableNames.add(from.getTableSpecs().get(0).getDisplayTableName());

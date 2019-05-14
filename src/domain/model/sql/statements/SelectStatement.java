@@ -2,7 +2,9 @@ package domain.model.sql.statements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import domain.model.Column;
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 import domain.model.sql.columnSpec.ColumnSpec;
@@ -22,7 +24,7 @@ public class SelectStatement implements Statement {
 		this.getColumnSpecs().add(columnSpec);
 	}
 
-	private List<ColumnSpec> getColumnSpecs() {
+	public List<ColumnSpec> getColumnSpecs() {
 		return columnSpecs;
 	}
 
@@ -34,6 +36,19 @@ public class SelectStatement implements Statement {
 	@Override
 	public String toString() {
 		return "SELECT ";
+	}
+
+	public List<Column> executeColumnSpecs(List<Column> columns, Map<CellId, Integer> cellIdMap) {
+		List<Column> result = new ArrayList<Column>();
+		for (ColumnSpec cs : getColumnSpecs()) {
+			Column newCol = cs.isValidCol(columns, cellIdMap);
+
+			if (newCol == null) {
+				throw new SqlException("Columnspec of Select statement found no column");
+			}
+			result.add(newCol);
+		}
+		return result;
 	}
 
 }

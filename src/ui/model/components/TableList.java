@@ -177,16 +177,14 @@ public class TableList extends HorizontalComponentList {
 	 * 
 	 * @param tableId
 	 *        | The id of the column.
+	 * @param columnIndex 
 	 * @return the cell at the given index in the given column.
 	 */
-	public UICell getCell(UUID tableId) {
-		for (Component comp : getComponentsList()) {
-			if (comp instanceof UICell) {
-				for (Component c : ((VerticalComponentList) comp).getComponentsList()) {
-					if (((UICell) c).getId() == tableId) {
-						return ((UICell) c);
-					}
-				}
+	public UICell getCell(UUID tableId, int columnIndex) {
+		VerticalComponentList list = (VerticalComponentList) this.getComponentsList().get(columnIndex);
+		for (Component c : list.getComponentsList()) {
+			if (((UICell) c).getId() == tableId) {
+				return ((UICell) c);
 			}
 		}
 		return null;
