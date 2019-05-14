@@ -102,6 +102,7 @@ public class VerticalComponentList extends Container {
 	@Override
 	public void addComponent(Component c) {
 		super.addComponent(c);
+		this.setHeight(getHeight() + c.getHeight());
 		positionChildren();
 	}
 

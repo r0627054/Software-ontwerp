@@ -41,7 +41,6 @@ public class TablesWindow extends SubWindow {
 		super(null, TITLE_STRING_PREFIX);
 		this.createTableList(data);
 	}
-	
 
 	/**
 	 * Creates a tableList out of the given information.
@@ -107,7 +106,7 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void pauseSubWindow(int columnIndex, UUID id) {
-		UICell errorCell = this.getTableList().getCell(id);
+		UICell errorCell = this.getTableList().getCell(id, columnIndex);
 		errorCell.setError(true);
 		this.removeAllContentListenersButOne(errorCell);
 		this.setPaused(true);
@@ -132,9 +131,8 @@ public class TablesWindow extends SubWindow {
 	 */
 	@Override
 	public void throwError(UUID id, int columnIndex, Object newValue) {
-		for (Component c : getContainer().getComponentsList()) {
-			c.throwError(id);
-		}
+		UICell errorCell = this.getTableList().getCell(id, columnIndex);
+		errorCell.throwError(id);
 	}
 
 	/**
@@ -153,7 +151,7 @@ public class TablesWindow extends SubWindow {
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		super.keyPressed(id, keyCode, keyChar);
-		
+
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
 		} else if (keyCode == 70 && this.isCtrlPressed()) {

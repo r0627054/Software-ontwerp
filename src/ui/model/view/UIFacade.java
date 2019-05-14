@@ -110,8 +110,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table) {
-		this.getView().createTableRowsWindow(tableId, tableName, table);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputed) {
+		this.getView().createTableRowsWindow(tableId, tableName, table, isComputed);
 	}
 
 	/**
@@ -137,8 +137,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData) {
-		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable) {
+		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData, isComputedTable);
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void closeCurrentSubWindow() {
 		this.getView().closeCurrentSubWindow();
 	}
-	
+
 	/**
 	 * Closes all the SubWindows which contain information of the table with the given tableID.
 	 * @param tableID The UUID of the table.
@@ -266,7 +266,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void simulateClick(int x, int y, int clickCount) {
 		getView().simulateClickClicked(x, y, clickCount);
 	}
-	
+
 	/**
 	 * Simulates a click release to the view.
 	 * @param x The x-coordinate of the click.
@@ -277,7 +277,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void simulateClickRelease(int x, int y) {
 		getView().simulateClickRelease(x, y);
 	}
-	
+
 	/**
 	 * Simulates a click drag to the view.
 	 * @param x The x-coordinate of the click.
@@ -313,7 +313,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
 			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
 		getView().createFormSubWindow(tableId, tableNameOfId, tableData);
-		
+
 	}
 
 }

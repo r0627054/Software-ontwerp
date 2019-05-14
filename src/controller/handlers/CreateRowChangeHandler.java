@@ -37,7 +37,8 @@ public class CreateRowChangeHandler implements ChangeHandlerInterface {
 		try {
 			domainfacade.createNewRow(tableId);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
+					domainfacade.isComputedTable(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

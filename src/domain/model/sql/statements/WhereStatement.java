@@ -10,6 +10,7 @@ import domain.model.sql.SqlException;
 import domain.model.sql.expression.BooleanExpression;
 import domain.model.sql.expression.CellIdExpression;
 import domain.model.sql.expression.Expression;
+import domain.model.sql.expression.LiteralNumberExpression;
 
 public class WhereStatement implements Statement {
 
@@ -42,7 +43,13 @@ public class WhereStatement implements Statement {
 
 	public boolean isRowValid(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression result = this.getExpression().simplify(row, cellIdMap);
-		return (result instanceof BooleanExpression && ((BooleanExpression) result).getValue());
+		//the end result of the simplify method.
+		if(result instanceof BooleanExpression) {
+			return ((BooleanExpression) result).getValue();
+		}else if(result instanceof LiteralNumberExpression) {
+			return ((LiteralNumberExpression) result).getValue() != 0;
+		}
+		return false;
 	}
 
 }

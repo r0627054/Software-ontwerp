@@ -37,7 +37,8 @@ public class DeleteRowChangeHandler implements ChangeHandlerInterface {
 			UUID rowId = domainfacade.getRowId(tableId, cellIdOfFirstElement);
 			domainfacade.deleteRow(tableId, rowId);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
-					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId));
+					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
+					domainfacade.isComputedTable(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

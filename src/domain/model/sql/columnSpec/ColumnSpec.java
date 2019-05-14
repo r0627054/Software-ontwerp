@@ -13,7 +13,7 @@ public class ColumnSpec {
 		this.setColumnName(columnName);
 	}
 
-	private Expression getExpression() {
+	public Expression getExpression() {
 		return expression;
 	}
 	
@@ -24,7 +24,7 @@ public class ColumnSpec {
 		this.expression = expression;
 	}
 	
-	private String getColumnName() {
+	public String getColumnName() {
 		return columnName;
 	}
 	
@@ -34,4 +34,10 @@ public class ColumnSpec {
 		}
 		this.columnName = columnName;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getExpression().toString() + " AS " + this.getColumnName();
+	}
+	
 }
