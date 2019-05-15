@@ -44,15 +44,19 @@ public class ComputedTable extends Table {
 		// System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
-			Object[] isEditableObject = select.getColumnSpec(specIndex).getExpression().isEditable();
+			Object[] isEditableObject = select.isEditableForColumnSpecIndex(specIndex);
+			Column c;
 			if (((Boolean) isEditableObject[1])
 					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
 				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
+				CellId cellId = select.getCellIdOfEditable(specIndex);
+				//TODO blind copy
 			} else {
 				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
+				 c = new Column(select.getColumnNameOfColumnSpec(specIndex));
+				//TODO Set type of column
 			}
 
-			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));
 
 			for (Row row : result.getRows()) {
 				DomainCell cell = getQuery().computeCell(row, cellIdMap, specIndex);
@@ -260,42 +264,3 @@ public class ComputedTable extends Table {
 	}
 
 }
-
-/*
- * Table currentComputedTable = getQueryTables().get(0).copy();
- * 
- * List<InnerJoinCondition> joinConditions = getQuery().getJoinConditions();
- * List<String> displayNamesList = getQuery().getDisplayTableNames(); int
- * currentTableNameIndex = 1;
- * 
- * for (InnerJoinCondition joinCondition : joinConditions) { if
- * (!displayNamesList.contains(joinCondition.getTableName1()) ||
- * !displayNamesList.contains(joinCondition.getTableName2())) { throw new
- * DomainException("Invalid 'ON' tableDisplayName"); } String newTableColumnName
- * = null; String currentComputedName = null; if
- * (joinCondition.getTableName1().equals(displayNamesList.get(
- * currentTableNameIndex))) { newTableColumnName = joinCondition.getColTable1();
- * currentComputedName = joinCondition.getColTable2(); } else {
- * newTableColumnName = joinCondition.getColTable2(); currentComputedName =
- * joinCondition.getColTable1(); } if
- * (!currentComputedTable.columnNameAlreadyExists(currentComputedName) ||
- * !getQueryTables().get(currentTableNameIndex).columnNameAlreadyExists(
- * newTableColumnName)) { throw new
- * DomainException("Join condition columns does not match."); }
- * 
- * Table tempTable = new Table(getName());
- * 
- * for (Column c : currentComputedTable.getColumns()) { tempTable.addColumn(new
- * Column(c.getName())); //TODO Add UUID in deze constructor? } for (Column c :
- * getQueryTables().get(currentTableNameIndex).getColumns()) {
- * tempTable.addColumn(new Column(c.getName())); }
- * 
- * // for(DomainCell cell: )
- * 
- * //TODO Vul de rijen in met waardes van de 2 tabellen waarvan de condition ok
- * is //Current = temp //TODO SELECT // for (Column c: )
- * 
- * // Column col1 = getQueryTables(). currentTableNameIndex++; }
- * //this.setColumns(temptable.getcolumns) // this.setRows(temptTable.getRows);
- * return this.getTableWithIds();
- */

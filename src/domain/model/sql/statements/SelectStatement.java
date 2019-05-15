@@ -98,4 +98,12 @@ public class SelectStatement implements Statement {
 		return row.getCellAtIndex(index);
 	}
 
+	public Object[] isEditableForColumnSpecIndex(int i) {
+		return getColumnSpec(i).getExpression().isEditable();
+	}
+
+	public CellId getCellIdOfEditable(int specIndex) {
+		return (CellId) ((Map<CellId, Integer>) this.isEditableForColumnSpecIndex(specIndex)[0]).keySet().toArray()[0];
+	}
+
 }
