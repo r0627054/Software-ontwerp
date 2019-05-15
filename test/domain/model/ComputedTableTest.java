@@ -28,6 +28,9 @@ class ComputedTableTest {
 		tableList.add(dummyTable3());
 	}
 	
+	//-------------------------
+	//------FROM STATEMENT----- 
+	//-------------------------
 	
 	@Test
 	public void basicFromAndWhereTrueShouldDisplayThetable() {
@@ -82,7 +85,7 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -100,7 +103,7 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(6, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -116,7 +119,7 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(12, comp.getNbrOfColumns());
 		assertEquals(4, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -130,7 +133,7 @@ class ComputedTableTest {
 		studentNames.add("Mauro");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -142,7 +145,7 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -154,7 +157,7 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -183,7 +186,7 @@ class ComputedTableTest {
 
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -195,7 +198,7 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -209,7 +212,7 @@ class ComputedTableTest {
 		studentNames.add("Mauro");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -222,7 +225,7 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(1, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -234,7 +237,7 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -250,7 +253,7 @@ class ComputedTableTest {
 		studentNames.add("Dries");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -263,7 +266,7 @@ class ComputedTableTest {
 		studentNames.add("Dries");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(1, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -277,7 +280,7 @@ class ComputedTableTest {
 		studentNames.add("Dries");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -311,7 +314,7 @@ class ComputedTableTest {
 		studentNames.add("Mauro");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(4, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -330,7 +333,7 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(6, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -343,7 +346,7 @@ class ComputedTableTest {
 
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -355,7 +358,7 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -370,11 +373,12 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		studentNames.add("Steven");
 		studentNames.add("Dries");
+		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(4, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -387,11 +391,12 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		studentNames.add("Steven");
 		studentNames.add("Dries");
+		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(4, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -405,7 +410,7 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -424,7 +429,7 @@ class ComputedTableTest {
 		studentNames.add("Mauro");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(4, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -439,7 +444,7 @@ class ComputedTableTest {
 		studentNames.add("Dries");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(1, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -455,7 +460,7 @@ class ComputedTableTest {
 		studentNames.add("Mauro");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -470,7 +475,7 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(1, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
@@ -502,17 +507,65 @@ class ComputedTableTest {
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
-		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 
 
+	//-------------------------
+	//----SELECT STATEMENT----- 
+	//-------------------------
+	
+	@Test
+	public void testSelectStatementWithCellIdSelects() {
+		String sql = "SELECT  stud.Email AS em, stud.Name AS n   FROM Students AS stud           WHERE  TRUE ";
+		studentNames = new ArrayList<>();
+		studentNames.add("Steven");
+		studentNames.add("Mauro");
+		studentNames.add("Dries");
+		studentNames.add("Laurens");
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		assertEquals(2, comp.getNbrOfColumns());
+		assertEquals(4, comp.getRows().size());
+		this.checkAllNames(comp.getColumns().get(1).getCells(), studentNames);
+	}
 	
 	
+	@Test
+	public void testMultiplestatementWithCellIdSelects() {
+		String sql = "SELECT w.Firstname AS first, g.Nickname AS nickn            FROM Work AS w  INNER JOIN Group AS g ON w.Age = g.Money          WHERE  TRUE ";
+		ArrayList<String> firstNames = new ArrayList<>();
+		firstNames.add("John");
+		firstNames.add("John");
+		firstNames.add("John");
+		firstNames.add("Quinten");
+		firstNames.add("Quinten");
+		firstNames.add("Quinten");
+		firstNames.add("Frederik");
+		ArrayList<String> nickNames = new ArrayList<>();
+		nickNames.add("Dirk");
+		nickNames.add("Rita");
+		nickNames.add("Jos");
+		nickNames.add("Dirk");
+		nickNames.add("Rita");
+		nickNames.add("Jos");
+		nickNames.add("Filip");
+				
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getWorkAndGroupTables());;
+		assertEquals(2, comp.getNbrOfColumns());
+		assertEquals(7, comp.getRows().size());
+		this.checkAllNames(comp.getColumns().get(0).getCells(), firstNames);
+		this.checkAllNames(comp.getColumns().get(1).getCells(), nickNames);
+	}
 	
 	
+
 	
 	
 	
@@ -711,6 +764,12 @@ class ComputedTableTest {
 		}
 	}
 	
+	public List<Table> getWorkAndGroupTables(){
+		List<Table> tables = new ArrayList<>();
+		tables.add(dummyTable2());
+		tables.add(dummyTable3());
+		return tables;
+	}
 	
 	public List<Table> getTables(){
 		return this.tableList;

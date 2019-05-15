@@ -33,6 +33,8 @@ public class RelationalOperatorExpression extends OperatorExpression {
 				if (leftCell.compare(rightCell, getOperator())) {
 					return new BooleanExpression(true);
 				}
+			} else if(leftCell == null && rightCell == null) {
+				return new BooleanExpression(true);
 			}
 
 		} else if ((left instanceof CellIdExpression && right instanceof LiteralStringExpression)
@@ -55,7 +57,7 @@ public class RelationalOperatorExpression extends OperatorExpression {
 			boolean isCellIdLeft = left instanceof CellIdExpression;
 			CellId cellIid = isCellIdLeft ? ((CellIdExpression) left).getValue()
 					: ((CellIdExpression) right).getValue();
-			int compareInt = isCellIdLeft ? ((LiteralNumberExpression) right).getValue()
+			Integer compareInt = isCellIdLeft ? ((LiteralNumberExpression) right).getValue()
 					: ((LiteralNumberExpression) left).getValue();
 
 			Integer index = cellIdMap.get(cellIid);
@@ -113,8 +115,10 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
-	private Expression compareCellIdToInt(DomainCell cell, int compareInt, boolean isCellIdLeft) {
-		if (cell.getValue() == null) {
+	private Expression compareCellIdToInt(DomainCell cell, Integer compareInt, boolean isCellIdLeft) {
+		if (cell.getValue() == null && compareInt == null) {
+			return new BooleanExpression(true);
+		} else if(cell.getValue() == null || compareInt == null) {
 			return new BooleanExpression(false);
 		}
 		Operator op = reverseOperatorIfCellRight(isCellIdLeft);
@@ -172,9 +176,12 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
-	private BooleanExpression compareTwoInts(int left, int right) {
+	private BooleanExpression compareTwoInts(Integer left, Integer right) {
+		if(left == null || right == null) {
+			return new BooleanExpression(false);
+		}
+		
 		boolean result;
-
 		switch (getOperator()) {
 		case GREATER:
 			result = left > right;

@@ -11,17 +11,17 @@ import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 
 public class LiteralNumberExpression implements Expression {
-	private int value;
+	private Integer value;
 	private Map<UUID, Integer> usedIds = new HashMap<>();
-	private int subTotal;
+	private Integer subTotal;
 
-	public LiteralNumberExpression(int value, int subtotal, Map<UUID, Integer> usedIds) {
+	public LiteralNumberExpression(Integer value, Integer subtotal, Map<UUID, Integer> usedIds) {
 		this.setValue(value);
 		this.setSubTotal(subtotal);
 		this.setUsedIds(usedIds);
 	}
 
-	public LiteralNumberExpression(int value) {
+	public LiteralNumberExpression(Integer value) {
 		this(value, 0, new HashMap<>());
 	}
 
@@ -48,23 +48,23 @@ public class LiteralNumberExpression implements Expression {
 		return this.getUsedIds().keySet().size() == 1 && !this.getUsedIds().containsKey(null);
 	}
 
-	public int getSubTotal() {
+	public Integer getSubTotal() {
 		return subTotal;
 	}
 
-	public void setSubTotal(int subTotal) {
+	public void setSubTotal(Integer subTotal) {
 		this.subTotal = subTotal;
 	}
 
-	public int getValue() {
+	public Integer getValue() {
 		return value;
 	}
 
-	private void setValue(int value) {
+	private void setValue(Integer value) {
 		this.value = value;
 	}
 
-	private int parsetoInteger(String intString) {
+	private Integer parsetoInteger(String intString) {
 		try {
 			return Integer.valueOf(intString);
 		} catch (Exception e) {

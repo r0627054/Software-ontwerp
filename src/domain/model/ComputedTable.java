@@ -40,8 +40,6 @@ public class ComputedTable extends Table {
 		SelectStatement select = getQuery().getSelectStatement();
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
-		// for (ColumnSpec cs : select.getColumnSpecs()) {
-		// System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
 			Object[] isEditableObject = select.isEditableForColumnSpecIndex(specIndex);
@@ -54,8 +52,6 @@ public class ComputedTable extends Table {
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
 			} else {
 				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
-//				Column oldCol = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
-
 				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
 			}
 
@@ -128,7 +124,7 @@ public class ComputedTable extends Table {
 		Table subTotalTable = this.getTableAtIndex(0).copy();
 		List<String> joinedDisplayTableNames = new ArrayList<>();
 		joinedDisplayTableNames.add(from.getTableSpecs().get(0).getDisplayTableName());
-
+		
 		for (TableSpec spec : from.getTableSpecs()) {
 			if (spec instanceof InnerJoinTableSpec) {
 				InnerJoinTableSpec innerSpec = (InnerJoinTableSpec) spec;

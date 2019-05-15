@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import domain.model.DomainCell;
 import domain.model.Row;
+import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
 
@@ -25,17 +26,20 @@ public class MathOperatorExpression extends OperatorExpression {
 			int subtotal = 0;
 			LiteralNumberExpression lne = ((LiteralNumberExpression) left);
 			LiteralNumberExpression rne = ((LiteralNumberExpression) right);
-			if (getOperator().equals(Operator.PLUS)) {
-				result = lne.getValue() + rne.getValue();
-				subtotal = lne.getSubTotal() + rne.getSubTotal();
-			} else if (getOperator().equals(Operator.MINUS)) {
-				result = lne.getValue() - rne.getValue();
-				subtotal = lne.getSubTotal() - rne.getSubTotal();
+			if(lne.getValue() == null || rne.getValue() == null) {
+				return new LiteralNumberExpression(null, subtotal, new HashMap<>());
+			}else {
+				if (getOperator().equals(Operator.PLUS)) {
+					result = lne.getValue() + rne.getValue();
+					subtotal = lne.getSubTotal() + rne.getSubTotal();
+				} else if (getOperator().equals(Operator.MINUS)) {
+					result = lne.getValue() - rne.getValue();
+					subtotal = lne.getSubTotal() - rne.getSubTotal();
+				}
+				Map<UUID, Integer> usedIds = this.mergeUsedIds(lne.getUsedIds(), rne.getUsedIds());
+				// return new LiteralNumberExpression(result);
+				return new LiteralNumberExpression(result, subtotal, usedIds);	
 			}
-			Map<UUID, Integer> usedIds = this.mergeUsedIds(lne.getUsedIds(), rne.getUsedIds());
-			// return new LiteralNumberExpression(result);
-			return new LiteralNumberExpression(result, subtotal, usedIds);
-
 		} else if (left instanceof CellIdExpression && right instanceof CellIdExpression) {
 			DomainCell leftCell = this.getDomainCellOfOutOfCellId(left, row, cellIdMap);
 			DomainCell rightCell = this.getDomainCellOfOutOfCellId(right, row, cellIdMap);
@@ -48,16 +52,21 @@ public class MathOperatorExpression extends OperatorExpression {
 				usedIds.put(rightCell.getId(), 1);
 			}
 
-			if ((leftCell.getValue() instanceof Integer) && (rightCell.getValue() instanceof Integer)) {
-				int result = 0;
-				Integer lc = (Integer) leftCell.getValue();
-				Integer rc = (Integer) rightCell.getValue();
-				if (getOperator().equals(Operator.PLUS)) {
-					result = lc + rc;
-				} else if (getOperator().equals(Operator.MINUS)) {
-					result = lc - rc;
+			//if ((leftCell.getValue() instanceof Integer) && (rightCell.getValue() instanceof Integer)) {
+			if((leftCell.getType() == ValueType.INTEGER) && (rightCell.getType() == ValueType.INTEGER)) {
+				if(leftCell.getValue() == null || rightCell.getValue() == null) {
+					return new LiteralNumberExpression(null,0,usedIds);
+				}else {
+					int result = 0;
+					Integer lc = (Integer) leftCell.getValue();
+					Integer rc = (Integer) rightCell.getValue();
+					if (getOperator().equals(Operator.PLUS)) {
+						result = lc + rc;
+					} else if (getOperator().equals(Operator.MINUS)) {
+						result = lc - rc;
+					}
+					return new LiteralNumberExpression(result, 0, usedIds);
 				}
-				return new LiteralNumberExpression(result, 0, usedIds);
 			}
 		} else if (left instanceof CellIdExpression && right instanceof LiteralNumberExpression) {
 			LiteralNumberExpression rne = ((LiteralNumberExpression) right);
@@ -72,7 +81,10 @@ public class MathOperatorExpression extends OperatorExpression {
 				usedIdsMap.put(leftCell.getId(), 1);
 			}
 
-			if (leftCell.getValue() instanceof Integer) {
+			if (leftCell.getType() == ValueType.INTEGER) {
+				if(leftCell.getValue() == null || rne.getValue() == null) {
+					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
+				}
 				int result = 0;
 				Integer lc = (Integer) leftCell.getValue();
 				if (getOperator().equals(Operator.PLUS)) {
@@ -98,7 +110,10 @@ public class MathOperatorExpression extends OperatorExpression {
 				usedIdsMap.put(rightCell.getId(), 1);
 			}
 
-			if (rightCell.getValue() instanceof Integer) {
+			if (rightCell.getType() == ValueType.INTEGER) {
+				if(rightCell.getValue() == null || lne.getValue() == null) {
+					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
+				}
 				int result = 0;
 				Integer rc = (Integer) rightCell.getValue();
 				if (getOperator().equals(Operator.PLUS)) {
