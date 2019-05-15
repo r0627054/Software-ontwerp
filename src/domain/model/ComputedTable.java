@@ -48,12 +48,12 @@ public class ComputedTable extends Table {
 			Column c = null;
 			if (((Boolean) isEditableObject[1])
 					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
-				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
+				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
 				CellId cellId = select.getCellIdOfEditable(specIndex);
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
 			} else {
-				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
+				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
 //				Column oldCol = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 
 				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
@@ -70,7 +70,6 @@ public class ComputedTable extends Table {
 				c.addCell(cell);
 
 			}
-
 			tempTable.addColumn(c);
 		}
 
@@ -82,11 +81,11 @@ public class ComputedTable extends Table {
 				for (Column c : tempTable.getColumns()) {
 					rowList.add(c.getCellAtIndex(rowIndex));
 				}
-				tempTable.addRow(new Row(rowList));
+				//tempTable.addRow(new Row(rowList));
+				tempTable.addRowWithoutAddingToColumns(new Row(rowList));
 				rowIndex++;
 			}
 		}
-
 		return tempTable;
 	}
 

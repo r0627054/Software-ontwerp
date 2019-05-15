@@ -233,6 +233,13 @@ public class Table extends ObjectIdentifier {
 		}
 		this.rows.add(r);
 	}
+	
+	public void addRowWithoutAddingToColumns(Row r) {
+		if(r == null) {
+			throw new DomainException("A new row cannot be null when adding a row.");
+		}
+		this.rows.add(r);
+	}
 
 	/**
 	 * Returns map where the key is the id of the column, and the value is a linkedHashList of characteristics.
