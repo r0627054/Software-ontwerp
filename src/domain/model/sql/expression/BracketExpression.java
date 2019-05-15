@@ -15,6 +15,11 @@ public class BracketExpression implements Expression {
 	public BracketExpression(Expression expression) {
 		this.setExpression(expression);
 	}
+	
+	@Override
+	public Expression getResult() {
+		return this.getExpression();
+	}
 
 	@Override
 	public String toString() {

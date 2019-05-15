@@ -25,7 +25,7 @@ public class TestMain {
 		tableList.add(dummyTable2());
 		tableList.add(dummyTable3());
 
-		String sql = "SELECT stud.Grade + 5 AS Ageeeeu FROM Students AS stud WHERE TRUE";
+		String sql = "SELECT  7 + \"hello\" +  \"hello\"  AS Ageeeeu FROM Students AS stud WHERE TRUE";
 
 //		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
 //				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "

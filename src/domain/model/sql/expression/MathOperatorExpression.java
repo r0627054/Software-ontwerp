@@ -157,48 +157,80 @@ public class MathOperatorExpression extends OperatorExpression {
 				&& getRightExpression() instanceof CellIdExpression) {
 			Object[] result = { rightMap, Boolean.TRUE };
 			return result;
-			
+
 		} else if (getLeftExpression() instanceof CellIdExpression
 				&& getRightExpression() instanceof LiteralNumberExpression) {
 			Object[] result = { leftMap, Boolean.TRUE };
 			return result;
-			
+
 		} else if (getLeftExpression() instanceof MathOperatorExpression
 				&& getRightExpression() instanceof LiteralNumberExpression) {
 			Object[] result = { leftMap, getLeftExpression().isEditable()[1] };
 			return result;
-			
+
 		} else if (getLeftExpression() instanceof LiteralNumberExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
 			Object[] result = { rightMap, getRightExpression().isEditable()[1] };
 			return result;
-			
+
 		} else if (getLeftExpression() instanceof CellIdExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
 			return isEditableMathAndCellId((MathOperatorExpression) getRightExpression(),
 					(CellIdExpression) getLeftExpression());
-			
+
 		} else if (getLeftExpression() instanceof MathOperatorExpression
 				&& getRightExpression() instanceof CellIdExpression) {
 			return isEditableMathAndCellId((MathOperatorExpression) getLeftExpression(),
 					(CellIdExpression) getRightExpression());
-			
+
 		} else if (getLeftExpression() instanceof MathOperatorExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
+			Map<CellId, Integer> resultMap = new HashMap<>(leftMap);
 
-			
+			for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
+				if (resultMap.containsKey(entry.getKey())) {
+					resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) + rightMap.get(entry.getKey()));
+				} else {
+					resultMap.put(entry.getKey(), entry.getValue());
+				}
+			}
+
+			Boolean leftBoolean = (Boolean) getLeftExpression().isEditable()[2];
+			Boolean rightBoolean = (Boolean) getRightExpression().isEditable()[2];
+			int size = resultMap.keySet().size();
+
+			boolean editable = size == 1 && (leftBoolean || rightBoolean);
+			Object[] result = { resultMap, new Boolean(editable) };
+			return result;
+
+		} else if (getLeftExpression() instanceof BracketExpression) {
+			MathOperatorExpression math = new MathOperatorExpression(
+					((BracketExpression) getLeftExpression()).getResult(), getRightExpression(), getOperator());
+			return math.isEditable();
+		} else if (getRightExpression() instanceof BracketExpression) {
+			MathOperatorExpression math = new MathOperatorExpression(getLeftExpression(),
+					((BracketExpression) getRightExpression()).getResult(), getOperator());
+			return math.isEditable();
+		} else {
+			Object[] result = { new HashMap<CellId, Integer>(), false };
+			return result;
 		}
-
-		Object[] result = { new HashMap<CellId, Integer>(), false };
-		return result;
 	}
 
 	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell) {
 		Map<CellId, Integer> mathMap = (Map<CellId, Integer>) math.isEditable()[0];
 		CellId cellId = cell.getValue();
 
-		if (mathMap.keySet().contains(cellId)) {
-			mathMap.put(cellId, mathMap.get(cellId) + 1);
+		boolean contains = false;
+		CellId mathCellId = null;
+		for (CellId id : mathMap.keySet()) {
+			if (cellId.equals(id)) {
+				contains = true;
+				mathCellId = id;
+			}
+		}
+		if (contains) {
+			mathMap.put(mathCellId, mathMap.get(mathCellId) + 1);
 			Object[] result = { mathMap, getRightExpression().isEditable()[1] };
 			return result;
 		} else {

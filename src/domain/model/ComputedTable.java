@@ -41,8 +41,16 @@ public class ComputedTable extends Table {
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
 		// for (ColumnSpec cs : select.getColumnSpecs()) {
-		//System.out.println(select.getColumnSpecs().size());
+		// System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
+
+			Object[] isEditableObject = select.getColumnSpec(specIndex).getExpression().isEditable();
+			if (((Boolean) isEditableObject[1])
+					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
+				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
+			} else {
+				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
+			}
 
 			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));
 
@@ -55,7 +63,7 @@ public class ComputedTable extends Table {
 		}
 
 		if (!tempTable.getColumns().isEmpty()) {
-			
+
 			int rowIndex = 0;
 			while (rowIndex < result.getHeightOfColumns()) {
 				ArrayList<DomainCell> rowList = new ArrayList<>();
