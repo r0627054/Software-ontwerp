@@ -98,5 +98,9 @@ public class Query {
 	public DomainCell computeCell(Row row, Map<CellId, Integer> cellIdMap, int specIndex) {
 		return this.getSelectStatement().computeCell(row, cellIdMap,specIndex);
 	}
+
+	public CellId getCellIdWithRealColumnNameFromSelect(CellId diffId) {
+		return this.getSelectStatement().getCellIdWithRealColumnName(diffId);
+	}
 	
 }

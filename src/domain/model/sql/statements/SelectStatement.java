@@ -108,4 +108,15 @@ public class SelectStatement implements Statement {
 		return (CellId) ((Map<CellId, Integer>) this.isEditableForColumnSpecIndex(specIndex)[0]).keySet().toArray()[0];
 	}
 
+	public CellId getCellIdWithRealColumnName(CellId diffId) {
+		for (ColumnSpec cs : getColumnSpecs()) {
+			for (CellId id : cs.getExpression().getAllCellIds()) {
+				if (id.equals(diffId)) {
+					return new CellId(id.getTableId(), cs.getColumnName());
+				}
+			}
+		}
+		return null;
+	}
+
 }

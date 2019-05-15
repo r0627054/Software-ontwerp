@@ -51,6 +51,7 @@ public class ComputedTable extends Table {
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
 			} else {
+
 				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
 				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
 			}

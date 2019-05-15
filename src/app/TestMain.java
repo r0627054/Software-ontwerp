@@ -27,12 +27,12 @@ public class TestMain {
 		// 0 Students
 		// 1 Work
 		// 2 Group
-		
-		
+
+
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
 				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
 				+ " WHERE stud.Grade + 15 = w.Age";
-				
+
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
@@ -41,16 +41,16 @@ public class TestMain {
 		ComputedTable comp = new ComputedTable(UUID.randomUUID(), "compTAble", query, tableList);
 		System.out.println(comp);
 
-		
+
 		System.out.println("Student:\n");
 		System.out.println(tableList.get(0));
-		
-		
+
+
 		System.out.println("Work:\n");
 		System.out.println(tableList.get(1));
 
 		System.out.println("\n\n\n");
-		
+
 	}
 
 	public static Table dummyTable1() {
