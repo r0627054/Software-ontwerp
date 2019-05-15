@@ -186,8 +186,11 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	public void paint(Graphics2D g) {
 		refreshComponentCoordinates();
 
+		g.setColor(Color.WHITE);
+		g.fillRect(getX(), getY(), getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		g.drawRect(getX(), getY(), getWidth(), getHeight());
+		
 
 		if (this.isRedBackground()) {
 			g.setColor(Color.RED);
