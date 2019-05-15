@@ -40,20 +40,34 @@ public class ComputedTable extends Table {
 		SelectStatement select = getQuery().getSelectStatement();
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
-
-		//for (ColumnSpec cs : select.getColumnSpecs()) {
+		// for (ColumnSpec cs : select.getColumnSpecs()) {
+		System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
-			
+
 			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));
-			//---------------------------------------------------------------------------------------------
-			for (Row row : this.getRows()) {
-				DomainCell cell = getQuery().computeCell(row,cellIdMap,specIndex);
+
+			for (Row row : result.getRows()) {
+				DomainCell cell = getQuery().computeCell(row, cellIdMap, specIndex);
 				c.addCell(cell);
+
 			}
 			tempTable.addColumn(c);
 		}
 
-		return result;
+		if (!tempTable.getColumns().isEmpty()) {
+			
+			int rowIndex = 0;
+			while (rowIndex < result.getHeightOfColumns()) {
+				ArrayList<DomainCell> rowList = new ArrayList<>();
+				for (Column c : tempTable.getColumns()) {
+					rowList.add(c.getCellAtIndex(rowIndex));
+				}
+				tempTable.addRow(new Row(rowList));
+				rowIndex++;
+			}
+		}
+
+		return tempTable;
 	}
 
 	private Table executeWhereStatement(Table table) {
@@ -176,7 +190,7 @@ public class ComputedTable extends Table {
 			}
 
 			if (!table.columnNameExists(id.getColumnName())) {
-				throw new DomainException("Invalid table column in ON condition in INNER JOIN.");
+				throw new DomainException("Invalid table column cell id");
 			}
 		}
 	}

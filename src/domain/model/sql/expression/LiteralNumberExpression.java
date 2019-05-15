@@ -12,15 +12,15 @@ import domain.model.sql.SqlException;
 
 public class LiteralNumberExpression implements Expression {
 	private int value;
-	private Map<UUID,Integer> usedIds = new HashMap<>(); 
+	private Map<UUID, Integer> usedIds = new HashMap<>();
 	private int subTotal;
 
-	public LiteralNumberExpression(int value, int subtotal, Map<UUID,Integer> usedIds) {
+	public LiteralNumberExpression(int value, int subtotal, Map<UUID, Integer> usedIds) {
 		this.setValue(value);
 		this.setSubTotal(subtotal);
 		this.setUsedIds(usedIds);
 	}
-	
+
 	public LiteralNumberExpression(int value) {
 		this(value, 0, new HashMap<>());
 	}
@@ -28,17 +28,24 @@ public class LiteralNumberExpression implements Expression {
 	public LiteralNumberExpression(String intString) {
 		this.setValue(this.parsetoInteger(intString));
 	}
-	
+
 	public Map<UUID, Integer> getUsedIds() {
 		return usedIds;
+	}
+
+	public UUID getFirstUUIDOfMap() {
+		if (this.getUsedIds().keySet().size() > 1 || this.getUsedIds().keySet().size() == 0) {
+			throw new SqlException("Cannot get the first UUID of the usedIdMap");
+		}
+		return (UUID) this.getUsedIds().keySet().toArray()[0];				
 	}
 
 	public void setUsedIds(Map<UUID, Integer> usedIds) {
 		this.usedIds = usedIds;
 	}
-	
+
 	public boolean isEditable() {
-		return this.getUsedIds().keySet().size() == 1;
+		return this.getUsedIds().keySet().size() == 1 && !this.getUsedIds().containsKey(null);
 	}
 
 	public int getSubTotal() {
@@ -52,7 +59,7 @@ public class LiteralNumberExpression implements Expression {
 	public int getValue() {
 		return value;
 	}
-		
+
 	private void setValue(int value) {
 		this.value = value;
 	}
@@ -64,7 +71,7 @@ public class LiteralNumberExpression implements Expression {
 			throw new SqlException("Invalid integer Expression.");
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return " " + this.getValue() + " ";

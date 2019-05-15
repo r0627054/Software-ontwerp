@@ -1,5 +1,7 @@
 package domain.model;
 
+import java.util.UUID;
+
 import domain.model.sql.Operator;
 
 /**
@@ -47,6 +49,12 @@ public class DomainCell extends ObjectIdentifier {
 	public DomainCell(ValueType type) {
 		setType(type);
 		setValue(type.getDefaultValue());
+	}
+
+	public DomainCell(UUID cellId, Object value, ValueType type) {
+		super(cellId);
+		this.setType(type);
+		this.setValue(value);
 	}
 
 	/**
@@ -129,7 +137,7 @@ public class DomainCell extends ObjectIdentifier {
 	public boolean compare(DomainCell rightCell, Operator op) {
 		return this.compare(rightCell.getValue(), op);
 	}
-	
+
 	public boolean compare(Object otherValue, Operator op) {
 		switch (op) {
 		case EQUAL:

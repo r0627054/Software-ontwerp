@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import domain.model.sql.columnSpec.ColumnSpec;
 import domain.model.sql.expression.BooleanExpression;
 import domain.model.sql.expression.BracketExpression;
 import domain.model.sql.expression.CellIdExpression;
@@ -99,14 +100,14 @@ public class SQLParser extends StreamTokenizer {
 		String colName = expectIdent();
 		return rowId + "." + colName;
 	}
-	
+
 	public Expression parseCellIdSqlExpression() {
 		String rowId = expectIdent();
 		expect('.');
 		String colName = expectIdent();
 		return new CellIdExpression(new CellId(rowId, colName));
 	}
-	
+
 	public Expression parsePrimarySqlExpression() {
 		switch (ttype) {
 		case TT_TRUE:
@@ -168,8 +169,6 @@ public class SQLParser extends StreamTokenizer {
 			throw error();
 		}
 	}
-	
-	
 
 	public String parseSum() {
 		String e = parsePrimaryExpr();
@@ -206,7 +205,7 @@ public class SQLParser extends StreamTokenizer {
 			}
 		}
 	}
-	
+
 	public String parseRelationalExpr() {
 		String e = parseSum();
 		switch (ttype) {
@@ -220,7 +219,7 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-	
+
 	public Expression parseSqlRelationalExpression() {
 		Expression e = parseSqlExpressionSum();
 		switch (ttype) {
@@ -248,7 +247,7 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-	
+
 	public Expression parseSqlConjunctionExpression() {
 		Expression e = parseSqlRelationalExpression();
 		switch (ttype) {
@@ -259,7 +258,6 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-	
 
 	public String parseDisjunction() {
 		String e = parseConjunction();
@@ -271,7 +269,7 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-	
+
 	public Expression parseSqlDisjunctionExpression() {
 		Expression e = parseSqlConjunctionExpression();
 		switch (ttype) {
@@ -286,7 +284,7 @@ public class SQLParser extends StreamTokenizer {
 	public String parseExpr() {
 		return parseDisjunction();
 	}
-	
+
 	public Expression parseSqlExpression() {
 		return parseSqlDisjunctionExpression();
 	}
@@ -341,20 +339,21 @@ public class SQLParser extends StreamTokenizer {
 	}
 
 	private SelectStatement createSelectStatement() {
-
-		// TODO
+		SelectStatement selectStatement = new SelectStatement();
 		expect(TT_SELECT);
 		for (;;) {
-			parseExpr();
+			Expression e = parseSqlExpression();
 			expect(TT_AS);
-			expectIdent();
+			String colName = expectIdent();
+			selectStatement.addColumnSpec(new ColumnSpec(e, colName));
+			
 			if (ttype == ',') {
 				nextToken();
 			} else
 				break;
 		}
 
-		return new SelectStatement();
+		return selectStatement;
 	}
 
 	private FromStatement createFromStatement() {

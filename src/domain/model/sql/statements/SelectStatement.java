@@ -3,21 +3,24 @@ package domain.model.sql.statements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import domain.model.Column;
 import domain.model.DomainCell;
 import domain.model.Row;
+import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.SqlException;
 import domain.model.sql.columnSpec.ColumnSpec;
+import domain.model.sql.expression.BooleanExpression;
 import domain.model.sql.expression.CellIdExpression;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.expression.LiteralNumberExpression;
+import domain.model.sql.expression.LiteralStringExpression;
 
 public class SelectStatement implements Statement {
 
 	private List<ColumnSpec> columnSpecs;
-
 
 	public SelectStatement() {
 		this.columnSpecs = new ArrayList<>();
@@ -29,15 +32,15 @@ public class SelectStatement implements Statement {
 		}
 		this.getColumnSpecs().add(columnSpec);
 	}
-	
+
 	public ColumnSpec getColumnSpec(int index) {
 		return this.getColumnSpecs().get(index);
 	}
-	
+
 	public String getColumnNameOfColumnSpec(int index) {
 		return this.getColumnSpec(index).getColumnName();
 	}
-	
+
 	public Expression getExpressionOfColumnSpec(int index) {
 		return this.getColumnSpec(index).getExpression();
 	}
@@ -45,7 +48,7 @@ public class SelectStatement implements Statement {
 	public List<ColumnSpec> getColumnSpecs() {
 		return columnSpecs;
 	}
-	
+
 	@Override
 	public List<CellId> getAllCellIds() {
 		List<CellId> result = new ArrayList<>();
@@ -57,10 +60,10 @@ public class SelectStatement implements Statement {
 
 	@Override
 	public String toString() {
-		String result ="SELECT";
+		String result = "SELECT";
 		for (int i = 0; i < this.getColumnSpecs().size(); i++) {
 			result += " " + this.getColumnSpecs().get(i).toString();
-			if(i != (this.getColumnSpecs().size()-1)) {
+			if (i != (this.getColumnSpecs().size() - 1)) {
 				result += ",";
 			}
 		}
@@ -69,20 +72,28 @@ public class SelectStatement implements Statement {
 
 	public DomainCell computeCell(Row row, Map<CellId, Integer> cellIdMap, int specIndex) {
 		Expression exp = this.getExpressionOfColumnSpec(specIndex).simplify(row, cellIdMap);
-		if(exp instanceof CellIdExpression) {
+
+		if (exp instanceof CellIdExpression) {
 			return this.getDomainCellOfOutOfCellId(exp, row, cellIdMap);
-		}else if(exp instanceof LiteralNumberExpression) {
-			
+		} else if (exp instanceof LiteralNumberExpression) {
+
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
-			
-			
+
+			UUID cellId = litNum.isEditable() ? litNum.getFirstUUIDOfMap() : null;
+
+			return new DomainCell(cellId, litNum.getValue(), ValueType.INTEGER);
+
+		} else if (exp instanceof BooleanExpression) {
+			return new DomainCell(null, ((BooleanExpression) exp).getValue(), ValueType.BOOLEAN);
+		} else if (exp instanceof LiteralStringExpression) {
+			return new DomainCell(null, ((LiteralStringExpression) exp).getValue(), ValueType.STRING);
+		} else {
+			throw new SqlException("Not implemented computeCell Expression");
 		}
-		
-		return null;
 	}
-	
+
 	private DomainCell getDomainCellOfOutOfCellId(Expression exp, Row row, Map<CellId, Integer> cellIdMap) {
-		CellId cellId = ( (CellIdExpression) exp).getValue();
+		CellId cellId = ((CellIdExpression) exp).getValue();
 		Integer index = cellIdMap.get(cellId);
 		return row.getCellAtIndex(index);
 	}

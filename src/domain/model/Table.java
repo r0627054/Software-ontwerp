@@ -42,6 +42,7 @@ public class Table extends ObjectIdentifier {
 	public Table(String name) {
 		this.setName(name);
 	}
+
 	public Table(UUID tableId, String name) {
 		super(tableId);
 		this.setName(name);
@@ -273,7 +274,7 @@ public class Table extends ObjectIdentifier {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Creates a new Column with a unique name.
 	 * Its name is columnN, where N is a number, and it is different from the names of the existing columns.
@@ -578,41 +579,46 @@ public class Table extends ObjectIdentifier {
 		}
 		throw new DomainException("No column id found for given cellId");
 	}
-	
+
 	public int getNbrOfColumns() {
 		return this.getColumns().size();
 	}
-	
+
 	public int getColumnIndexOfName(String columnName) {
-		if(columnName == null) {
+		if (columnName == null) {
 			throw new DomainException("ColumnName cannot be null.");
 		}
 		for (int i = 0; i < this.getNbrOfColumns(); i++) {
 			Column currentColumn = this.getColumns().get(i);
-			if(columnName.equals(currentColumn.getName())) {
+			if (columnName.equals(currentColumn.getName())) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
 
 	public Table copy() {
 		return new Table(getName(), getId(), getRows(), getColumns());
 	}
-	
+
 	@Override
 	public String toString() {
-		String result ="";
+		String result = "";
 		for (Column c : this.getColumns()) {
-			result += "|\t" +c.getName().toString() + "\t";
+			result += "|\t" + c.getName().toString() + "\t";
 		}
-		result+= "|\n";
+		result += "|\n";
 		for (Row r : this.getRows()) {
-			result +=r.toString() + "\n";
+			result += r.toString() + "\n";
 		}
 		return result;
 	}
-	
-	
+
+	public int getHeightOfColumns() {
+		if (this.getColumns().size() == 0) {
+			return 0;
+		}
+		return getColumns().get(0).getCells().size();
+	}
+
 }
