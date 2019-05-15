@@ -1,5 +1,6 @@
 package domain.model.sql.expression;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import domain.model.Row;
@@ -22,6 +23,12 @@ public class ConjunctionOperatorExpression extends OperatorExpression {
 			return new BooleanExpression(true);
 		} else
 			return new BooleanExpression(false);
+	}
+
+	@Override
+	public Object[] isEditable() {
+		Object[] result = {new HashMap<CellId,Integer>(),false};
+		return result;
 	}
 
 }

@@ -1,6 +1,8 @@
 package domain.model.sql.expression;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import domain.model.Row;
 import domain.model.sql.CellId;
@@ -43,4 +45,11 @@ public class BooleanExpression implements Expression {
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		return this;
 	}
+
+	@Override
+	public Object[] isEditable() {
+		Object[] result = {new HashMap<CellId,Integer>() ,Boolean.FALSE};
+		return result;
+	}
+
 }

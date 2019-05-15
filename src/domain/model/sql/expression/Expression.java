@@ -17,9 +17,12 @@ public interface Expression {
 		return new ArrayList<>();
 	}
 
-	//boolean equals(Object obj);
-	//boolean greaterThan(Expression e);
-	//boolean smallerThan(Expression e);
+	/**
+	 * First element is Map<UUID,Integer> columnIds en hoe vaak column gebruikt
+	 * Second element is Boolean isEditable until know
+	 * @return
+	 */
+	public Object[] isEditable();
 	
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap);
 }

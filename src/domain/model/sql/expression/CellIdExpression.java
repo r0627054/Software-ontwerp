@@ -1,8 +1,10 @@
 package domain.model.sql.expression;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import domain.model.Row;
 import domain.model.sql.CellId;
@@ -62,4 +64,13 @@ public class CellIdExpression implements Expression {
 		return this; 
 	}
 
+	@Override
+	public Object[] isEditable() {
+		HashMap<CellId, Integer> map = new HashMap<>();
+		map.put(this.getValue(), 1);
+		Object[] result = {map,Boolean.TRUE};
+		return result;
+	}
+
+	
 }

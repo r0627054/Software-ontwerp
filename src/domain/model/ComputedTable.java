@@ -41,7 +41,7 @@ public class ComputedTable extends Table {
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
 		// for (ColumnSpec cs : select.getColumnSpecs()) {
-		System.out.println(select.getColumnSpecs().size());
+		//System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
 			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));

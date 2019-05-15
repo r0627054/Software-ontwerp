@@ -42,4 +42,9 @@ public class BracketExpression implements Expression {
 		return this.getExpression().simplify(row, cellIdMap);
 	}
 
+	@Override
+	public Object[] isEditable() {
+		return this.getExpression().isEditable();
+	}
+
 }

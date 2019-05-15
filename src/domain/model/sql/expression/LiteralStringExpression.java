@@ -1,5 +1,6 @@
 package domain.model.sql.expression;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import domain.model.Row;
@@ -34,5 +35,12 @@ public class LiteralStringExpression implements Expression {
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		return this;
 	}
+
+	@Override
+	public Object[] isEditable() {
+		Object[] result = {new HashMap<CellId,Integer>() ,Boolean.FALSE};
+		return result;
+	}
+
 
 }

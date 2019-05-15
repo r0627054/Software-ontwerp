@@ -79,7 +79,7 @@ public class SelectStatement implements Statement {
 
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
 
-			UUID cellId = litNum.isEditable() ? litNum.getFirstUUIDOfMap() : null;
+			UUID cellId = litNum.isOneEditable() ? litNum.getFirstUUIDOfMap() : null;
 
 			return new DomainCell(cellId, litNum.getValue(), ValueType.INTEGER);
 

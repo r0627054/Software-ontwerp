@@ -44,7 +44,7 @@ public class LiteralNumberExpression implements Expression {
 		this.usedIds = usedIds;
 	}
 
-	public boolean isEditable() {
+	public boolean isOneEditable() {
 		return this.getUsedIds().keySet().size() == 1 && !this.getUsedIds().containsKey(null);
 	}
 
@@ -81,4 +81,11 @@ public class LiteralNumberExpression implements Expression {
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		return this;
 	}
+
+	@Override
+	public Object[] isEditable() {
+		Object[] result = {new HashMap<CellId,Integer>() ,Boolean.FALSE};
+		return result;
+	}
+
 }

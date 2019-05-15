@@ -91,13 +91,13 @@ public class MathOperatorExpression extends OperatorExpression {
 			int subtotal = lne.getSubTotal();
 
 			DomainCell rightCell = this.getDomainCellOfOutOfCellId(right, row, cellIdMap);
-			
+
 			if (usedIdsMap.containsKey(rightCell.getId())) {
 				usedIdsMap.put(rightCell.getId(), usedIdsMap.get(rightCell.getId()) + 1);
 			} else {
 				usedIdsMap.put(rightCell.getId(), 1);
 			}
-			
+
 			if (rightCell.getValue() instanceof Integer) {
 				int result = 0;
 				Integer rc = (Integer) rightCell.getValue();
@@ -132,6 +132,28 @@ public class MathOperatorExpression extends OperatorExpression {
 		CellId cellId = ((CellIdExpression) exp).getValue();
 		Integer index = cellIdMap.get(cellId);
 		return row.getCellAtIndex(index);
+	}
+
+	@Override
+	public Object[] isEditable() {
+		if (getLeftExpression() instanceof CellIdExpression && getRightExpression() instanceof CellIdExpression) {
+			Map<CellId, Integer> leftMap = (Map<CellId, Integer>) getLeftExpression().isEditable()[0];
+			Map<CellId, Integer> rightMap = (Map<CellId, Integer>) getRightExpression().isEditable()[0];
+			Map<CellId, Integer> resultMap = new HashMap<>();
+
+			if (leftMap.keySet().toArray()[0].equals(rightMap.keySet().toArray()[0])) {
+				resultMap.put((CellId) leftMap.keySet().toArray()[0], 2);
+				Object[] result = { resultMap, Boolean.TRUE };
+				return result;
+
+			} else {
+				resultMap.put((CellId) leftMap.keySet().toArray()[0], 1);
+				resultMap.put((CellId) rightMap.keySet().toArray()[0], 1);
+				Object[] result = { resultMap, Boolean.FALSE };
+				return result;
+			}
+		}
+		return null;
 	}
 
 }
