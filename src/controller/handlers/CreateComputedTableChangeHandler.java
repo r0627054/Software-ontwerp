@@ -14,12 +14,14 @@ public class CreateComputedTableChangeHandler implements ChangeHandlerInterface 
 		String newQuery = (String) evt.getNewValue();
 
 		try {
-			String tableName = domainfacade.getTableNameOfId(tableId);
-			domainfacade.createComputedTable(tableId, newQuery);
-			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
-			uifacade.updateTableRowsAndDesignSubWindows(tableId, tableName,
-					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
-					domainfacade.isComputedTable(tableId));
+			if (newQuery.trim().length() > 0) {
+				String tableName = domainfacade.getTableNameOfId(tableId);
+				domainfacade.createComputedTable(tableId, newQuery);
+				uifacade.updateTablesSubWindows(domainfacade.getTableNames());
+				uifacade.updateTableRowsAndDesignSubWindows(tableId, tableName,
+						domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
+						domainfacade.isComputedTable(tableId));
+			}
 		} catch (Exception e) {
 			uifacade.throwError(tableId, 1, 0);
 			uifacade.pauseCurrentSubWindow(1, tableId);

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import domain.model.sql.CellId;
 import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
 
@@ -312,7 +313,23 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (newName == null || newName.isEmpty() || tableAlreadyExists(id, newName)) {
 			throw new DomainException("Table name already exists in another table or is empty.");
 		}
+		if (checkComputedTableUsesTableId(id) && !getTableNameOfId(id).equals(newName)) {
+			throw new DomainException("A computed table uses this table");
+		}
 		this.getTable(id).setName(newName);
+	}
+
+	private boolean checkComputedTableUsesTableId(UUID id) {
+		for (Table t : getTableMap().values()) {
+			if (t instanceof ComputedTable) {
+				for (Table usedTables : ((ComputedTable) t).getQueryTables()) {
+					if (usedTables.getId().equals(id)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -490,11 +507,31 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot update a column name with a null id.");
 		} else if (newName == null || newName.isEmpty()) {
 			throw new DomainException("Cannot set a new column name with a null or empty name.");
+		} else if (columnNameIsBeingUsedByComputedTable(getTable(tableId).getColumn(columnId).getName(),
+				getTableNameOfId(tableId)) && !getTable(tableId).getColumn(columnId).getName().equals(newName)) {
+			throw new DomainException("Cannot change a column which is being used by a computed table");
 		}
 		Table table = getTable(tableId);
 		if (table != null) {
 			table.updateColumnName(columnId, newName);
 		}
+	}
+
+	private boolean columnNameIsBeingUsedByComputedTable(String oldColName, String tableName) {
+		for (Table t : getTableMap().values()) {
+			if (t instanceof ComputedTable) {
+				ComputedTable comp = (ComputedTable) t;
+				Map<String, String> namesMap = comp.getQuery().getDisplayToRealNamesMap();
+
+				for (CellId id : comp.getQuery().getAllCellIds()) {
+					if (namesMap.get(id.getTableId()).equals(tableName) && id.getColumnName().equals(oldColName)) {
+						return true;
+					}
+				}
+
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -835,6 +872,40 @@ public class DomainFacade implements DomainFacadeInterface {
 		SQLParser parser = new SQLParser(parsedQuery);
 		Query newQuery = parser.getQueryFromString();
 
+		if (getTable(tableId) instanceof ComputedTable) {
+			ComputedTable comp = (ComputedTable) getTable(tableId);
+			Query compQuery = comp.getQuery();
+			List<CellId> diffCellIds = new ArrayList<>();
+			List<CellId> diffCellIds2 = new ArrayList<>();
+
+			for (CellId id : comp.getQuery().getAllCellIds()) {
+				if (!listDoesContainCellId(newQuery.getAllCellIds(), id)) {
+					diffCellIds.add(id);
+				}
+			}
+
+			for (CellId diffId : diffCellIds) {
+				diffCellIds2.add(compQuery.getCellIdWithRealColumnNameFromSelect(diffId));
+			}
+
+			for (Table t : getTableMap().values()) {
+				if (t instanceof ComputedTable && !t.getId().equals(comp.getId())) {
+					ComputedTable other = (ComputedTable) t;
+					List<CellId> otherCellIds = other.getQuery().getCellIdsOfSelect();
+					Map<String, String> otherNamesMap = compQuery.getDisplayToRealNamesMap();
+					for (CellId diffId : otherCellIds) {
+						CellId tempId = new CellId(otherNamesMap.get(diffId.getTableId()), diffId.getColumnName());
+						if (listDoesContainCellId(diffCellIds2, tempId)) {
+							throw new DomainException(
+									"Cannot edit a columnName of a query that is being used by another query");
+						}
+					}
+
+				}
+			}
+
+		}
+
 		List<Table> tables = new ArrayList<>();
 		String oldTableName = getTableNameOfId(tableId);
 
@@ -858,8 +929,16 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		this.deleteTable(tableId);
 		ComputedTable newTable = new ComputedTable(tableId, oldTableName, newQuery, tables);
-		System.out.println("CREATED NEW TABLE: \n"+newTable);
 		this.getTableMap().put(tableId, newTable);
+	}
+
+	private boolean listDoesContainCellId(List<CellId> allCellIds, CellId id) {
+		for (CellId cellId : allCellIds) {
+			if (cellId.equals(id)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
