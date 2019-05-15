@@ -41,17 +41,13 @@ public class ComputedTable extends Table {
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
 		// for (ColumnSpec cs : select.getColumnSpecs()) {
-		// System.out.println(select.getColumnSpecs().size());
+		//System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
-			Object[] isEditableObject = select.getColumnSpec(specIndex).getExpression().isEditable();
-			if (((Boolean) isEditableObject[1])
-					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
-				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
-			} else {
-				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
-			}
-
+			
+			
+			
+			
 			Column c = new Column(select.getColumnNameOfColumnSpec(specIndex));
 
 			for (Row row : result.getRows()) {
@@ -63,7 +59,7 @@ public class ComputedTable extends Table {
 		}
 
 		if (!tempTable.getColumns().isEmpty()) {
-
+			
 			int rowIndex = 0;
 			while (rowIndex < result.getHeightOfColumns()) {
 				ArrayList<DomainCell> rowList = new ArrayList<>();
@@ -101,7 +97,7 @@ public class ComputedTable extends Table {
 		Map<CellId, Integer> result = new HashMap<>();
 
 		for (CellId cellId : cellIdList) {
-			result.put(cellId, this.getTableIndexFromCellId(displayTableNames, cellId, getQuery().getFromStatement()));
+			result.put(cellId, this.getTableIndexFromCellId(cellId));
 		}
 
 		return result;
@@ -141,9 +137,9 @@ public class ComputedTable extends Table {
 						Row newRow = new Row(allRowCells);
 
 						int leftComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames,
-								innerSpec.getCellIdLeft(), from);
+								innerSpec.getCellIdLeft());
 						int rightComparedIndex = this.getTableIndexFromCellId(joinedDisplayTableNames,
-								innerSpec.getCellIdRight(), from);
+								innerSpec.getCellIdRight());
 						DomainCell leftComparedObject = newRow.getCellAtIndex(leftComparedIndex);
 						DomainCell rightComparedObject = newRow.getCellAtIndex(rightComparedIndex);
 						if (leftComparedObject != null && rightComparedObject != null
@@ -165,8 +161,9 @@ public class ComputedTable extends Table {
 	 * @param from
 	 * @return
 	 */
-	public int getTableIndexFromCellId(List<String> displayTableNames, CellId cellId, FromStatement from) {
-		Map<String, String> displayToRealNameMap = from.getDisplayToRealNamesMap();
+	public int getTableIndexFromCellId(List<String> displayTableNames, CellId cellId) {
+		//Map<String, String> displayToRealNameMap = from.getDisplayToRealNamesMap();
+		Map<String, String> displayToRealNameMap = this.getQuery().getFromStatement().getDisplayToRealNamesMap();
 		String currentDisplayTableName = cellId.getTableId();
 		String currentActualcolumnName = cellId.getColumnName();
 		if (!displayTableNames.contains(currentDisplayTableName)) {
@@ -182,6 +179,13 @@ public class ComputedTable extends Table {
 		return result;
 	}
 
+	
+	public int getTableIndexFromCellId(CellId cellId) {
+		List<String> displayTableNames = getQuery().getAllDisplayTableNames();
+		return this.getTableIndexFromCellId(displayTableNames, cellId);
+	}
+	
+	
 	private Table getTableAtIndex(int i) {
 		return this.getQueryTables().get(i);
 	}
