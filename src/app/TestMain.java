@@ -2,6 +2,7 @@ package app;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,7 +45,10 @@ public class TestMain {
 		System.out.println(tableList.get(2));
 
 		System.out.println("\n\n\n");
-
+		
+//		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//		EERSTE CHECK DA WIJ DOEN IS FALSE CHECK OK? DUUH OK.
+//		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	}
 
 	public static Table dummyTable1() {

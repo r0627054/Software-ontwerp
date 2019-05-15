@@ -136,9 +136,10 @@ public class MathOperatorExpression extends OperatorExpression {
 
 	@Override
 	public Object[] isEditable() {
+		Map<CellId, Integer> leftMap = (Map<CellId, Integer>) getLeftExpression().isEditable()[0];
+		Map<CellId, Integer> rightMap = (Map<CellId, Integer>) getRightExpression().isEditable()[0];
+
 		if (getLeftExpression() instanceof CellIdExpression && getRightExpression() instanceof CellIdExpression) {
-			Map<CellId, Integer> leftMap = (Map<CellId, Integer>) getLeftExpression().isEditable()[0];
-			Map<CellId, Integer> rightMap = (Map<CellId, Integer>) getRightExpression().isEditable()[0];
 			Map<CellId, Integer> resultMap = new HashMap<>();
 
 			if (leftMap.keySet().toArray()[0].equals(rightMap.keySet().toArray()[0])) {
@@ -152,8 +153,59 @@ public class MathOperatorExpression extends OperatorExpression {
 				Object[] result = { resultMap, Boolean.FALSE };
 				return result;
 			}
+		} else if (getLeftExpression() instanceof LiteralNumberExpression
+				&& getRightExpression() instanceof CellIdExpression) {
+			Object[] result = { rightMap, Boolean.TRUE };
+			return result;
+			
+		} else if (getLeftExpression() instanceof CellIdExpression
+				&& getRightExpression() instanceof LiteralNumberExpression) {
+			Object[] result = { leftMap, Boolean.TRUE };
+			return result;
+			
+		} else if (getLeftExpression() instanceof MathOperatorExpression
+				&& getRightExpression() instanceof LiteralNumberExpression) {
+			Object[] result = { leftMap, getLeftExpression().isEditable()[1] };
+			return result;
+			
+		} else if (getLeftExpression() instanceof LiteralNumberExpression
+				&& getRightExpression() instanceof MathOperatorExpression) {
+			Object[] result = { rightMap, getRightExpression().isEditable()[1] };
+			return result;
+			
+		} else if (getLeftExpression() instanceof CellIdExpression
+				&& getRightExpression() instanceof MathOperatorExpression) {
+			return isEditableMathAndCellId((MathOperatorExpression) getRightExpression(),
+					(CellIdExpression) getLeftExpression());
+			
+		} else if (getLeftExpression() instanceof MathOperatorExpression
+				&& getRightExpression() instanceof CellIdExpression) {
+			return isEditableMathAndCellId((MathOperatorExpression) getLeftExpression(),
+					(CellIdExpression) getRightExpression());
+			
+		} else if (getLeftExpression() instanceof MathOperatorExpression
+				&& getRightExpression() instanceof MathOperatorExpression) {
+
+			
 		}
-		return null;
+
+		Object[] result = { new HashMap<CellId, Integer>(), false };
+		return result;
+	}
+
+	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell) {
+		Map<CellId, Integer> mathMap = (Map<CellId, Integer>) math.isEditable()[0];
+		CellId cellId = cell.getValue();
+
+		if (mathMap.keySet().contains(cellId)) {
+			mathMap.put(cellId, mathMap.get(cellId) + 1);
+			Object[] result = { mathMap, getRightExpression().isEditable()[1] };
+			return result;
+		} else {
+			mathMap.put(cellId, 1);
+			Object[] result = { mathMap, new Boolean(mathMap.keySet().size() == 1) };
+			return result;
+		}
 	}
 
 }

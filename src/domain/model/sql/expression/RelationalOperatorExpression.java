@@ -1,5 +1,6 @@
 package domain.model.sql.expression;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import domain.model.DomainCell;
@@ -13,7 +14,7 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		super(leftExpression, rightExpression, operator);
 	}
 
-	@Override 
+	@Override
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
 		Expression right = getRightExpression().simplify(row, cellIdMap);
@@ -151,10 +152,10 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		}
 		return new BooleanExpression(result);
 	}
-	
+
 	private BooleanExpression compareTwoBooleans(boolean left, boolean right) {
 		boolean result;
-		switch(getOperator()) {
+		switch (getOperator()) {
 		case GREATER:
 			result = left && !right;
 			break;
@@ -189,6 +190,12 @@ public class RelationalOperatorExpression extends OperatorExpression {
 			break;
 		}
 		return new BooleanExpression(result);
+	}
+
+	@Override
+	public Object[] isEditable() {
+		Object[] result = { new HashMap<CellId, Integer>(), false };
+		return result;
 	}
 
 }
