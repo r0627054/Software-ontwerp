@@ -25,11 +25,13 @@ public class TestMain {
 		tableList.add(dummyTable2());
 		tableList.add(dummyTable3());
 
+
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Grade = w.Age          WHERE  5";
 //		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
 //				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
 //				+ "         WHERE TRUE";
 //			     + "    WHERE  (stud.Grade + 15 = 20 OR stud.Name = \"Dries\") AND  w.Age - stud.Grade = 15";
+
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
@@ -37,14 +39,16 @@ public class TestMain {
 
 		ComputedTable comp = new ComputedTable(UUID.randomUUID(), "TEST1", query, tableList);
 		System.out.println(comp);
-		System.out.println("TABLE1:\n");
+		/*System.out.println("TABLE1:\n");
 		System.out.println(tableList.get(0));
 
 		System.out.println("TABLE3:\n");
 		System.out.println(tableList.get(2));
 
-		System.out.println("\n\n\n");
+		System.out.println("\n\n\n");*/
 		
+		Column c = comp.getColumns().get(0);
+		System.out.println(c.getCells().size());
 //		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 //		EERSTE CHECK DA WIJ DOEN IS FALSE CHECK OK? DUUH OK.
 //		@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@

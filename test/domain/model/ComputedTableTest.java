@@ -172,6 +172,7 @@ class ComputedTableTest {
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
 		assertEquals(8, comp.getNbrOfColumns());
 		assertEquals(3, comp.getRows().size());
+
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
