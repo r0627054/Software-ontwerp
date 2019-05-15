@@ -41,28 +41,36 @@ public class ComputedTable extends Table {
 		Table tempTable = new Table(getName());
 		Map<CellId, Integer> cellIdMap = getCellIdsToIndexMap(getQuery().getCellIdsOfSelect());
 		// for (ColumnSpec cs : select.getColumnSpecs()) {
-		//System.out.println(select.getColumnSpecs().size());
+		// System.out.println(select.getColumnSpecs().size());
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
 			Object[] isEditableObject = select.isEditableForColumnSpecIndex(specIndex);
-			Column c;
+			Column c = null;
 			if (((Boolean) isEditableObject[1])
 					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
 				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
 				CellId cellId = select.getCellIdOfEditable(specIndex);
-				//TODO blind copy
+				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
+				c.setName(select.getColumnNameOfColumnSpec(specIndex));
 			} else {
 				System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
-				 c = new Column(select.getColumnNameOfColumnSpec(specIndex));
-				//TODO Set type of column
+//				Column oldCol = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
+
+				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
 			}
 
-
-			for (Row row : result.getRows()) {
+			for (int i = 0; i < result.getRows().size(); i++) {
+				Row row = result.getRows().get(i);
 				DomainCell cell = getQuery().computeCell(row, cellIdMap, specIndex);
+
+				if (i == 0 && !cell.getType().equals(c.getType())) {
+					c.setDefaultValue(cell.getType().getDefaultValue());
+					c.updateType(cell.getType());
+				}
 				c.addCell(cell);
 
 			}
+
 			tempTable.addColumn(c);
 		}
 
@@ -170,7 +178,7 @@ public class ComputedTable extends Table {
 	 * @return
 	 */
 	public int getTableIndexFromCellId(List<String> displayTableNames, CellId cellId) {
-		//Map<String, String> displayToRealNameMap = from.getDisplayToRealNamesMap();
+		// Map<String, String> displayToRealNameMap = from.getDisplayToRealNamesMap();
 		Map<String, String> displayToRealNameMap = this.getQuery().getFromStatement().getDisplayToRealNamesMap();
 		String currentDisplayTableName = cellId.getTableId();
 		String currentActualcolumnName = cellId.getColumnName();
@@ -187,12 +195,10 @@ public class ComputedTable extends Table {
 		return result;
 	}
 
-
 	public int getTableIndexFromCellId(CellId cellId) {
 		List<String> displayTableNames = getQuery().getAllDisplayTableNames();
 		return this.getTableIndexFromCellId(displayTableNames, cellId);
 	}
-
 
 	private Table getTableAtIndex(int i) {
 		return this.getQueryTables().get(i);

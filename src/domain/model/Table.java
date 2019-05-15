@@ -166,6 +166,8 @@ public class Table extends ObjectIdentifier {
 		LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> tableData = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
+			System.out.println(c.getColumnIdAndNameAndClass());
+			System.out.println("######\n" + c.getCellsWithId());
 			tableData.put(c.getColumnIdAndNameAndClass(), c.getCellsWithId());
 		}
 
@@ -619,6 +621,10 @@ public class Table extends ObjectIdentifier {
 			return 0;
 		}
 		return getColumns().get(0).getCells().size();
+	}
+
+	public Column getColumnForIndex(int i) {
+		return this.getColumns().get(i);
 	}
 
 }

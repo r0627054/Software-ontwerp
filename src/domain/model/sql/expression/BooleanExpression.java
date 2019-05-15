@@ -38,7 +38,7 @@ public class BooleanExpression implements Expression {
 
 	@Override
 	public String toString() {
-		return " " + this.getValue().toString() + " ";
+		return " " + this.getValue().toString().toUpperCase() + " ";
 	}
 
 	@Override

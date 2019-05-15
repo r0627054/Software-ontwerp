@@ -79,14 +79,16 @@ public class SelectStatement implements Statement {
 
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
 
-			UUID cellId = litNum.isOneEditable() ? litNum.getFirstUUIDOfMap() : null;
-
-			return new DomainCell(cellId, litNum.getValue(), ValueType.INTEGER);
+			if (litNum.isOneEditable()) {
+				return new DomainCell(litNum.getFirstUUIDOfMap(), litNum.getValue(), ValueType.INTEGER);
+			} else {
+				return new DomainCell(ValueType.INTEGER, litNum.getValue());
+			}
 
 		} else if (exp instanceof BooleanExpression) {
-			return new DomainCell(null, ((BooleanExpression) exp).getValue(), ValueType.BOOLEAN);
+			return new DomainCell(ValueType.BOOLEAN, ((BooleanExpression) exp).getValue());
 		} else if (exp instanceof LiteralStringExpression) {
-			return new DomainCell(null, ((LiteralStringExpression) exp).getValue(), ValueType.STRING);
+			return new DomainCell(ValueType.STRING, ((LiteralStringExpression) exp).getValue());
 		} else {
 			throw new SqlException("Not implemented computeCell Expression");
 		}

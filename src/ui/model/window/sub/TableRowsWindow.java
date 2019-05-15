@@ -145,7 +145,7 @@ public class TableRowsWindow extends TableWindow {
 		super.updateContent(tableData);
 		this.updateRowsTable((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
 		this.setComputedTable((boolean) tableData[3]);
-		this.setTableName(isComputedTable() ? COMPUTED_PREFIX : "" + TITLE_STRING_PREFIX + (String) tableData[0]);
+		this.setTableName((isComputedTable() ? COMPUTED_PREFIX : "") + TITLE_STRING_PREFIX + (String) tableData[0]);
 	}
 
 	/**

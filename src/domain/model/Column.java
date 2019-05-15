@@ -38,6 +38,8 @@ public class Column extends ObjectIdentifier {
 	 * value of the column.
 	 */
 	private Object defaultValue;
+	
+	private boolean isEditable;
 
 	/**
 	 * Initialise a new column with the given name and the valueType equals ValueType.STRING.
@@ -92,6 +94,7 @@ public class Column extends ObjectIdentifier {
 		this.setType(type);
 		this.setAllowsBlanks(allowsBlanks);
 		this.setDefaultValue(defaultValue);
+		this.setEditable(true);
 	}
 	
 	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue, UUID id) {
@@ -100,9 +103,13 @@ public class Column extends ObjectIdentifier {
 		this.setType(type);
 		this.setAllowsBlanks(allowsBlanks);
 		this.setDefaultValue(defaultValue);
+		this.setEditable(true);
+	}	
+
+	public Column(String columnNameOfColumnSpec, boolean isEditable) {
+		this(columnNameOfColumnSpec);
+		this.setEditable(isEditable);
 	}
-	
-	
 
 	/**
 	 * Returns the name of the column.
@@ -346,6 +353,7 @@ public class Column extends ObjectIdentifier {
 		columnData.add(this.getId());
 		columnData.add(this.getName());
 		columnData.add(this.getType().getTypeClass());
+		columnData.add(this.isEditable());
 		return columnData;
 	}
 
@@ -538,6 +546,20 @@ public class Column extends ObjectIdentifier {
 	
 	public Column blindCopy() {
 		return new Column(getName(), getType(), isAllowsBlanks(), getDefaultValue(), getId());
+	}
+
+	/**
+	 * @return the isEditable
+	 */
+	private boolean isEditable() {
+		return isEditable;
+	}
+
+	/**
+	 * @param isEditable the isEditable to set
+	 */
+	private void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 	
 

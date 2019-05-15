@@ -76,6 +76,7 @@ public class RowsTable extends EditableComponent {
 			UUID columnId = (UUID) columnData.get(0);
 			String columnName = (String) columnData.get(1);
 			Class<?> tableType = (Class<?>) columnData.get(2);
+			boolean isEditableColumn = (boolean) columnData.get(3);
 
 			ColumnHeader header = new ColumnHeader(columnName, columnId);
 
@@ -86,7 +87,10 @@ public class RowsTable extends EditableComponent {
 				UICell newCell = new UICell(columnCellsMap.get(cellId), cellId, tableType, cellSubmitAction, null,
 						null);
 				columnCells.add(newCell);
-				allCellsList.add(newCell);
+				
+				if (isEditableColumn) {
+					allCellsList.add(newCell);
+				}
 			}
 			columnList.add(new VerticalComponentList(0, 0, columnCells));
 		}

@@ -211,7 +211,8 @@ public class EditableTextField extends TextField {
 					this.setText(getDefaultValue());
 					textResetSubmit();
 				} else if (Character.isLetterOrDigit(keyChar) || keyChar == '@' || keyChar == '.' || keyChar == ' '
-						|| keyChar == '<' || keyChar == '>' || keyChar == '=' || keyChar == '+' || keyChar == '-') {
+						|| keyChar == '<' || keyChar == '>' || keyChar == '=' || keyChar == '+' || keyChar == '-'
+						|| keyChar == ',') {
 					String text = getText();
 					setText(text.substring(0, position) + keyChar + text.substring(position, text.length()));
 					moveCursorLocationRight();
