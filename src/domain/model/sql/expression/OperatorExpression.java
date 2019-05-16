@@ -55,43 +55,18 @@ public abstract class OperatorExpression implements Expression {
 	public Expression getResult() {
 		return this.getOperator().getResult(this.getLeftExpression(), this.getRightExpression());
 	}
-	
+
 	@Override
 	public String toString() {
-		return this.getLeftExpression().toString() + " " + this.getOperator().toString() +" "+ this.getRightExpression().toString();
+		return this.getLeftExpression().toString() + " " + this.getOperator().toString() + " "
+				+ this.getRightExpression().toString();
 	}
-	
+
 	@Override
 	public List<CellId> getAllCellIds() {
-		List<CellId> result =new ArrayList<>();
+		List<CellId> result = new ArrayList<>();
 		result.addAll(this.getLeftExpression().getAllCellIds());
 		result.addAll(this.getRightExpression().getAllCellIds());
 		return result;
 	}
-
-
-	/*@Override
-	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof OperatorExpression) {
-			OperatorExpression value = (OperatorExpression) obj;
-
-			return value.getLeftExpression().equals(this.getLeftExpression())
-					&& value.getRightExpression().equals(this.getRightExpression())
-					&& value.getOperator().equals(this.getOperator());
-		}
-		return false;
-	}
-
-	@Override
-	public boolean greaterThan(Expression e) {
-		return e != null && e instanceof OperatorExpression
-				&& this.getResult().greaterThan(((OperatorExpression) e).getResult());
-	}
-
-	@Override
-	public boolean smallerThan(Expression e) {
-		return e != null && e instanceof OperatorExpression
-				&& this.getResult().smallerThan(((OperatorExpression) e).getResult());
-	}*/
-
 }

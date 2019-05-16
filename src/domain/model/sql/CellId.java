@@ -47,12 +47,17 @@ public class CellId {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof CellId) {
+		if ( (obj != null)  && (obj instanceof CellId)) {
 			CellId objCasted = (CellId) obj;
 			return objCasted.getColumnName().equals(this.getColumnName())
 					&& objCasted.getTableId().equals(this.getTableId());
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (this.getColumnName().hashCode()) * 700 + (this.getTableId().hashCode() *99);  
 	}
 
 	@Override

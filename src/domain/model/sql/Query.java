@@ -7,6 +7,7 @@ import java.util.Map;
 import domain.model.Column;
 import domain.model.DomainCell;
 import domain.model.Row;
+import domain.model.sql.columnSpec.ColumnSpec;
 import domain.model.sql.expression.Expression;
 import domain.model.sql.statements.FromStatement;
 import domain.model.sql.statements.SelectStatement;
@@ -123,6 +124,10 @@ public class Query {
 
 	public List<CellId> getCellIdOfColumnName(String columnNameOfEditedCell) {
 		return this.getSelectStatement().getCellIdOfColumnName(columnNameOfEditedCell);
+	}
+	
+	public ColumnSpec getColumnSpecOfDisplayName(String displayName){
+		return this.getSelectStatement().getColumnSpecOfDisplayName(displayName);
 	}
 	
 }

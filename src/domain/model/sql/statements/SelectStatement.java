@@ -77,8 +77,7 @@ public class SelectStatement implements Statement {
 			return this.getDomainCellOfOutOfCellId(exp, row, cellIdMap);
 		} else if (exp instanceof LiteralNumberExpression) {
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
-			
-			System.out.println(litNum.getSubTotal());
+
 			
 			if (litNum.isOneEditable()) {
 				return new DomainCell(litNum.getFirstUUIDOfMap(), litNum.getValue(), ValueType.INTEGER);
@@ -144,6 +143,15 @@ public class SelectStatement implements Statement {
 		}
 
 		return result;
+	}
+	
+	public ColumnSpec getColumnSpecOfDisplayName(String displayName) {
+		for (ColumnSpec columnSpec : this.getColumnSpecs()) {
+			if(columnSpec.getColumnName().equals(displayName)) {
+				return columnSpec;
+			}
+		}
+		throw new SqlException("ColumnSpec requested which does not exist");
 	}
 
 	public List<CellId> getCellIdOfColumnName(String columnNameOfEditedCell) {
