@@ -151,7 +151,7 @@ public class ComputedTable extends Table {
 								innerSpec.getCellIdRight());
 						DomainCell leftComparedObject = newRow.getCellAtIndex(leftComparedIndex);
 						DomainCell rightComparedObject = newRow.getCellAtIndex(rightComparedIndex);
-						if (leftComparedObject != null && rightComparedObject != null
+						if (leftComparedObject != null && rightComparedObject != null && (leftComparedObject.getValue() != null ) && (rightComparedObject.getValue() != null)
 								&& leftComparedObject.compare(rightComparedObject, Operator.EQUAL)) {
 							tempTable.addRow(newRow);
 						}

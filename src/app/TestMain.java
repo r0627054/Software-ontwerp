@@ -29,10 +29,8 @@ public class TestMain {
 		// 2 Group
 
 
-		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
-				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
-				+ " WHERE stud.Grade + 15 = w.Age";
-
+		String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
+							
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
@@ -49,6 +47,9 @@ public class TestMain {
 		System.out.println("Work:\n");
 		System.out.println(tableList.get(1));
 
+		System.out.println("Group:\n");
+		System.out.println(tableList.get(2));
+		
 		System.out.println("\n\n\n");
 
 	}

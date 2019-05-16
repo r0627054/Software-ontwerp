@@ -54,12 +54,11 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -80,14 +79,13 @@ class ComputedTableTest {
 	public void innerJoinAndWhereTrueShouldInnerJoinOnEmail() {
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Email = w.Email          WHERE  TRUE";
 		studentNames = new ArrayList<>();
-		studentNames.add("Steven");
 		studentNames.add("Dries");
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -99,13 +97,12 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Dries");
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(6, comp.getRows().size());
+		assertEquals(5, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -115,13 +112,11 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Laurens");
-		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(12, comp.getNbrOfColumns());
-		assertEquals(4, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -169,12 +164,11 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
@@ -222,12 +216,12 @@ class ComputedTableTest {
 	public void innerjoinWithWhereStringSmaller() {
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Grade = w.Age          WHERE  stud.Name < \"Mauro\"";
 		studentNames = new ArrayList<>();
-		studentNames.add("Laurens");
+		//studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(1, comp.getRows().size());
+		assertEquals(0, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -250,25 +244,26 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Dries");
+		
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
 	@Test
 	public void innerjoinWithWhereIntegerEqual() {
-		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart         WHERE stud.Grade =15";
+		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart         WHERE stud.Grade =5";
 		studentNames = new ArrayList<>();
-		studentNames.add("Dries");
+		studentNames.add("Steven");
+		studentNames.add("Steven");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(1, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	@Test
@@ -277,12 +272,11 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Steven");
 		studentNames.add("Steven");
-		studentNames.add("Dries");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(3, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -329,13 +323,12 @@ class ComputedTableTest {
 		studentNames.add("Steven");
 		studentNames.add("Mauro");
 		studentNames.add("Mauro");
-		studentNames.add("Dries");
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(6, comp.getRows().size());
+		assertEquals(5, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -372,13 +365,12 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Steven");
 		studentNames.add("Steven");
-		studentNames.add("Dries");
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(4, comp.getRows().size());
+		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -390,13 +382,12 @@ class ComputedTableTest {
 		studentNames = new ArrayList<>();
 		studentNames.add("Steven");
 		studentNames.add("Steven");
-		studentNames.add("Dries");
 		studentNames.add("Laurens");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(4, comp.getRows().size());
+		assertEquals(3, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -439,14 +430,15 @@ class ComputedTableTest {
 	public void whereMinusIntegerandCellId() {
 		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em  "
 				+ "   FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart "
-			    +"    WHERE 55- w.Age  = 25";
+			    +"    WHERE 20 - stud.Grade = w.Age - 5";
 		studentNames = new ArrayList<>();
-		studentNames.add("Dries");
+		studentNames.add("Steven");
+		studentNames.add("Steven");
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());
 		assertEquals(8, comp.getNbrOfColumns());
-		assertEquals(1, comp.getRows().size());
+		assertEquals(2, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), studentNames);
 	}
 	
@@ -517,7 +509,7 @@ class ComputedTableTest {
 	//-------------------------
 	//----SELECT STATEMENT----- 
 	//-------------------------
-	
+
 	@Test
 	public void testSelectStatementWithCellIdSelects() {
 		String sql = "SELECT  stud.Email AS em, stud.Name AS n   FROM Students AS stud           WHERE  TRUE ";
@@ -531,6 +523,7 @@ class ComputedTableTest {
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
 		assertEquals(2, comp.getNbrOfColumns());
 		assertEquals(4, comp.getRows().size());
+		assertEquals(2, comp.getColumns().size());
 		this.checkAllNames(comp.getColumns().get(1).getCells(), studentNames);
 	}
 	
@@ -545,7 +538,7 @@ class ComputedTableTest {
 		firstNames.add("Quinten");
 		firstNames.add("Quinten");
 		firstNames.add("Quinten");
-		firstNames.add("Frederik");
+	
 		ArrayList<String> nickNames = new ArrayList<>();
 		nickNames.add("Dirk");
 		nickNames.add("Rita");
@@ -553,19 +546,71 @@ class ComputedTableTest {
 		nickNames.add("Dirk");
 		nickNames.add("Rita");
 		nickNames.add("Jos");
-		nickNames.add("Filip");
+	
 				
 		SQLParser parser = new SQLParser(sql);
 		query = parser.getQueryFromString();
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getWorkAndGroupTables());;
 		assertEquals(2, comp.getNbrOfColumns());
-		assertEquals(7, comp.getRows().size());
+		assertEquals(6, comp.getRows().size());
 		this.checkAllNames(comp.getColumns().get(0).getCells(), firstNames);
 		this.checkAllNames(comp.getColumns().get(1).getCells(), nickNames);
 	}
 	
+	@Test
+	public void columnCompareToStringAndBooleanAndPlus() {
+		String sql = "SELECT  stud.Email > TRUE AS  ttable, stud.Name = \"Steven\" AS steven, stud.Grade + 5 + stud.Grade AS g   FROM Students AS stud           WHERE  TRUE ";
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		
+		ArrayList<Boolean> boolValues = new ArrayList<>();
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		ArrayList<Boolean> boolSteven = new ArrayList<>();
+		boolSteven.add(Boolean.TRUE);
+		boolSteven.add(Boolean.FALSE);
+		boolSteven.add(Boolean.FALSE);
+		boolSteven.add(Boolean.FALSE);
+		ArrayList<Integer> numberList = new ArrayList<>();	
+		numberList.add(15);
+		numberList.add(45);
+		numberList.add(35);
+		numberList.add(null);
+		assertEquals(3, comp.getNbrOfColumns());
+		assertEquals(4, comp.getRows().size());
+		
+		this.checkAllBoolean(comp.getColumns().get(0).getCells(), boolValues);
+		this.checkAllBoolean(comp.getColumns().get(1).getCells(), boolSteven);
+		this.checkAllInteger(comp.getColumns().get(2).getCells(), numberList);
+	}
 	
-
+	
+	@Test
+	public void advancedSelectsubtractionAndComparisons() {
+		String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		
+		ArrayList<Boolean> boolValues = new ArrayList<>();
+		boolValues.add(Boolean.TRUE);
+		boolValues.add(Boolean.TRUE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		ArrayList<Integer> numberList = new ArrayList<>();	
+		numberList.add(131);
+		numberList.add(131);
+		numberList.add(146);
+		numberList.add(146);
+		numberList.add(null);
+		
+		this.checkAllBoolean(comp.getColumns().get(1).getCells(), boolValues);
+		this.checkAllInteger(comp.getColumns().get(0).getCells(), numberList);
+	}
 	
 	
 	
@@ -760,6 +805,28 @@ class ComputedTableTest {
 				assertNull(names.get(i));
 			} else {
 				assertTrue( (cells.get(i).getValue() instanceof String) &&  ((String) cells.get(i).getValue()).equals(names.get(i)));
+			}
+		}
+	}
+	
+	public void checkAllBoolean(List<DomainCell> cells,List<Boolean> booleanList) {
+		assertTrue((cells.size() == booleanList.size()));
+		for (int i = 0; i < cells.size(); i++) {
+			if(cells.get(i) == null) {
+				assertNull(booleanList.get(i));
+			} else {
+				assertTrue( (cells.get(i).getValue() instanceof Boolean) &&  ((Boolean) cells.get(i).getValue()).equals(booleanList.get(i)));
+			}
+		}
+	}
+	
+	public void checkAllInteger(List<DomainCell> cells,List<Integer> integerList) {
+		assertTrue((cells.size() == integerList.size()));
+		for (int i = 0; i < cells.size(); i++) {
+			if(cells.get(i) == null || cells.get(i).getValue() == null) {
+				assertNull(integerList.get(i));
+			} else {
+				assertTrue( (cells.get(i).getValue() instanceof Integer) &&  ((Integer) cells.get(i).getValue()).equals(integerList.get(i)));
 			}
 		}
 	}
