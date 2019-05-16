@@ -27,9 +27,9 @@ public class MathOperatorExpression extends OperatorExpression {
 			int subtotal = 0;
 			LiteralNumberExpression lne = ((LiteralNumberExpression) left);
 			LiteralNumberExpression rne = ((LiteralNumberExpression) right);
-			if(lne.getValue() == null || rne.getValue() == null) {
+			if (lne.getValue() == null || rne.getValue() == null) {
 				return new LiteralNumberExpression(null, subtotal, new HashMap<>());
-			}else {
+			} else {
 				if (getOperator().equals(Operator.PLUS)) {
 					result = lne.getValue() + rne.getValue();
 					subtotal = lne.getSubTotal() + rne.getSubTotal();
@@ -39,7 +39,7 @@ public class MathOperatorExpression extends OperatorExpression {
 				}
 				Map<UUID, Integer> usedIds = this.mergeUsedIds(lne.getUsedIds(), rne.getUsedIds());
 				// return new LiteralNumberExpression(result);
-				return new LiteralNumberExpression(result, subtotal, usedIds);	
+				return new LiteralNumberExpression(result, subtotal, usedIds);
 			}
 		} else if (left instanceof CellIdExpression && right instanceof CellIdExpression) {
 			DomainCell leftCell = this.getDomainCellOfOutOfCellId(left, row, cellIdMap);
@@ -53,11 +53,12 @@ public class MathOperatorExpression extends OperatorExpression {
 				usedIds.put(rightCell.getId(), 1);
 			}
 
-			//if ((leftCell.getValue() instanceof Integer) && (rightCell.getValue() instanceof Integer)) {
-			if((leftCell.getType() == ValueType.INTEGER) && (rightCell.getType() == ValueType.INTEGER)) {
-				if(leftCell.getValue() == null || rightCell.getValue() == null) {
-					return new LiteralNumberExpression(null,0,usedIds);
-				}else {
+			// if ((leftCell.getValue() instanceof Integer) && (rightCell.getValue()
+			// instanceof Integer)) {
+			if ((leftCell.getType() == ValueType.INTEGER) && (rightCell.getType() == ValueType.INTEGER)) {
+				if (leftCell.getValue() == null || rightCell.getValue() == null) {
+					return new LiteralNumberExpression(null, 0, usedIds);
+				} else {
 					int result = 0;
 					Integer lc = (Integer) leftCell.getValue();
 					Integer rc = (Integer) rightCell.getValue();
@@ -83,7 +84,7 @@ public class MathOperatorExpression extends OperatorExpression {
 			}
 
 			if (leftCell.getType() == ValueType.INTEGER) {
-				if(leftCell.getValue() == null || rne.getValue() == null) {
+				if (leftCell.getValue() == null || rne.getValue() == null) {
 					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
 				}
 				int result = 0;
@@ -112,7 +113,7 @@ public class MathOperatorExpression extends OperatorExpression {
 			}
 
 			if (rightCell.getType() == ValueType.INTEGER) {
-				if(rightCell.getValue() == null || lne.getValue() == null) {
+				if (rightCell.getValue() == null || lne.getValue() == null) {
 					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
 				}
 				int result = 0;
@@ -204,7 +205,7 @@ public class MathOperatorExpression extends OperatorExpression {
 			Map<CellId, Integer> resultMap = new HashMap<>(leftMap);
 
 			for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
-				if (resultMap.containsKey(entry.getKey())) {
+				if (cellIdMapContainsCellId(resultMap, entry.getKey())) {
 					resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) + rightMap.get(entry.getKey()));
 				} else {
 					resultMap.put(entry.getKey(), entry.getValue());
@@ -233,6 +234,15 @@ public class MathOperatorExpression extends OperatorExpression {
 		}
 	}
 
+	private boolean cellIdMapContainsCellId(Map<CellId, Integer> resultMap, CellId key) {
+		for (CellId id : resultMap.keySet()) {
+			if (id.equals(key)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell) {
 		Map<CellId, Integer> mathMap = (Map<CellId, Integer>) math.isEditable()[0];
 		CellId cellId = cell.getValue();
@@ -257,31 +267,31 @@ public class MathOperatorExpression extends OperatorExpression {
 	}
 
 	public int getSubtotal() {
-		//left
+		// left
 		int leftSubResult = 0;
-		if(this.getLeftExpression() instanceof LiteralNumberExpression) {
+		if (this.getLeftExpression() instanceof LiteralNumberExpression) {
 			leftSubResult = ((LiteralNumberExpression) this.getLeftExpression()).getValue();
-		} else if(this.getLeftExpression() instanceof BracketExpression) {
+		} else if (this.getLeftExpression() instanceof BracketExpression) {
 			leftSubResult = ((BracketExpression) this.getLeftExpression()).getSubTotal();
-		} else if(this.getLeftExpression() instanceof MathOperatorExpression) {
+		} else if (this.getLeftExpression() instanceof MathOperatorExpression) {
 			leftSubResult = ((MathOperatorExpression) this.getLeftExpression()).getSubtotal();
 		}
 
-		//right
+		// right
 		int rightSubResult = 0;
-		if(this.getRightExpression() instanceof LiteralNumberExpression) {
+		if (this.getRightExpression() instanceof LiteralNumberExpression) {
 			rightSubResult = ((LiteralNumberExpression) this.getRightExpression()).getValue();
-		} else if(this.getRightExpression() instanceof BracketExpression) {
+		} else if (this.getRightExpression() instanceof BracketExpression) {
 			rightSubResult = ((BracketExpression) this.getRightExpression()).getSubTotal();
-		} else if(this.getRightExpression() instanceof MathOperatorExpression) {
+		} else if (this.getRightExpression() instanceof MathOperatorExpression) {
 			rightSubResult = ((MathOperatorExpression) this.getRightExpression()).getSubtotal();
 		}
-		
-		if(this.getOperator().equals(Operator.MINUS)) {
-			rightSubResult = rightSubResult*(-1);
+
+		if (this.getOperator().equals(Operator.MINUS)) {
+			rightSubResult = rightSubResult * (-1);
 		}
-		
-		return leftSubResult+rightSubResult;
+
+		return leftSubResult + rightSubResult;
 	}
 
 }
