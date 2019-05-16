@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -26,12 +28,12 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
-			getUiFacade().createTableDesignSubWindow(tableId, tableName,
-					getDomainFacade().getColumnCharacteristics(tableId));
+			getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId) );
+
 
 			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
 					.getColumnCharacteristics(tableId);
