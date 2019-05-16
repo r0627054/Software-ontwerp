@@ -80,6 +80,12 @@ public class Query {
 	public Map<String, String> getDisplayToRealNamesMap() {
 		return this.getFromStatement().getDisplayToRealNamesMap();
 	}
+	
+	public Map<String,String> getRealToDisplayNamesMap(){
+		return this.getFromStatement().getRealToDisplayNamesMap();
+	}
+	
+	
 
 	public List<String> getAllDisplayTableNames() {
 		return this.getFromStatement().getAllDisplayTableNames();
@@ -101,6 +107,18 @@ public class Query {
 
 	public CellId getCellIdWithRealColumnNameFromSelect(CellId diffId) {
 		return this.getSelectStatement().getCellIdWithRealColumnName(diffId);
+	}
+
+	public boolean usesTable(String name) {
+		return this.getFromStatement().usesTable(name);
+	}
+
+	public List<String> getUsedColumnNamesOfDisplayTableName(String displayName) {
+		return this.getSelectStatement().getUsedColumnNamesOfDisplayTableName(displayName);
+	}
+
+	public List<String> getAllSelectColumnNames() {
+		return this.getSelectStatement().getAllSelectColumnNames();
 	}
 	
 }

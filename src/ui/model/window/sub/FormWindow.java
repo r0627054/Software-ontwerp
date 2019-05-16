@@ -42,7 +42,7 @@ public class FormWindow extends TableWindow {
 	 * Variable holding the row number which is displayed.
 	 */
 	private int currentRow = 0;
-	
+
 	private List<Component> columnCells;
 
 	private Map<List<Object>, LinkedHashMap<UUID, Object>> tableData;
@@ -60,34 +60,35 @@ public class FormWindow extends TableWindow {
 		int y = getY() + 50;
 		int x1 = getX() + 50;
 		int x2 = getX() + 110;
-		
-		
-		
-		for (List<Object> key : getTableData().keySet()) {  
-			Class<?> cellType = (Class<?>) key.get(2); 
-			
+
+		for (List<Object> key : getTableData().keySet()) {
+			Class<?> cellType = (Class<?>) key.get(2);
+			boolean isEditable = (boolean) key.get(3);
+
 			LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
 			Set<UUID> idList = cellData.keySet();
-			
-			Object[] list = cellData.values().toArray();		
+
+			Object[] list = cellData.values().toArray();
 			Object[] idArray = (Object[]) idList.toArray();
-			if(getCurrentRow() >= 0 && getCurrentRow() <=list.length - 1) {
+			if (getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1) {
 				UUID cellUUID = (UUID) idArray[getCurrentRow()];
 				Object cellValue = list[getCurrentRow()];
-				UICell uiCell = new UICell(cellValue, cellUUID, cellType, ChangeEventType.ROW_EDITED, null,
-						null);
+				UICell uiCell = new UICell(cellValue, cellUUID, cellType, ChangeEventType.ROW_EDITED, null, null);
 				columnCells.add(uiCell);
-				this.addStoredListener(uiCell);
-				uiCell.addPropertyChangeListener(this);
 				
+				if (isEditable) {
+					this.addStoredListener(uiCell);
+				}
+				uiCell.addPropertyChangeListener(this);
+
 			}
 			getContainer().addComponent(new TextField(x1, y, 200, 40, key.get(1).toString()));
 			y += 40;
 		}
-		VerticalComponentList vcl = new VerticalComponentList(x2,getY() + 50, columnCells);
-		
+		VerticalComponentList vcl = new VerticalComponentList(x2, getY() + 50, columnCells);
+
 		getContainer().addComponent(vcl);
-		
+
 		this.resetAllListeners();
 	}
 
@@ -103,17 +104,17 @@ public class FormWindow extends TableWindow {
 		this.removeAllContentListenersButOne(errorCell);
 		this.setPaused(true);
 	}
-	
-	
+
 	public UUID getUUIDOfCell(int columnIndex, UUID columnId) {
-		Object[] x= this.tableData.keySet().toArray();
-		for (List<Object> key : getTableData().keySet()) {  
-			if(key.contains(columnId)) return (UUID) this.tableData.get(key).keySet().toArray()[columnIndex];			
+		Object[] x = this.tableData.keySet().toArray();
+		for (List<Object> key : getTableData().keySet()) {
+			if (key.contains(columnId))
+				return (UUID) this.tableData.get(key).keySet().toArray()[columnIndex];
 		}
 		return null;
 
 	}
-	
+
 	/**
 	 * Returns the RowsTable stored in the container of the SubWindow.
 	 * @return The rowsTable inside the TableRowsWindow.
@@ -123,18 +124,16 @@ public class FormWindow extends TableWindow {
 //			System.err.println(c);
 			if (c instanceof VerticalComponentList) {
 				VerticalComponentList vc = (VerticalComponentList) c;
-				for(Component comp: vc.getComponentsList()) {
-						if(comp instanceof UICell && ((UICell) comp).getId() == searchCell) {
-							return (UICell) comp;
-						}
+				for (Component comp : vc.getComponentsList()) {
+					if (comp instanceof UICell && ((UICell) comp).getId() == searchCell) {
+						return (UICell) comp;
+					}
 				}
-				
+
 			}
 		}
 		return null;
 	}
-	
-
 
 	@Override
 	public void resumeSubWindow() {
@@ -166,7 +165,7 @@ public class FormWindow extends TableWindow {
 			}
 		} else if (keyCode == 33) {
 			int old = String.valueOf(getCurrentRow()).length();
-			try {	
+			try {
 				setCurrentRow(getCurrentRow() - 1);
 				this.setTableName(getTableName().substring(0, getTableName().length() - old) + getCurrentRow());
 				updateForm();
@@ -175,7 +174,6 @@ public class FormWindow extends TableWindow {
 				// Do nothing
 			}
 		}
-		
 
 		if (keyCode == KeyEvent.VK_CONTROL) {
 			this.setCtrlPressed(true);
@@ -186,11 +184,9 @@ public class FormWindow extends TableWindow {
 		} else {
 			setCtrlPressed(false);
 		}
-	
-	
-	
+
 	}
-	
+
 	@Override
 	public void paint(Graphics g, boolean isActiveSubWindow) {
 		g.setClip(getX(), getY(), getWidth(), getHeight());
@@ -210,40 +206,33 @@ public class FormWindow extends TableWindow {
 		this.drawBorder((Graphics2D) g);
 
 	}
-	
 
-	
-	
-	
-	
-	
-	
-	
 	private void createNewRow() {
-		this.getSupport().firePropertyChange(new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_ROW, null, null));
+		this.getSupport()
+				.firePropertyChange(new PropertyChangeEvent(this.getId(), ChangeEventType.CREATE_ROW, null, null));
 		this.updateForm();
 	}
 
 	private void deleteCurrentRow() {
 		UICell deleteCell = null;
-		
+
 		Set<UUID> keyList = null;
 		for (Component c : getContainer().getComponentsList()) {
-			
+
 			for (List<Object> key : getTableData().keySet()) {
-				
+
 				LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
 				Object[] list = cellData.values().toArray();
 				keyList = cellData.keySet();
 				break;
 			}
 		}
-		
-		UUID deleteCellID = keyList.iterator().next();		
 
-		this.getSupport().firePropertyChange(new PropertyChangeEvent(deleteCellID,ChangeEventType.DELETE_ROW, null, null));
-	
-		
+		UUID deleteCellID = keyList.iterator().next();
+
+		this.getSupport()
+				.firePropertyChange(new PropertyChangeEvent(deleteCellID, ChangeEventType.DELETE_ROW, null, null));
+
 	}
 
 	private int getCurrentRow() {

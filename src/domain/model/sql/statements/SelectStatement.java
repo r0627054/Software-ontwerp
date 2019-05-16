@@ -119,4 +119,30 @@ public class SelectStatement implements Statement {
 		return null;
 	}
 
+	public List<String> getUsedColumnNamesOfDisplayTableName(String displayName) {
+		if (displayName == null) {
+			throw new SqlException("Cannot get used column names for null display table name");
+		}
+
+		List<String> result = new ArrayList<>();
+		for (ColumnSpec cs : getColumnSpecs()) {
+			for (CellId id : cs.getExpression().getAllCellIds()) {
+				if (id.getTableId().equals(displayName)) {
+					result.add(id.getColumnName());
+				}
+			}
+		}
+		return result;
+	}
+
+	public List<String> getAllSelectColumnNames() {
+		List<String> result = new ArrayList<>();
+		
+		for (ColumnSpec cs : getColumnSpecs()) {
+			result.add(cs.getColumnName());
+		}
+		
+		return result;
+	}
+
 }

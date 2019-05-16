@@ -11,6 +11,7 @@ import java.util.UUID;
 import domain.model.sql.CellId;
 import domain.model.sql.Query;
 import domain.model.sql.SQLParser;
+import domain.model.sql.columnSpec.ColumnSpec;
 
 /**
  * The actual implementation of the domainFacadeInterface.
@@ -32,9 +33,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-//		addMockedTable(dummyTable1());
-//		addMockedTable(dummyTable2());
-//		addMockedTable(dummyTable3());
+		addMockedTable(dummyTable1());
+		addMockedTable(dummyTable2());
+		addMockedTable(dummyTable3());
 	}
 
 	/**
@@ -874,36 +875,24 @@ public class DomainFacade implements DomainFacadeInterface {
 
 		if (getTable(tableId) instanceof ComputedTable) {
 			ComputedTable comp = (ComputedTable) getTable(tableId);
-			Query compQuery = comp.getQuery();
-			List<CellId> diffCellIds = new ArrayList<>();
-			List<CellId> diffCellIds2 = new ArrayList<>();
-
-			for (CellId id : comp.getQuery().getAllCellIds()) {
-				if (!listDoesContainCellId(newQuery.getAllCellIds(), id)) {
-					diffCellIds.add(id);
-				}
-			}
-
-			for (CellId diffId : diffCellIds) {
-				diffCellIds2.add(compQuery.getCellIdWithRealColumnNameFromSelect(diffId));
-			}
 
 			for (Table t : getTableMap().values()) {
 				if (t instanceof ComputedTable && !t.getId().equals(comp.getId())) {
-					ComputedTable other = (ComputedTable) t;
-					List<CellId> otherCellIds = other.getQuery().getCellIdsOfSelect();
-					Map<String, String> otherNamesMap = compQuery.getDisplayToRealNamesMap();
-					for (CellId diffId : otherCellIds) {
-						CellId tempId = new CellId(otherNamesMap.get(diffId.getTableId()), diffId.getColumnName());
-						if (listDoesContainCellId(diffCellIds2, tempId)) {
-							throw new DomainException(
-									"Cannot edit a columnName of a query that is being used by another query");
+					ComputedTable compTemp = (ComputedTable) t;
+
+					if (compTemp.getQuery().usesTable(comp.getName())) {
+						List<String> columnList = compTemp.getColumnsNamesUsed(comp.getName());
+
+						List<String> newColumnNames = newQuery.getAllSelectColumnNames();
+						for (String columnName : columnList) {
+							if (!newColumnNames.contains(columnName)) {
+								throw new DomainException(
+										"Cannot change the display name of a column that is being used by another table");
+							}
 						}
 					}
-
 				}
 			}
-
 		}
 
 		List<Table> tables = new ArrayList<>();
