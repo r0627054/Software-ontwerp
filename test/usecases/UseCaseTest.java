@@ -11,6 +11,7 @@ import controller.Controller;
 import domain.model.DomainCell;
 import domain.model.Column;
 import domain.model.DomainFacade;
+import domain.model.Email;
 import domain.model.Row;
 import domain.model.Table;
 import domain.model.ValueType;
@@ -73,7 +74,7 @@ public abstract class UseCaseTest {
 		getUiFacade().simulateKeyPress(keyChar);
 	}
 
-	protected void simulateKeyPress(String string) {
+	protected void simulateKeyPress(String string	) {
 		for (int i = 0; i < string.length(); i++) {
 			getUiFacade().simulateKeyPress(string.charAt(i));
 		}
@@ -342,6 +343,33 @@ public abstract class UseCaseTest {
 
 		getDomainFacade().addMockedTable(email);
 	}
+	
+	protected void addDummyTableBooleanColumnCellValues() {
+		DomainCell c1 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c2 = new DomainCell(ValueType.BOOLEAN, false);
+		DomainCell c3 = new DomainCell(ValueType.BOOLEAN, true);
+
+		DomainCell row1cells[] = { c1 };
+		DomainCell row2cells[] = { c2 };
+		DomainCell row3cells[] = { c3 };
+
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(row1cells)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(row2cells)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(row3cells)));
+
+		DomainCell colCells1[] = { c1, c2, c3};
+		Column col1 = new Column("Boolean", ValueType.BOOLEAN);
+		col1.addCells(Arrays.asList(colCells1));
+
+		Table email = new Table("Table");
+
+		email.addColumn(col1);
+		email.addRow(r1);
+		email.addRow(r2);
+		email.addRow(r3);
+
+		getDomainFacade().addMockedTable(email);
+	}
 
 	protected void addDummyTableIntegerColumnNullCellValues() {
 		DomainCell c1 = new DomainCell(ValueType.INTEGER, null);
@@ -484,6 +512,67 @@ public abstract class UseCaseTest {
 		email.addRow(r3);
 
 		getDomainFacade().addMockedTable(email);
+	}
+	
+	
+	public static Table dummyTable1() {
+		DomainCell c01 = new DomainCell(ValueType.STRING, "Steven");
+		DomainCell c02 = new DomainCell(ValueType.STRING, "Mauro");
+		DomainCell c03 = new DomainCell(ValueType.STRING, "Dries");
+		DomainCell c04 = new DomainCell(ValueType.STRING, "Laurens");
+
+		DomainCell c11 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c12 = new DomainCell(ValueType.BOOLEAN, true);
+		DomainCell c13 = new DomainCell(ValueType.BOOLEAN, null);
+		DomainCell c14 = new DomainCell(ValueType.BOOLEAN, false);
+
+		DomainCell c21 = new DomainCell(ValueType.INTEGER, 5);
+		DomainCell c22 = new DomainCell(ValueType.INTEGER, 20);
+		DomainCell c23 = new DomainCell(ValueType.INTEGER, 15);
+		DomainCell c24 = new DomainCell(ValueType.INTEGER, null);
+
+		DomainCell c31 = new DomainCell(ValueType.EMAIL, null);
+		DomainCell c32 = new DomainCell(ValueType.EMAIL, new Email("Info@"));
+		DomainCell c33 = new DomainCell(ValueType.EMAIL, new Email("D@"));
+		DomainCell c34 = new DomainCell(ValueType.EMAIL, new Email("L@"));
+
+		DomainCell c1[] = { c01, c11, c21, c31 };
+		DomainCell c2[] = { c02, c12, c22, c32 };
+		DomainCell c3[] = { c03, c13, c23, c33 };
+		DomainCell c4[] = { c04, c14, c24, c34 };
+
+		Row r1 = new Row(new ArrayList<DomainCell>(Arrays.asList(c1)));
+		Row r2 = new Row(new ArrayList<DomainCell>(Arrays.asList(c2)));
+		Row r3 = new Row(new ArrayList<DomainCell>(Arrays.asList(c3)));
+		Row r4 = new Row(new ArrayList<DomainCell>(Arrays.asList(c4)));
+
+		DomainCell colCells1[] = { c01, c02, c03, c04 };
+		DomainCell colCells2[] = { c11, c12, c13, c14 };
+		DomainCell colCells3[] = { c21, c22, c23, c24 };
+		DomainCell colCells4[] = { c31, c32, c33, c34 };
+
+		Column col1 = new Column("Name", ValueType.STRING);
+		Column col2 = new Column("Student", ValueType.BOOLEAN);
+		Column col3 = new Column("Grade", ValueType.INTEGER);
+		Column col4 = new Column("Email", ValueType.EMAIL);
+
+		col1.addCells(Arrays.asList(colCells1));
+		col2.addCells(Arrays.asList(colCells2));
+		col3.addCells(Arrays.asList(colCells3));
+		col4.addCells(Arrays.asList(colCells4));
+
+		Table persons = new Table("Students");
+
+		persons.addColumn(col1);
+		persons.addColumn(col2);
+		persons.addColumn(col3);
+		persons.addColumn(col4);
+
+		persons.addRow(r1);
+		persons.addRow(r2);
+		persons.addRow(r3);
+		persons.addRow(r4);
+		return persons;
 	}
 
 }

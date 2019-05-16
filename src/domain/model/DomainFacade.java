@@ -33,9 +33,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-		addMockedTable(dummyTable1());
-		addMockedTable(dummyTable2());
-		addMockedTable(dummyTable3());
+//		addMockedTable(dummyTable1());
+//		addMockedTable(dummyTable2());
+//		addMockedTable(dummyTable3());
 	}
 
 	/**
@@ -464,7 +464,6 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (table == null) {
 			throw new DomainException("No table could be found with given id.");
 		}
-
 		return table.getColumnCharacteristics();
 	}
 

@@ -70,7 +70,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 					}
 				}
 			}
-//			System.out.println(uiRowsAfter.getComponentsList().get(1));
 			HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
 			UICell cell = (UICell) hzcl.getComponentsList().get(0);
 			EditableTextField firstCell = (EditableTextField) cell.getComponent();

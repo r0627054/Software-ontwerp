@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import domain.model.DomainException;
 import ui.model.components.UICell;
 import ui.model.components.CheckBox;
 import ui.model.components.Component;
@@ -111,10 +112,17 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 
 
 			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			for(Component c :verticalCompListBefore.getComponentsList()) {
+				if(c instanceof UICell) {
+					UICell uic = (UICell) c;
+					if(uic.getComponent() instanceof EditableTextField) {
+					}
+				}
+			}
 			CheckBox checkBox = (CheckBox) cellBefore.getComponent();
-
 			boolean isCheckedStart = checkBox.isChecked();
 			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+			
 			
 			assertEquals(isCheckedStart, !checkBox.isChecked());
 			assertFalse(checkBox.isError());

@@ -28,18 +28,18 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 	@Test
 	public void test1doubleClickBelowTableRowsShouldCreateANewRow() {
 		try {
-			this.addDummyTable(NEW_TABLE_NAME);
+			getDomainFacade().addMockedTable(dummyTable1());
 			String tName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 
 			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
@@ -78,7 +78,6 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 					}
 				}
 			}
-
 			assertTrue(newValues.contains(ValueType.BOOLEAN.getDefaultValue()));
 			assertTrue(newValues.contains(ValueType.STRING.getDefaultValue()));
 			assertTrue(newValues.contains(ValueType.EMAIL.getDefaultValue()));

@@ -166,8 +166,6 @@ public class Table extends ObjectIdentifier {
 		LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> tableData = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
-//			System.out.println(c.getColumnIdAndNameAndClass());
-//			System.out.println("######\n" + c.getCellsWithId());
 			tableData.put(c.getColumnIdAndNameAndClass(), c.getCellsWithId());
 		}
 
@@ -254,9 +252,11 @@ public class Table extends ObjectIdentifier {
 		LinkedHashMap<UUID, LinkedHashMap<String, Object>> characteristics = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
+			System.out.println("id" + c.getId());
 			characteristics.put(c.getId(), c.getCharacteristics());
+			
 		}
-
+		System.out.println(characteristics);
 		return characteristics;
 	}
 

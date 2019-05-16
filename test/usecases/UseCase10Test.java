@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import ui.model.components.HorizontalComponentList;
+import ui.model.components.UICell;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase10Test extends UseCaseTest implements RowTableConstants {
@@ -25,24 +26,25 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	@Test
 	public void test1clickingLeftOfRowAndPressingDeleteShouldDeleteRow() {
 		try {
-			this.addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
 			String tName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue();
+			for(Entry<UUID, List<String>> entry: getDomainFacade().getTableNames().entrySet()){
+				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 
+
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
 					.get(0);
 			int firstVerticalListSize = firstVerticalList.getComponentsList().size();
 
-			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
@@ -66,6 +68,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 				}
 			}
 
+
 			assertEquals(firstVerticalListSize - 1, firstVerticalListSizeAfter);
 			assertEquals(beforeRowsCounter - 1, afterRowsCounter);
 		} catch (Exception e) {
@@ -82,16 +85,16 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	@Test
 	public void test2clickingLeftOfRowAndClickingAwayAndPressingDeleteShouldNotDeleteRow() {
 		try {
-			this.addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
 			String tName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
@@ -139,17 +142,17 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	@Test
 	public void test3clickingLeftOfRowAndClickingInsideTheTableAndPressingDeleteShouldNotDeleteRow() {
 		try {
-			this.addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
 			String tName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()

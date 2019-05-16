@@ -41,7 +41,8 @@ public class SubWindowTests extends UseCaseTest implements TableListConstants, S
 	@Test
 	public void test2CloseButtonClosesTheActiveWindowAndMakesTheLastUsedActive() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
+			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 
 			simulateKeyPress(KeyEvent.VK_CONTROL);
 			simulateKeyPress(KeyEvent.VK_T);
@@ -64,7 +65,8 @@ public class SubWindowTests extends UseCaseTest implements TableListConstants, S
 	@Test
 	public void test3DraggingTitleBarWillMoveTheWindow() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
+			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 
 			int startX = getUiFacade().getView().getCurrentSubWindow().getX();
 			int startY = getUiFacade().getView().getCurrentSubWindow().getY();
@@ -134,7 +136,8 @@ public class SubWindowTests extends UseCaseTest implements TableListConstants, S
 	@Test
 	public void test6DraggingTitleBarWillMoveTheWindow() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableBooleanColumnCellValues();
+			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 
 			simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			assertTrue(getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);

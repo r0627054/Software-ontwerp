@@ -278,21 +278,17 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
 			Map<UUID, List<String>> endTableNamesList = getDomainFacade().getTableNames();
 
-			System.out.println(startTableNamesList);
-			System.out.println(endTableNamesList);
 			int changedNamesCounter = 0;
 			for (Map.Entry<UUID, List<String>> entry : startTableNamesList.entrySet()) {
 				assertTrue(endTableNamesList.containsKey(entry.getKey()));
 
 				if (!(entry.getValue().equals(endTableNamesList.get(entry.getKey())))) {
-					System.out.println("o");
 					changedNamesCounter++;
 				}
 			}
 			assertEquals(0, changedNamesCounter);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println(e);
 			assertTrue(false);
 		}
 	}

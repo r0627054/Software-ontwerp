@@ -40,7 +40,6 @@ public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
 
 			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 			for (Component uir : uiRowsBefore.getComponentsList()) {
-				System.out.println(uir);
 			}
 
 			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);

@@ -22,6 +22,8 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 	public void test1openTableWithNewTableShouldOpenDesignMode() {
 		try {
 			getUiFacade().createTablesSubWindow(new HashMap<UUID, List<String>>());
+			
+
 
 
 			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
@@ -45,7 +47,6 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 			simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 
-			System.out.println(this.getUiFacade().getView().getCurrentSubWindow());
 			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
 		} catch (Exception e) {
 			e.printStackTrace();
