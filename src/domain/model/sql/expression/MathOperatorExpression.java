@@ -9,6 +9,7 @@ import domain.model.Row;
 import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
+import domain.model.sql.SqlException;
 
 public class MathOperatorExpression extends OperatorExpression {
 
@@ -253,6 +254,34 @@ public class MathOperatorExpression extends OperatorExpression {
 			Object[] result = { mathMap, new Boolean(mathMap.keySet().size() == 1) };
 			return result;
 		}
+	}
+
+	public int getSubtotal() {
+		//left
+		int leftSubResult = 0;
+		if(this.getLeftExpression() instanceof LiteralNumberExpression) {
+			leftSubResult = ((LiteralNumberExpression) this.getLeftExpression()).getValue();
+		} else if(this.getLeftExpression() instanceof BracketExpression) {
+			leftSubResult = ((BracketExpression) this.getLeftExpression()).getSubTotal();
+		} else if(this.getLeftExpression() instanceof MathOperatorExpression) {
+			leftSubResult = ((MathOperatorExpression) this.getLeftExpression()).getSubtotal();
+		}
+
+		//right
+		int rightSubResult = 0;
+		if(this.getRightExpression() instanceof LiteralNumberExpression) {
+			rightSubResult = ((LiteralNumberExpression) this.getRightExpression()).getValue();
+		} else if(this.getRightExpression() instanceof BracketExpression) {
+			rightSubResult = ((BracketExpression) this.getRightExpression()).getSubTotal();
+		} else if(this.getRightExpression() instanceof MathOperatorExpression) {
+			rightSubResult = ((MathOperatorExpression) this.getRightExpression()).getSubtotal();
+		}
+		
+		if(this.getOperator().equals(Operator.MINUS)) {
+			rightSubResult = rightSubResult*(-1);
+		}
+		
+		return leftSubResult+rightSubResult;
 	}
 
 }
