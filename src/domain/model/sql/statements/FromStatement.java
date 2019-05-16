@@ -85,6 +85,15 @@ public class FromStatement implements Statement {
 		return result;
 	}
 
+	public Map<String, String> getRealToDisplayNamesMap() {
+		Map<String, String> result = new HashMap<>();
+
+		for (TableSpec ts : getTableSpecs()) {
+			result.put(ts.getRealTableName(), ts.getDisplayTableName());
+		}
+		return result;
+	}
+
 	public List<String> getAllDisplayTableNames() {
 		List<String> result = new ArrayList<>();
 
@@ -92,6 +101,15 @@ public class FromStatement implements Statement {
 			result.add(ts.getDisplayTableName());
 		}
 		return result;
+	}
+
+	public boolean usesTable(String name) {
+		for (TableSpec ts : getTableSpecs()) {
+			if (ts.getRealTableName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

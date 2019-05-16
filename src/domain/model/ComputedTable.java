@@ -273,4 +273,15 @@ public class ComputedTable extends Table {
 		return index;
 	}
 
+	public List<String> getColumnsNamesUsed(String name) {
+		String displayName = getQuery().getRealToDisplayNamesMap().get(name);
+		
+		
+		if(displayName == null) {
+			throw new DomainException("No Display Name found for real table name");
+		}
+		
+		return getQuery().getUsedColumnNamesOfDisplayTableName(displayName);
+	}
+
 }
