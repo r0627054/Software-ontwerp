@@ -509,7 +509,7 @@ class ComputedTableTest {
 	//-------------------------
 	//----SELECT STATEMENT----- 
 	//-------------------------
-	
+
 	@Test
 	public void testSelectStatementWithCellIdSelects() {
 		String sql = "SELECT  stud.Email AS em, stud.Name AS n   FROM Students AS stud           WHERE  TRUE ";
@@ -523,6 +523,7 @@ class ComputedTableTest {
 		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
 		assertEquals(2, comp.getNbrOfColumns());
 		assertEquals(4, comp.getRows().size());
+		assertEquals(2, comp.getColumns().size());
 		this.checkAllNames(comp.getColumns().get(1).getCells(), studentNames);
 	}
 	
@@ -556,8 +557,60 @@ class ComputedTableTest {
 		this.checkAllNames(comp.getColumns().get(1).getCells(), nickNames);
 	}
 	
+	@Test
+	public void columnCompareToStringAndBooleanAndPlus() {
+		String sql = "SELECT  stud.Email > TRUE AS  ttable, stud.Name = \"Steven\" AS steven, stud.Grade + 5 + stud.Grade AS g   FROM Students AS stud           WHERE  TRUE ";
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		
+		ArrayList<Boolean> boolValues = new ArrayList<>();
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		ArrayList<Boolean> boolSteven = new ArrayList<>();
+		boolSteven.add(Boolean.TRUE);
+		boolSteven.add(Boolean.FALSE);
+		boolSteven.add(Boolean.FALSE);
+		boolSteven.add(Boolean.FALSE);
+		ArrayList<Integer> numberList = new ArrayList<>();	
+		numberList.add(15);
+		numberList.add(45);
+		numberList.add(35);
+		numberList.add(null);
+		assertEquals(3, comp.getNbrOfColumns());
+		assertEquals(4, comp.getRows().size());
+		
+		this.checkAllBoolean(comp.getColumns().get(0).getCells(), boolValues);
+		this.checkAllBoolean(comp.getColumns().get(1).getCells(), boolSteven);
+		this.checkAllInteger(comp.getColumns().get(2).getCells(), numberList);
+	}
 	
-
+	
+	@Test
+	public void advancedSelectsubtractionAndComparisons() {
+		String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
+		SQLParser parser = new SQLParser(sql);
+		query = parser.getQueryFromString();
+		comp = new ComputedTable(UUID.randomUUID(), "compT", query , this.getTables());;
+		
+		ArrayList<Boolean> boolValues = new ArrayList<>();
+		boolValues.add(Boolean.TRUE);
+		boolValues.add(Boolean.TRUE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		boolValues.add(Boolean.FALSE);
+		ArrayList<Integer> numberList = new ArrayList<>();	
+		numberList.add(131);
+		numberList.add(131);
+		numberList.add(146);
+		numberList.add(146);
+		numberList.add(null);
+		
+		this.checkAllBoolean(comp.getColumns().get(1).getCells(), boolValues);
+		this.checkAllInteger(comp.getColumns().get(0).getCells(), numberList);
+	}
 	
 	
 	
@@ -752,6 +805,28 @@ class ComputedTableTest {
 				assertNull(names.get(i));
 			} else {
 				assertTrue( (cells.get(i).getValue() instanceof String) &&  ((String) cells.get(i).getValue()).equals(names.get(i)));
+			}
+		}
+	}
+	
+	public void checkAllBoolean(List<DomainCell> cells,List<Boolean> booleanList) {
+		assertTrue((cells.size() == booleanList.size()));
+		for (int i = 0; i < cells.size(); i++) {
+			if(cells.get(i) == null) {
+				assertNull(booleanList.get(i));
+			} else {
+				assertTrue( (cells.get(i).getValue() instanceof Boolean) &&  ((Boolean) cells.get(i).getValue()).equals(booleanList.get(i)));
+			}
+		}
+	}
+	
+	public void checkAllInteger(List<DomainCell> cells,List<Integer> integerList) {
+		assertTrue((cells.size() == integerList.size()));
+		for (int i = 0; i < cells.size(); i++) {
+			if(cells.get(i) == null || cells.get(i).getValue() == null) {
+				assertNull(integerList.get(i));
+			} else {
+				assertTrue( (cells.get(i).getValue() instanceof Integer) &&  ((Integer) cells.get(i).getValue()).equals(integerList.get(i)));
 			}
 		}
 	}

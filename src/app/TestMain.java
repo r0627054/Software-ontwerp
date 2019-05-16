@@ -29,7 +29,7 @@ public class TestMain {
 		// 2 Group
 
 
-		String sql = "SELECT stud.Name AS n, stud.Student AS s, stud.Grade AS g, stud.Email  AS e, w.Firstname AS f, w.Smart AS sm, w.Age AS ag, w.Email AS em     FROM Students AS stud INNER JOIN Work AS w ON stud.Student = w.Smart         WHERE stud.Grade =5";
+		String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
 							
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
