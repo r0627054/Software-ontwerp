@@ -6,7 +6,6 @@ import domain.model.sql.expression.LiteralNumberExpression;
 import domain.model.sql.expression.MathOperatorExpression;
 
 public class ColumnSpec {
-	
 	private Expression expression;
 	private String columnName;
 	
