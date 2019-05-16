@@ -57,6 +57,7 @@ public abstract class UseCaseTest {
 		getDomainFacade().addTable(tableName);
 		getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 	}
+	
 
 	protected void simulateKeyPress(int keyCode) {
 		getUiFacade().simulateKeyPress(keyCode);
