@@ -116,11 +116,6 @@ public class RelationalOperatorExpression extends OperatorExpression {
 	}
 
 	private Expression compareCellIdToInt(DomainCell cell, Integer compareInt, boolean isCellIdLeft) {
-		if (cell.getValue() == null && compareInt == null) {
-			return new BooleanExpression(true);
-		} else if(cell.getValue() == null || compareInt == null) {
-			return new BooleanExpression(false);
-		}
 		Operator op = reverseOperatorIfCellRight(isCellIdLeft);
 		boolean result = cell.compare(compareInt, op);
 		return new BooleanExpression(result);

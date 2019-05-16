@@ -139,6 +139,9 @@ public class DomainCell extends ObjectIdentifier {
 	}
 
 	public boolean compare(Object otherValue, Operator op) {
+		if((op == Operator.SMALLER || op == Operator.GREATER) && (this.getValue() == null || otherValue == null) ) {
+			return false;
+		}
 		switch (op) {
 		case EQUAL:
 			return getType().haveSameValue(this.getValue(), otherValue);
