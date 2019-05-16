@@ -16,6 +16,7 @@ import ui.model.components.Component;
 import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
 import ui.model.components.UICell;
+import ui.model.components.VerticalComponentList;
 
 public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
@@ -30,12 +31,12 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
 			addDummyTable(NEW_TABLE_NAME);
 
-			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
+			Map<UUID, List<String>> startTableNames = this.getDomainFacade().getTableNames();
 
 			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+			Map<UUID, List<String>> endTableNames = this.getDomainFacade().getTableNames();
 
 			assertEquals(startTableNames.size() - 1, endTableNames.size());
 
@@ -49,8 +50,8 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 
-			for (String s : endTableNames.values()) {
-				assertTrue(uiNamesList.contains(s));
+			for (List<String> s : endTableNames.values()) {
+				assertTrue(uiNamesList.toString().contains(s.get(0)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,20 +69,21 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 
 		try {
 			this.addDummyTable(NEW_TABLE_NAME);
-			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
+			Map<UUID, List<String>> startTableNames = this.getDomainFacade().getTableNames();
 
 			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
 			simulateSingleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+			Map<UUID, List<String>> endTableNames = this.getDomainFacade().getTableNames();
 
 			assertEquals(startTableNames, endTableNames);
 
 			TableList tableList = getTablesViewModeTableList();
 
 			List<String> uiNamesList = new ArrayList<>();
-			for (Component c : tableList.getComponentsList()) {
+			VerticalComponentList vc = (VerticalComponentList) tableList.getComponentsList().get(0);
+			for (Component c : vc.getComponentsList()) {
 				UICell cell = (UICell) c;
 				if (cell.getComponent() instanceof EditableTextField) {
 					EditableTextField etf = (EditableTextField) cell.getComponent();
@@ -89,8 +91,8 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 				}
 			}
 
-			for (String s : startTableNames.values()) {
-				assertTrue(uiNamesList.contains(s));
+			for (List<String> s : startTableNames.values()) {
+				assertTrue(uiNamesList.toString().contains(s.get(0)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -108,28 +110,28 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 	public void test3clickingLeftOfTableNameAndClickingInTheTableTextFieldBeforePressingDeleteShouldNotDeleteTable() {
 		try {
 			this.addDummyTable(NEW_TABLE_NAME);
-			Map<UUID, String> startTableNames = this.getDomainFacade().getTableNames();
-
+			Map<UUID, List<String>> startTableNames = this.getDomainFacade().getTableNames();
 			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
 			simulateSingleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<UUID, String> endTableNames = this.getDomainFacade().getTableNames();
+			Map<UUID, List<String>> endTableNames = this.getDomainFacade().getTableNames();
 			assertEquals(startTableNames, endTableNames);
-
 			TableList tableList = getTablesViewModeTableList();
 
+			VerticalComponentList vc = (VerticalComponentList) tableList.getComponentsList().get(0);
 			List<String> uiNamesList = new ArrayList<>();
-			for (Component c : tableList.getComponentsList()) {
+			for (Component c : vc.getComponentsList()) {
 				UICell cell = (UICell) c;
 				if (cell.getComponent() instanceof EditableTextField) {
 					EditableTextField etf = (EditableTextField) cell.getComponent();
 					uiNamesList.add(etf.getText());
 				}
 			}
-
-			for (String s : startTableNames.values()) {
-				assertTrue(uiNamesList.contains(s));
+			
+			
+			for (List<String> s : startTableNames.values()) {
+				assertTrue(uiNamesList.toString().contains(s.get(0)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
