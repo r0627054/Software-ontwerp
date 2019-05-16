@@ -40,6 +40,7 @@ public class TablesWindow extends SubWindow {
 	public TablesWindow(Map<UUID, List<String>> data) {
 		super(null, TITLE_STRING_PREFIX);
 		this.createTableList(data);
+		this.setWidth(900);
 	}
 
 	/**

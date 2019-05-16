@@ -4,7 +4,6 @@ import domain.model.sql.SqlException;
 import domain.model.sql.expression.Expression;
 
 public class ColumnSpec {
-	
 	private Expression expression;
 	private String columnName;
 	

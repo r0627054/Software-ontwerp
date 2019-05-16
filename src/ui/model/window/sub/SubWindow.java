@@ -646,7 +646,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @param width The new width of the SubWindow.
 	 * @effect The width of the SubWindow is changed and the width of the titleBar is changed.
 	 */
-	private void setWidth(int width) {
+	protected void setWidth(int width) {
 		if (width < MIN_WIDTH) {
 			width = MIN_WIDTH;
 		}
