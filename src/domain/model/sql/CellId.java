@@ -47,7 +47,7 @@ public class CellId {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj != null && obj instanceof CellId) {
+		if ( (obj != null)  && (obj instanceof CellId)) {
 			CellId objCasted = (CellId) obj;
 			return objCasted.getColumnName().equals(this.getColumnName())
 					&& objCasted.getTableId().equals(this.getTableId());

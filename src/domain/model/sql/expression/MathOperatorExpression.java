@@ -212,8 +212,8 @@ public class MathOperatorExpression extends OperatorExpression {
 				}
 			}
 
-			Boolean leftBoolean = (Boolean) getLeftExpression().isEditable()[2];
-			Boolean rightBoolean = (Boolean) getRightExpression().isEditable()[2];
+			Boolean leftBoolean = (Boolean) getLeftExpression().isEditable()[1];
+			Boolean rightBoolean = (Boolean) getRightExpression().isEditable()[1];
 			int size = resultMap.keySet().size();
 
 			boolean editable = size == 1 && (leftBoolean || rightBoolean);

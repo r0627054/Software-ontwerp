@@ -286,8 +286,8 @@ public class ComputedTable extends Table {
 
 		if (value instanceof Integer) {
 			
-			
-			
+			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getcolumnName(cellId));
+			System.out.println(spec.getSubtotal());
 			
 		}
 
