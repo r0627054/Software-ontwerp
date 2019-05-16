@@ -23,6 +23,7 @@ public class CreateComputedTableChangeHandler implements ChangeHandlerInterface 
 						domainfacade.isComputedTable(tableId));
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			uifacade.throwError(tableId, 1, 0);
 			uifacade.pauseCurrentSubWindow(1, tableId);
 		}
