@@ -160,20 +160,34 @@ public class MathOperatorExpression extends OperatorExpression {
 			Map<CellId, Integer> resultMap = new HashMap<>();
 
 			if (leftMap.keySet().toArray()[0].equals(rightMap.keySet().toArray()[0])) {
-				resultMap.put((CellId) leftMap.keySet().toArray()[0], 2);
+				if (getOperator() == Operator.PLUS) {
+					resultMap.put((CellId) leftMap.keySet().toArray()[0], 2);
+				} else {
+					resultMap.put((CellId) leftMap.keySet().toArray()[0], 0);
+				}
+
 				Object[] result = { resultMap, Boolean.TRUE };
 				return result;
 
 			} else {
 				resultMap.put((CellId) leftMap.keySet().toArray()[0], 1);
-				resultMap.put((CellId) rightMap.keySet().toArray()[0], 1);
+				if (getOperator().equals(Operator.PLUS)) {
+					resultMap.put((CellId) rightMap.keySet().toArray()[0], 1);
+				} else {
+					resultMap.put((CellId) rightMap.keySet().toArray()[0], -1);
+				}
 				Object[] result = { resultMap, Boolean.FALSE };
 				return result;
 			}
 		} else if (getLeftExpression() instanceof LiteralNumberExpression
 				&& getRightExpression() instanceof CellIdExpression) {
-			Object[] result = { rightMap, Boolean.TRUE };
-			return result;
+			if (getOperator().equals(Operator.PLUS)) {
+				Object[] result = { rightMap, Boolean.TRUE };
+				return result;
+			} else {
+				Object[] result = { reverseMap(rightMap), Boolean.TRUE };
+				return result;
+			}
 
 		} else if (getLeftExpression() instanceof CellIdExpression
 				&& getRightExpression() instanceof LiteralNumberExpression) {
@@ -187,18 +201,22 @@ public class MathOperatorExpression extends OperatorExpression {
 
 		} else if (getLeftExpression() instanceof LiteralNumberExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
-			Object[] result = { rightMap, getRightExpression().isEditable()[1] };
-			return result;
-
+			if (getOperator().equals(Operator.PLUS)) {
+				Object[] result = { rightMap, getRightExpression().isEditable()[1] };
+				return result;
+			} else {
+				Object[] result = { reverseMap(rightMap), getRightExpression().isEditable()[1] };
+				return result;
+			}
 		} else if (getLeftExpression() instanceof CellIdExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
 			return isEditableMathAndCellId((MathOperatorExpression) getRightExpression(),
-					(CellIdExpression) getLeftExpression());
+					(CellIdExpression) getLeftExpression(), true);
 
 		} else if (getLeftExpression() instanceof MathOperatorExpression
 				&& getRightExpression() instanceof CellIdExpression) {
 			return isEditableMathAndCellId((MathOperatorExpression) getLeftExpression(),
-					(CellIdExpression) getRightExpression());
+					(CellIdExpression) getRightExpression(), false);
 
 		} else if (getLeftExpression() instanceof MathOperatorExpression
 				&& getRightExpression() instanceof MathOperatorExpression) {
@@ -206,12 +224,17 @@ public class MathOperatorExpression extends OperatorExpression {
 
 			for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
 				if (resultMap.containsKey(entry.getKey())) {
-					System.out.println(entry.getKey());
-					System.out.println(resultMap.get(entry.getKey()));
-					System.out.println(rightMap.get(entry.getKey()));
-					resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) + rightMap.get(entry.getKey()));
+					if (getOperator().equals(Operator.PLUS)) {
+						resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) + rightMap.get(entry.getKey()));
+					} else {
+						resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) - rightMap.get(entry.getKey()));
+					}
 				} else {
-					resultMap.put(entry.getKey(), entry.getValue());
+					if (getOperator().equals(Operator.PLUS)) {
+						resultMap.put(entry.getKey(), entry.getValue());
+					} else {
+						resultMap.put(entry.getKey(), entry.getValue() * (-1));
+					}
 				}
 			}
 
@@ -237,16 +260,15 @@ public class MathOperatorExpression extends OperatorExpression {
 		}
 	}
 
-	private boolean cellIdMapContainsCellId(Map<CellId, Integer> resultMap, CellId key) {
-		for (CellId id : resultMap.keySet()) {
-			if (id.equals(key)) {
-				return true;
-			}
+	private Map<CellId, Integer> reverseMap(Map<CellId, Integer> rightMap) {
+		Map<CellId, Integer> tempMap = new HashMap<>();
+		for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
+			tempMap.put(entry.getKey(), entry.getValue() * (-1));
 		}
-		return false;
+		return tempMap;
 	}
 
-	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell) {
+	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell, boolean cellIdIsLeft) {
 		Map<CellId, Integer> mathMap = (Map<CellId, Integer>) math.isEditable()[0];
 		CellId cellId = cell.getValue();
 
@@ -259,11 +281,32 @@ public class MathOperatorExpression extends OperatorExpression {
 			}
 		}
 		if (contains) {
-			mathMap.put(mathCellId, mathMap.get(mathCellId) + 1);
+			if (cellIdIsLeft) {
+				if (getOperator().equals(Operator.PLUS)) {
+					mathMap.put(mathCellId, mathMap.get(mathCellId) + 1);
+				} else {
+					mathMap.put(mathCellId, (mathMap.get(mathCellId) * (-1)) + 1);
+				}
+			} else {
+				if (getOperator().equals(Operator.PLUS)) {
+					mathMap.put(mathCellId, mathMap.get(mathCellId) + 1);
+				} else {
+					mathMap.put(mathCellId, mathMap.get(mathCellId) - 1);
+				}
+			}
 			Object[] result = { mathMap, getRightExpression().isEditable()[1] };
 			return result;
 		} else {
-			mathMap.put(cellId, 1);
+			if (cellIdIsLeft) {
+				mathMap.put(cellId, 1);
+			} else {
+				if (getOperator().equals(Operator.PLUS)) {
+					mathMap.put(cellId, 1);
+				} else {
+					mathMap.put(cellId, -1);
+				}
+			}
+
 			Object[] result = { mathMap, new Boolean(mathMap.keySet().size() == 1) };
 			return result;
 		}

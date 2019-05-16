@@ -43,10 +43,11 @@ public class ComputedTable extends Table {
 		for (int specIndex = 0; specIndex < select.getColumnSpecs().size(); specIndex++) {
 
 			Object[] isEditableObject = select.isEditableForColumnSpecIndex(specIndex);
+			Map<CellId, Integer> cellIdsUsedCounterMap = (Map<CellId, Integer>) isEditableObject[0];
 			Column c = null;
-			if (((Boolean) isEditableObject[1])
-					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
-				
+			if (((Boolean) isEditableObject[1]) && (cellIdsUsedCounterMap.keySet().size() == 1)
+					&& ((Integer) cellIdsUsedCounterMap.values().toArray()[0] != 0)) {
+
 				CellId cellId = select.getCellIdOfEditable(specIndex);
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
@@ -151,7 +152,8 @@ public class ComputedTable extends Table {
 								innerSpec.getCellIdRight());
 						DomainCell leftComparedObject = newRow.getCellAtIndex(leftComparedIndex);
 						DomainCell rightComparedObject = newRow.getCellAtIndex(rightComparedIndex);
-						if (leftComparedObject != null && rightComparedObject != null && (leftComparedObject.getValue() != null ) && (rightComparedObject.getValue() != null)
+						if (leftComparedObject != null && rightComparedObject != null
+								&& (leftComparedObject.getValue() != null) && (rightComparedObject.getValue() != null)
 								&& leftComparedObject.compare(rightComparedObject, Operator.EQUAL)) {
 							tempTable.addRow(newRow);
 						}
@@ -285,10 +287,10 @@ public class ComputedTable extends Table {
 		Object newValue = null;
 
 		if (value instanceof Integer) {
-			
+
 			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getcolumnName(cellId));
 			System.out.println(spec.getSubtotal());
-			
+
 		}
 
 		super.editCell(columnId, cellId, value);
