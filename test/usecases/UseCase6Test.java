@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -29,13 +30,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test1clickingColumnNameAndEditingItCorrectlyAndPressingEnterShouldSetName() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableEmailColumnEmailCellValues();
 
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -69,7 +70,7 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 					}
 				}
 			}
-
+//			System.out.println(uiRowsAfter.getComponentsList().get(1));
 			HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
 			UICell cell = (UICell) hzcl.getComponentsList().get(0);
 			EditableTextField firstCell = (EditableTextField) cell.getComponent();
@@ -88,13 +89,13 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test2clickingColumnNameAndEditingItCorrectlyAndClickingOutOfTextFieldShouldSetName() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableEmailColumnEmailCellValues();
 
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -148,13 +149,14 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 	@Test
 	public void test3clickingColumnNameAndRemovingAllTextShouldPauseTheApplicationAndPressingEscapeShouldReset() {
 		try {
-			addDummyTable(NEW_TABLE_NAME);
+			addDummyTableEmailColumnEmailCellValues();
+			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -216,8 +218,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -257,8 +259,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -327,8 +329,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -394,8 +396,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -461,8 +463,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -529,8 +531,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -583,8 +585,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -631,8 +633,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -679,8 +681,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -725,8 +727,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -784,8 +786,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -844,8 +846,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -932,8 +934,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1036,8 +1038,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1121,8 +1123,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1191,8 +1193,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1258,8 +1260,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1327,8 +1329,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1388,8 +1390,8 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			String tableName = null;
 			UUID tableId = null;
 
-			for (Map.Entry<UUID, String> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue();
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
 			getUiFacade().createTableDesignSubWindow(tableId, tableName,
@@ -1422,7 +1424,6 @@ public class UseCase6Test extends UseCaseTest implements DesignTableConstants {
 			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
 				for (Map.Entry<String, Object> mapEntry : entry.getValue().entrySet()) {
 					if (mapEntry.getKey().equals(COLUMN_DEFAULT)) {
-						System.out.println(mapEntry.getValue());
 						defaultAfter = (String) mapEntry.getValue();
 					}
 
