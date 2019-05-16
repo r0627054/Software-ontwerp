@@ -119,7 +119,6 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 			for (Component c : tableList.getComponentsList()) {
 				if (c instanceof EditableTextField) {
 					EditableTextField etf = (EditableTextField) c;
-					System.out.println(etf);
 //					assertTrue(endTableNamesList.containsValue(etf.getText()));
 				}
 			}

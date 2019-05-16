@@ -32,9 +32,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-		addMockedTable(dummyTable1());
-		addMockedTable(dummyTable2());
-		addMockedTable(dummyTable3());
+//		addMockedTable(dummyTable1());
+//		addMockedTable(dummyTable2());
+//		addMockedTable(dummyTable3());
 	}
 
 	/**

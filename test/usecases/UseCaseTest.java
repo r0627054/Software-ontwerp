@@ -54,7 +54,7 @@ public abstract class UseCaseTest {
 	}
 
 	protected void addDummyTable(String tableName) {
-		getDomainFacade().dummyTable1();
+		getDomainFacade().addTable(tableName);
 		getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
 	}
 
