@@ -54,6 +54,11 @@ public class CellId {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		return (this.getColumnName().hashCode()) * 700 + (this.getTableId().hashCode() *99);  
+	}
 
 	@Override
 	public String toString() {

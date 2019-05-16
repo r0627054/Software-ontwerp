@@ -205,7 +205,10 @@ public class MathOperatorExpression extends OperatorExpression {
 			Map<CellId, Integer> resultMap = new HashMap<>(leftMap);
 
 			for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
-				if (cellIdMapContainsCellId(resultMap, entry.getKey())) {
+				if (resultMap.containsKey(entry.getKey())) {
+					System.out.println(entry.getKey());
+					System.out.println(resultMap.get(entry.getKey()));
+					System.out.println(rightMap.get(entry.getKey()));
 					resultMap.put(entry.getKey(), resultMap.get(entry.getKey()) + rightMap.get(entry.getKey()));
 				} else {
 					resultMap.put(entry.getKey(), entry.getValue());
