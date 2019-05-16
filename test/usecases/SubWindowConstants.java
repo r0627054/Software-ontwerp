@@ -10,7 +10,7 @@ public interface SubWindowConstants {
 	public static final int DRAG_LEFT_TOP_X = 5;
 	public static final int DRAG_LEFT_TOP_Y = 5;
 	
-	public static final int DRAG_RIGHT_BOT_X = 495;
+	public static final int DRAG_RIGHT_BOT_X = 895;
 	public static final int DRAG_RIGHT_BOT_Y = 495;
 
 }

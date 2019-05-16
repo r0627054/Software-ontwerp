@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import ui.model.components.Component;
 import ui.model.components.HorizontalComponentList;
 import ui.model.components.UICell;
 import ui.model.components.VerticalComponentList;
@@ -26,10 +27,13 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	@Test
 	public void test1clickingLeftOfRowAndPressingDeleteShouldDeleteRow() {
 		try {
-			addDummyTableBooleanColumnCellValues();
+			getDomainFacade().addMockedTable(dummyTable1());
 			String tName = null;
 			UUID tableId = null;
 
+			
+			
+			
 			for(Entry<UUID, List<String>> entry: getDomainFacade().getTableNames().entrySet()){
 				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
@@ -40,11 +44,13 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+			System.out.println(rowsTableBefore.getComponentsList().get(0).getClass());
 			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
 					.get(0);
+			
 			int firstVerticalListSize = firstVerticalList.getComponentsList().size();
 
-			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
 			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
@@ -67,7 +73,16 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 					afterRowsCounter = entry.getValue().size();
 				}
 			}
-
+			VerticalComponentList vc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
+			System.out.println("before " + vc.getComponentsList());
+			for(Component c : vc.getComponentsList()) {
+				if(c instanceof UICell) {
+					System.out.println(((UICell) c).getId());
+				}
+			}
+			
+			VerticalComponentList vcc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
+			System.out.println("after " + vcc.getComponentsList());
 
 			assertEquals(firstVerticalListSize - 1, firstVerticalListSizeAfter);
 			assertEquals(beforeRowsCounter - 1, afterRowsCounter);

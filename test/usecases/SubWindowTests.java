@@ -119,7 +119,7 @@ public class SubWindowTests extends UseCaseTest implements TableListConstants, S
 
 			simulateSingleClick(DRAG_RIGHT_BOT_X, DRAG_RIGHT_BOT_Y);
 			simulateClickDrag(DRAG_RIGHT_BOT_X + 50, DRAG_RIGHT_BOT_Y + 50);
-
+			
 			assertTrue(startW < getUiFacade().getView().getCurrentSubWindow().getWidth());
 			assertTrue(startH < getUiFacade().getView().getCurrentSubWindow().getHeight());
 		} catch (Exception e) {

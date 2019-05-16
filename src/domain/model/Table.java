@@ -252,11 +252,9 @@ public class Table extends ObjectIdentifier {
 		LinkedHashMap<UUID, LinkedHashMap<String, Object>> characteristics = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
-			System.out.println("id" + c.getId());
 			characteristics.put(c.getId(), c.getCharacteristics());
 			
 		}
-		System.out.println(characteristics);
 		return characteristics;
 	}
 
