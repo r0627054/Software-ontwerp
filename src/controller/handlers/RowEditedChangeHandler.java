@@ -47,8 +47,6 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 
 		try {
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
-//			System.out.println(columnId);
-//			System.out.println(cellId);
 			ValueType columnValueType = domainfacade.getValueTypeOfColumn(tableId, columnId);
 
 			if (columnValueType.equals(ValueType.INTEGER)) {
@@ -62,7 +60,15 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
 					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 					domainfacade.isComputedTable(tableId));
+
+			List<UUID> otherIds = domainfacade.getTableIdOfUsedTables(tableId, columnId, cellId);
+			for(UUID otherId: otherIds) {
+				uifacade.updateTableRowsAndDesignSubWindows(otherId, domainfacade.getTableNameOfId(otherId),
+						domainfacade.getColumnCharacteristics(otherId), domainfacade.getTableWithIds(otherId),
+						domainfacade.isComputedTable(otherId));
+			}
 		} catch (DomainException | NumberFormatException e) {
+			e.printStackTrace();
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
 			uifacade.pauseCurrentSubWindow(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}

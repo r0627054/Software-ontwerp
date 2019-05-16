@@ -120,5 +120,9 @@ public class Query {
 	public List<String> getAllSelectColumnNames() {
 		return this.getSelectStatement().getAllSelectColumnNames();
 	}
+
+	public List<CellId> getCellIdOfColumnName(String columnNameOfEditedCell) {
+		return this.getSelectStatement().getCellIdOfColumnName(columnNameOfEditedCell);
+	}
 	
 }

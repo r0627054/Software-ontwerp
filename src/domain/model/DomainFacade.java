@@ -921,18 +921,49 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.getTableMap().put(tableId, newTable);
 	}
 
-	private boolean listDoesContainCellId(List<CellId> allCellIds, CellId id) {
-		for (CellId cellId : allCellIds) {
-			if (cellId.equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public boolean isComputedTable(UUID tableId) {
 		return getTable(tableId) instanceof ComputedTable;
+	}
+
+	@Override
+	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID columnId, UUID cellId) {
+		List<UUID> result = new ArrayList<>();
+		Table table = getTable(tableId);
+
+		if (table != null) {
+			if (table instanceof ComputedTable) {
+
+				String columnNameOfEditedCell = table.getcolumnName(cellId);
+
+				ComputedTable comp = (ComputedTable) table;
+				Query query = comp.getQuery();
+
+				List<CellId> ids = query.getCellIdOfColumnName(columnNameOfEditedCell);
+				CellId id = ids.get(0);
+				for (CellId tempId : ids) {
+					if (!id.equals(tempId)) {
+						throw new DomainException(
+								"Cannot edit a column of a computed table which uses more than one other column");
+					}
+				}
+
+				String referencedTable = query.getDisplayToRealNamesMap().get(id.getTableId());
+				result.add(getTableOfTableName(referencedTable).getId());
+			} else {
+				for (Table t : getTableMap().values()) {
+					if (t instanceof ComputedTable) {
+						ComputedTable comp = (ComputedTable) t;
+						Query query = comp.getQuery();
+
+						if (query.usesTable(this.getTableNameOfId(tableId))) {
+							result.add(t.getId());
+						}
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 }

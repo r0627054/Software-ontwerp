@@ -46,13 +46,11 @@ public class ComputedTable extends Table {
 			Column c = null;
 			if (((Boolean) isEditableObject[1])
 					&& (((Map<CellId, Integer>) isEditableObject[0]).keySet().size() == 1)) {
-				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS EDITABLE");
+				
 				CellId cellId = select.getCellIdOfEditable(specIndex);
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
 			} else {
-
-				//System.out.println(select.getColumnNameOfColumnSpec(specIndex) + " IS NOT EDITABLE");
 				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
 			}
 
@@ -78,7 +76,7 @@ public class ComputedTable extends Table {
 				for (Column c : tempTable.getColumns()) {
 					rowList.add(c.getCellAtIndex(rowIndex));
 				}
-				//tempTable.addRow(new Row(rowList));
+				// tempTable.addRow(new Row(rowList));
 				tempTable.addRowWithoutAddingToColumns(new Row(rowList));
 				rowIndex++;
 			}
@@ -105,7 +103,6 @@ public class ComputedTable extends Table {
 	}
 
 	private Map<CellId, Integer> getCellIdsToIndexMap(List<CellId> cellIdList) {
-		List<String> displayTableNames = getQuery().getAllDisplayTableNames();
 		Map<CellId, Integer> result = new HashMap<>();
 
 		for (CellId cellId : cellIdList) {
@@ -125,7 +122,7 @@ public class ComputedTable extends Table {
 		Table subTotalTable = this.getTableAtIndex(0).copy();
 		List<String> joinedDisplayTableNames = new ArrayList<>();
 		joinedDisplayTableNames.add(from.getTableSpecs().get(0).getDisplayTableName());
-		
+
 		for (TableSpec spec : from.getTableSpecs()) {
 			if (spec instanceof InnerJoinTableSpec) {
 				InnerJoinTableSpec innerSpec = (InnerJoinTableSpec) spec;
@@ -275,13 +272,26 @@ public class ComputedTable extends Table {
 
 	public List<String> getColumnsNamesUsed(String name) {
 		String displayName = getQuery().getRealToDisplayNamesMap().get(name);
-		
-		
-		if(displayName == null) {
+
+		if (displayName == null) {
 			throw new DomainException("No Display Name found for real table name");
 		}
-		
+
 		return getQuery().getUsedColumnNamesOfDisplayTableName(displayName);
+	}
+
+	@Override
+	public void editCell(UUID columnId, UUID cellId, Object value) {
+		Object newValue = null;
+
+		if (value instanceof Integer) {
+			
+			
+			
+			
+		}
+
+		super.editCell(columnId, cellId, value);
 	}
 
 }

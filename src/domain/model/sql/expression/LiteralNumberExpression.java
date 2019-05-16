@@ -37,7 +37,7 @@ public class LiteralNumberExpression implements Expression {
 		if (this.getUsedIds().keySet().size() > 1 || this.getUsedIds().keySet().size() == 0) {
 			throw new SqlException("Cannot get the first UUID of the usedIdMap");
 		}
-		return (UUID) this.getUsedIds().keySet().toArray()[0];				
+		return (UUID) this.getUsedIds().keySet().toArray()[0];
 	}
 
 	public void setUsedIds(Map<UUID, Integer> usedIds) {
@@ -84,7 +84,7 @@ public class LiteralNumberExpression implements Expression {
 
 	@Override
 	public Object[] isEditable() {
-		Object[] result = {new HashMap<CellId,Integer>() ,Boolean.FALSE};
+		Object[] result = { new HashMap<CellId, Integer>(), Boolean.FALSE };
 		return result;
 	}
 

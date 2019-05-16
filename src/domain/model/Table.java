@@ -519,6 +519,27 @@ public class Table extends ObjectIdentifier {
 		}
 		throw new DomainException("No column id found for given cellId");
 	}
+	
+	/**
+	 * Returns the id of the column, of which a cell is located.
+	 * 
+	 * @param cellId
+	 *        | The id of the cell.
+	 * @return the name of the column where the cell with the given id is located.
+	 *        | for (Column col : getColumns()) 
+	 *		  |   if (col.containsCell(cellId)) 
+	 *		  |  	return col.getName()
+	 * @throws DomainException if the table does not have a cell with the given id.
+	 */
+	public String getcolumnName(UUID cellId) {
+		for (Column col : getColumns()) {
+			if (col.containsCell(cellId)) {
+				return col.getName();
+			}
+		}
+		throw new DomainException("No column id found for given cellId");
+	}
+
 
 	/**
 	 * Returns the index of the cell in the column.

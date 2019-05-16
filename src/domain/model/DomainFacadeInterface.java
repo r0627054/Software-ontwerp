@@ -300,4 +300,5 @@ public interface DomainFacadeInterface {
 
 	public boolean isComputedTable(UUID tableId);
 
+	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID columnId, UUID cellId);
 }

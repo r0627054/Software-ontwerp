@@ -76,9 +76,10 @@ public class SelectStatement implements Statement {
 		if (exp instanceof CellIdExpression) {
 			return this.getDomainCellOfOutOfCellId(exp, row, cellIdMap);
 		} else if (exp instanceof LiteralNumberExpression) {
-
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
-
+			
+			System.out.println(litNum.getSubTotal());
+			
 			if (litNum.isOneEditable()) {
 				return new DomainCell(litNum.getFirstUUIDOfMap(), litNum.getValue(), ValueType.INTEGER);
 			} else {
@@ -137,12 +138,21 @@ public class SelectStatement implements Statement {
 
 	public List<String> getAllSelectColumnNames() {
 		List<String> result = new ArrayList<>();
-		
+
 		for (ColumnSpec cs : getColumnSpecs()) {
 			result.add(cs.getColumnName());
 		}
-		
+
 		return result;
+	}
+
+	public List<CellId> getCellIdOfColumnName(String columnNameOfEditedCell) {
+		for (ColumnSpec cs : getColumnSpecs()) {
+			if (cs.getColumnName().equals(columnNameOfEditedCell)) {
+				return cs.getExpression().getAllCellIds();
+			}
+		}
+		return null;
 	}
 
 }
