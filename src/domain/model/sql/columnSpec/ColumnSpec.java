@@ -2,6 +2,8 @@ package domain.model.sql.columnSpec;
 
 import domain.model.sql.SqlException;
 import domain.model.sql.expression.Expression;
+import domain.model.sql.expression.LiteralNumberExpression;
+import domain.model.sql.expression.MathOperatorExpression;
 
 public class ColumnSpec {
 	private Expression expression;
@@ -33,6 +35,14 @@ public class ColumnSpec {
 		}
 		this.columnName = columnName;
 	}
+	
+	public int getSubtotal() {
+		if(this.getExpression() instanceof MathOperatorExpression) {
+			return ((MathOperatorExpression) this.getExpression()).getSubtotal();
+		}
+		return 0;
+	}
+	
 	
 	@Override
 	public String toString() {
