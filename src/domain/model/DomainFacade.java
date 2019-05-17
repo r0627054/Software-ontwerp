@@ -97,10 +97,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addColumn(col3);
 		persons.addColumn(col4);
 
-		persons.addRow(r1);
-		persons.addRow(r2);
-		persons.addRow(r3);
-		persons.addRow(r4);
+		persons.addRowWithoutAddingToColumns(r1);
+		persons.addRowWithoutAddingToColumns(r2);
+		persons.addRowWithoutAddingToColumns(r3);
+		persons.addRowWithoutAddingToColumns(r4);
 		return persons;
 	}
 
@@ -157,10 +157,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addColumn(col3);
 		persons.addColumn(col4);
 
-		persons.addRow(r1);
-		persons.addRow(r2);
-		persons.addRow(r3);
-		persons.addRow(r4);
+		persons.addRowWithoutAddingToColumns(r1);
+		persons.addRowWithoutAddingToColumns(r2);
+		persons.addRowWithoutAddingToColumns(r3);
+		persons.addRowWithoutAddingToColumns(r4);
 		return persons;
 	}
 
@@ -217,10 +217,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		persons.addColumn(col3);
 		persons.addColumn(col4);
 
-		persons.addRow(r1);
-		persons.addRow(r2);
-		persons.addRow(r3);
-		persons.addRow(r4);
+		persons.addRowWithoutAddingToColumns(r1);
+		persons.addRowWithoutAddingToColumns(r2);
+		persons.addRowWithoutAddingToColumns(r3);
+		persons.addRowWithoutAddingToColumns(r4);
 		return persons;
 	}
 
@@ -380,7 +380,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * @return a map with all the information associated with the given tableId.
 	 */
 	@Override
-	public Map<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID id) {
+	public Map<List<Object>, List<Object[]>> getTableWithIds(UUID id) {
 		return this.getTable(id).getTableWithIds();
 	}
 

@@ -321,7 +321,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 * @effect The tableRowsWindow is created and is added to the list of subWindows.
 	 *         | this.addCreatedTable(new TableRowsWindow(id, tableName, table, columnTypes));
 	 */
-	public void createTableRowsWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputed) {
+	public void createTableRowsWindow(UUID id, String tableName, Map<List<Object>, List<Object[]>> table, boolean isComputed) {
 		if (id == null || table == null) {
 			throw new IllegalArgumentException("Cannot create TableRowsWindow with id or table equals null.");
 		}
@@ -409,7 +409,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable) {
+			Map<List<Object>, List<Object[]>> tableRowsData, boolean isComputedTable) {
 		for (SubWindow sw : this.getSubWindows(id)) {
 			sw.updateContent(tableName, designData, tableRowsData, isComputedTable);
 		}
@@ -551,7 +551,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void createFormSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
+			Map<List<Object>, List<Object[]>> tableData, boolean isComputed) {
 		if (tableId == null || tableName == null || tableName.isEmpty() || tableData == null) {
 			throw new IllegalArgumentException(
 					"Cannot create FormWindow with tableData, id or name equals null/empty.");

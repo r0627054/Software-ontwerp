@@ -59,7 +59,7 @@ public interface UIFacadeInterface {
 	 *                     if the value is null | What the column type should be.
 	 */
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputedTable);
+			Map<List<Object>, List<Object[]>> table, boolean isComputedTable);
 
 	/**
 	 * Updates all the tablesSubWindows with the given data.
@@ -76,8 +76,8 @@ public interface UIFacadeInterface {
 	 * @param rowsClassData The rows class data.
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
-			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable);
+			Map<UUID, LinkedHashMap<String, Object>> designData, Map<List<Object>, List<Object[]>> tableRowsData,
+			boolean isComputedTable);
 
 	/**
 	 * Creates a new tableDesign window with the given data. That subWindow is added to the list of subWindows.
@@ -130,6 +130,6 @@ public interface UIFacadeInterface {
 	public void closeAllSubWindowsOfTable(UUID tableID);
 
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed);
+			Map<List<Object>, List<Object[]>> tableData, boolean isComputed);
 
 }

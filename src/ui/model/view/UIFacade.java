@@ -110,7 +110,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	@Override
 	public void createTableRowsSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> table, boolean isComputed) {
+			Map<List<Object>, List<Object[]>> table, boolean isComputed) {
 		this.getView().createTableRowsWindow(tableId, tableName, table, isComputed);
 	}
 
@@ -137,7 +137,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 	 */
 	public void updateTableRowsAndDesignSubWindows(UUID id, String tableName,
 			Map<UUID, LinkedHashMap<String, Object>> designData,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableRowsData, boolean isComputedTable) {
+			Map<List<Object>, List<Object[]>> tableRowsData, boolean isComputedTable) {
 		this.getView().updateTableRowsAndDesignSubWindows(id, tableName, designData, tableRowsData, isComputedTable);
 	}
 
@@ -311,7 +311,7 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	@Override
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
+			Map<List<Object>, List<Object[]>> tableData, boolean isComputed) {
 		getView().createFormSubWindow(tableId, tableNameOfId, tableData, isComputed);
 
 	}

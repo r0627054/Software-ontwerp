@@ -47,9 +47,9 @@ public class FormWindow extends TableWindow {
 
 	private List<Component> columnCells;
 
-	private Map<List<Object>, LinkedHashMap<UUID, Object>> tableData;
+	private Map<List<Object>, List<Object[]>> tableData;
 
-	public FormWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
+	public FormWindow(UUID id, String tableName, Map<List<Object>, List<Object[]>> tableData, boolean isComputed) {
 		super(id, TITLE_STRING_PREFIX + tableName + ROW_STRING_PREFIX + 0);
 		this.setTableData(tableData);
 		this.setComputed(isComputed);
@@ -68,14 +68,13 @@ public class FormWindow extends TableWindow {
 			Class<?> cellType = (Class<?>) key.get(2);
 			boolean isEditable = (boolean) key.get(3);
 
-			LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
-			Set<UUID> idList = cellData.keySet();
+			List<Object[]> cellData = getTableData().get(key);
 
-			Object[] list = cellData.values().toArray();
-			Object[] idArray = (Object[]) idList.toArray();
-			if (getCurrentRow() >= 0 && getCurrentRow() <= list.length - 1) {
-				UUID cellUUID = (UUID) idArray[getCurrentRow()];
-				Object cellValue = list[getCurrentRow()];
+			List<Object> list = this.getAllData(cellData);
+			List<UUID> idArray = this.getAllUUIDs(cellData);
+			if (getCurrentRow() >= 0 && getCurrentRow() <= list.size() - 1) {
+				UUID cellUUID = (UUID) idArray.get(getCurrentRow());
+				Object cellValue = list.get(getCurrentRow());
 				UICell uiCell = new UICell(cellValue, cellUUID, cellType, ChangeEventType.ROW_EDITED, null, null);
 				columnCells.add(uiCell);
 
@@ -109,10 +108,11 @@ public class FormWindow extends TableWindow {
 	}
 
 	public UUID getUUIDOfCell(int columnIndex, UUID columnId) {
-		Object[] x = this.tableData.keySet().toArray();
 		for (List<Object> key : getTableData().keySet()) {
-			if (key.contains(columnId))
-				return (UUID) this.tableData.get(key).keySet().toArray()[columnIndex];
+			if (key.contains(columnId)) {
+				List<UUID> ids = this.getAllUUIDs(this.getTableData().get(key));
+				return ids.get(columnIndex);
+			}
 		}
 		return null;
 
@@ -147,7 +147,7 @@ public class FormWindow extends TableWindow {
 	@Override
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
-		this.setTableData((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
+		this.setTableData((Map<List<Object>, List<Object[]>>) tableData[2]);
 		this.setComputed((boolean) tableData[3]);
 		this.updateForm();
 		this.setTableName(TITLE_STRING_PREFIX + (String) tableData[0] + ROW_STRING_PREFIX + getCurrentRow());
@@ -178,7 +178,7 @@ public class FormWindow extends TableWindow {
 				// Do nothing
 			}
 		}
-		
+
 		if (!isComputed()) {
 			if (keyCode == KeyEvent.VK_CONTROL) {
 				this.setCtrlPressed(true);
@@ -220,25 +220,19 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void deleteCurrentRow() {
-		UICell deleteCell = null;
-
-		Set<UUID> keyList = null;
-		for (Component c : getContainer().getComponentsList()) {
-
+		if (getCurrentRow() >= 0 && getCurrentRow() < this.getTableData().keySet().size() - 1) {
+			List<UUID> list = null;
+			
 			for (List<Object> key : getTableData().keySet()) {
-
-				LinkedHashMap<UUID, Object> cellData = getTableData().get(key);
-				Object[] list = cellData.values().toArray();
-				keyList = cellData.keySet();
+				list = this.getAllUUIDs(getTableData().get(key));
 				break;
 			}
+
+			UUID deleteCellID = list.get(getCurrentRow());
+
+			this.getSupport()
+					.firePropertyChange(new PropertyChangeEvent(deleteCellID, ChangeEventType.DELETE_ROW, null, null));
 		}
-
-		UUID deleteCellID = keyList.iterator().next();
-
-		this.getSupport()
-				.firePropertyChange(new PropertyChangeEvent(deleteCellID, ChangeEventType.DELETE_ROW, null, null));
-
 	}
 
 	private int getCurrentRow() {
@@ -249,7 +243,7 @@ public class FormWindow extends TableWindow {
 		int amountOfRowsInData = -1;
 
 		for (List<Object> key : getTableData().keySet()) {
-			amountOfRowsInData = getTableData().get(key).values().size();
+			amountOfRowsInData = this.getAllData(getTableData().get(key)).size();
 			break;
 		}
 
@@ -258,12 +252,28 @@ public class FormWindow extends TableWindow {
 		}
 		this.currentRow = currentRow;
 	}
+	
+	public List<UUID> getAllUUIDs(List<Object[]> data) {
+		List<UUID> ids = new ArrayList<>();
+		for (Object[] obj : data) {
+			ids.add((UUID) obj[0]);
+		}
+		return ids;
+	}
 
-	private Map<List<Object>, LinkedHashMap<UUID, Object>> getTableData() {
+	public List<Object> getAllData(List<Object[]> data) {
+		List<Object> result = new ArrayList<>();
+		for (Object[] obj : data) {
+			result.add(obj[1]);
+		}
+		return result;
+	}
+
+	private Map<List<Object>, List<Object[]>> getTableData() {
 		return tableData;
 	}
 
-	private void setTableData(Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
+	private void setTableData(Map<List<Object>, List<Object[]>> tableData) {
 		this.tableData = tableData;
 	}
 
