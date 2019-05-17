@@ -529,7 +529,7 @@ public class Table extends ObjectIdentifier {
 	 *		  |  	return col.getName()
 	 * @throws DomainException if the table does not have a cell with the given id.
 	 */
-	public String getcolumnName(UUID cellId) {
+	public String getColumnName(UUID cellId) {
 		for (Column col : getColumns()) {
 			if (col.containsCell(cellId)) {
 				return col.getName();
@@ -545,6 +545,18 @@ public class Table extends ObjectIdentifier {
 			}
 		}
 		throw new DomainException("No column id found for given cellId");
+	}
+	
+	public int getIndexOfColumn(UUID columnId){
+		if(columnId == null) {
+			throw new DomainException("The columnId cannot be null");
+		}
+		for (int i = 0; i < this.getColumns().size(); i++) {
+			if(this.getColumnForIndex(i).getId().equals(columnId)) {
+				return i;
+			}
+		}
+		throw new DomainException("ColumnId could not be found");
 	}
 
 

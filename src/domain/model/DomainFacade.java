@@ -743,7 +743,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (table != null) {
 			if(!(table instanceof ComputedTable)) {
 				for(Table t: this.getTableMap().values()) {
-					if( (t instanceof ComputedTable)  && (((ComputedTable) t).containsMatchingTable(t.getName()))) {
+					if( (t instanceof ComputedTable)  && (((ComputedTable) t).containsMatchingTable(table.getName()))) {
 						((ComputedTable) t).updateCellWithComputation(columnId, table.getIndexOfCellInColumnId(columnId, cellId), newValue);
 					}
 				}
@@ -940,7 +940,7 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (table != null) {
 			if (table instanceof ComputedTable) {
 
-				String columnNameOfEditedCell = table.getcolumnName(cellId);
+				String columnNameOfEditedCell = table.getColumnName(cellId);
 
 				ComputedTable comp = (ComputedTable) table;
 				Query query = comp.getQuery();
