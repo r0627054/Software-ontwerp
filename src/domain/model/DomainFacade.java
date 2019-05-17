@@ -33,9 +33,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-//		addMockedTable(dummyTable1());
-//		addMockedTable(dummyTable2());
-//		addMockedTable(dummyTable3());
+		addMockedTable(dummyTable1());
+		addMockedTable(dummyTable2());
+		addMockedTable(dummyTable3());
 	}
 
 	/**
@@ -867,7 +867,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public void createComputedTable(UUID tableId, String query) {
+	public void createComputedTable(UUID tableId, String query) {		
 		String parsedQuery = SQLParser.parseQuery(query);
 		SQLParser parser = new SQLParser(parsedQuery);
 		Query newQuery = parser.getQueryFromString();

@@ -284,16 +284,15 @@ public class ComputedTable extends Table {
 
 	@Override
 	public void editCell(UUID columnId, UUID cellId, Object value) {
-		Object newValue = null;
+		Object newValue = value;
 
 		if (value instanceof Integer) {
-
+			Integer oldValue = (Integer) value;
 			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getcolumnName(cellId));
-			System.out.println(spec.getSubtotal());
-
+			newValue = oldValue - spec.getSubtotal();
 		}
 
-		super.editCell(columnId, cellId, value);
+		super.editCell(columnId, cellId, newValue);
 	}
 
 }
