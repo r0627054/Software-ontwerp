@@ -724,16 +724,19 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		Table table = getTable(tableId);
 		String col = table.getColumnNameOfColumnId(columnId);
+		List<Table> deleteTables = new ArrayList<>();
 		if (table != null) {
 			if (!(table instanceof ComputedTable)) {
 
 				for (Table t : getTableMap().values()) {
 					if (t instanceof ComputedTable
 							&& ((ComputedTable) t).containsMatchingColumn(col, table.getName())) {
-						throw new DomainException("Cannot delete a column another computed table is using");
+						deleteTables.add(t);
 					}
 				}
-
+				for (Table t : deleteTables) {
+					this.deleteTable(t.getId());
+				}
 				table.deleteColumn(columnId);
 			} else {
 				throw new DomainException("You should not be able to delete columns from a computedTable");
@@ -870,7 +873,7 @@ public class DomainFacade implements DomainFacadeInterface {
 				table.deleteRow(rowId);
 				for (Table t : getTableMap().values()) {
 					if (t instanceof ComputedTable && ((ComputedTable) t).containsMatchingTable(table.getName())) {
-						((ComputedTable) t).runQuery();	
+						((ComputedTable) t).runQuery();
 					}
 				}
 

@@ -37,6 +37,7 @@ public class DeleteColumnChangeHandler implements ChangeHandlerInterface {
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
 					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 					domainfacade.isComputedTable(tableId));
+			uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}
