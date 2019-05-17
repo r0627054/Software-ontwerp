@@ -290,9 +290,19 @@ public class ComputedTable extends Table {
 			Integer oldValue = (Integer) value;
 			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getcolumnName(cellId));
 			newValue = oldValue - spec.getSubtotal();
+
+			for (Table t : getQueryTables()) {
+				if (t.hasColumn(columnId)) {
+					int index = this.getIndexOfCellInColumnId(columnId, cellId);
+					Column col = t.getColumn(columnId);
+					DomainCell otherCell = col.getCellAtIndex(index);
+					otherCell.setValue(newValue);
+					break;
+				}
+			}
 		}
 
-		super.editCell(columnId, cellId, newValue);
+		super.editCell(columnId, cellId, value);
 	}
 
 }

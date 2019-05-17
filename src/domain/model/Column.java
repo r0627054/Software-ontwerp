@@ -38,7 +38,7 @@ public class Column extends ObjectIdentifier {
 	 * value of the column.
 	 */
 	private Object defaultValue;
-	
+
 	private boolean isEditable;
 
 	/**
@@ -85,9 +85,9 @@ public class Column extends ObjectIdentifier {
 	 *	       |this.setDefaultValue(type.getDefaultValue())
 	 */
 	public Column(String name, ValueType type, boolean allowsBlanks) {
-		this(name,type,allowsBlanks, type.getDefaultValue());
+		this(name, type, allowsBlanks, type.getDefaultValue());
 	}
-	
+
 	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue) {
 		super();
 		this.setName(name);
@@ -96,7 +96,7 @@ public class Column extends ObjectIdentifier {
 		this.setDefaultValue(defaultValue);
 		this.setEditable(true);
 	}
-	
+
 	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue, UUID id) {
 		super(id);
 		this.setName(name);
@@ -104,7 +104,7 @@ public class Column extends ObjectIdentifier {
 		this.setAllowsBlanks(allowsBlanks);
 		this.setDefaultValue(defaultValue);
 		this.setEditable(true);
-	}	
+	}
 
 	public Column(String columnNameOfColumnSpec, boolean isEditable) {
 		this(columnNameOfColumnSpec);
@@ -217,6 +217,20 @@ public class Column extends ObjectIdentifier {
 			throw new DomainException("Default value is still empty.");
 		}
 		this.allowsBlanks = allowsBlanks;
+	}
+
+	/**
+	 * @return the isEditable
+	 */
+	private boolean isEditable() {
+		return isEditable;
+	}
+
+	/**
+	 * @param isEditable the isEditable to set
+	 */
+	private void setEditable(boolean isEditable) {
+		this.isEditable = isEditable;
 	}
 
 	/**
@@ -512,7 +526,8 @@ public class Column extends ObjectIdentifier {
 	 *        The id of a cell in the column.
 	 * @return Cell with the given id in the column.
 	 */
-	private DomainCell getCellWithId(UUID cellId) {
+	public DomainCell getCellWithId(UUID cellId) {
+		List<DomainCell> cells = getCells();
 		for (DomainCell c : getCells()) {
 			if (c.getId().equals(cellId))
 				return c;
@@ -543,24 +558,9 @@ public class Column extends ObjectIdentifier {
 		cells.remove(rowIndex);
 		this.setCells(cells);
 	}
-	
+
 	public Column blindCopy() {
 		return new Column(getName(), getType(), isAllowsBlanks(), getDefaultValue(), getId());
 	}
-
-	/**
-	 * @return the isEditable
-	 */
-	private boolean isEditable() {
-		return isEditable;
-	}
-
-	/**
-	 * @param isEditable the isEditable to set
-	 */
-	private void setEditable(boolean isEditable) {
-		this.isEditable = isEditable;
-	}
-	
 
 }
