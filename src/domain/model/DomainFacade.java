@@ -950,8 +950,9 @@ public class DomainFacade implements DomainFacadeInterface {
 
 			tables.add(table);
 		}
-		this.deleteTable(tableId);
+		
 		ComputedTable newTable = new ComputedTable(tableId, oldTableName, newQuery, tables);
+		this.deleteTable(tableId);
 		this.getTableMap().put(tableId, newTable);
 	}
 
