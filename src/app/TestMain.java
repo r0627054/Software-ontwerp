@@ -29,8 +29,11 @@ public class TestMain {
 		// 2 Group
 
 
-		String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
-							
+		//String sql = "SELECT  5 - 3 + 5 + stud.Grade + w.Age + 99 AS name, stud.Grade < w.Age AS z   FROM Students AS stud  INNER JOIN Work AS w ON stud.Student = w.Smart       WHERE  TRUE ";
+		String sql = "SELECT s.Name AS n, w.Age AS age "
+				+ " FROM Students AS s INNER JOIN Work AS w ON s.Grade = w.Age"
+				+ " WHERE TRUE";
+				
 		System.out.println(SQLParser.parseQuery(sql) + "\n");
 
 		SQLParser parser = new SQLParser(sql);
