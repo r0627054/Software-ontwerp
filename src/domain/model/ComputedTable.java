@@ -23,22 +23,15 @@ public class ComputedTable extends Table {
 
 	private Query query;
 	private List<Table> queryTables;
-	private List<Integer> editableOccurences; 
+	private List<Integer> editableOccurences;
 
 	public ComputedTable(UUID tableId, String name, Query query, List<Table> tables) {
 		super(tableId, name);
 		this.setEditableOccurences(new ArrayList<>());
 		this.setQuery(query);
 		setQueryTables(tables);
-		executeFromStatement();
-		Table result = this.executeFromStatement();
-		result = this.executeWhereStatement(result);
-		result = this.executeSelectStatement(result);
-		this.setColumns(result.getColumns());
-		this.setRows(result.getRows());
+		runQuery();
 	}
-	
-	
 
 	private List<Integer> getEditableOccurences() {
 		return editableOccurences;
@@ -47,8 +40,6 @@ public class ComputedTable extends Table {
 	private void setEditableOccurences(List<Integer> editableOccurences) {
 		this.editableOccurences = editableOccurences;
 	}
-
-
 
 	private Table executeSelectStatement(Table result) {
 		SelectStatement select = getQuery().getSelectStatement();
@@ -61,7 +52,8 @@ public class ComputedTable extends Table {
 			Column c = null;
 			if (((Boolean) isEditableObject[1]) && (cellIdsUsedCounterMap.keySet().size() == 1)
 					&& ((Integer) cellIdsUsedCounterMap.values().toArray()[0] != 0)) {
-				this.getEditableOccurences().add(specIndex, (Integer) (( Map<UUID,Integer> ) isEditableObject[0]).values().toArray()[0]);
+				this.getEditableOccurences().add(specIndex,
+						(Integer) ((Map<UUID, Integer>) isEditableObject[0]).values().toArray()[0]);
 				CellId cellId = select.getCellIdOfEditable(specIndex);
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
@@ -303,7 +295,7 @@ public class ComputedTable extends Table {
 			Integer oldValue = (Integer) value;
 			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getColumnName(cellId));
 			Integer nbrOfOffcurrences = this.getEditableOccurences().get(this.getIndexOfColumn(columnId));
-			newValue = (oldValue - spec.getSubtotal())/nbrOfOffcurrences;
+			newValue = (oldValue - spec.getSubtotal()) / nbrOfOffcurrences;
 
 			for (Table t : getQueryTables()) {
 				if (t.hasColumn(columnId)) {
@@ -317,23 +309,43 @@ public class ComputedTable extends Table {
 		Column column = this.getColumn(columnId);
 		column.updateCellValue(cellId, value);
 	}
-	
+
 	public void updateCellWithComputation(UUID columnId, int cellIndex, Object value) {
 		try {
 			Object newValue = value;
 			if (value instanceof Integer) {
 				Integer oldValue = (Integer) value;
-					ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getColumnNameOfColumnId(columnId));
-					Integer nbrOfOffcurrences = this.getEditableOccurences().get(this.getIndexOfColumn(columnId));
-					newValue = (oldValue)*nbrOfOffcurrences + spec.getSubtotal();
-				
+				ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getColumnNameOfColumnId(columnId));
+				Integer nbrOfOffcurrences = this.getEditableOccurences().get(this.getIndexOfColumn(columnId));
+				newValue = (oldValue) * nbrOfOffcurrences + spec.getSubtotal();
+
 			}
 			Column column = this.getColumn(columnId);
 			column.setValueForCellAtIndex(cellIndex, newValue);
 		} catch (DomainException e) {
-			//Does update if the cell not exists.
+			// Does update if the cell not exists.
 		}
-		
+
+	}
+
+	public boolean containsMatchingColumn(String colName, String tableName) {
+		List<CellId> ids = getQuery().getAllCellIds();
+		Map<String, String> map = getQuery().getDisplayToRealNamesMap();
+
+		for (CellId id : ids) {
+			if (map.get(id.getTableId()).equals(tableName) && id.getColumnName().equals(colName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void runQuery() {
+		Table result = this.executeFromStatement();
+		result = this.executeWhereStatement(result);
+		result = this.executeSelectStatement(result);
+		this.setColumns(result.getColumns());
+		this.setRows(result.getRows());
 	}
 
 }

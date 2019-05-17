@@ -220,16 +220,15 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void deleteCurrentRow() {
-		if (getCurrentRow() >= 0 && getCurrentRow() < this.getTableData().keySet().size() - 1) {
+		if (getCurrentRow() >= 0 && getCurrentRow() <= this.getTableData().keySet().size()
+				&& this.getTableData().keySet().size() > 0) {
 			List<UUID> list = null;
-			
 			for (List<Object> key : getTableData().keySet()) {
 				list = this.getAllUUIDs(getTableData().get(key));
 				break;
 			}
 
 			UUID deleteCellID = list.get(getCurrentRow());
-
 			this.getSupport()
 					.firePropertyChange(new PropertyChangeEvent(deleteCellID, ChangeEventType.DELETE_ROW, null, null));
 		}
@@ -252,7 +251,7 @@ public class FormWindow extends TableWindow {
 		}
 		this.currentRow = currentRow;
 	}
-	
+
 	public List<UUID> getAllUUIDs(List<Object[]> data) {
 		List<UUID> ids = new ArrayList<>();
 		for (Object[] obj : data) {

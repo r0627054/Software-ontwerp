@@ -1,5 +1,6 @@
 package controller.handlers;
 
+import java.util.List;
 import java.util.UUID;
 
 import controller.observer.PropertyChangeEvent;
@@ -38,6 +39,13 @@ public class DeleteRowChangeHandler implements ChangeHandlerInterface {
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId),
 					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 					domainfacade.isComputedTable(tableId));
+			
+			List<UUID> otherIds = domainfacade.getTableIdOfUsedTables(tableId, cellIdOfFirstElement);
+			for (UUID otherId : otherIds) {
+				uifacade.updateTableRowsAndDesignSubWindows(otherId, domainfacade.getTableNameOfId(otherId),
+						domainfacade.getColumnCharacteristics(otherId), domainfacade.getTableWithIds(otherId),
+						domainfacade.isComputedTable(otherId));
+			}
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

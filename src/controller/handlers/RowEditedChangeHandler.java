@@ -61,8 +61,8 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 					domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 					domainfacade.isComputedTable(tableId));
 
-			List<UUID> otherIds = domainfacade.getTableIdOfUsedTables(tableId, columnId, cellId);
-			for(UUID otherId: otherIds) {
+			List<UUID> otherIds = domainfacade.getTableIdOfUsedTables(tableId, cellId);
+			for (UUID otherId : otherIds) {
 				uifacade.updateTableRowsAndDesignSubWindows(otherId, domainfacade.getTableNameOfId(otherId),
 						domainfacade.getColumnCharacteristics(otherId), domainfacade.getTableWithIds(otherId),
 						domainfacade.isComputedTable(otherId));

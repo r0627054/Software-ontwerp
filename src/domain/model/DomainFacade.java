@@ -287,6 +287,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.tableMap.put(table.getId(), table);
 	}
 
+	private void addTable(UUID id, String name) {
+		Table table = new Table(id, name);
+		this.tableMap.put(id, table);
+	}
+
 	/**
 	 * Returns the full in-memory map.
 	 * The map contains all the tableId's with the corresponding table.
@@ -718,10 +723,21 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot delete a column type with a null id.");
 		}
 		Table table = getTable(tableId);
+		String col = table.getColumnNameOfColumnId(columnId);
 		if (table != null) {
-			table.deleteColumn(columnId);
-		} else {
-			throw new DomainException("No table found to return the allowBlanks value.");
+			if (!(table instanceof ComputedTable)) {
+
+				for (Table t : getTableMap().values()) {
+					if (t instanceof ComputedTable
+							&& ((ComputedTable) t).containsMatchingColumn(col, table.getName())) {
+						throw new DomainException("Cannot delete a column another computed table is using");
+					}
+				}
+
+				table.deleteColumn(columnId);
+			} else {
+				throw new DomainException("You should not be able to delete columns from a computedTable");
+			}
 		}
 	}
 
@@ -850,7 +866,17 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		Table table = getTable(tableId);
 		if (table != null) {
-			table.deleteRow(rowId);
+			if (!(table instanceof ComputedTable)) {
+				table.deleteRow(rowId);
+				for (Table t : getTableMap().values()) {
+					if (t instanceof ComputedTable && ((ComputedTable) t).containsMatchingTable(table.getName())) {
+						((ComputedTable) t).runQuery();	
+					}
+				}
+
+			} else {
+				throw new DomainException("You should not be able to delete a row of a computed table");
+			}
 		} else {
 			throw new DomainException("No table found to delete a row.");
 		}
@@ -950,7 +976,7 @@ public class DomainFacade implements DomainFacadeInterface {
 
 			tables.add(table);
 		}
-		
+
 		ComputedTable newTable = new ComputedTable(tableId, oldTableName, newQuery, tables);
 		this.deleteTable(tableId);
 		this.getTableMap().put(tableId, newTable);
@@ -962,7 +988,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID columnId, UUID cellId) {
+	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID cellId) {
 		List<UUID> result = new ArrayList<>();
 		Table table = getTable(tableId);
 
@@ -1007,7 +1033,8 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot get a table with a null id.");
 		}
 		Table table = getTable(tableId);
-
+		this.deleteTable(tableId);
+		this.addTable(table.getId(), table.getName());
 	}
 
 }
