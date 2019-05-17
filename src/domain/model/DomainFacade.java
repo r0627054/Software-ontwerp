@@ -741,6 +741,13 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		Table table = getTable(tableId);
 		if (table != null) {
+			if(!(table instanceof ComputedTable)) {
+				for(Table t: this.getTableMap().values()) {
+					if( (t instanceof ComputedTable)  && (((ComputedTable) t).containsMatchingTable(t.getName()))) {
+						((ComputedTable) t).updateCellWithComputation(columnId, table.getIndexOfCellInColumnId(columnId, cellId), newValue);
+					}
+				}
+			}
 			table.editCell(columnId, cellId, newValue);
 		} else {
 			throw new DomainException("No table found to edit the cell.");

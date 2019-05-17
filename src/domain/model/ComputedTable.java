@@ -295,14 +295,25 @@ public class ComputedTable extends Table {
 				if (t.hasColumn(columnId)) {
 					int index = this.getIndexOfCellInColumnId(columnId, cellId);
 					Column col = t.getColumn(columnId);
-					DomainCell otherCell = col.getCellAtIndex(index);
-					otherCell.setValue(newValue);
+					col.setValueForCellAtIndex(index, newValue);
 					break;
 				}
 			}
 		}
+		Column column = this.getColumn(columnId);
+		column.updateCellValue(cellId, newValue);
+	}
+	
+	public void updateCellWithComputation(UUID columnId, int cellIndex, Object value) {
+		Object newValue = value;
+		if (value instanceof Integer) {
+			Integer oldValue = (Integer) value;
+			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getcolumnName(columnId));
+			newValue = oldValue + spec.getSubtotal();
 
-		super.editCell(columnId, cellId, value);
+		}
+		Column column = this.getColumn(columnId);
+		column.setValueForCellAtIndex(cellIndex, newValue);
 	}
 
 }

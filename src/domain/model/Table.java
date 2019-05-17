@@ -537,6 +537,15 @@ public class Table extends ObjectIdentifier {
 		}
 		throw new DomainException("No column id found for given cellId");
 	}
+	
+	public String getColumnNameOfColumnId(UUID columnId) {
+		for (Column col : getColumns()) {
+			if (col.getId().equals(columnId)) {
+				return col.getName();
+			}
+		}
+		throw new DomainException("No column id found for given cellId");
+	}
 
 
 	/**

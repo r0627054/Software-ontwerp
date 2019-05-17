@@ -534,6 +534,13 @@ public class Column extends ObjectIdentifier {
 		}
 		return null;
 	}
+	
+	public void setValueForCellAtIndex(int index, Object value) {
+		if(index < 0 || this.getCells().size() <= index) {
+			throw new DomainException("Invalid index for setting the cell.");
+		}
+		this.getCellAtIndex(index).setValue(value);
+	}
 
 	/**
 	 * Returns the index of the cell with the given id.
