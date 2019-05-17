@@ -551,12 +551,12 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	public void createFormSubWindow(UUID tableId, String tableName,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
 		if (tableId == null || tableName == null || tableName.isEmpty() || tableData == null) {
 			throw new IllegalArgumentException(
 					"Cannot create FormWindow with tableData, id or name equals null/empty.");
 		}
-		this.addCreatedTable(new FormWindow(tableId, tableName, tableData));
+		this.addCreatedTable(new FormWindow(tableId, tableName, tableData, isComputed));
 	}
 
 }

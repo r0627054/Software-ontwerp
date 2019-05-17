@@ -43,13 +43,16 @@ public class FormWindow extends TableWindow {
 	 */
 	private int currentRow = 0;
 
+	private boolean isComputed;
+
 	private List<Component> columnCells;
 
 	private Map<List<Object>, LinkedHashMap<UUID, Object>> tableData;
 
-	public FormWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
+	public FormWindow(UUID id, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
 		super(id, TITLE_STRING_PREFIX + tableName + ROW_STRING_PREFIX + 0);
 		this.setTableData(tableData);
+		this.setComputed(isComputed);
 		updateForm();
 	}
 
@@ -75,7 +78,7 @@ public class FormWindow extends TableWindow {
 				Object cellValue = list[getCurrentRow()];
 				UICell uiCell = new UICell(cellValue, cellUUID, cellType, ChangeEventType.ROW_EDITED, null, null);
 				columnCells.add(uiCell);
-				
+
 				if (isEditable) {
 					this.addStoredListener(uiCell);
 				}
@@ -83,7 +86,7 @@ public class FormWindow extends TableWindow {
 
 			}
 			getContainer().addComponent(new TextField(x1, y, 200, 40, key.get(1).toString()));
-			y += 40;
+			y += 50;
 		}
 		VerticalComponentList vcl = new VerticalComponentList(x2, getY() + 50, columnCells);
 
@@ -145,6 +148,7 @@ public class FormWindow extends TableWindow {
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
 		this.setTableData((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
+		this.setComputed((boolean) tableData[3]);
 		this.updateForm();
 		this.setTableName(TITLE_STRING_PREFIX + (String) tableData[0] + ROW_STRING_PREFIX + getCurrentRow());
 	}
@@ -174,15 +178,17 @@ public class FormWindow extends TableWindow {
 				// Do nothing
 			}
 		}
-
-		if (keyCode == KeyEvent.VK_CONTROL) {
-			this.setCtrlPressed(true);
-		} else if (keyCode == KeyEvent.VK_D && this.isCtrlPressed()) {
-			deleteCurrentRow();
-		} else if (keyCode == KeyEvent.VK_N && this.isCtrlPressed()) {
-			createNewRow();
-		} else {
-			setCtrlPressed(false);
+		
+		if (!isComputed()) {
+			if (keyCode == KeyEvent.VK_CONTROL) {
+				this.setCtrlPressed(true);
+			} else if (keyCode == KeyEvent.VK_D && this.isCtrlPressed()) {
+				deleteCurrentRow();
+			} else if (keyCode == KeyEvent.VK_N && this.isCtrlPressed()) {
+				createNewRow();
+			} else {
+				setCtrlPressed(false);
+			}
 		}
 
 	}
@@ -259,6 +265,14 @@ public class FormWindow extends TableWindow {
 
 	private void setTableData(Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
 		this.tableData = tableData;
+	}
+
+	private boolean isComputed() {
+		return isComputed;
+	}
+
+	private void setComputed(boolean isComputed) {
+		this.isComputed = isComputed;
 	}
 
 }

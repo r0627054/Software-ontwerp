@@ -439,7 +439,34 @@ public class DomainFacade implements DomainFacadeInterface {
 		if (id == null) {
 			throw new DomainException("Cannot delete a table with a null index");
 		}
-		this.getTableMap().remove(id);
+		Table table = getTable(id);
+		List<Table> allRemovedList = new ArrayList<>();
+		List<Table> currentIterationList = new ArrayList<>();
+
+//		int iterations = 0;
+		currentIterationList.add(table);
+		allRemovedList.add(table);
+		while (currentIterationList.size() != 0) {
+			List<Table> tempRemovedList = new ArrayList<>();
+
+			for (Table t : getTableMap().values()) {
+				if (t instanceof ComputedTable && !allRemovedList.contains(t)) {
+					List<Table> iterationAllRemoved = new ArrayList<>();
+					for (Table removedTable : allRemovedList) {
+						if (((ComputedTable) t).containsMatchingTable(removedTable.getName())) {
+							iterationAllRemoved.add(t);
+							tempRemovedList.add(t);
+						}
+					}
+					allRemovedList.addAll(iterationAllRemoved);
+				}
+			}
+			currentIterationList = tempRemovedList;
+		}
+
+		for (Table t : allRemovedList) {
+			this.getTableMap().remove(t.getId());
+		}
 	}
 
 	/**
@@ -741,10 +768,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 		Table table = getTable(tableId);
 		if (table != null) {
-			if(!(table instanceof ComputedTable)) {
-				for(Table t: this.getTableMap().values()) {
-					if( (t instanceof ComputedTable)  && (((ComputedTable) t).containsMatchingTable(table.getName()))) {
-						((ComputedTable) t).updateCellWithComputation(columnId, table.getIndexOfCellInColumnId(columnId, cellId), newValue);
+			if (!(table instanceof ComputedTable)) {
+				for (Table t : this.getTableMap().values()) {
+					if ((t instanceof ComputedTable) && (((ComputedTable) t).containsMatchingTable(table.getName()))) {
+						((ComputedTable) t).updateCellWithComputation(columnId,
+								table.getIndexOfCellInColumnId(columnId, cellId), newValue);
 					}
 				}
 			}
@@ -874,7 +902,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	}
 
 	@Override
-	public void createComputedTable(UUID tableId, String query) {		
+	public void createComputedTable(UUID tableId, String query) {
 		String parsedQuery = SQLParser.parseQuery(query);
 		SQLParser parser = new SQLParser(parsedQuery);
 		Query newQuery = parser.getQueryFromString();
@@ -970,6 +998,15 @@ public class DomainFacade implements DomainFacadeInterface {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public void setEmptyQuery(UUID tableId) {
+		if (tableId == null) {
+			throw new DomainException("Cannot get a table with a null id.");
+		}
+		Table table = getTable(tableId);
+
 	}
 
 }

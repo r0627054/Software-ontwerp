@@ -14,7 +14,8 @@ public class CreateFormDesignSubWindowChangeHandler implements ChangeHandlerInte
 		UUID tableId = evt.getSource();
 
 		try {
-			uifacade.createFormSubWindow(tableId, (String) evt.getOldValue(), domainfacade.getTableWithIds(tableId));
+			uifacade.createFormSubWindow(tableId, (String) evt.getOldValue(), domainfacade.getTableWithIds(tableId),
+					domainfacade.isComputedTable(tableId));
 		} catch (DomainException e) {
 			e.printStackTrace();
 		}

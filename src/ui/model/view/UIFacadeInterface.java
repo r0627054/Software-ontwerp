@@ -122,7 +122,7 @@ public interface UIFacadeInterface {
 	 * Closes the currentSubWindow.
 	 */
 	public void closeCurrentSubWindow();
-	
+
 	/**
 	 * Closes all the SubWindows which contain information of the table with the given tableID.
 	 * @param tableID The UUID of the table.
@@ -130,6 +130,6 @@ public interface UIFacadeInterface {
 	public void closeAllSubWindowsOfTable(UUID tableID);
 
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed);
 
 }

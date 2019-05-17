@@ -311,8 +311,8 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 
 	@Override
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
-			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData) {
-		getView().createFormSubWindow(tableId, tableNameOfId, tableData);
+			Map<List<Object>, LinkedHashMap<UUID, Object>> tableData, boolean isComputed) {
+		getView().createFormSubWindow(tableId, tableNameOfId, tableData, isComputed);
 
 	}
 
