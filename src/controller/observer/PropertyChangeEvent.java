@@ -9,7 +9,7 @@ import controller.handlers.ChangeEventType;
  * It contains the source (which is a UUID), the action (which is an ChangeEventType), oldValue (the old value of the property which is changed)
  *  and newValue (the new value of the property which is changed).
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

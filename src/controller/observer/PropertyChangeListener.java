@@ -2,7 +2,7 @@ package controller.observer;
 
 /**
  * Observers in the observer pattern implement this interface.
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

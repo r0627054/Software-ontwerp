@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * The propertyChangeSupport used in the observer pattern.
  *  It stores a list of listeners and can fire a property change to their listeners.
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

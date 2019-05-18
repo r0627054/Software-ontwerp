@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * A class of columns, containing a name, type and if the column allows blanks.
+ * A class of columns, containing a name, type, cells, defaultvalue, iseditable variable and if the column allows blanks
  *
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  */
 public class Column extends ObjectIdentifier {
@@ -24,7 +24,7 @@ public class Column extends ObjectIdentifier {
 	private ValueType type;
 
 	/**
-	 * Variable storing if the Column allows to store Blank values.
+	 * Variable storing if the Column allows to store blank values.
 	 */
 	private boolean allowsBlanks;
 
@@ -39,6 +39,9 @@ public class Column extends ObjectIdentifier {
 	 */
 	private Object defaultValue;
 
+	/**
+	 * Variable storing whether or not the column is editable.
+	 */
 	private boolean isEditable;
 
 	/**
@@ -79,15 +82,33 @@ public class Column extends ObjectIdentifier {
 	 * @param allowsBlanks
 	 * 			Whether the column allows blank spaces.
 	 * @effect The name, the type, allowBlanks and default value (default=type.getDefaultValue()) are are set.
-	 *         |this.setName(name)
-	 *         |this.setType(type)
-	 *	       |this.setAllowsBlanks(allowsBlanks)
-	 *	       |this.setDefaultValue(type.getDefaultValue())
+	 *         this(name, type,allowsBlanks,type.getDefaultValue())
 	 */
 	public Column(String name, ValueType type, boolean allowsBlanks) {
 		this(name, type, allowsBlanks, type.getDefaultValue());
 	}
 
+	/**
+	 * Initialise a new column with the given name, valuetype, allowsblanks
+	 * variable and default value.
+	 * 
+	 * @param name
+	 * 			The name of the column.
+	 * @param type
+	 * 			The column type of the column.
+	 * @param allowsBlanks
+	 * 			Whether the column allows blank spaces.
+	 * @param defaultValue
+	 *          The default value of the column.
+	 * @effect The given variables are set and the default super constructor is called.
+	 *         By default the column is editable.
+	 *         |super()
+	 *  	   |this.setName(name)
+	 *         |this.setType(type)
+	 *	       |this.setAllowsBlanks(allowsBlanks)
+	 *	       |this.setDefaultValue(type.getDefaultValue())
+	 *		   |this.setEditable(true);
+	 */
 	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue) {
 		super();
 		this.setName(name);
@@ -97,6 +118,29 @@ public class Column extends ObjectIdentifier {
 		this.setEditable(true);
 	}
 
+	/**
+	 * Initialise a new column with the given name, valuetype, allowsblanks
+	 * variable and default value and id.
+	 * 
+	 * @param name
+	 * 			The name of the column.
+	 * @param type
+	 * 			The column type of the column.
+	 * @param allowsBlanks
+	 * 			Whether the column allows blank spaces.
+	 * @param defaultValue
+	 *          The default value of the column.
+	 * @param id 
+	 *          The id which will be given.
+	 * @effect The given variables are set and the default super constructor is called for setting the id.
+	 * 			By default the column is editable.
+	 *		   |super()
+	 *  	   |this.setName(name)
+	 *         |this.setType(type)
+	 *	       |this.setAllowsBlanks(allowsBlanks)
+	 *	       |this.setDefaultValue(type.getDefaultValue())
+	 *		   |this.setEditable(true);
+	 */
 	public Column(String name, ValueType type, boolean allowsBlanks, Object defaultValue, UUID id) {
 		super(id);
 		this.setName(name);
@@ -106,8 +150,18 @@ public class Column extends ObjectIdentifier {
 		this.setEditable(true);
 	}
 
-	public Column(String columnNameOfColumnSpec, boolean isEditable) {
-		this(columnNameOfColumnSpec);
+	/**
+	 * 
+	 * @param name
+	 * 			The name of the column.
+	 * @param isEditable
+	 * 			The variable saying whether or not the column is editable.
+	 * @effect A new column instance is created using the given variables.
+	 *        | this(name);
+	 *        | this.setEditable(isEditable);
+	 */
+	public Column(String name, boolean isEditable) {
+		this(name);
 		this.setEditable(isEditable);
 	}
 
@@ -220,14 +274,16 @@ public class Column extends ObjectIdentifier {
 	}
 
 	/**
-	 * @return the isEditable
+	 * Returns whether or not the column is editable.
+	 * @return True when the column is editable otherwise false.
 	 */
 	private boolean isEditable() {
 		return isEditable;
 	}
 
 	/**
-	 * @param isEditable the isEditable to set
+	 * Sets the Editable variable. True when the column should be editable, false when it shouldn't.
+	 * @param isEditable Variable saying whether or not the column should be editable.
 	 */
 	private void setEditable(boolean isEditable) {
 		this.isEditable = isEditable;
@@ -527,11 +583,13 @@ public class Column extends ObjectIdentifier {
 	 * @return Cell with the given id in the column.
 	 */
 	public DomainCell getCellWithId(UUID cellId) {
-		List<DomainCell> cells = getCells();
 		for (DomainCell c : getCells()) {
+			System.out.println(c.getId());
+			System.out.println(cellId);
 			if (c.getId().equals(cellId))
 				return c;
 		}
+		System.out.println("is null");
 		return null;
 	}
 
@@ -566,6 +624,12 @@ public class Column extends ObjectIdentifier {
 		this.setCells(cells);
 	}
 
+	/**
+	 * Returns a blind copy of the column.
+	 * A blind copy is a new column instance with the same characteristics.
+	 * This new instance does not contain any cells.
+	 * @return A blind copy instance as described.
+	 */
 	public Column blindCopy() {
 		return new Column(getName(), getType(), isAllowsBlanks(), getDefaultValue(), getId());
 	}
