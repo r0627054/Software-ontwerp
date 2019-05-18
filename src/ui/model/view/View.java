@@ -563,7 +563,7 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	public void closeAllDesignWindows(UUID tableId) {
 		boolean repaint = false;
 		for (SubWindow sw : getSubWindows()) {
-			if (sw.getId().equals(tableId) && sw instanceof TableDesignWindow) {
+			if (sw.getId() != null && sw.getId().equals(tableId) && sw instanceof TableDesignWindow) {
 				this.getSubWindows().remove(sw);
 				repaint = true;
 			}

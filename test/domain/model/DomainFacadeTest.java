@@ -2,6 +2,9 @@ package domain.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -10,7 +13,7 @@ import org.junit.jupiter.api.Test;
 class DomainFacadeTest {
 	private DomainFacade df;
 	private DomainFacade correctDf = new DomainFacade();
-	
+
 	/**
 	 * Test 1 : Creates instance of domainfacade if not already exists
 	 * | should initialise the df variable
@@ -20,20 +23,17 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		assertNotNull(df);
 	}
-	
+
 	/**
 	 * Test 2 : Create instance of domainfacade when its already instantiated
 	 * | should do nothing
 	 */
 	/*
-	@Test
-	void test2CreateDomainFacadeInstanceTwice() {
-		df = new DomainFacade();
-		int hashBefore = df.hashCode();
-		df = DomainFacade.getInstance();
-		assertEquals(hashBefore,df.hashCode());
-	}*/
-	
+	 * @Test void test2CreateDomainFacadeInstanceTwice() { df = new DomainFacade();
+	 * int hashBefore = df.hashCode(); df = DomainFacade.getInstance();
+	 * assertEquals(hashBefore,df.hashCode()); }
+	 */
+
 	/**
 	 * Test 3 : Add dummy table to domainfacade
 	 * | should instantiate tablemMap
@@ -41,11 +41,20 @@ class DomainFacadeTest {
 	@Test
 	void test3AddDummyTableWithComponents() {
 		String tableName = "testTable";
-		df =new DomainFacade();
+		df = new DomainFacade();
 		df.addTable(tableName);
-		assertTrue(df.getTableNames().containsValue(tableName));
+
+		boolean contains = false;
+
+		for (List<String> list : df.getTableNames().values()) {
+			if (list.contains(tableName)) {
+				contains = true;
+			}
+		}
+
+		assertTrue(contains);
 	}
-	
+
 	/**
 	 * Test 4 : Add mocked table to tablename
 	 * | to already instantiated tableMap
@@ -55,9 +64,18 @@ class DomainFacadeTest {
 		correctDf.addTable("test");
 		Table t = new Table("testMockTable");
 		correctDf.addMockedTable(t);
-		assertTrue(correctDf.getTableNames().containsValue("testMockTable")); 
+
+		boolean contains = false;
+
+		for (List<String> list : correctDf.getTableNames().values()) {
+			if (list.contains("testMockTable")) {
+				contains = true;
+			}
+		}
+
+		assertTrue(contains);
 	}
-	
+
 	/**
 	 * Test 5 : Add empty table to domain
 	 * | domain should have an table 
@@ -67,9 +85,18 @@ class DomainFacadeTest {
 		String tableName = "testTable";
 		df = new DomainFacade();
 		df.addTable(tableName);
-		assertTrue(df.getTableNames().containsValue(tableName));
+		
+		boolean contains = false;
+
+		for (List<String> list : df.getTableNames().values()) {
+			if (list.contains(tableName)) {
+				contains = true;
+			}
+		}
+
+		assertTrue(contains);
 	}
-	
+
 	/**
 	 * Test 6 : Get table
 	 * | should return a table map instance
@@ -80,9 +107,9 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		df.addTable(tableName);
 		assertFalse(df.getTableMap().isEmpty());
-	
+
 	}
-	
+
 	/**
 	 * Test 7 : Update table name
 	 * | should change the name of the table
@@ -90,7 +117,7 @@ class DomainFacadeTest {
 	@Test
 	void test7UpdateTableNameWithValidString() {
 		String tableName = "testTable";
-		df =new DomainFacade();
+		df = new DomainFacade();
 		Table t = new Table("testTable");
 		df.addTable(tableName);
 		UUID id = UUID.randomUUID();
@@ -98,7 +125,7 @@ class DomainFacadeTest {
 		df.updateTableName(id, "newTableName");
 		assertEquals("newTableName", df.getTableNameOfId(id));
 	}
-	
+
 	/**
 	 * Test 8 : Update table name with null value
 	 * | should throw Domain Exception
@@ -111,11 +138,11 @@ class DomainFacadeTest {
 		df.addTable(tableName);
 		UUID id = UUID.randomUUID();
 		df.getTableMap().put(id, t);
-		
+
 		Exception e = assertThrows(DomainException.class, () -> df.updateTableName(id, null));
 		assertEquals("Table name already exists in another table or is empty.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 8 : Get table names
 	 * | should return the names of every table in domainfacade
@@ -132,10 +159,22 @@ class DomainFacadeTest {
 		UUID id2 = UUID.randomUUID();
 		df.getTableMap().put(id, t);
 		df.getTableMap().put(id2, t2);
-		
-		assertTrue( df.getTableNames().containsValue(tableName) && df.getTableNames().containsValue(tableName2));
+
+		boolean contains1 = false;
+		boolean contains2 = false;
+
+		for (List<String> list : df.getTableNames().values()) {
+			if (list.contains(tableName)) {
+				contains1 = true;
+			} else if (list.contains(tableName2)) {
+				contains2 = true;
+			}
+		}
+
+		assertTrue(contains1);
+		assertTrue(contains2);
 	}
-	
+
 	/**
 	 * Test 9 : Get name of table given id
 	 * | should return the corresponding table name
@@ -149,7 +188,7 @@ class DomainFacadeTest {
 		df.getTableMap().put(id, t);
 		assertEquals(tableName, df.getTableNameOfId(id));
 	}
-	
+
 	/**
 	 * Test 10 : Get table name with id null
 	 * | should throw Domain exception
@@ -164,7 +203,7 @@ class DomainFacadeTest {
 		Exception e = assertThrows(DomainException.class, () -> df.getTableNameOfId(null));
 		assertEquals("Cannot get table name of a null id", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 11 : Get table name with id that not exists
 	 * | should throw an domain exception
@@ -179,7 +218,7 @@ class DomainFacadeTest {
 		Exception e = assertThrows(DomainException.class, () -> df.getTableNameOfId(UUID.randomUUID()));
 		assertEquals("Cannot find table for id", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 12 : Create new table
 	 * | should add table to domainfacade
@@ -189,9 +228,9 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		int sizeBefore = df.getTableMap().size();
 		df.createNewTable();
-		assertEquals(sizeBefore, df.getTableMap().size() -1);
+		assertEquals(sizeBefore, df.getTableMap().size() - 1);
 	}
-	
+
 	/**
 	 * Test 13 : Create new table with name that exists
 	 * | should add table to domainfacade
@@ -199,31 +238,30 @@ class DomainFacadeTest {
 	@Test
 	void test13createNewTableInDomainFacade() {
 		df = new DomainFacade();
-		
+
 		int sizeBefore = df.getTableMap().size();
 		df.createNewTable();
 		df.createNewTable();
-		assertEquals(sizeBefore, df.getTableMap().size() -2);
+		assertEquals(sizeBefore, df.getTableMap().size() - 2);
 	}
-	
+
 	/**
-	 * Test 14 : Remove a table from table
+	 * Test 14 : Remove a table from table	
 	 * | number of tables should be less 
 	 */
 	@Test
 	void test14RemoveTableFromDomainFacade() {
-		df =new DomainFacade();
-		Table t = new Table("test");
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
-		
+		Table t = new Table(id, "test");
 
-		df.getTableMap().put(id, t);
-		int sizeBefore = df.getTableMap().size();
+		df.addMockedTable(t);
+		int sizeBefore = df.getTableMap().keySet().size();
 		df.deleteTable(id);
 
-		assertEquals(sizeBefore, df.getTableNames().size() + 1);
+		assertEquals(sizeBefore -1 , df.getTableNames().keySet().size());
 	}
-	
+
 	/**
 	 * Test 15 : Remove a table from table
 	 * | with null as table id.
@@ -234,15 +272,14 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		Table t = new Table("test");
 		UUID id = UUID.randomUUID();
-		
 
 		df.getTableMap().put(id, t);
 		int sizeBefore = df.getTableMap().size();
-		
+
 		Exception e = assertThrows(DomainException.class, () -> df.deleteTable(null));
 		assertEquals("Cannot delete a table with a null index", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 16 : Get column characteristics
 	 * | should return the characteristics
@@ -257,7 +294,7 @@ class DomainFacadeTest {
 		df.getColumnCharacteristics(id);
 		assertTrue(df.getColumnCharacteristics(id) instanceof Map);
 	}
-	
+
 	/**
 	 * Test 17 : Get column characteristics
 	 * | given table id is null
@@ -265,16 +302,16 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test17GetColumnCharacteristicsWithNullAsTableId() {
-		df =new DomainFacade();
+		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
 		df.getTableMap().put(id, t);
 		df.addColumnToTable(id);
 		Exception e = assertThrows(DomainException.class, () -> df.getColumnCharacteristics(null));
 		assertEquals("Cannot get column characteristiscs with a null id", e.getMessage());
-		
+
 	}
-	
+
 	/**
 	 * Test 18 : Get column characteristics
 	 * | given table id is not existing
@@ -288,9 +325,9 @@ class DomainFacadeTest {
 		df.getTableMap().put(id, t);
 		df.addColumnToTable(id);
 		Exception e = assertThrows(DomainException.class, () -> df.getColumnCharacteristics(UUID.randomUUID()));
-		assertEquals("No table could be found with given id.", e.getMessage());	
+		assertEquals("No table could be found with given id.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 19 : Add column to table
 	 * | with null as table id
@@ -301,11 +338,11 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
-		df.getTableMap().put(id,t);
+		df.getTableMap().put(id, t);
 		Exception e = assertThrows(DomainException.class, () -> df.addColumnToTable(null));
 		assertEquals("Cannot add a column to a table with a null id.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 20 : Add column to table
 	 * | with an not existing table id
@@ -316,12 +353,12 @@ class DomainFacadeTest {
 		df = new DomainFacade();
 		UUID id = UUID.randomUUID();
 		Table t = new Table("tableName");
-		df.getTableMap().put(id,t);
+		df.getTableMap().put(id, t);
 		int hashBefore = df.hashCode();
 		df.addColumnToTable(UUID.randomUUID());
 		assertEquals(hashBefore, df.hashCode());
 	}
-	
+
 	/**
 	 * Test 21 : Update column name
 	 * | with table id as null
@@ -336,10 +373,10 @@ class DomainFacadeTest {
 		Column column = new Column("oldName");
 		table.addColumn(column);
 		df.getTableMap().put(tableId, table);
-		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(null, columnId, "newColumnName")); 
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(null, columnId, "newColumnName"));
 		assertEquals("Cannot update a column name with a null id.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 22 : Update column name
 	 * | with column id as null
@@ -354,10 +391,10 @@ class DomainFacadeTest {
 		Column column = new Column("oldName");
 		table.addColumn(column);
 		df.getTableMap().put(tableId, table);
-		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, null, "newColumnName")); 
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, null, "newColumnName"));
 		assertEquals("Cannot update a column name with a null id.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 23 : Update column name
 	 * | with valid parameters
@@ -376,7 +413,7 @@ class DomainFacadeTest {
 		assertTrue(hashBefore == df.hashCode());
 
 	}
-	
+
 	/**
 	 * Test 24 : Update column name
 	 * | with null as new column name
@@ -384,17 +421,17 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test24UpdateColumnNameWithNullAsNewColumnName() {
-		df =new DomainFacade();
+		df = new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
 		Column column = new Column("oldName");
 		table.addColumn(column);
 		df.getTableMap().put(tableId, table);
-		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, null)); 
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, null));
 		assertEquals("Cannot set a new column name with a null or empty name.", e.getMessage());
 	}
-	
+
 	/**
 	 * Test 25 : Update column name
 	 * | with empty String as new column name
@@ -402,15 +439,15 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test25UpdateColumnNameWithEmptyStringAsNewColumnName() {
-		df =new DomainFacade();
+		df = new DomainFacade();
 		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
 		UUID columnId = UUID.randomUUID();
 		Column column = new Column("oldName");
 		table.addColumn(column);
 		df.getTableMap().put(tableId, table);
-		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, "")); 
+		Exception e = assertThrows(DomainException.class, () -> df.updateColumnName(tableId, columnId, ""));
 		assertEquals("Cannot set a new column name with a null or empty name.", e.getMessage());
 	}
-	
+
 }
