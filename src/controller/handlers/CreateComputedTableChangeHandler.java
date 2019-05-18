@@ -22,6 +22,7 @@ public class CreateComputedTableChangeHandler implements ChangeHandlerInterface 
 				uifacade.updateTableRowsAndDesignSubWindows(tableId, tableName,
 						domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 						domainfacade.isComputedTable(tableId));
+				uifacade.closeAllDesignWindows(tableId);
 			} else if( (newQuery.trim().length() == 0) && domainfacade.isComputedTable(tableId) )  {
 				domainfacade.setEmptyQuery(tableId);
 				uifacade.updateTablesSubWindows(domainfacade.getTableNames());
