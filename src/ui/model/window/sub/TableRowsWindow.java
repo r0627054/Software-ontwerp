@@ -43,7 +43,7 @@ public class TableRowsWindow extends TableWindow {
 	 *         | super(tableId, TITLE_STRING_PREFIX + tableName);
 	 *         | createTable(table);
 	 */
-	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, LinkedHashMap<UUID, Object>> table,
+	public TableRowsWindow(UUID tableId, String tableName, Map<List<Object>, List<Object[]>> table,
 			boolean isComputed) {
 		super(tableId, (isComputed ? COMPUTED_PREFIX : "") + TITLE_STRING_PREFIX + tableName);
 		setComputedTable(isComputed);
@@ -53,15 +53,15 @@ public class TableRowsWindow extends TableWindow {
 	/**
 	 * Creates a (Rows) Table with all the given information.
 	 *  All the listeners are registered.
-	 * @param tableInformation All the information in the table.
+	 * @param table All the information in the table.
 	 * @effect The table is created and all the listeners are stored.
 	 */
-	private void createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
+	private void createTable(Map<List<Object>, List<Object[]>> table) {
 		setContainer(new Container(getX(), getY(), getWidth(), getHeight()));
 
 		RowsTable rowsTable = new RowsTable(CONTENT_OFFSET_X + getX(), CONTENT_OFFSET_Y + getY(), getId(),
 				isComputedTable());
-		List<UICell> cellList = rowsTable.createTable(tableInformation);
+		List<UICell> cellList = rowsTable.createTable(table);
 
 		for (UICell c : cellList) {
 			this.addStoredListener(c);
@@ -82,7 +82,7 @@ public class TableRowsWindow extends TableWindow {
 	 * @effect The rows table is updated with the new information by deleting the
 	 *           previous information and creating a new table.
 	 */
-	public void updateRowsTable(Map<List<Object>, LinkedHashMap<UUID, Object>> tableInformation) {
+	public void updateRowsTable(Map<List<Object>, List<Object[]>> tableInformation) {
 		this.removeContentClickAndKeyListeners();
 		this.clearStoredListeners();
 		this.createTable(tableInformation);
@@ -143,7 +143,7 @@ public class TableRowsWindow extends TableWindow {
 	@Override
 	public void updateContent(Object... tableData) {
 		super.updateContent(tableData);
-		this.updateRowsTable((Map<List<Object>, LinkedHashMap<UUID, Object>>) tableData[2]);
+		this.updateRowsTable((Map<List<Object>, List<Object[]>>) tableData[2]);
 		this.setComputedTable((boolean) tableData[3]);
 		this.setTableName((isComputedTable() ? COMPUTED_PREFIX : "") + TITLE_STRING_PREFIX + (String) tableData[0]);
 	}

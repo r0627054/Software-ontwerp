@@ -58,21 +58,21 @@ public class RowsTable extends EditableComponent {
 	/**
 	 * Creates an actual table with the given values.
 	 * 
-	 * @param values
+	 * @param table
 	 *        | the values that will be displayed in the RowsTable.
 	 * @param columnTypes
 	 *        | the columns and their types.
 	 * @return the list of cells created by the rowsTable.
 	 * 
 	 */
-	public List<UICell> createTable(Map<List<Object>, LinkedHashMap<UUID, Object>> values) {
+	public List<UICell> createTable(Map<List<Object>, List<Object[]>> table) {
 		List<Component> columnList = new ArrayList<>();
 		List<UICell> allCellsList = new ArrayList<>();
 
 		ChangeEventType cellSubmitAction = ChangeEventType.ROW_EDITED;
 
-		for (List<Object> columnData : values.keySet()) {
-			Map<UUID, Object> columnCellsMap = values.get(columnData);
+		for (List<Object> columnData : table.keySet()) {
+			List<Object[]> columnCellsArray = table.get(columnData);
 			UUID columnId = (UUID) columnData.get(0);
 			String columnName = (String) columnData.get(1);
 			Class<?> tableType = (Class<?>) columnData.get(2);
@@ -83,15 +83,17 @@ public class RowsTable extends EditableComponent {
 			List<Component> columnCells = new ArrayList<Component>();
 			columnCells.add(header);
 
-			for (UUID cellId : columnCellsMap.keySet()) {
-				UICell newCell = new UICell(columnCellsMap.get(cellId), cellId, tableType, cellSubmitAction, null,
-						null);
+			for (int i = 0; i < this.getAllUUIDs(columnCellsArray).size(); i++) {
+				UUID cellId = this.getAllUUIDs(columnCellsArray).get(i);
+				Object data = this.getAllData(columnCellsArray).get(i);
+				UICell newCell = new UICell(data, cellId, tableType, cellSubmitAction, null, null);
 				columnCells.add(newCell);
-				
+
 				if (isEditableColumn) {
 					allCellsList.add(newCell);
 				}
 			}
+
 			columnList.add(new VerticalComponentList(0, 0, columnCells));
 		}
 		this.setColumns(new HorizontalComponentList(this.getX(), this.getY(), columnList));
@@ -330,6 +332,22 @@ public class RowsTable extends EditableComponent {
 				}
 			}
 		}
+	}
+
+	public List<UUID> getAllUUIDs(List<Object[]> data) {
+		List<UUID> ids = new ArrayList<>();
+		for (Object[] obj : data) {
+			ids.add((UUID) obj[0]);
+		}
+		return ids;
+	}
+
+	public List<Object> getAllData(List<Object[]> data) {
+		List<Object> result = new ArrayList<>();
+		for (Object[] obj : data) {
+			result.add(obj[1]);
+		}
+		return result;
 	}
 
 	/**

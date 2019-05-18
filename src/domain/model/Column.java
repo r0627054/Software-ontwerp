@@ -347,15 +347,15 @@ public class Column extends ObjectIdentifier {
 	 * Returns all the cells in a linkedHashMap;
 	 * as key the UUID Of the cell, and the value is the value of the cell.
 	 * 
-	 * @return LinkedHashMap<UUID, Object> with UUID is the id of the cell and the value is the value of the cell.
+	 * @return List<Object[]> with UUID is the id of the cell and the value is the value of the cell.
 	 */
-	public LinkedHashMap<UUID, Object> getCellsWithId() {
-		LinkedHashMap<UUID, Object> columnMap = new LinkedHashMap<>();
+	public List<Object[]> getCellsWithId() {
+		List<Object[]> result = new ArrayList<>();
 
 		for (DomainCell c : getCells()) {
-			columnMap.put(c.getId(), c.getValue());
+			result.add(new Object[] { c.getId(), c.getValue() });
 		}
-		return columnMap;
+		return result;
 	}
 
 	/**
@@ -534,9 +534,9 @@ public class Column extends ObjectIdentifier {
 		}
 		return null;
 	}
-	
+
 	public void setValueForCellAtIndex(int index, Object value) {
-		if(index < 0 || this.getCells().size() <= index) {
+		if (index < 0 || this.getCells().size() <= index) {
 			throw new DomainException("Invalid index for setting the cell.");
 		}
 		this.getCellAtIndex(index).setValue(value);

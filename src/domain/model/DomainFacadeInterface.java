@@ -55,7 +55,7 @@ public interface DomainFacadeInterface {
 	 *        The tableId of which the information should be gathered.
 	 * @return a map with all the information associated with the given tableId.
 	 */
-	public Map<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds(UUID tableId);
+	public Map<List<Object>, List<Object[]>> getTableWithIds(UUID tableId);
 
 	/**
 	 * Creates a new table with the given name.
@@ -300,7 +300,8 @@ public interface DomainFacadeInterface {
 
 	public boolean isComputedTable(UUID tableId);
 
-	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID columnId, UUID cellId);
+	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID cellId);
 
 	public void setEmptyQuery(UUID tableId);
+
 }

@@ -156,14 +156,14 @@ public class Table extends ObjectIdentifier {
 	/**
 	 * Returns a map with all the table information of the given tableId.
 	 * The first list: ColumnId, ColumnName and Class of this column.
-	 * The second inner map, the key: UUID of cell and the value: the value of the cell in the column.
+	 * The second inner list, first UUID of cell and second value: the value of the cell in the column.
 	 * 
 	 * @param tableId
 	 *        The tableId of which the information should be gathered.
 	 * @return a map with all the information associated with the given tableId.
 	 */
-	public LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> getTableWithIds() {
-		LinkedHashMap<List<Object>, LinkedHashMap<UUID, Object>> tableData = new LinkedHashMap<>();
+	public LinkedHashMap<List<Object>, List<Object[]>> getTableWithIds() {
+		LinkedHashMap<List<Object>, List<Object[]>> tableData = new LinkedHashMap<>();
 
 		for (Column c : getColumns()) {
 			tableData.put(c.getColumnIdAndNameAndClass(), c.getCellsWithId());

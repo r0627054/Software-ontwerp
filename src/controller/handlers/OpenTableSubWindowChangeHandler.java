@@ -43,7 +43,7 @@ public class OpenTableSubWindowChangeHandler implements ChangeHandlerInterface {
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
 				
-				Map<List<Object>, LinkedHashMap<UUID, Object>> table = domainfacade.getTableWithIds(tableId);
+				Map<List<Object>, List<Object[]>> table = domainfacade.getTableWithIds(tableId);
 
 				if (domainfacade.isTableWithIdEmpty(tableId)) {
 					uifacade.createTableDesignSubWindow(tableId, tableName, domainfacade.getColumnCharacteristics(tableId));
