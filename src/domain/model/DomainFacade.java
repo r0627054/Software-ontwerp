@@ -33,9 +33,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-		addMockedTable(dummyTable1());
-		addMockedTable(dummyTable2());
-		addMockedTable(dummyTable3());
+//		addMockedTable(dummyTable1());
+//		addMockedTable(dummyTable2());
+//		addMockedTable(dummyTable3());
 	}
 
 	/**
@@ -539,8 +539,8 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot update a column name with a null id.");
 		} else if (newName == null || newName.isEmpty()) {
 			throw new DomainException("Cannot set a new column name with a null or empty name.");
-		} else if (columnNameIsBeingUsedByComputedTable(getTable(tableId).getColumn(columnId).getName(),
-				getTableNameOfId(tableId)) && !getTable(tableId).getColumn(columnId).getName().equals(newName)) {
+		} else if (columnNameIsBeingUsedByComputedTable(getTable(tableId).getColumnNameOfColumnId(columnId),
+				getTableNameOfId(tableId)) && !getTable(tableId).getColumnNameOfColumnId(columnId).equals(newName)) {
 			throw new DomainException("Cannot change a column which is being used by a computed table");
 		}
 		Table table = getTable(tableId);
