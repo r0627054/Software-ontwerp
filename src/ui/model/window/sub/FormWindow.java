@@ -220,11 +220,6 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void deleteCurrentRow() {
-		//if (getCurrentRow() >= 0 && getCurrentRow() < this.getTableData().keySet().size()
-		//		&& this.getTableData().keySet().size() > 0) {
-		//niet leeg
-		//groter dan 0'de element
-		//
 			if( (this.getNbrOfRowsInData() > 0) && (getCurrentRow() >= 0) && getCurrentRow() <= (this.getNbrOfRowsInData()-1)) {
 			
 			
