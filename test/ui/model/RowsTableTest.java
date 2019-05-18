@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -31,7 +32,7 @@ class RowsTableTest {
 
 	@Test
 	void test1CreateRowsTableWithoutComponents() {
-		rt = new RowsTable(x, y, id);
+		rt = new RowsTable(x, y, id, false);
 		assertAll(() -> assertEquals(this.x, rt.getX()), () -> assertEquals(this.y, rt.getY()),
 				() -> assertEquals(id, rt.getId()));
 	}
@@ -43,8 +44,8 @@ class RowsTableTest {
 
 	@Test
 	void test2CreateTabelWithinRowsTableWithValidParameters() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -59,20 +60,21 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
-		
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
-		
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
+
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
+
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
-		assertTrue(cells.get(0).getId().equals(ccmId1) ||cells.get(0).getId().equals(ccmId2) );
-		assertTrue(cells.get(1).getId().equals(ccmId1) ||cells.get(1).getId().equals(ccmId2) );
+		assertTrue(cells.get(0).getId().equals(columnCell1[0]) || cells.get(0).getId().equals(columnCell1[1]));
+		assertTrue(cells.get(1).getId().equals(columnCell1[1]) || cells.get(1).getId().equals(columnCell1[0]));
 	}
 
 	/**
@@ -81,8 +83,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void Test3TestClickOutsideTheRowsTable() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -97,16 +99,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 		int hashCode = rt.hashCode();
@@ -125,8 +128,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void Test4TestOutsideTheRowsTableCoordsInsideTable() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -141,16 +144,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 		int hashCode = rt.hashCode();
@@ -163,8 +167,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void Test5TestOutsideTheRowsTableCoordsInsideTable() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -179,16 +183,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 		int hashCode = rt.hashCode();
@@ -205,8 +210,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void Test6TestOutsideTheRowsTableCoordsInsideTable() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -221,16 +226,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 		int hashCode = rt.hashCode();
@@ -248,8 +254,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void Test7TestOutsideTheRowsTableCoordsInsideTable() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -264,16 +270,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 
@@ -286,8 +293,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void test8clickWithMouse() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -302,16 +309,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 
@@ -323,8 +331,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void test9getCellAtCertainColumnIndex() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -339,16 +347,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 
@@ -363,8 +372,8 @@ class RowsTableTest {
 	 */
 	@Test
 	void test10getCellAtCertainColumnIndex() {
-		rt = new RowsTable(x, y, id);
-		Map<List<Object>, LinkedHashMap<UUID, Object>> values = new HashMap<>();
+		rt = new RowsTable(x, y, id, false);
+		Map<List<Object>, List<Object[]>> values = new HashMap<>();
 		// create table with 2 columns
 
 		List<Object> rowData1 = new LinkedList<Object>();
@@ -379,16 +388,17 @@ class RowsTableTest {
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
 
-		LinkedHashMap<UUID, Object> columnCellsMap1 = new LinkedHashMap<>();
-		UUID ccmId1 = UUID.randomUUID();
-		columnCellsMap1.put(ccmId1, "");
+		Object[] columnCell1 = { UUID.randomUUID(), "" };
+		Object[] columnCell2 = { UUID.randomUUID(), true };
 
-		LinkedHashMap<UUID, Object> columnCellsMap2 = new LinkedHashMap<>();
-		UUID ccmId2 = UUID.randomUUID();
-		columnCellsMap2.put(ccmId2, false);
+		List<Object[]> list1 = new ArrayList<>();
+		list1.add(columnCell1);
 
-		values.put(rowData1, columnCellsMap1);
-		values.put(rowData2, columnCellsMap2);
+		List<Object[]> list2 = new ArrayList<>();
+		list1.add(columnCell2);
+
+		values.put(rowData1, list1);
+		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
 

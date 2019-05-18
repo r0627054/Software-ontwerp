@@ -41,7 +41,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -55,12 +55,12 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			simulateKeyPress(EDIT_STRING_TEXT);
 			simulateKeyPress(KeyEvent.VK_ENTER);
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 			int newTextCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
-				for (Map.Entry<UUID, Object> entry2 : entry.getValue().entrySet()) {
-					if (String.valueOf(entry2.getValue()).contains(EDIT_STRING_TEXT)) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
+				for (Object[] entry2 : entry.getValue()) {
+					if (String.valueOf(entry2[1]).contains(EDIT_STRING_TEXT)) {
 						newTextCounter++;
 					}
 				}
@@ -68,9 +68,9 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 			assertEquals(0, newTextCounter);
 
 			newTextCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
-				for (Map.Entry<UUID, Object> entry2 : entry.getValue().entrySet()) {
-					if (String.valueOf(entry2.getValue()).contains(EDIT_STRING_TEXT)) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
+				for (Object[] entry2 : entry.getValue()) {
+					if (String.valueOf(entry2[1]).contains(EDIT_STRING_TEXT)) {
 						newTextCounter++;
 					}
 				}
@@ -102,7 +102,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 			
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -150,7 +150,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -198,7 +198,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
@@ -246,7 +246,7 @@ public class UseCase9Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
