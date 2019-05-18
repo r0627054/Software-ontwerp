@@ -303,4 +303,5 @@ public interface DomainFacadeInterface {
 	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID cellId);
 
 	public void setEmptyQuery(UUID tableId);
+
 }
