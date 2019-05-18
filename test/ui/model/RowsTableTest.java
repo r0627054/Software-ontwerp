@@ -53,12 +53,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -73,8 +75,8 @@ class RowsTableTest {
 		values.put(rowData2, list2);
 
 		cells = rt.createTable(values);
-		assertTrue(cells.get(0).getId().equals(columnCell1[0]) || cells.get(0).getId().equals(columnCell1[1]));
-		assertTrue(cells.get(1).getId().equals(columnCell1[1]) || cells.get(1).getId().equals(columnCell1[0]));
+		assertTrue(cells.get(0).getId().equals(columnCell1[0]) || cells.get(0).getId().equals(columnCell2[0]));
+		assertTrue(cells.get(1).getId().equals(columnCell1[0]) || cells.get(1).getId().equals(columnCell2[0]));
 	}
 
 	/**
@@ -92,12 +94,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -137,12 +141,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -176,12 +182,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -219,12 +227,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -263,12 +273,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -302,12 +314,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -340,12 +354,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };
@@ -381,12 +397,14 @@ class RowsTableTest {
 		rowData1.add(id1);
 		rowData1.add("columnName1");
 		rowData1.add(String.class);
+		rowData1.add(true);
 
 		List<Object> rowData2 = new LinkedList<Object>();
 		UUID id2 = UUID.randomUUID();
 		rowData2.add(id2);
 		rowData2.add("columnName2");
 		rowData2.add(Boolean.class);
+		rowData2.add(true);
 
 		Object[] columnCell1 = { UUID.randomUUID(), "" };
 		Object[] columnCell2 = { UUID.randomUUID(), true };

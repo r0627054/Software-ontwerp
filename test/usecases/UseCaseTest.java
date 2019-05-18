@@ -202,9 +202,9 @@ public abstract class UseCaseTest {
 		Table email = new Table("DummyEmail");
 
 		email.addColumn(col1);
-		email.addRow(r1);
-		email.addRow(r2);
-		email.addRow(r3);
+		email.addRowWithoutAddingToColumns(r1);
+		email.addRowWithoutAddingToColumns(r2);
+		email.addRowWithoutAddingToColumns(r3);
 
 		getDomainFacade().addMockedTable(email);
 	}
@@ -568,10 +568,10 @@ public abstract class UseCaseTest {
 		persons.addColumn(col3);
 		persons.addColumn(col4);
 
-		persons.addRow(r1);
-		persons.addRow(r2);
-		persons.addRow(r3);
-		persons.addRow(r4);
+		persons.addRowWithoutAddingToColumns(r1);
+		persons.addRowWithoutAddingToColumns(r2);
+		persons.addRowWithoutAddingToColumns(r3);
+		persons.addRowWithoutAddingToColumns(r4);
 		return persons;
 	}
 
