@@ -12,7 +12,7 @@ import ui.model.view.UIFacadeInterface;
  * A DeleteRowChangeHandler is a ChangeHandler,
  * specifically made for handling the deletion of a row in a table. 
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

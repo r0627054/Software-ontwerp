@@ -9,7 +9,7 @@ import ui.model.view.UIFacadeInterface;
  * An interface of the ChangeHandlerInterface.
  *  Every changeHandler has to implement a handle method.
  *  
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

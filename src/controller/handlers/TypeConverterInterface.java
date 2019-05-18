@@ -13,7 +13,7 @@ import domain.model.DomainException;
  * 
  * This interface is used in the ChangeHandlers, to cast or request a next value.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

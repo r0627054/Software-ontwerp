@@ -5,9 +5,9 @@ import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
 
 /**
- * The changeHandlerFactory is a factory class delegating the differentEventTypes to the corresponding handlers.
+ * The changeHandlerFactory is a (simple) factory class delegating the differentEventTypes to the corresponding handlers.
  *  
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -10,7 +10,7 @@ import ui.model.view.UIFacadeInterface;
  *  The Application class is used to start the Program.
  *  It create an instance of the domainFacadeInterface and an instance of the UIFacadeInterface,
  *  and gives it to the controller.
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

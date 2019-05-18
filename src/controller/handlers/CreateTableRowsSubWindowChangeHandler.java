@@ -11,7 +11,7 @@ import ui.model.view.UIFacadeInterface;
  *  handling the creation of a TableRowsSubWindow.
  *  
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

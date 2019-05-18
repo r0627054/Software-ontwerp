@@ -8,7 +8,7 @@ import ui.model.view.UIFacadeInterface;
  * A CloseSubWindowChangeHandler is a ChangeHandler, specifically made for
  *  handling the closing behaviour of a window.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -12,7 +12,7 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnDefaultValueChangeHandler is a ChangeHandler, specifically made for
  * handling the change of the default value in a column.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  */
 public class ColumnDefaultValueChangeHandler implements ChangeHandlerInterface, TypeConverterInterface {
