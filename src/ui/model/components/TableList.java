@@ -2,8 +2,12 @@ package ui.model.components;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import controller.handlers.ChangeEventType;
@@ -60,7 +64,16 @@ public class TableList extends HorizontalComponentList {
 		VerticalComponentList tableList = new VerticalComponentList(getX(), getY(), TABLE_NAMES_WIDTH, getHeight());
 		VerticalComponentList queryList = new VerticalComponentList(getX(), getY(), QUERY_WIDTH, getHeight());
 
-		for (Map.Entry<UUID, List<String>> entry : data.entrySet()) {
+		//Sort map by tableName
+		List<Map.Entry<UUID, List<String>>> entryList = new LinkedList<>(data.entrySet());
+		Collections.sort(entryList, new Comparator<Map.Entry<UUID, List<String>>>(){
+			@Override
+			public int compare(Entry<UUID, List<String>> o1, Entry<UUID, List<String>> o2) {
+				return o1.getValue().get(0).compareTo(o2.getValue().get(0));
+			}
+		});
+		
+		for (Map.Entry<UUID, List<String>> entry : entryList) {
 			TextField textField = new EditableTextField(0, 0, TABLE_NAMES_WIDTH, ROW_HEIGHT, entry.getValue().get(0),
 					entry.getKey(), submitAction, doubleClickAction, deleteAction);
 			UICell textCell = new UICell(textField, entry.getKey(), TABLE_NAMES_WIDTH, ROW_HEIGHT);

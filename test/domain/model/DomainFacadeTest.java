@@ -402,14 +402,12 @@ class DomainFacadeTest {
 	@Test
 	void test23UpdateColumnNameWithValidParams() {
 		df = new DomainFacade();
-		UUID tableId = UUID.randomUUID();
 		Table table = new Table("tableName");
-		UUID columnId = UUID.randomUUID();
 		Column column = new Column("oldName");
 		table.addColumn(column);
-		df.getTableMap().put(tableId, table);
+		df.getTableMap().put(table.getId(), table);
 		int hashBefore = df.hashCode();
-		df.updateColumnName(tableId, columnId, "newColumnName");
+		df.updateColumnName(table.getId(), column.getId(), "newColumnName");
 		assertTrue(hashBefore == df.hashCode());
 
 	}
