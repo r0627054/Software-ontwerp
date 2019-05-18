@@ -33,9 +33,9 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * Initialises a new DomainFacade.
 	 */
 	public DomainFacade() {
-//		addMockedTable(dummyTable1());
-//		addMockedTable(dummyTable2());
-//		addMockedTable(dummyTable3());
+		addMockedTable(dummyTable1());
+		addMockedTable(dummyTable2());
+		addMockedTable(dummyTable3());
 	}
 
 	/**
@@ -1045,8 +1045,10 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot get a table with a null id.");
 		}
 		Table table = getTable(tableId);
-		this.deleteTable(tableId);
-		this.addTable(table.getId(), table.getName());
+		if (table instanceof ComputedTable) {
+			this.deleteTable(tableId);
+			this.addTable(table.getId(), table.getName());
+		}
 	}
 
 }

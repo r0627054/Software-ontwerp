@@ -5,6 +5,7 @@ import java.util.UUID;
 import controller.observer.PropertyChangeEvent;
 import domain.model.DomainFacadeInterface;
 import ui.model.view.UIFacadeInterface;
+
 /**
  * A CreateComputedTableChangeHandler is a ChangeHandler, specifically made for
  * handling the creation of computedTable with the given query. It can also revert this.
@@ -40,7 +41,7 @@ public class CreateComputedTableChangeHandler implements ChangeHandlerInterface 
 						domainfacade.getColumnCharacteristics(tableId), domainfacade.getTableWithIds(tableId),
 						domainfacade.isComputedTable(tableId));
 				uifacade.closeAllDesignWindows(tableId);
-			} else if( (newQuery.trim().length() == 0) && domainfacade.isComputedTable(tableId) )  {
+			} else {
 				domainfacade.setEmptyQuery(tableId);
 				uifacade.updateTablesSubWindows(domainfacade.getTableNames());
 				uifacade.updateTableRowsAndDesignSubWindows(tableId, tableName,
