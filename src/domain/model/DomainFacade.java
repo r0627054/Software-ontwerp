@@ -786,16 +786,26 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot edit a cell on a table with a null id.");
 		}
 		Table table = getTable(tableId);
+		List<Table> usedTables = new ArrayList<>();
 		if (table != null) {
+			usedTables.add(table);
+
 			if (!(table instanceof ComputedTable)) {
 				for (Table t : this.getTableMap().values()) {
 					if ((t instanceof ComputedTable) && (((ComputedTable) t).containsMatchingTable(table.getName()))) {
 						((ComputedTable) t).updateCellWithComputation(columnId,
 								table.getIndexOfCellInColumnId(columnId, cellId), newValue);
+						usedTables.add(t);
 					}
 				}
 			}
 			table.editCell(columnId, cellId, newValue);
+
+			for (Table t : usedTables) {
+				if (t instanceof ComputedTable) {
+					((ComputedTable) t).runQuery();
+				}
+			}
 		} else {
 			throw new DomainException("No table found to edit the cell.");
 		}
@@ -876,7 +886,6 @@ public class DomainFacade implements DomainFacadeInterface {
 						((ComputedTable) t).runQuery();
 					}
 				}
-
 			} else {
 				throw new DomainException("You should not be able to delete a row of a computed table");
 			}
