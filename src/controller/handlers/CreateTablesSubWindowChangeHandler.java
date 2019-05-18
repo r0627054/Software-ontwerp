@@ -8,7 +8,7 @@ import ui.model.view.UIFacadeInterface;
  * A CreateTablesSubWindowChangeHandler is a ChangeHandler, specifically made for
  *  handling the creation of a tablesSubWindow (showing the names of the table).
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -11,7 +11,7 @@ import ui.model.view.UIFacadeInterface;
  * A ColumnAllowBlanksChangeHandler is a ChangeHandler, specifically made for
  * handling the change of the allow blanks option in a column.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -42,7 +42,6 @@ public class ColumnAllowBlanksChangeHandler implements ChangeHandlerInterface {
 			domainfacade.setAllowBlanks(tableId, columnId, newBool);
 			uifacade.updateTableRowsAndDesignSubWindows(tableId, domainfacade.getTableNameOfId(tableId), domainfacade.getColumnCharacteristics(tableId),
 					domainfacade.getTableWithIds(tableId), domainfacade.isComputedTable(tableId));
-//			uifacade.resume(columnIndex, columnId);
 		} catch (DomainException e) {
 			uifacade.throwError(columnId, columnIndex, newBool);
 			uifacade.pauseCurrentSubWindow(columnIndex, columnId);

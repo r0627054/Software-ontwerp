@@ -4,7 +4,7 @@ package controller.handlers;
  * An enumeration introducing the different types of change events.
  *  These are events called by components in the UI and handled by the changeHandlers.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

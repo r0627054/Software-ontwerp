@@ -1,6 +1,5 @@
 package controller.handlers;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -13,7 +12,7 @@ import ui.model.view.UIFacadeInterface;
 * A OpenTableSubWindowChangeHandler is a ChangeHandler,
 * specifically made for opening a TableWindow (TableDesignWindow or a TableRowsWindow).
 * 
-* @version 2.0
+* @version 3.0
 * @author Dries Janse, Steven Ghekiere, Laurens Druwel
 *
 */
@@ -37,9 +36,9 @@ public class OpenTableSubWindowChangeHandler implements ChangeHandlerInterface {
 				UUID tableId = evt.getSource();
 				String tableName = domainfacade.getTableNameOfId(tableId);
 
-				// First map: map of one UUID of the column and one String of the
+				// First list: object of one UUID of the column and one String of the
 				// ColumnName
-				// Second map: For each columnKey map: a map of ID's and objects of
+				// Second list: For each columnKey: a list of ID's and objects of
 				// each cell
 				// Wrapper map: a list of columns with their respective cells
 				

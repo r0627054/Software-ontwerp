@@ -13,7 +13,7 @@ import ui.model.view.UIFacadeInterface;
 /**
  * A RowEditedChangeHandler is a ChangeHandler,
  * specifically made for handling the editing of a cell in the TableRowsWindow.
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -10,7 +10,7 @@ import ui.model.view.UIFacadeInterface;
  * A CreateColumnChangeHandler is a ChangeHandler, specifically made for
  * handling the creation of a column in a table.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
