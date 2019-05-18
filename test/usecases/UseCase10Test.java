@@ -40,7 +40,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			}
 
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -53,7 +53,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -61,14 +61,14 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 			int beforeRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
 				if (entry.getValue().size() > beforeRowsCounter) {
 					beforeRowsCounter = entry.getValue().size();
 				}
 			}
 
 			int afterRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
 				if (entry.getValue().size() > afterRowsCounter) {
 					afterRowsCounter = entry.getValue().size();
 				}
@@ -108,7 +108,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -120,7 +120,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -128,14 +128,14 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 			int beforeRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
 				if (entry.getValue().size() > beforeRowsCounter) {
 					beforeRowsCounter = entry.getValue().size();
 				}
 			}
 
 			int afterRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
 				if (entry.getValue().size() > afterRowsCounter) {
 					afterRowsCounter = entry.getValue().size();
 				}
@@ -166,7 +166,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
@@ -178,7 +178,7 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			simulateSingleClick(FIRST_ROW_X, SECOND_ROW_Y);
 			simulateKeyPress(KeyEvent.VK_DELETE);
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
 			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
@@ -186,14 +186,14 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
 
 			int beforeRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
 				if (entry.getValue().size() > beforeRowsCounter) {
 					beforeRowsCounter = entry.getValue().size();
 				}
 			}
 
 			int afterRowsCounter = 0;
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
 				if (entry.getValue().size() > afterRowsCounter) {
 					afterRowsCounter = entry.getValue().size();
 				}

@@ -42,7 +42,7 @@ class DomainFacadeTest {
 	void test3AddDummyTableWithComponents() {
 		String tableName = "testTable";
 		df =new DomainFacade();
-		df.addDummyTable(tableName);
+		df.addTable(tableName);
 		assertTrue(df.getTableNames().containsValue(tableName));
 	}
 	
@@ -52,7 +52,7 @@ class DomainFacadeTest {
 	 */
 	@Test
 	void test4AddMockedTable() {
-		correctDf.addDummyTable("test");
+		correctDf.addTable("test");
 		Table t = new Table("testMockTable");
 		correctDf.addMockedTable(t);
 		assertTrue(correctDf.getTableNames().containsValue("testMockTable")); 
@@ -78,7 +78,7 @@ class DomainFacadeTest {
 	void getTableMap() {
 		String tableName = "testTable";
 		df = new DomainFacade();
-		df.addDummyTable(tableName);
+		df.addTable(tableName);
 		assertFalse(df.getTableMap().isEmpty());
 	
 	}

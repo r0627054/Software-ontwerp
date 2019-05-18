@@ -37,18 +37,18 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 				tableId = entry.getKey();
 			}
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
 
 			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
-			Map<List<Object>, LinkedHashMap<UUID, Object>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
 
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
-				for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry2 : dataMapAfter.entrySet()) {
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
+				for (Entry<List<Object>, List<Object[]>> entry2 : dataMapAfter.entrySet()) {
 					assertEquals(entry.getValue().size() + 1, entry2.getValue().size());
 				}
 			}
@@ -64,17 +64,17 @@ public class UseCase8Test extends UseCaseTest implements RowTableConstants {
 			}
 
 			Set<UUID> oldCellIds = new HashSet<>();
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapBefore.entrySet()) {
-				for (Map.Entry<UUID, Object> valueEntry : entry.getValue().entrySet()) {
-					oldCellIds.add(valueEntry.getKey());
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
+				for (Object[] valueEntry : entry.getValue()) {
+					oldCellIds.add((UUID) valueEntry[0]);
 				}
 			}
 
 			Set<Object> newValues = new HashSet<>();
-			for (Entry<List<Object>, LinkedHashMap<UUID, Object>> entry : dataMapAfter.entrySet()) {
-				for (Map.Entry<UUID, Object> valueEntry : entry.getValue().entrySet()) {
-					if (!oldCellIds.contains(valueEntry.getKey())) {
-						newValues.add(valueEntry.getValue());
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
+				for (Object[] valueEntry : entry.getValue()) {
+					if (!oldCellIds.contains(valueEntry[0])) {
+						newValues.add(valueEntry[1]);
 					}
 				}
 			}
