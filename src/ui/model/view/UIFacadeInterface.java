@@ -132,4 +132,6 @@ public interface UIFacadeInterface {
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
 			Map<List<Object>, List<Object[]>> tableData, boolean isComputed);
 
+	public void closeAllDesignWindows(UUID tableId);
+
 }
