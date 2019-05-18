@@ -220,8 +220,14 @@ public class FormWindow extends TableWindow {
 	}
 
 	private void deleteCurrentRow() {
-		if (getCurrentRow() >= 0 && getCurrentRow() <= this.getTableData().keySet().size()
-				&& this.getTableData().keySet().size() > 0) {
+		//if (getCurrentRow() >= 0 && getCurrentRow() < this.getTableData().keySet().size()
+		//		&& this.getTableData().keySet().size() > 0) {
+		//niet leeg
+		//groter dan 0'de element
+		//
+			if( (this.getNbrOfRowsInData() > 0) && (getCurrentRow() >= 0) && getCurrentRow() <= (this.getNbrOfRowsInData()-1)) {
+			
+			
 			List<UUID> list = null;
 			for (List<Object> key : getTableData().keySet()) {
 				list = this.getAllUUIDs(getTableData().get(key));
@@ -282,6 +288,16 @@ public class FormWindow extends TableWindow {
 
 	private void setComputed(boolean isComputed) {
 		this.isComputed = isComputed;
+	}
+	
+	public int getNbrOfRowsInData() {
+		int amountOfRowsInData = 0;
+
+		for (List<Object> key : getTableData().keySet()) {
+			amountOfRowsInData = this.getAllData(getTableData().get(key)).size();
+			break;
+		}
+		return amountOfRowsInData;
 	}
 
 }
