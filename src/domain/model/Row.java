@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * A class of rows; a row contains multiple cells.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
