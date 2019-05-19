@@ -119,7 +119,7 @@ public class DesignTable extends EditableComponent {
 
 			rowList.add(new HorizontalComponentList(0, 0, rowCells));
 		}
-		this.setRows(new VerticalComponentList(this.getX(), this.getY(), rowList));
+		this.setRows(new VerticalComponentList(this.getX(), this.getY(), rowList,0));
 		return allCellsList;
 	}
 

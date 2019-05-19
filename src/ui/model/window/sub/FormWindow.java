@@ -87,7 +87,7 @@ public class FormWindow extends TableWindow {
 			getContainer().addComponent(new TextField(x1, y, 200, 40, key.get(1).toString()));
 			y += 50;
 		}
-		VerticalComponentList vcl = new VerticalComponentList(x2, getY() + 50, columnCells);
+		VerticalComponentList vcl = new VerticalComponentList(x2, getY() + 50, columnCells, 10);
 
 		getContainer().addComponent(vcl);
 

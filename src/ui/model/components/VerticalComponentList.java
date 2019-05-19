@@ -13,6 +13,8 @@ import java.util.List;
  *
  */
 public class VerticalComponentList extends Container {
+	
+	private int paddingHeight = 0;
 
 	/**
 	 * Initialise a new VerticalComponentList with the given variables.
@@ -30,11 +32,12 @@ public class VerticalComponentList extends Container {
 	 *        | setWidth(this.getMaxWidthFromChildren())
 	 *        | positionChildren()
 	 */
-	public VerticalComponentList(int x, int y, List<Component> listItems) {
+	public VerticalComponentList(int x, int y, List<Component> listItems, int paddingHeight) {
 		super(x, y, 0, 0, listItems);
 
 		setHeight(this.getSumHeightFromChildren());
 		setWidth(this.getMaxWidthFromChildren());
+		this.setPaddingHeight(paddingHeight);
 
 		positionChildren();
 	}
@@ -67,7 +70,7 @@ public class VerticalComponentList extends Container {
 			c.setY(tempY);
 			c.setX(this.getX());
 			c.setWidth(width);
-			tempY += c.getHeight();
+			tempY += c.getHeight() + paddingHeight;
 		}
 	}
 
@@ -152,6 +155,14 @@ public class VerticalComponentList extends Container {
 		if (this.getComponentsList() != null) {
 			positionChildren();
 		}
+	}
+	
+	private int getPaddingHeight(){
+		return this.paddingHeight;
+	}
+	
+	private void setPaddingHeight(int paddingHeight) {
+		this.paddingHeight = paddingHeight;
 	}
 
 }

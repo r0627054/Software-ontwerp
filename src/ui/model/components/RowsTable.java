@@ -94,7 +94,7 @@ public class RowsTable extends EditableComponent {
 				}
 			}
 
-			columnList.add(new VerticalComponentList(0, 0, columnCells));
+			columnList.add(new VerticalComponentList(0, 0, columnCells,0));
 		}
 		this.setColumns(new HorizontalComponentList(this.getX(), this.getY(), columnList));
 		this.calculateWidthAndHeight();
