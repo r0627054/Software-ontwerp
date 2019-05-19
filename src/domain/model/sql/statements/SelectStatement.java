@@ -1,6 +1,7 @@
 package domain.model.sql.statements;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -161,6 +162,15 @@ public class SelectStatement implements Statement {
 			}
 		}
 		return null;
+	}
+	
+	public boolean hasDuplicateColumnNames() {
+		int nmbrOfColumns =this.getAllSelectColumnNames().size();
+		int nmbrOfcolumnsRemovedDuplicatedColumns = new HashSet<String>(getAllSelectColumnNames()).size();
+		if(nmbrOfColumns == nmbrOfcolumnsRemovedDuplicatedColumns) {
+			return false;
+		}
+		return true;
 	}
 
 }
