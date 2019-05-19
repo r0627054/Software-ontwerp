@@ -4,7 +4,7 @@ package domain.model;
  * 
  * The email contains all the checks of having a valid email.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -77,6 +77,12 @@ public class Email {
 		return this.getEmail();
 	}
 
+	/**
+	 * True when the other class is an email with the same email String; otherwise false.
+	 * {@inheritDoc}
+	 * @param obj The object to which it will be compared.
+	 * @return True when the email has the same value; otherwise false.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj != null && obj instanceof Email) {
@@ -92,6 +98,11 @@ public class Email {
 		return false;
 	}
 
+	/**
+	 * Compares 2 Email classes which eachtother.
+	 * @param email The email class it will be compared to.
+	 * @return True when the email classes are the same. False otherwise.
+	 */
 	public int compareTo(Email email) {
 		return this.getEmail().compareTo(email.getEmail());
 	}
