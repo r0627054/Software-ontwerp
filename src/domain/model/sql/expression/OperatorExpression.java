@@ -51,10 +51,10 @@ public abstract class OperatorExpression implements Expression {
 		this.operator = operator;
 	}
 
-	@Override
+	/*@Override
 	public Expression getResult() {
 		return this.getOperator().getResult(this.getLeftExpression(), this.getRightExpression());
-	}
+	}*/
 
 	@Override
 	public String toString() {

@@ -9,9 +9,9 @@ import domain.model.sql.CellId;
 
 public interface Expression {
 
-	public default Expression getResult() {
+	/*public default Expression getResult() {
 		return this;
-	}
+	}*/
 	
 	public default List<CellId> getAllCellIds(){
 		return new ArrayList<>();

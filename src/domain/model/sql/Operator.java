@@ -8,7 +8,7 @@ import domain.model.sql.expression.Expression;
 
 public enum Operator {
 	OR("OR") {
-		@Override
+	/*	@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			if ((e1 instanceof BooleanExpression && ((BooleanExpression) e1).getValue())
 					|| (e2 instanceof BooleanExpression && ((BooleanExpression) e2).getValue())) {
@@ -16,10 +16,10 @@ public enum Operator {
 			} else {
 				return new BooleanExpression(false);
 			}
-		}
+		}*/
 	},
 	AND("AND") {
-		@Override
+		/*@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			if ((e1 instanceof BooleanExpression && ((BooleanExpression) e1).getValue())
 					&& (e2 instanceof BooleanExpression && ((BooleanExpression) e2).getValue())) {
@@ -27,41 +27,41 @@ public enum Operator {
 			} else {
 				return new BooleanExpression(false);
 			}
-		}
+		}*/
 	},
 	EQUAL("=") {
-		@Override
+		/*@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			return new BooleanExpression(e1.equals(e2));
-		}
+		}*/
 	},
 	GREATER(">") {
-		@Override
+		/*@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			// TODO Auto-generated method stub
 			return null;
-		}
+		}*/
 	},
 	SMALLER("<") {
-		@Override
+		/*@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			// TODO Auto-generated method stub
 			return null;
-		}
+		}*/
 	},
 	PLUS("+") {
-		@Override
+		/*@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			// TODO Auto-generated method stub
 			return null;
-		}
+		}*/
 	},
 	MINUS("-") {
-		@Override
+	/*	@Override
 		public Expression getResult(Expression e1, Expression e2) {
 			// TODO Auto-generated method stub
 			return null;
-		}
+		}*/
 	};
 
 	private String symbol;
@@ -97,6 +97,6 @@ public enum Operator {
 		return this.getSymbol();
 	}
 
-	public abstract Expression getResult(Expression e1, Expression e2);
+	//public abstract Expression getResult(Expression e1, Expression e2);
 
 }
