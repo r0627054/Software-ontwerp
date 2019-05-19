@@ -29,4 +29,11 @@ public interface DesignTableConstants {
 	public static final String INTEGER = "Integer";
 	
 	public static final String EXAMPLE_EMAIL = "test@email";
+	
+	public static final int SECOND_TABLE_X = 160;
+	public static final int FIRST_TABLE_Y = 70;
+	
+	public static final String ADD_TABLE_QUERY_REF_SECOND_TABLE = 			"SELECT e.Email AS c FROM DummyEmail AS e WHERE TRUE";
+	public static final String VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  	"SELECT e.Email AS emails FROM DummyEmail AS e WHERE FALSE";
+	public static final String INVALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  "SELECT e.Name AS names FROM DummyEmail AS e WHERE TRUE";
 }
