@@ -12,15 +12,19 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import ui.model.components.Component;
+import ui.model.components.EditableComponent;
 import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
+import ui.model.components.UICell;
+import ui.model.components.VerticalComponentList;
 import ui.model.view.UIFacade;
+import ui.model.window.sub.TablesWindow;
 
 public class UseCase1Test extends UseCaseTest implements TableListConstants {
 
 	/**
-	 * Test 1 : Creating a new table, by clicking below the current table (x:200, y:200)
-	 * | A new table should be shown with a name with 'TableN'
+	 * Test 1 : Creating a new table, by clicking below the current table (x:400, y:400)
+	 * | A new table should be shown with a name with 'TableN' and its query its blank
 	 * | with N being a unique character.
 	 */
 	@Test
@@ -62,7 +66,20 @@ public class UseCase1Test extends UseCaseTest implements TableListConstants {
 					assertTrue(endTableNamesList.containsValue(etf.getText()));
 				}
 			}
+			
+			assertTrue(getUiFacade().getView().getCurrentSubWindow() instanceof TablesWindow);
+			TablesWindow tw = (TablesWindow) getUiFacade().getView().getCurrentSubWindow();
+			TableList tl = (TableList) tw.getContainer().getComponentsList().get(0);
+			VerticalComponentList vc = (VerticalComponentList) tl.getComponentsList().get(0);
+			for(int i = 0; i < vc.getComponentsList().size(); i++) {
+			if(((EditableTextField) ((UICell) vc.getComponentsList().get(i)).getComponent()).getText().contains(NEW_TABLE_NAME)){
+				VerticalComponentList vc2 = (VerticalComponentList) tl.getComponentsList().get(1);
+				assertTrue(((EditableTextField) ((UICell) vc2.getComponentsList().get(i)).getComponent()).getText() == "");
+			}
+			}
+			
 
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);

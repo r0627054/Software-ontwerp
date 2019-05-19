@@ -16,6 +16,7 @@ import ui.model.components.EditableTextField;
 import ui.model.components.TableList;
 import ui.model.components.UICell;
 import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.TablesWindow;
 
 public class UseCase2Test extends UseCaseTest implements TableListConstants {
 
@@ -292,5 +293,46 @@ public class UseCase2Test extends UseCaseTest implements TableListConstants {
 			assertTrue(false);
 		}
 	}
+	
+	
+	/**
+	 * Test 6 : Changing the table name when there is pointed at a the name changing table in a query.
+	 * Editing the name of a table is only possible when there are no queries using that tablename.
+	 */
+	@Test
+	public void test6ChangeTableNameWithPointerToTableInAQuery() {
+		try {
+			if(!(getDomainFacade().getTableNames().isEmpty())) throw new Exception("mockup tables are still in domainfacade constr.");
+			this.addDummyTable("A");
+			addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed(); // tableName = DummyEmail
 
+
+			simulateSingleClick(SECOND_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_QUERY_REF_SECOND_TABLE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			
+			TablesWindow twBefore = (TablesWindow) getUiFacade().getView().getCurrentSubWindow();
+			TableList tlBefore = (TableList) twBefore.getContainer().getComponentsList().get(0);
+			VerticalComponentList vcBefore = (VerticalComponentList) tlBefore.getComponentsList().get(0);
+			
+			
+			
+			simulateSingleClick(FIRST_TABLE_X, SECOND_TABLE_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 20);
+			simulateKeyPress('A');
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			
+			TablesWindow twAfter = (TablesWindow) getUiFacade().getView().getCurrentSubWindow();
+			TableList tlAfter = (TableList) twAfter.getContainer().getComponentsList().get(0);
+			VerticalComponentList vcAfter = (VerticalComponentList) tlAfter.getComponentsList().get(0);
+			
+			
+			String tableNameBefore = ((EditableTextField) ((UICell) vcBefore.getComponentsList().get(1)).getComponent()).getText();
+			String tabelNameAfter = ((EditableTextField) ((UICell) vcAfter.getComponentsList().get(1)).getComponent()).getText();
+			assertEquals(tableNameBefore, tabelNameAfter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 }
