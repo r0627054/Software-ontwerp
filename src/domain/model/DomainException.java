@@ -3,7 +3,7 @@ package domain.model;
 /**
  *  A custom RuntimeException class made for Exceptions in the domain.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  * 
  */

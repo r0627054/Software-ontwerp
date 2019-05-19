@@ -7,7 +7,7 @@ import domain.model.sql.Operator;
 /**
  * A class of a cell involving a columType and a value.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

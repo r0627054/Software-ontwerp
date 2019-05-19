@@ -18,7 +18,7 @@ import domain.model.sql.columnSpec.ColumnSpec;
  * This handles all the controls defined in the domainFacadeInterface.
  * It makes use of an in-memory map of tables.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -41,8 +41,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	/**
 	 * This method is used during development of the project.
 	 * Creates a dummyTable with dummy data.
-	 * @param tableName
-	 *        | the name of the table.
+	 * @return A dummy table, with exampled data.
 	 */
 	public static Table dummyTable1() {
 		DomainCell c01 = new DomainCell(ValueType.STRING, "Steven");
@@ -104,6 +103,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		return persons;
 	}
 
+	/**
+	 * This method is used during development of the project.
+	 * Creates a dummyTable with dummy data.
+	 * @return A dummy table, with exampled data.
+	 */
 	public static Table dummyTable2() {
 		DomainCell c01 = new DomainCell(ValueType.STRING, "John");
 		DomainCell c02 = new DomainCell(ValueType.STRING, "Quinten");
@@ -164,6 +168,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		return persons;
 	}
 
+	/**
+	 * This method is used during development of the project.
+	 * Creates a dummyTable with dummy data.
+	 * @return A dummy table, with exampled data.
+	 */
 	public static Table dummyTable3() {
 		DomainCell c01 = new DomainCell(ValueType.STRING, "Dirk");
 		DomainCell c02 = new DomainCell(ValueType.STRING, "Rita");
@@ -248,6 +257,16 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.tableMap.get(id);
 	}
 
+	/**
+	 * Returns the table with the given name.
+	 * @param tableName The name of the table.
+	 * @return The table with the given name.
+	 * @throws DomainException when there is no table with the given name.
+	 * @effect The table with the given name is returned.
+	 *         | for (Table t : getTableMap().values()) 
+	 *         | 	if (t.getName().equals(tableName)) 
+	 *         |    	return t;
+	 */
 	private Table getTableOfTableName(String tableName) {
 		for (Table t : getTableMap().values()) {
 			if (t.getName().equals(tableName)) {
@@ -260,6 +279,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	/**
 	 * Returns a map of all the table names.
 	 * The key is the UUID of the table and the value is the name of table.
+	 * @return a map of all the table names.
 	 */
 	public Map<UUID, List<String>> getTableNames() {
 		Map<UUID, List<String>> map = new HashMap<>();
@@ -281,12 +301,27 @@ public class DomainFacade implements DomainFacadeInterface {
 	 * 
 	 * @param name
 	 *        The name the new table will have.
+	 * @effect a table is created with a given name and added to the list.
+	 *        | Table table = new Table(name);
+	 *        | this.tableMap.put(table.getId(), table);
 	 */
 	public void addTable(String name) {
 		Table table = new Table(name);
 		this.tableMap.put(table.getId(), table);
 	}
 
+	/**
+	 * Creates a new table with the given name and id.
+	 * It adds the table to the table map.
+	 * 
+	 * @param id
+	 *        The id the new table should have.
+	 * @param name
+	 *        The name the new table will have.
+	 * @effect a table is created with a given name and added to the list.
+	 *        | Table table = new Table(id, name);
+	 *        | this.tableMap.put(id, table);
+	 */
 	private void addTable(UUID id, String name) {
 		Table table = new Table(id, name);
 		this.tableMap.put(id, table);
@@ -325,6 +360,11 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.getTable(id).setName(newName);
 	}
 
+	/**
+	 * Checks whether or whether there is computed table which uses a table with the given id.
+	 * @param id The id of the table, which need to be checked if the table of that id is used somewhere.
+	 * @return True When there is a table which uses that table with the given id.
+	 */
 	private boolean checkComputedTableUsesTableId(UUID id) {
 		for (Table t : getTableMap().values()) {
 			if (t instanceof ComputedTable) {
@@ -438,6 +478,7 @@ public class DomainFacade implements DomainFacadeInterface {
 	 *        The id of the table which will be deleted.
 	 * @throws DomainException when the id equals null.
 	 *         | id == null
+	 * @post the table of the id is deleted and all the tables having a reference are also deleted.
 	 */
 	@Override
 	public void deleteTable(UUID id) {
@@ -447,8 +488,6 @@ public class DomainFacade implements DomainFacadeInterface {
 		Table table = getTable(id);
 		List<Table> allRemovedList = new ArrayList<>();
 		List<Table> currentIterationList = new ArrayList<>();
-
-//		int iterations = 0;
 		currentIterationList.add(table);
 		allRemovedList.add(table);
 		while (currentIterationList.size() != 0) {
@@ -492,7 +531,6 @@ public class DomainFacade implements DomainFacadeInterface {
 			throw new DomainException("Cannot get column characteristiscs with a null id");
 		}
 		Table table = this.getTable(id);
-
 		if (table == null) {
 			throw new DomainException("No table could be found with given id.");
 		}
@@ -508,6 +546,10 @@ public class DomainFacade implements DomainFacadeInterface {
 	 *        The id of the table where the column will be created.
 	 * @throws DomainException when the id equals null
 	 *         | id == null
+	 * @effect a new column is added to the table with given id.
+	 *         | Table table = getTable(id);
+	 *         | 	if (table != null) {
+	 *         | 		table.createNewColumn();
 	 */
 	@Override
 	public void addColumnToTable(UUID id) {
@@ -549,6 +591,12 @@ public class DomainFacade implements DomainFacadeInterface {
 		}
 	}
 
+	/**
+	 * Checks whether a columnName of a table is used in a computed table with the given name.
+	 * @param oldColName The column name which needs to be checked.
+	 * @param tableName  The name of the table in which the column name needs to be checked.
+	 * @return True when there exists a column name in the table with the given name.
+	 */
 	private boolean columnNameIsBeingUsedByComputedTable(String oldColName, String tableName) {
 		for (Table t : getTableMap().values()) {
 			if (t instanceof ComputedTable) {
@@ -939,6 +987,12 @@ public class DomainFacade implements DomainFacadeInterface {
 		return this.getTableWithIds(tableId).isEmpty();
 	}
 
+	/**
+	 * Creates a computed table with the given id.
+	 * The query is created out of the String, it is checked and given to the computed table.
+	 * @param tableId The id which the computed table should have.
+	 * @param query   The query string which belongs to the computed table.
+	 */
 	@Override
 	public void createComputedTable(UUID tableId, String query) {
 		String parsedQuery = SQLParser.parseQuery(query);
@@ -994,11 +1048,22 @@ public class DomainFacade implements DomainFacadeInterface {
 		this.getTableMap().put(tableId, newTable);
 	}
 
+	/**
+	 * Checks whether the table with the given id a computed table or not.
+	 * @param tableId The id of the table which needs to be checked.
+	 * @return True when the table with the id exits and is a computed table, otherwise false.
+	 */
 	@Override
 	public boolean isComputedTable(UUID tableId) {
 		return getTable(tableId) instanceof ComputedTable;
 	}
 
+	/**
+	 * Gives all the ids of the tables which uses the table with the given cellid.
+	 * @param tableId The table id which the cellId is stored in.
+	 * @param cellId  The cellId which is shown in different tables.
+	 * @return The list of UUIDs of tables which uses the cellid.
+	 */
 	@Override
 	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID cellId) {
 		List<UUID> result = new ArrayList<>();
@@ -1039,6 +1104,10 @@ public class DomainFacade implements DomainFacadeInterface {
 		return result;
 	}
 
+	/**
+	 * Converts the computed table back to a stored table, by setting the query to an empty query.
+	 * @param tableId The tableId which needs to be converted/ Sets to a blank query.
+	 */
 	@Override
 	public void setEmptyQuery(UUID tableId) {
 		if (tableId == null) {
