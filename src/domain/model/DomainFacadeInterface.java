@@ -9,7 +9,7 @@ import java.util.UUID;
  * An interface of the domainFacade. This interface defines all the functionalities
  *  that should be handled by the domain.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -296,12 +296,33 @@ public interface DomainFacadeInterface {
 	 */
 	public boolean isTableWithIdEmpty(UUID tableId);
 
+	/**
+	 * Creates a computed table with the given id.
+	 * The query is created out of the String, it is checked and given to the computed table.
+	 * @param tableId The id which the computed table should have.
+	 * @param query   The query string which belongs to the computed table.
+	 */
 	public void createComputedTable(UUID tableId, String query);
 
+	/**
+	 * Checks whether the table with the given id a computed table or not.
+	 * @param tableId The id of the table which needs to be checked.
+	 * @return True when the table with the id exits and is a computed table, otherwise false.
+	 */
 	public boolean isComputedTable(UUID tableId);
 
+	/**
+	 * Gives all the ids of the tables which uses the table with the given cellid.
+	 * @param tableId The table id which the cellId is stored in.
+	 * @param cellId  The cellId which is shown in different tables.
+	 * @return The list of UUIDs of tables which uses the cellid.
+	 */
 	public List<UUID> getTableIdOfUsedTables(UUID tableId, UUID cellId);
 
+	/**
+	 * Converts the computed table back to a stored table, by setting the query to an empty query.
+	 * @param tableId The tableId which needs to be converted/ Sets to a blank query.
+	 */
 	public void setEmptyQuery(UUID tableId);
 
 }

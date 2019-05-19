@@ -9,7 +9,7 @@ import java.util.UUID;
  * 
  * A class of Tables containing a name, columns and rows.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -32,7 +32,6 @@ public class Table extends ObjectIdentifier {
 
 	/**
 	 * Initialise a new Table with a given name.
-	 * @param tableId 
 	 * 
 	 * @param name 
 	 * 			The name given to a table.
@@ -43,11 +42,39 @@ public class Table extends ObjectIdentifier {
 		this.setName(name);
 	}
 
+	/**
+	 * Initialise a new Table with a given name and id.
+	 * 
+	 * @param tableId
+	 *       | The id for the table.
+	 * @param name
+	 *       | The name for the table.
+	 * @effect The name and the id are set.
+	 *       | super(tableId);
+	 *       | this.setName(name);
+	 */
 	public Table(UUID tableId, String name) {
 		super(tableId);
 		this.setName(name);
 	}
 
+	/**
+	 * Initialise a new Table with a name, id, list of rows and a list of columns.
+	 * 
+	 * @param name
+	 *       The name of the table.
+	 * @param id
+	 *       The id of the table.
+	 * @param rows
+	 *       The list of rows for the table.
+	 * @param cols
+	 *       The list of columns for the table.
+	 * @effect The parameters are set.
+	 *       |super(id);
+	 *       |this.setName(name);
+	 *       |this.setRows(rows);
+	 *       |this.setColumns(cols);
+	 */
 	public Table(String name, UUID id, List<Row> rows, List<Column> cols) {
 		super(id);
 		this.setName(name);
@@ -57,6 +84,7 @@ public class Table extends ObjectIdentifier {
 
 	/**
 	 * Returns the name of the table.
+	 * @return The name of the table.
 	 */
 	public String getName() {
 		return name;
@@ -213,7 +241,7 @@ public class Table extends ObjectIdentifier {
 	}
 
 	/**
-	 * Adds a row to the table.
+	 * Adds a row to the table. The cells of the row will also be added to the correct column.
 	 * 
 	 * @param r 
 	 *       | the row which will be added
@@ -221,6 +249,9 @@ public class Table extends ObjectIdentifier {
 	 *       | r == null
 	 * @effect the row is added to the table
 	 *       | this.rows.add(r);
+	 * @effect The cellids are also added to the columns of the table.
+	 *      | for (int i = 0; i < r.getCells().size(); i++) 
+	 *      |		this.getColumns().get(i).addCell(r.getCells().get(i))
 	 */
 	public void addRow(Row r) {
 		if (r == null) {
@@ -232,6 +263,16 @@ public class Table extends ObjectIdentifier {
 		this.rows.add(r);
 	}
 	
+	/**
+	 * Adds a row to the table.
+	 *  The cells of the row will NOT be added to the correct column.
+	 * @param r 
+	 *       | the row which will be added
+	 * @throws if the row equals null
+	 *       | r == null
+	 * @effect the row is added to the table
+	 *       | this.rows.add(r);
+	 */
 	public void addRowWithoutAddingToColumns(Row r) {
 		if(r == null) {
 			throw new DomainException("A new row cannot be null when adding a row.");
@@ -538,6 +579,17 @@ public class Table extends ObjectIdentifier {
 		throw new DomainException("No column id found for given cellId");
 	}
 	
+	/**
+	 * Returns the name of the column with the given columnId.
+	 *  When there is no column with the given id, there will be thrown a domainException.
+	 * @param columnId The id of the column of which the name is requested.
+	 * @return The name of the column associated with the given id.
+	 * @throws DomainException when there is no column with the given id.
+	 * @effect The name of the column is returned.
+	 *         | for (Column col : getColumns()) 
+	 *         |		if (col.getId().equals(columnId)) 
+	 *         |			return col.getName();
+	 */
 	public String getColumnNameOfColumnId(UUID columnId) {
 		for (Column col : getColumns()) {
 			if (col.getId().equals(columnId)) {
@@ -547,6 +599,18 @@ public class Table extends ObjectIdentifier {
 		throw new DomainException("No column id found for given cellId");
 	}
 	
+	/**
+	 * Returns the index of the column with the given columnId.
+	 *  When there is no column with the given id, there will be thrown a domainException.
+	 * @param columnId The id of the column of which the name is requested.
+	 * @return The index of the column associated with the given id.
+	 * @throws DomainException when there is no column with the given id or when the columnId equals null
+	 *         | columnId == null
+	 * @effect The index of the column is returned.
+	 *         |for (int i = 0; i < this.getColumns().size(); i++) {
+	 *         | 	if(this.getColumnForIndex(i).getId().equals(columnId)) {
+	 *         | 			return i;
+	 */
 	public int getIndexOfColumn(UUID columnId){
 		if(columnId == null) {
 			throw new DomainException("The columnId cannot be null");
@@ -629,10 +693,29 @@ public class Table extends ObjectIdentifier {
 		throw new DomainException("No column id found for given cellId");
 	}
 
+	/**
+	 * Returns the number of columns in the table.
+	 * @return The number of columns is returned.
+	 * @effect The number of columns is returned. 
+	 *         | this.getColumns().size()
+	 */
 	public int getNbrOfColumns() {
 		return this.getColumns().size();
 	}
 
+	/**
+	 * Returns the index of the column with the given name.
+	 *  -1 is returned when there is no column found with the given name.
+	 * @param columnName The name of the column of which the index should be returned.
+	 * @return The index of the column of which the name is given.
+	 * @throws DomainException when the name of the column is null. 
+	 *         | columnName == null
+	 * @effect the index is calculated and returned.
+	 *         | for (int i = 0; i < this.getNbrOfColumns(); i++) {
+	 *         |		Column currentColumn = this.getColumns().get(i);
+	 *         | 		if (columnName.equals(currentColumn.getName())) {
+	 *         |  			return i;
+	 */
 	public int getColumnIndexOfName(String columnName) {
 		if (columnName == null) {
 			throw new DomainException("ColumnName cannot be null.");
@@ -646,10 +729,19 @@ public class Table extends ObjectIdentifier {
 		return -1;
 	}
 
+	/**
+	 * Returns the copy of the table.
+	 * @return The copy of the table
+	 *         | new Table(getName(), getId(), getRows(), getColumns())
+	 */
 	public Table copy() {
 		return new Table(getName(), getId(), getRows(), getColumns());
 	}
 
+	/**
+	 * The table represented as a String is computed. With the column names and row data.
+	 * @return The table represented as a String.
+	 */
 	@Override
 	public String toString() {
 		String result = "";
@@ -663,6 +755,10 @@ public class Table extends ObjectIdentifier {
 		return result;
 	}
 
+	/**
+	 * Returns the height of the table.
+	 * @return The height of the table (/column)
+	 */
 	public int getHeightOfColumns() {
 		if (this.getColumns().size() == 0) {
 			return 0;
@@ -670,6 +766,12 @@ public class Table extends ObjectIdentifier {
 		return getColumns().get(0).getCells().size();
 	}
 
+	/**
+	 * Returns the column on a certain index.
+	 * @param i The index on which the column is located.
+	 * @return The column that is on that index.
+	 *         | this.getColumns().get(i)
+	 */
 	public Column getColumnForIndex(int i) {
 		return this.getColumns().get(i);
 	}

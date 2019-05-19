@@ -130,4 +130,9 @@ public class Query {
 		return this.getSelectStatement().getColumnSpecOfDisplayName(displayName);
 	}
 	
+	public boolean selectStatementHasDuplicateColumnNames() {
+		return this.getSelectStatement().hasDuplicateColumnNames();
+	}
+	
+	
 }

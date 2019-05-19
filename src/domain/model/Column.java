@@ -151,6 +151,7 @@ public class Column extends ObjectIdentifier {
 	}
 
 	/**
+	 * Initialise a new column with the given name and isEditable variable.
 	 * 
 	 * @param name
 	 * 			The name of the column.
@@ -593,6 +594,17 @@ public class Column extends ObjectIdentifier {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param index
+	 * 			The index of the cell in the column.
+	 * @param value
+	 *          The new value of the cell.
+	 * @throws DomainException when the index is invalid. This is invalid if it below zero or bigger than the actual size.
+	 *         | index < 0 || this.getCells().size() <= index
+	 * @effect Sets the actual cell name.
+	 * 		   | this.getCellAtIndex(index).setValue(value)
+	 */
 	public void setValueForCellAtIndex(int index, Object value) {
 		if (index < 0 || this.getCells().size() <= index) {
 			throw new DomainException("Invalid index for setting the cell.");

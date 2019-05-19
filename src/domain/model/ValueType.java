@@ -4,7 +4,7 @@ package domain.model;
  * An enumeration introducing the different types a Column can have.
  *   In its current form, the class only supports, Email, String, Boolean and Integer.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  */
 public enum ValueType {
@@ -178,6 +178,12 @@ public enum ValueType {
 		return value;
 	}
 
+	/**
+	 * Checks whether 2 object have the same value.
+	 * @param value1 The first value.
+	 * @param value2 The second value.
+	 * @return whether the value is the same. True when they are the same; False otherwise.
+	 */
 	public boolean haveSameValue(Object value1, Object value2) {
 		try {
 			return this.compareTo(value1, value2) == 0;
@@ -186,6 +192,12 @@ public enum ValueType {
 		}
 	}
 
+	/**
+	 * Checks whether value 1 is greater than value 2.
+	 * @param value1 The first value.
+	 * @param value2 The second value.
+	 * @return whether the value1 is greater. True when it is greater; False otherwise.
+	 */
 	public boolean isGreaterThan(Object value1, Object value2) {
 		try {
 			return this.compareTo(value1, value2) > 0;
@@ -194,6 +206,12 @@ public enum ValueType {
 		}
 	}
 
+	/**
+	 * Checks whether value 1 is smaller than value 2.
+	 * @param value1 The first value.
+	 * @param value2 The second value.
+	 * @return whether the value1 is smaller. True when it is smaller; False otherwise.
+	 */
 	public boolean isSmallerThan(Object value1, Object value2) {
 		try {
 			return this.compareTo(value1, value2) < 0;
@@ -202,6 +220,14 @@ public enum ValueType {
 		}
 	}
 
+	/**
+	 * Compares 2 values to each other. Makes use of the compare to values of the Java compareTo method.
+	 * 
+	 * @param value1 The first value.
+	 * @param value2 The second value.
+	 * @return The result of the compareTo function of Java, making use of the correct type.
+	 * @throws DomainException when the values could be compared.
+	 */
 	private int compareTo(Object value1, Object value2) {
 		if (value1 == null && value2 == null) {
 			return 0;
