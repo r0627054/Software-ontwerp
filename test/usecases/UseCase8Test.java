@@ -3,85 +3,201 @@ package usecases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.HashSet;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import domain.model.ValueType;
+import ui.model.components.UICell;
 import ui.model.components.Component;
 import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
 
-public class UseCase8Test extends UseCaseTest implements RowTableConstants {
+public class UseCase8Test extends UseCaseTest implements DesignTableConstants {
 
 	/**
-	 * Test 1 : Creating a new row
-	 * | If you double click below the rows table, a new row should be created.
-	 * | The values of these cells should be the values of the default values of the column of each cell.
+	 * Test 1 : Deleting the column correctly
+	 * | After clicking left of the column name once in the design table and pressing delete, 
+	 * | the column should be removed from memory & in the ui.
 	 */
 	@Test
-	public void test1doubleClickBelowTableRowsShouldCreateANewRow() {
+	public void test1clickingLeftOfColumnNameAndPressingDeleteShouldDeleteColumn() {
 		try {
-			getDomainFacade().addMockedTable(dummyTable1());
-			String tName = null;
+			addDummyTableBooleanColumnNullCellValues();
+			String tableName = null;
 			UUID tableId = null;
 
 			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue().get(0);
+				tableName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
 
-			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
 
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore, false);
-			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
-
-			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
-			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
-
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
-				for (Entry<List<Object>, List<Object[]>> entry2 : dataMapAfter.entrySet()) {
-					assertEquals(entry.getValue().size() + 1, entry2.getValue().size());
-				}
-			}
-
-			for (Component c : rowsTableBefore.getComponentsList()) {
-				for (Component c2 : rowsTableAfter.getComponentsList()) {
-
-					VerticalComponentList v = (VerticalComponentList) c;
-					VerticalComponentList v2 = (VerticalComponentList) c2;
-
-					assertEquals(v.getComponentsList().size() + 1, v2.getComponentsList().size());
-				}
-			}
-
-			Set<UUID> oldCellIds = new HashSet<>();
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
-				for (Object[] valueEntry : entry.getValue()) {
-					oldCellIds.add((UUID) valueEntry[0]);
-				}
-			}
-
-			Set<Object> newValues = new HashSet<>();
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
-				for (Object[] valueEntry : entry.getValue()) {
-					if (!oldCellIds.contains(valueEntry[0])) {
-						newValues.add(valueEntry[1]);
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
 					}
 				}
 			}
-			assertTrue(newValues.contains(ValueType.BOOLEAN.getDefaultValue()));
-			assertTrue(newValues.contains(ValueType.STRING.getDefaultValue()));
-			assertTrue(newValues.contains(ValueType.EMAIL.getDefaultValue()));
-			assertTrue(newValues.contains(ValueType.INTEGER.getDefaultValue()));
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+
+			simulateKeyPress(KeyEvent.VK_DELETE);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
+				}
+			}
+
+			assertEquals(uiCellListBefore.size() - 4, uiCellListAfter.size());
+//		assertEquals(columnDataBefore.size() - 1, columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test 2 : Clicking left of the table and then clicking away should reset the delete behaviour.
+	 * | After clicking left of the column name once and then clicking somewhere else, 
+	 * | if you then press delete, the column should not be removed.
+	 */
+	@Test
+	public void test2clickingLeftOfColumnNameAndClickingAwayAndPressingDeleteShouldNotDeleteColumn() {
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			String tableName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
+				tableId = entry.getKey();
+			}
+
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
+					}
+				}
+			}
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
+				}
+			}
+
+			assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test 3 : Clicking left of the table and then clicking in the row should reset the delete behaviour.
+	 * | After clicking left of the column name once and then clicking inside the same row, 
+	 * | if you then press delete, the column should not be removed.
+	 */
+	@Test
+	public void test3clickingLeftOfColumnNameAndInTheTableAndPressingDeleteShouldNotDeleteColumn() {
+		try {
+			this.addDummyTable(NEW_TABLE_NAME);
+			String tableName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
+				tableId = entry.getKey();
+			}
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListBefore = new ArrayList<>();
+			for (Component component : uiRowsBefore.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListBefore.add((UICell) hzclComponent);
+					}
+				}
+			}
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			List<UICell> uiCellListAfter = new ArrayList<>();
+			for (Component component : uiRowsAfter.getComponentsList()) {
+				HorizontalComponentList hzcl = (HorizontalComponentList) component;
+
+				for (Component hzclComponent : hzcl.getComponentsList()) {
+					if (hzclComponent instanceof UICell) {
+						uiCellListAfter.add((UICell) hzclComponent);
+					}
+				}
+			}
+
+			assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
