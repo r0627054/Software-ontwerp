@@ -9,7 +9,6 @@ import domain.model.Row;
 import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
-import domain.model.sql.SqlException;
 
 public class MathOperatorExpression extends OperatorExpression {
 
