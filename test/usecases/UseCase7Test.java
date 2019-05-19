@@ -1,5 +1,6 @@
 package usecases;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,9 +17,11 @@ import ui.model.components.UICell;
 import ui.model.components.CheckBox;
 import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
+import ui.model.components.TableList;
 import ui.model.components.TextField;
 import ui.model.components.ToggleTextField;
 import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.TablesWindow;
 
 public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 
@@ -1437,4 +1440,76 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 		}
 	}
 
+	/**
+	 * Test 23 : Editing the column name
+	 * | When you select the column name and edit it without leaving a blank or writing the same column name twice,
+	 * | after pressing enter the name should be shown and saved correctly.
+	 */
+	@Test
+	public void test23() {
+		try {
+			addDummyTableEmailColumnEmailCellValues();
+			this.addDummyTable("A");
+			simulateSingleClick(SECOND_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_QUERY_REF_SECOND_TABLE);
+			System.err.println(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			
+			
+			TablesWindow twBefore = (TablesWindow) getUiFacade().getView().getCurrentSubWindow();
+			TableList tlBefore = (TableList) twBefore.getContainer().getComponentsList().get(0);	
+			VerticalComponentList vcBefore = (VerticalComponentList) tlBefore.getComponentsList().get(1);
+			String tableNameBefore = ((EditableTextField) ((UICell) vcBefore.getComponentsList().get(0)).getComponent()).getText();
+
+
+			String tableName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tableName = entry.getValue().get(0);
+				tableId = entry.getKey();
+			}
+			
+			getUiFacade().createTableDesignSubWindow(tableId, tableName,
+					getDomainFacade().getColumnCharacteristics(tableId));
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
+
+			simulateSingleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+			simulateKeyPress(NEW_COLUMN_NAME);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			System.out.println(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+
+			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
+					.getColumnCharacteristics(tableId);
+			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
+
+			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+			assertEquals(uiRowsBefore.getComponentsList().size(), uiRowsAfter.getComponentsList().size());
+
+			for (Map.Entry<UUID, LinkedHashMap<String, Object>> entry : columnDataAfter.entrySet()) {
+				UUID columnId = entry.getKey();
+
+				if (!columnDataBefore.get(columnId).equals(columnDataAfter.get(columnId))) {
+
+					for (Map.Entry<String, Object> columnEntry : entry.getValue().entrySet()) {
+						if (columnEntry.getKey().equals(COLUMN_NAME)) {
+							String columnName = (String) columnEntry.getValue();
+							assertTrue(columnName.contains(NEW_COLUMN_NAME));
+						}
+					}
+				}
+			}
+			HorizontalComponentList hzcl = (HorizontalComponentList) uiRowsAfter.getComponentsList().get(1);
+			UICell cell = (UICell) hzcl.getComponentsList().get(0);
+			EditableTextField firstCell = (EditableTextField) cell.getComponent();
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+			assertTrue(firstCell.getText().contains(NEW_COLUMN_NAME));
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 }
