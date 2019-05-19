@@ -4,7 +4,7 @@ public interface TableListConstants {
 	public static final int FIRST_TABLE_X = 70;
 	public static final int SECOND_TABLE_X = 160;
 	public static final int FIRST_TABLE_Y = 70;
-	public static final int SECOND_TABLE_Y = 130;
+	public static final int SECOND_TABLE_Y = 110;
 	public static final int LEFT_FIRST_TABLE_X = 20;
 
 	public static final int BELOW_TABLELIST_X = 400;

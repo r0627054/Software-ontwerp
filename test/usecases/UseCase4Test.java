@@ -128,8 +128,7 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 					uiNamesList.add(etf.getText());
 				}
 			}
-			
-			
+
 			for (List<String> s : startTableNames.values()) {
 				assertTrue(uiNamesList.toString().contains(s.get(0)));
 			}
@@ -139,4 +138,31 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 		}
 	}
 
+	/**
+	 * Test 4 : Deleting a table with a computed table referencing to it
+	 * | When you click left of a table and press delete, the table should be deleted and all
+	 * | Computed Tables that used this table should be deleted aswell.
+	 */
+	@Test
+	public void test4clickingLeftOfTableNameAndPressingDeleteShouldDeleteTableAndAllComputedTablesThatUsesThisTable() {
+		try {
+			this.addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed();
+			// Name ZZZZZ so that ZZZZ becomes second in list
+			this.getDomainFacade().addTable("ZZZZZZZZZZ");
+			this.getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
+			
+			simulateSingleClick(SECOND_TABLE_X, SECOND_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_QUERY_REF_SECOND_TABLE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateSingleClick(LEFT_FIRST_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(KeyEvent.VK_DELETE);
+
+			assertEquals(0, ((VerticalComponentList) getTablesViewModeTableList().getComponentsList().get(0)).getComponentsList().size());
+			assertEquals(0, this.getDomainFacade().getTableNames().size());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 }
