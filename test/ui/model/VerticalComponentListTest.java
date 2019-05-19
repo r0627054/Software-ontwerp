@@ -57,7 +57,7 @@ class VerticalComponentListTest {
 		listItems.add(comp3);
 		listItems.add(comp4);
 		listItems.add(comp5);
-		vc = new VerticalComponentList(x, y, listItems);
+		vc = new VerticalComponentList(x, y, listItems,0);
 		assertEquals(comp5, vc.getComponentsList().get(4));
 		assertTrue(this.x == vc.getX() && this.y == vc.getY() && 678 == vc.getWidth()
 				&& (comp1.getHeight() + comp2.getHeight() + comp3.getHeight()) + comp4.getHeight()
@@ -82,7 +82,7 @@ class VerticalComponentListTest {
 	void test4AddComponentToList() {
 		listItems.add(comp1);
 		listItems.add(comp2);
-		vc = new VerticalComponentList(x, y, listItems);
+		vc = new VerticalComponentList(x, y, listItems,0);
 		vc.addComponent(comp3);
 		assertEquals(comp3.hashCode(), vc.getComponentsList().get(vc.getComponentsList().size() - 1).hashCode());
 	}
@@ -95,7 +95,7 @@ class VerticalComponentListTest {
 	void test4AddNullComponentToList() {
 		listItems.add(comp1);
 		listItems.add(comp2);
-		vc = new VerticalComponentList(x, y, listItems);
+		vc = new VerticalComponentList(x, y, listItems,0);
 		Exception e = assertThrows(IllegalArgumentException.class, () -> vc.addComponent(null));
 		assertEquals("Null component cannot be added to a container", e.getMessage());
 	}
@@ -107,7 +107,7 @@ class VerticalComponentListTest {
 	void test5GetOffsetX() {
 		listItems.add(comp1);
 		listItems.add(comp2);
-		vc = new VerticalComponentList(x, y, listItems);
+		vc = new VerticalComponentList(x, y, listItems,0);
 		assertEquals(vc.getX() + vc.getMaxWidthFromChildren(), vc.getOffsetX());
 	}
 }

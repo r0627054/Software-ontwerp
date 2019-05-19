@@ -25,6 +25,8 @@ public class UseCase4Test extends UseCaseTest implements TableListConstants {
 			
 			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
 			simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			
+			System.out.println(this.getUiFacade().getView().getCurrentSubWindow());
 
 			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);
 		} catch (Exception e) {
