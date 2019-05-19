@@ -1,5 +1,13 @@
 package domain.model.sql;
 
+/**
+ * 
+ *  A custom RuntimeException class made for Exceptions in the sql classes.
+ * 
+ * @version 3.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+ *
+ */
 public class SqlException extends RuntimeException{
 
 	
