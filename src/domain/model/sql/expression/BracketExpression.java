@@ -16,7 +16,7 @@ public class BracketExpression implements Expression {
 		this.setExpression(expression);
 	}
 	
-	@Override
+	
 	public Expression getResult() {
 		return this.getExpression();
 	}
