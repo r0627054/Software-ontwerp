@@ -3,54 +3,50 @@ package usecases;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Component;
-import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.TableDesignWindow;
+import ui.model.window.sub.TableRowsWindow;
 
-public class UseCase5Test extends UseCaseTest implements DesignTableConstants {
+public class UseCase5Test extends UseCaseTest implements TableListConstants {
 
 	/**
-	 * Test 1 : Double clicking below the design table creates a column.
-	 * | When you double click below the table a new row of column details should show
-	 * | where we can edit the newly created column.
+	 * Test 1 : Double clicking on a table inside TablesViewMode
+	 * | If the table is empty, it should open TableDesignMode
 	 */
 	@Test
-	public void test1doubleClickBelowDesignTableToCreateAColumn() {
+	public void test1openTableWithNewTableShouldOpenDesignMode() {
 		try {
-			addDummyEmptyTableEmailColumnVariableAllowsBlank(true);
-			String tableName = null;
-			UUID tableId = null;
+			getUiFacade().createTablesSubWindow(new HashMap<UUID, List<String>>());
+			
+			simulateDoubleClick(BELOW_TABLELIST_X, BELOW_TABLELIST_Y);
+			simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
+			
+			System.out.println(this.getUiFacade().getView().getCurrentSubWindow());
 
-			for (Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
-				tableName = entry.getValue().get(0);
-				tableId = entry.getKey();
-			}
-			getUiFacade().createTableDesignSubWindow(tableId, tableName, getDomainFacade().getColumnCharacteristics(tableId) );
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
 
+	/**
+	 * Test 2 : Double clicking on a table inside TablesViewMode
+	 * | If the table is not empty, it should open TableRowsMode
+	 */
+	@Test
+	public void test2openTableWithExistingTableShouldOpenRowsMode() {
+		try {
+			addDummyTableEmailColumnEmailCellValues();
+			getUiFacade().createTablesSubWindow(getDomainFacade().getTableNames());
+			simulateDoubleClick(FIRST_TABLE_X, FIRST_TABLE_Y);
 
-			Map<UUID, LinkedHashMap<String, Object>> columnDataBefore = this.getDomainFacade()
-					.getColumnCharacteristics(tableId);
-
-			VerticalComponentList uiRowsBefore = getTableViewModeDesignTable(tableId).getRows();
-			for (Component uir : uiRowsBefore.getComponentsList()) {
-			}
-
-			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-
-			Map<UUID, LinkedHashMap<String, Object>> columnDataAfter = this.getDomainFacade()
-					.getColumnCharacteristics(tableId);
-
-			VerticalComponentList uiRowsAfter = getTableViewModeDesignTable(tableId).getRows();
-
-			assertEquals(columnDataBefore.size() + 1, columnDataAfter.size());
-			assertEquals(uiRowsBefore.getComponentsList().size() + 1, uiRowsAfter.getComponentsList().size());
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);

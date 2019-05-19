@@ -1,5 +1,7 @@
 package usecases;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,80 +14,118 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import ui.model.components.Component;
-import ui.model.components.HorizontalComponentList;
+import domain.model.DomainException;
 import ui.model.components.UICell;
+import ui.model.components.CheckBox;
+import ui.model.components.Component;
+import ui.model.components.EditableTextField;
+import ui.model.components.HorizontalComponentList;
 import ui.model.components.VerticalComponentList;
 
 public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 
 	/**
-	 * Test 1 : Deleting the row correctly
-	 * | After clicking left of the row once in the rows table and pressing delete, 
-	 * | the row should be removed from memory & in the ui.
+	 * Test 1 : Editing a row
+	 * | If you click a text field with valid text and press enter, the text 
+	 * | should be displayed and saved.
 	 */
 	@Test
-	public void test1clickingLeftOfRowAndPressingDeleteShouldDeleteRow() {
+	public void test1editingATextFieldWithValidTextAndEnterPressShouldSave() {
 		try {
-			getDomainFacade().addMockedTable(dummyTable1());
+			addDummyTableStringColumnEmailCellValues();
 			String tName = null;
 			UUID tableId = null;
 
-			
-			
-			
-			for(Entry<UUID, List<String>> entry: getDomainFacade().getTableNames().entrySet()){
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
 				tName = entry.getValue().get(0);
 				tableId = entry.getKey();
 			}
-
 
 			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
-			System.out.println(rowsTableBefore.getComponentsList().get(0).getClass());
-			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
+			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 					.get(0);
-			
-			int firstVerticalListSize = firstVerticalList.getComponentsList().size();
+			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			EditableTextField etf = (EditableTextField) cellBefore.getComponent();
+			String textBefore = etf.getText();
 
-			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-			simulateKeyPress(KeyEvent.VK_DELETE);
+			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+			simulateKeyPress(EDIT_STRING_TEXT);
+			simulateKeyPress(KeyEvent.VK_ENTER);
 
 			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
 
-			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
-			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
-					.get(0);
-			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
-
-			int beforeRowsCounter = 0;
+			int newTextCounter = 0;
 			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
-				if (entry.getValue().size() > beforeRowsCounter) {
-					beforeRowsCounter = entry.getValue().size();
+				for (Object[] entry2 : entry.getValue()) {
+					if (String.valueOf(entry2[1]).contains(EDIT_STRING_TEXT)) {
+						newTextCounter++;
+					}
 				}
+			}
+			assertEquals(0, newTextCounter);
+
+			newTextCounter = 0;
+			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
+				for (Object[] entry2 : entry.getValue()) {
+					if (String.valueOf(entry2[1]).contains(EDIT_STRING_TEXT)) {
+						newTextCounter++;
+					}
+				}
+			}
+			assertEquals(1, newTextCounter);
+
+			assertTrue(etf.getText().contains(EDIT_STRING_TEXT));
+			assertNotEquals(textBefore, etf.getText());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test 2 : Editing a row
+	 * | If you click a check box, the checked value should flip from true to false
+	 * | and from false to true.
+	 */
+	@Test
+	public void test2clickingACheckBoxShouldSave() {
+		try {
+			addDummyTableBooleanColumnCellValues();
+			String tName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
+				tableId = entry.getKey();
 			}
 
-			int afterRowsCounter = 0;
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
-				if (entry.getValue().size() > afterRowsCounter) {
-					afterRowsCounter = entry.getValue().size();
-				}
-			}
-			VerticalComponentList vc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
-			System.out.println("before " + vc.getComponentsList());
-			for(Component c : vc.getComponentsList()) {
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
+			
+			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+			
+			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
+					.get(0);
+
+
+			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			for(Component c :verticalCompListBefore.getComponentsList()) {
 				if(c instanceof UICell) {
-					System.out.println(((UICell) c).getId());
+					UICell uic = (UICell) c;
+					if(uic.getComponent() instanceof EditableTextField) {
+					}
 				}
 			}
+			CheckBox checkBox = (CheckBox) cellBefore.getComponent();
+			boolean isCheckedStart = checkBox.isChecked();
+			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
 			
-			VerticalComponentList vcc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
-			System.out.println("after " + vcc.getComponentsList());
-
-			assertEquals(firstVerticalListSize - 1, firstVerticalListSizeAfter);
-			assertEquals(beforeRowsCounter - 1, afterRowsCounter);
+			
+			assertEquals(isCheckedStart, !checkBox.isChecked());
+			assertFalse(checkBox.isError());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
@@ -93,71 +133,15 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 	}
 
 	/**
-	 * Test 2 : Deleting the row incorrectly
-	 * | After clicking left of the row once in the rows table and clicking away,
-	 * | if you then press delete, the row should be not removed from memory & in the ui.
+	 * Test 3 : Editing a row
+	 * | If you clear the text field while blanks are not allowed in the column, the application
+	 * | should pause. Pressing escape should reset the text field and reset the value in memory.
 	 */
 	@Test
-	public void test2clickingLeftOfRowAndClickingAwayAndPressingDeleteShouldNotDeleteRow() {
+	public void test3clearingAStringTextFieldShouldPauseTheApplicationAndEscapeShouldResetIfTheColumnDoesntAllowBlanks() {
 		try {
-			addDummyTableBooleanColumnCellValues();
-			String tName = null;
-			UUID tableId = null;
+			this.addDummyTableNotEmptyDefaultColumnValueNoBlanksAllowed();
 
-			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
-				tName = entry.getValue().get(0);
-				tableId = entry.getKey();
-			}
-			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
-			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
-
-			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
-			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
-					.get(0);
-			int firstVerticalListSize = firstVerticalList.getComponentsList().size();
-
-			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-			simulateSingleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
-			simulateKeyPress(KeyEvent.VK_DELETE);
-
-			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
-
-			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
-			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
-					.get(0);
-			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
-
-			int beforeRowsCounter = 0;
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
-				if (entry.getValue().size() > beforeRowsCounter) {
-					beforeRowsCounter = entry.getValue().size();
-				}
-			}
-
-			int afterRowsCounter = 0;
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
-				if (entry.getValue().size() > afterRowsCounter) {
-					afterRowsCounter = entry.getValue().size();
-				}
-			}
-
-			assertEquals(firstVerticalListSize, firstVerticalListSizeAfter);
-			assertEquals(beforeRowsCounter, afterRowsCounter);
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue(false);
-		}
-	}
-
-	/**
-	 * Test 3 : Deleting the row incorrectly
-	 * | After clicking left of the row once in the rows table and clicking inside the table,
-	 * | if you then press delete, the row should be not removed from memory & in the ui.
-	 */
-	@Test
-	public void test3clickingLeftOfRowAndClickingInsideTheTableAndPressingDeleteShouldNotDeleteRow() {
-		try {
-			addDummyTableBooleanColumnCellValues();
 			String tName = null;
 			UUID tableId = null;
 
@@ -170,37 +154,128 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
-			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
+			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
 					.get(0);
-			int firstVerticalListSize = firstVerticalList.getComponentsList().size();
+			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			EditableTextField etf = (EditableTextField) cellBefore.getComponent();
+			String textBefore = etf.getText();
 
-			simulateSingleClick(LEFT_TABLE_X, SECOND_ROW_Y);
-			simulateSingleClick(FIRST_ROW_X, SECOND_ROW_Y);
-			simulateKeyPress(KeyEvent.VK_DELETE);
+			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
 
-			Map<List<Object>, List<Object[]>> dataMapAfter = getDomainFacade().getTableWithIds(tableId);
+			assertEquals(0, etf.getText().length());
+			assertNotEquals(textBefore, etf.getText());
+			assertTrue(etf.isError());
 
-			HorizontalComponentList rowsTableAfter = getTableViewModeRowsTable(tableId).getColumns();
-			VerticalComponentList firstVerticalListAfter = (VerticalComponentList) rowsTableAfter.getComponentsList()
-					.get(0);
-			int firstVerticalListSizeAfter = firstVerticalListAfter.getComponentsList().size();
+			simulateKeyPress(KeyEvent.VK_ESCAPE);
 
-			int beforeRowsCounter = 0;
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapBefore.entrySet()) {
-				if (entry.getValue().size() > beforeRowsCounter) {
-					beforeRowsCounter = entry.getValue().size();
-				}
+			assertEquals(textBefore, etf.getText());
+			assertFalse(etf.isError());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+
+	}
+
+	/**
+	 * Test 4 : Editing a row
+	 * | An email text field with no blanks allowed needs exactly one '@' since
+	 * | blank values aren't allowed.
+	 */
+	@Test
+	public void test4clearingAEmailTextFieldWithNoBlanksAllowedShouldOnlyResumeWhenAnAtSignIsTyped() {
+		try {
+			this.addDummyTableNotEmptyEmailDefaultColumnValueNoBlanksAllowed();
+
+			String tName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
+				tableId = entry.getKey();
 			}
 
-			int afterRowsCounter = 0;
-			for (Entry<List<Object>, List<Object[]>> entry : dataMapAfter.entrySet()) {
-				if (entry.getValue().size() > afterRowsCounter) {
-					afterRowsCounter = entry.getValue().size();
-				}
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
+			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
+					.get(0);
+			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			EditableTextField etf = (EditableTextField) cellBefore.getComponent();
+			String textBefore = etf.getText();
+
+			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 10);
+
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+
+			assertEquals(0, etf.getText().length());
+			assertNotEquals(textBefore, etf.getText());
+			assertTrue(etf.isError());
+
+			simulateKeyPress("test");
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			assertTrue(etf.isError());
+
+			simulateKeyPress("@");
+			assertFalse(etf.isError());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+
+	/**
+	 * Test 5 : Editing a row
+	 * | An Integer text field never allows leading zeroes.
+	 */
+	@Test
+	public void test5leadingZeroesShouldNotBeAllowedInAnIntegerTextField() {
+		try {
+			this.addDummyTableIntColumnStringCellValues();
+
+			String tName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
+				tableId = entry.getKey();
 			}
 
-			assertEquals(firstVerticalListSize, firstVerticalListSizeAfter);
-			assertEquals(beforeRowsCounter, afterRowsCounter);
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
+			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+			VerticalComponentList verticalCompListBefore = (VerticalComponentList) rowsTableBefore.getComponentsList()
+					.get(0);
+			UICell cellBefore = (UICell) verticalCompListBefore.getComponentsList().get(1);
+			EditableTextField etf = (EditableTextField) cellBefore.getComponent();
+			String textBefore = etf.getText();
+
+			simulateSingleClick(FIRST_ROW_X, FIRST_ROW_Y);
+
+			simulateKeyPress("0123");
+
+			simulateKeyPress(KeyEvent.VK_CONTROL);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			simulateDoubleClick(BELOW_TABLE_X, BELOW_TABLE_Y);
+			assertTrue(etf.isError());
+
+			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 5);
+			assertFalse(etf.isError());
+
+			simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			assertFalse(etf.isError());
+
+			simulateKeyPress("00");
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			assertTrue(etf.isError());
+
+			simulateKeyPress(KeyEvent.VK_BACK_SPACE);
+			assertEquals(textBefore, etf.getText());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
