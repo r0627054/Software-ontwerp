@@ -17,7 +17,7 @@ import domain.model.sql.SqlException;
 public class LiteralStringExpression implements Expression {
 
 	/**
-	 * Variable storing the String value of the expession.
+	 * Variable storing the String value of the expression.
 	 */
 	private String value;
 
