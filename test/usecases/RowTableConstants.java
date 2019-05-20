@@ -13,7 +13,8 @@ public interface RowTableConstants {
 	public static final int BELOW_TABLE_X = 400;
 	public static final int BELOW_TABLE_Y = 400;
 	public static final int LEFT_TABLE_X = 20;
-
+	
+	public static final String ADD_TABLE_QUERY_REF_SECOND_TABLE = 			"SELECT e.Email AS c FROM DummyEmail AS e WHERE TRUE";
 	public static final String EDIT_STRING_TEXT = "TestString123";
 
 }
