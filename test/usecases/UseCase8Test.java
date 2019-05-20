@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import ui.model.components.UICell;
 import ui.model.components.ColumnHeader;

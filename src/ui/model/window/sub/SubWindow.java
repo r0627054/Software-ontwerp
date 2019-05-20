@@ -334,6 +334,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
+		System.out.println(x+","+y);
 		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
 		if (isWithinComponent(x, y, DRAG_BORDER_SIZE)) {

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,11 @@ import ui.model.components.CheckBox;
 import ui.model.components.Component;
 import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
+import ui.model.components.RowsTable;
+import ui.model.components.TextField;
 import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.FormWindow;
+import ui.model.window.sub.TableRowsWindow;
 
 public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 
@@ -281,4 +286,72 @@ public class UseCase10Test extends UseCaseTest implements RowTableConstants {
 			assertTrue(false);
 		}
 	}
+	
+	/**
+	 * Test 6 : Editing a row through the formwindow
+	 */
+	@Test
+	public void test6() {
+		try {
+			getDomainFacade().addMockedTable(dummyTable1());
+			String tName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
+				tableId = entry.getKey();
+			}
+
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore, false);
+			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
+			
+			RowsTable tlBefore = (RowsTable) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vcBefore = (VerticalComponentList) tlBefore.getColumns().getComponentsList().get(0);	
+			
+			ArrayList<String> valuesBefore = new ArrayList<>();
+			for(Component c: vcBefore.getComponentsList()) {
+				if(c instanceof UICell) {
+					UICell cell = (UICell) c;
+					EditableTextField etf = (EditableTextField) cell.getComponent();
+					valuesBefore.add(etf.getText());
+				}
+			}
+			
+			getUiFacade().createFormSubWindow(tableId, tName, dataMapBefore, false);
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof FormWindow);
+			
+			
+			simulateSingleClick(111, 51); // coords opzoeken
+			simulateKeyPress(EDIT_STRING_TEXT);
+			
+			
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			getUiFacade().closeCurrentSubWindow();
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
+			
+			RowsTable tlAfter = (RowsTable) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vcAfter = (VerticalComponentList) tlAfter.getColumns().getComponentsList().get(0);
+			
+			ArrayList<String> valuesAfter = new ArrayList<>();
+			for(Component c: vcAfter.getComponentsList()) {
+				if(c instanceof UICell) {
+					UICell cell = (UICell) c;
+					EditableTextField etf = (EditableTextField) cell.getComponent();
+					valuesAfter.add(etf.getText());
+				}
+			}
+
+			assertEquals(valuesBefore.get(0) + EDIT_STRING_TEXT, valuesAfter.get(0));
+			assertFalse(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+		
+	
+	
 }
