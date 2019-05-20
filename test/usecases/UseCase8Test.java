@@ -216,10 +216,10 @@ public class UseCase8Test extends UseCaseTest implements DesignTableConstants {
 	
 	
 	/**
-	 * Test 4 : 
+	 * Test 4 : When deleting a column in a stored table should remove all links and thus computed tables from the application.
 	 */
 	@Test
-	public void test4() {
+	public void test4DeleteColumnFromStoredTableShouldRemoveAllLinkingTablesToThatColumn() {
 		try {
 			this.addDummyTable("A");
 			addDummyTableEmailColumnEmailCellValues();
