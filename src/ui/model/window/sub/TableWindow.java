@@ -7,7 +7,7 @@ import java.util.UUID;
  *  The tableWindow stores the table name of that window.
  *  Itself is a sub class of SubWindow.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

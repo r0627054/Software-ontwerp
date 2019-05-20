@@ -13,7 +13,7 @@ import controller.observer.PropertyChangeSupport;
  * The actual implementation of the uiFacadeInterface.
  * This handles all the actions defined in the uiFacadeInterface.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -309,13 +309,28 @@ public class UIFacade implements UIFacadeInterface, PropertyChangeListener {
 		getView().simulateKeyPress(keyCode);
 	}
 
+	/**
+	 * Creates a formSubwindow out of the given information.
+	 * 
+	 * @param tableId       The id of the table.
+	 * @param tableNameOfId The name of the table.
+	 * @param tableData     The data inside the table.
+	 * @param isComputed     Whether or not the table is computed.
+	 * @effect the view creates a from subWindow out of the given data.
+	 *          | getView().createFormSubWindow(tableId, tableNameOfId, tableData, isComputed);
+	 */
 	@Override
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
 			Map<List<Object>, List<Object[]>> tableData, boolean isComputed) {
 		getView().createFormSubWindow(tableId, tableNameOfId, tableData, isComputed);
-
 	}
 
+	/**
+	 * Closes all the design window using the table with the given tableId.
+	 * @param tableId The tableId of which all the design windows.
+	 * @effect the view closes all the design window with the given id.
+	 *         | getView().closeAllDesignWindows(tableId)
+	 */
 	@Override
 	public void closeAllDesignWindows(UUID tableId) {
 		getView().closeAllDesignWindows(tableId);		
