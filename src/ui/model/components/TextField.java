@@ -10,7 +10,7 @@ import java.util.UUID;
  * A textField is a subclass of an EditableComponent.
  *  It handles the drawing and styling of the text.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

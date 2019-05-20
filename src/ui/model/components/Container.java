@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * A container itself is a component and contains a list of Components.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -8,12 +8,15 @@ import java.util.List;
  *  A horizontalComponentList is subclass of containerList.
  *  It organises components Vertically.
  *  
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class VerticalComponentList extends Container {
 	
+	/**
+	 * Variable storing the heigth of the padding.
+	 */
 	private int paddingHeight = 0;
 
 	/**
@@ -26,10 +29,13 @@ public class VerticalComponentList extends Container {
 	 *        The y-coordinate of the component.
 	 * @param listItems
 	 *        The list of components.
+	 * @param paddingHeight
+	 *        Variable storing the height of the padding.
 	 * @effect All the variables are set/calculated and the children are automatically positioned.
 	 *        | super(x, y, 0, 0, listItems);
 	 *        |	setHeight(this.getSumHeightFromChildren())
 	 *        | setWidth(this.getMaxWidthFromChildren())
+	 *        | this.setPaddingHeight(paddingHeight);
 	 *        | positionChildren()
 	 */
 	public VerticalComponentList(int x, int y, List<Component> listItems, int paddingHeight) {
@@ -157,10 +163,20 @@ public class VerticalComponentList extends Container {
 		}
 	}
 	
+	/**
+	 * Returns the height of the padding.
+	 * @return the height of the padding.
+	 */
 	private int getPaddingHeight(){
 		return this.paddingHeight;
 	}
 	
+	/**
+	 * Sets the height of the padding.
+	 * @param paddingHeight The height of the padding.
+	 * @post the height of the padding is set.
+	 *       | new.getPaddingHeight() = paddingHeight
+	 */
 	private void setPaddingHeight(int paddingHeight) {
 		this.paddingHeight = paddingHeight;
 	}
