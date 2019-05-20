@@ -17,7 +17,7 @@ import ui.model.components.UICell;
  * The tableDesignWindow is a TableWindow specifically used for designing
  * the table. The tableDesignWindow allows edits of the design of the table.
  *
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

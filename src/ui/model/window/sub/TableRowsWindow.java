@@ -18,7 +18,7 @@ import ui.model.components.UICell;
  *  The TableRowsWindow allows edits of the values of the table.
  * 
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -29,8 +29,14 @@ public class TableRowsWindow extends TableWindow {
 	 */
 	public static final String TITLE_STRING_PREFIX = "Table rows of table: ";
 
+	/**
+	 * Variable storing the computed prefix.
+	 */
 	public static final String COMPUTED_PREFIX = "COMPUTED ";
 
+	/**
+	 * Variable storing whether the data is computed.
+	 */
 	private boolean isComputedTable;
 
 	/**
@@ -159,6 +165,16 @@ public class TableRowsWindow extends TableWindow {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @param id
+	 *        | The id of the key pressed event.
+	 * @param keyCode
+	 *        | The key code of the key pressed event.
+	 * @param keyChar
+	 *        | The key character of a key pressed event.
+	 * Checks which key is pressed and handles the control and enter commands.
+	 */
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		super.keyPressed(id, keyCode, keyChar);
@@ -190,14 +206,18 @@ public class TableRowsWindow extends TableWindow {
 	}
 
 	/**
-	 * @return the isComputedTable
+	 * Returns whether the table is computed or not.
+	 * @return if the table contains computed data.
 	 */
 	private boolean isComputedTable() {
 		return isComputedTable;
 	}
 
 	/**
-	 * @param isComputedTable the isComputedTable to set
+	 * Sets the computed variable.
+	 * @param isComputedTable Whether the data is computed or not.
+	 * @post the variable is set.
+	 *       | new.isComputedTable() == isComputedTable
 	 */
 	private void setComputedTable(boolean isComputedTable) {
 		this.isComputedTable = isComputedTable;
