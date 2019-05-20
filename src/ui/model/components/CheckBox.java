@@ -12,7 +12,7 @@ import controller.handlers.ChangeEventType;
  * The CheckBox is an EditableComponent.
  * It draws a checkBox which can be checked or unchecked.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -33,6 +33,9 @@ public class CheckBox extends EditableComponent {
 	 */
 	private final static int STROKE_WIDTH_CROSS = 2;
 
+	/**
+	 * Variable storing the changeEventType
+	 */
 	private final ChangeEventType action;
 	
 	/**
@@ -49,8 +52,10 @@ public class CheckBox extends EditableComponent {
 	 *        The variable storing whether the box is checked or not.
 	 * @param id
 	 *        The id of the checkBox.
+	 * @param action
+	 *        The changeEventType action of the button.
 	 * @effect All the variables are set and the x and y coordinates are equal to 0.
-	 *         | this(0, 0, checked, id)
+	 *         | this(0, 0, checked, id,action)
 	 */
 	public CheckBox(boolean checked, UUID id, ChangeEventType action) {
 		this(0, 0, checked, id, action);
@@ -69,8 +74,10 @@ public class CheckBox extends EditableComponent {
 	 *        The variable storing whether the box is checked or not.
 	 * @param id
 	 *        The id of the checkBox.
+	 * @param action
+	 *        The changeEventType action of the button.
 	 * @effect All the variables are set and the width and height are by default the size of the box itself.
-	 *        | this(x, y, SIZE, SIZE, checked, id)
+	 *        | this(x, y, SIZE, SIZE, checked, id, action)
 	 */
 	public CheckBox(int x, int y, boolean checked, UUID id, ChangeEventType action) {
 		this(x, y, SIZE, SIZE, checked, id, action);
@@ -91,9 +98,12 @@ public class CheckBox extends EditableComponent {
 	 *        The variable storing whether the box is checked or not.
 	 * @param id
 	 *        The id of the checkBox.
+	 * @param action
+	 *        The changeEventType action of the button.
 	 * @effect all the variables are set
 	 *       | super(x, y, width, height, false, id);
 	 *       | setChecked(checked)
+	 *       | this.action = action;
 	 */
 	public CheckBox(int x, int y, int width, int height, boolean checked, UUID id, ChangeEventType action) {
 		super(x, y, width, height, false, id);

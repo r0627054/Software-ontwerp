@@ -11,12 +11,15 @@ import controller.observer.PropertyChangeListener;
  * The titleBar is a specific Container.
  * It is contains all the information the upper bar (= titlebar) of a window.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TitleBar extends Container implements PropertyChangeListener {
 
+	/**
+	 * Variable storing the textField in the title bar.
+	 */
 	private TextField title;
 
 	/**
@@ -128,11 +131,17 @@ public class TitleBar extends Container implements PropertyChangeListener {
 		this.title = title;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getOffsetX() {
 		return this.getX() + this.getWidth();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int getOffsetY() {
 		return this.getY() + this.getHeight();

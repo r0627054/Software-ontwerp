@@ -15,7 +15,7 @@ import controller.handlers.ChangeEventType;
  * The rowsTable is subclass of EditableComponent.
  *  It creates a rowTable, a rowTable show all the information of the table.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -31,6 +31,9 @@ public class RowsTable extends EditableComponent {
 	 */
 	private List<UICell> deleteCells;
 
+	/**
+	 * Variable storing whether it is a computedTable or not.
+	 */
 	private boolean isComputedTable;
 
 	/**
@@ -44,9 +47,10 @@ public class RowsTable extends EditableComponent {
 	 * @param id
 	 *        The id of the table.
 	 * @param isComputedTable 
-	 * 		  Is this table a computed table
+	 * 		  Is this table a computed table.
 	 * @effect The variables are set and the rowsTable is initialised with an empty list of cells selected for deletion.
 	 *        | super(x, y, 0, 0, false, id);
+	 *        | this.setComputedTable(isComputedTable);
 	 *        |	this.deleteCells = new ArrayList<>();
 	 */
 	public RowsTable(int x, int y, UUID id, boolean isComputedTable) {
@@ -334,6 +338,11 @@ public class RowsTable extends EditableComponent {
 		}
 	}
 
+	/**
+	 * Returns all UUIDs out of the Computed Object
+	 * @param data List where each object the first element is the UUID and the second is the correspondig data.
+	 * @return All the UUIDs of the data.
+	 */
 	public List<UUID> getAllUUIDs(List<Object[]> data) {
 		List<UUID> ids = new ArrayList<>();
 		for (Object[] obj : data) {
@@ -342,6 +351,11 @@ public class RowsTable extends EditableComponent {
 		return ids;
 	}
 
+	/**
+	 * Returns all Data out of the Computed Object
+	 * @param data List where each object the first element is the UUID and the second is the correspondig data.
+	 * @return All Data without the UUID.
+	 */
 	public List<Object> getAllData(List<Object[]> data) {
 		List<Object> result = new ArrayList<>();
 		for (Object[] obj : data) {
@@ -351,6 +365,7 @@ public class RowsTable extends EditableComponent {
 	}
 
 	/**
+	 * Returns True when it is computed; False otherwise.
 	 * @return the isComputedTable
 	 */
 	private boolean isComputedTable() {
@@ -358,7 +373,8 @@ public class RowsTable extends EditableComponent {
 	}
 
 	/**
-	 * @param isComputedTable the isComputedTable to set
+	 * Sets whether or not the table is computed.
+	 * @param isComputedTable Sets whether or not the table is computed.
 	 */
 	private void setComputedTable(boolean isComputedTable) {
 		this.isComputedTable = isComputedTable;

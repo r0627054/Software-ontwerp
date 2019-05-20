@@ -16,14 +16,25 @@ import controller.handlers.ChangeEventType;
  * TableList is a subClass of a VerticalComponentList.
  *  It contains the list of table names.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
 public class TableList extends HorizontalComponentList {
 
+	/**
+	 * Variable storing the width of the table names.
+	 */
 	public static final int TABLE_NAMES_WIDTH = 100;
+	
+	/**
+	 * Variable storing the width of the query.
+	 */
 	public static final int QUERY_WIDTH = 700;
+	
+	/**
+	 * Variable storing the height of the rows.
+	 */
 	public static final int ROW_HEIGHT = 30;
 
 	/**
@@ -203,6 +214,10 @@ public class TableList extends HorizontalComponentList {
 		return null;
 	}
 
+	/**
+	 * Returns the UICell which is selected.
+	 * @return The UICell which is selected.
+	 */
 	public UICell getSelectedCell() {
 		for (Component c : getComponentsList()) {
 			for (Component comp : ((VerticalComponentList) c).getComponentsList()) {

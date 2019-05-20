@@ -11,7 +11,7 @@ import controller.handlers.ChangeEventType;
  * The button class is special type of (subclass) of textField.
  *   It has is special behaviour when it is clicked.
  * 
- * @version 1.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

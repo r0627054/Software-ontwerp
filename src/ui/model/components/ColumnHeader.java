@@ -6,7 +6,7 @@ import java.util.UUID;
 /**
  * A ColumnHeader is a subclass of a TextField. It has a more specific paint method than a regular textField.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

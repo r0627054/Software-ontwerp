@@ -13,7 +13,7 @@ import controller.observer.PropertyChangeListener;
  * It makes use of the observer pattern. It listens to events of the component in the cell.
  * And fires propertyChange events to his listeners.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -43,18 +43,14 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 * 
 	 * Initialise this new cell with all the given variables.
 	 * 
-	 * @param x
-	 *        | The x-coordinate of the cell.
-	 * @param y
-	 *        | The y-coordinate of the cell.
 	 * @param cellComponent
 	 *        | The component inside the cell.
 	 * @param id
 	 *        | The id of the cell.
 	 * @effect All the variables are set and the components coordinates are changed.
-	 *        | super(x, y, defaultWidth, defaultHeight, false, id)
+	 *        | super(0, 0, defaultWidth, defaultHeight, false, id)
 	 *        |	this.setComponent(cellComponent)
-	 *        |	setComponentCoordinates(x, y, defaultWidth, defaultHeight)
+	 *        |	setComponentCoordinates(0, 0, defaultWidth, defaultHeight)
 	 */
 	public UICell(Component cellComponent, UUID id) {
 		super(0, 0, defaultWidth, defaultHeight, false, id);
@@ -62,6 +58,23 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 		setComponentCoordinates(0, 0, defaultWidth, defaultHeight);
 	}
 	
+	/**
+	 * 
+	 * Initialise this new cell with all the given variables.
+	 * 
+	 * @param cellComponent
+	 *        | The component inside the cell.
+	 * @param id
+	 *        | The id of the cell.
+	 * @param width
+	 *        | the width of the cell
+	 * @param height
+	 *        | the height of the cell
+	 * @effect All the variables are set and the components coordinates are changed.
+	 *        | super(0, 0, width, height, false, id)
+	 *        |	this.setComponent(cellComponent)
+	 *        |	setComponentCoordinates(x, y, width, height)
+	 */
 	public UICell(Component cellComponent, UUID id, int width, int height) {
 		super(0, 0, width, height, false, id);
 		this.setComponent(cellComponent);
@@ -69,17 +82,20 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	}
 
 	/**
-	 * Initialise this new cell with all the given variables and a cellType equals null.
-	 * @param x
-	 *        | The x-coordinate of the cell.
-	 * @param y
-	 *        | The y-coordinate of the cell.
+	 * Initialise this new cell with all the given variables.
+	 * 
 	 * @param value
 	 *        | The Component of the cell.
 	 * @param id
 	 *        | The id of the cell.
-	 * @effect All the variables are set, and the cellType equals null.
-	 *        | this(x, y, value, id, null)
+	 * @param submitAction
+	 *        The action fired when a submit is registered.
+	 * @param doubleClickAction
+	 *        The action fired when a double click is registered.
+	 * @param deleteAction
+	 *        The action fired when a delete is registered.
+	 * @effect All the variables are set.
+	 *        | this(value, id, value.getClass(), submitAction, doubleClickAction, deleteAction);
 	 */
 	public UICell(Object value, UUID id, ChangeEventType submitAction, ChangeEventType doubleClickAction,
 			ChangeEventType deleteAction) {
@@ -90,19 +106,22 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 * 
 	 * Initialise this new cell with all the given variables.
 	 * 
-	 * @param x
-	 *        | The x-coordinate of the cell.
-	 * @param y
-	 *        | The y-coordinate of the cell.
+
 	 * @param value
 	 *        | The Component of the cell.
 	 * @param id
 	 *        | The id of the cell
 	 * @param cellType
 	 *        | The type class of the component.
+	 * @param submitAction
+	 *        The action fired when a submit is registered.
+	 * @param doubleClickAction
+	 *        The action fired when a double click is registered.
+	 * @param deleteAction
+	 *        The action fired when a delete is registered.
 	 * @effect All the variables are set and a new component is created.
-	 *        | super(x, y, defaultWidth, defaultHeight, false, id)
-	 *        |	createComponent(value, id, cellType)
+	 *        |super(0, 0, defaultWidth, defaultHeight, false, id);
+	 *        |createComponent(value, id, cellType, submitAction, doubleClickAction, deleteAction);
 	 *        
 	 */
 	public UICell(Object value, UUID id, Class<?> cellType, ChangeEventType submitAction,
@@ -119,12 +138,16 @@ public class UICell extends EditableComponent implements PropertyChangeListener 
 	 *        The x-coordinate of the component.
 	 * @param y
 	 *        The y-coordinate of the component.
+	 * @param width
+	 *        The width of the component.
+	 * @param height
+	 *        The height of the component.
 	 * @effect The coordinates of the component are set. 
-	 *        | getComponent().setX(x)
-	 *        | setX(x);
-	 *        |	getComponent().setY(y);
-	 *        |	getComponent().setWidth(width);
-	 *	      | getComponent().setHeight(height);
+	 *        | Component c = getComponent();
+	 *        |	c.setX(x);
+	 *        |	c.setY(y);
+	 *        |	c.setWidth(width);
+	 *        |	c.setHeight(height);
 	 */
 	private void setComponentCoordinates(int x, int y, int width, int height) {
 		Component c = getComponent();
