@@ -1,5 +1,6 @@
 package usecases;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,10 +13,19 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 import ui.model.components.UICell;
+import ui.model.components.ColumnHeader;
 import ui.model.components.Component;
+import ui.model.components.DesignTable;
+import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
+import ui.model.components.TableList;
 import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.TableDesignWindow;
+import ui.model.window.sub.TableRowsWindow;
+import ui.model.window.sub.TablesWindow;
 
 public class UseCase8Test extends UseCaseTest implements DesignTableConstants {
 
@@ -198,6 +208,55 @@ public class UseCase8Test extends UseCaseTest implements DesignTableConstants {
 
 			assertEquals(uiCellListBefore.size(), uiCellListAfter.size());
 			assertEquals(columnDataBefore.size(), columnDataAfter.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	
+	/**
+	 * Test 4 : 
+	 */
+	@Test
+	public void test4() {
+		try {
+			this.addDummyTable("A");
+			addDummyTableEmailColumnEmailCellValues();
+			simulateSingleClick(SECOND_TABLE_X, FIRST_TABLE_Y);
+			simulateKeyPress(ADD_TABLE_QUERY_REF_SECOND_TABLE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TablesWindow);
+			TableList tl = (TableList) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vcc = (VerticalComponentList) tl.getComponentsList().get(0);
+			
+			int numberOfTablesBefore = vcc.getComponentsList().size();
+			
+			simulateDoubleClick(COLUMN_NAME_X, FIRST_ROW_Y);
+
+			simulateKeyPress(KeyEvent.VK_CONTROL);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableDesignWindow);
+			
+			simulateSingleClick(LEFT_TABLE_X, FIRST_ROW_Y);
+			
+			simulateKeyPress(KeyEvent.VK_DELETE);
+			
+			this.getUiFacade().closeCurrentSubWindow();
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
+			this.getUiFacade().closeCurrentSubWindow();
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TablesWindow);
+
+			TableList tll = (TableList) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+
+			VerticalComponentList vc = (VerticalComponentList) tll.getComponentsList().get(0);
+			
+			
+			int numberOfTablesAfter = vc.getComponentsList().size();
+
+
+			assertEquals(numberOfTablesBefore -1, numberOfTablesAfter);
+			assertFalse(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);
