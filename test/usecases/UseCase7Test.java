@@ -1441,12 +1441,12 @@ public class UseCase7Test extends UseCaseTest implements DesignTableConstants {
 	}
 
 	/**
-	 * Test 23 : Editing the column name
-	 * | When you select the column name and edit it without leaving a blank or writing the same column name twice,
-	 * | after pressing enter the name should be shown and saved correctly.
+	 * Test 22 : Editing the column name
+	 * | When there is a query pointing at the column you want to edit its not possible to edit that columnname.
+	 * | table should freez when this occurs.
 	 */
 	@Test
-	public void test23() {
+	public void test22() {
 		try {
 			addDummyTableEmailColumnEmailCellValues();
 			this.addDummyTable("A");
