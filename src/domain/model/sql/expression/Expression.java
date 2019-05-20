@@ -29,7 +29,7 @@ public interface Expression {
 	 * It returns an Object which contains two elements.
 	 * The first element is Map<UUID,Integer> which has the columnId and how often it is used.
 	 * Second element is Boolean value. Saying whether it is editable or not.
-	 * @return The above described object. Saying if the expression is editable and how often all the columnIds occure.
+	 * @return The above described object. Saying if the expression is editable and how often all the columnIds occur.
 	 */
 	public Object[] isEditable();
 	

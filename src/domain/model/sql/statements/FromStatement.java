@@ -11,7 +11,7 @@ import domain.model.sql.tablespecs.InnerJoinTableSpec;
 import domain.model.sql.tablespecs.TableSpec;
 
 /**
- * The FromStatement is a statement of an sql Query. It is composed of a list of tableSpecs.
+ * The FromStatement is a statement of an SQL Query. It is composed of a list of tableSpecs.
  * 
  * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
