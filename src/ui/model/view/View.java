@@ -25,7 +25,7 @@ import ui.model.window.sub.TablesWindow;
  * A view is a subclass of CanvasWindow. This is a frame which contains all the
  * different subWindows and gives the information to the correct subWindows.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -464,6 +464,46 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 	}
 
 	/**
+	 * Creates a formSubwindow out of the given information.
+	 * 
+	 * @param tableId       The id of the table.
+	 * @param tableNameOfId The name of the table.
+	 * @param tableData     The data inside the table.
+	 * @param isComputed    Whether or not the table is computed.
+	 * @throws IllegalArgumentException when on of the variables equal null.
+	 *                    | tableId == null || tableName == null || tableName.isEmpty() || tableData == null
+	 * @effect a formWindow is created and added to the list of subwindows.
+	 *                    | this.addCreatedTable(new FormWindow(tableId, tableName, tableData, isComputed));
+	 */
+	public void createFormSubWindow(UUID tableId, String tableName, Map<List<Object>, List<Object[]>> tableData,
+			boolean isComputed) {
+		if (tableId == null || tableName == null || tableName.isEmpty() || tableData == null) {
+			throw new IllegalArgumentException(
+					"Cannot create FormWindow with tableData, id or name equals null/empty.");
+		}
+		this.addCreatedTable(new FormWindow(tableId, tableName, tableData, isComputed));
+	}
+
+	/**
+	 * Closes all the design window using the table with the given tableId.
+	 * @param tableId The tableId of which all the design windows.
+	 * @effect the design windows are closed with the given id.
+	 */
+	public void closeAllDesignWindows(UUID tableId) {
+		boolean repaint = false;
+		for (SubWindow sw : getSubWindows()) {
+			if (sw.getId() != null && sw.getId().equals(tableId) && sw instanceof TableDesignWindow) {
+				this.getSubWindows().remove(sw);
+				repaint = true;
+			}
+		}
+
+		if (repaint) {
+			getSupport().firePropertyChange(new PropertyChangeEvent(ChangeEventType.REPAINT));
+		}
+	}
+	
+	/**
 	 * Gets the PropertyChangeSupport
 	 * 
 	 * @return support The PropertyChangeSupport variable.
@@ -551,27 +591,6 @@ public class View extends CanvasWindow implements PropertyChangeListener {
 		this.handleKeyEvent(KeyEvent.KEY_PRESSED, keyCode, ' ');
 	}
 
-	public void createFormSubWindow(UUID tableId, String tableName, Map<List<Object>, List<Object[]>> tableData,
-			boolean isComputed) {
-		if (tableId == null || tableName == null || tableName.isEmpty() || tableData == null) {
-			throw new IllegalArgumentException(
-					"Cannot create FormWindow with tableData, id or name equals null/empty.");
-		}
-		this.addCreatedTable(new FormWindow(tableId, tableName, tableData, isComputed));
-	}
 
-	public void closeAllDesignWindows(UUID tableId) {
-		boolean repaint = false;
-		for (SubWindow sw : getSubWindows()) {
-			if (sw.getId() != null && sw.getId().equals(tableId) && sw instanceof TableDesignWindow) {
-				this.getSubWindows().remove(sw);
-				repaint = true;
-			}
-		}
-
-		if (repaint) {
-			getSupport().firePropertyChange(new PropertyChangeEvent(ChangeEventType.REPAINT));
-		}
-	}
 
 }

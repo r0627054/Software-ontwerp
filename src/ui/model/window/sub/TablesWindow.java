@@ -17,7 +17,7 @@ import ui.model.components.UICell;
  * A TablesWindow is specific SubWindow.
  *  It contains a container which stores all the names of the tables.
  *
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -36,6 +36,7 @@ public class TablesWindow extends SubWindow {
 	 * @effect the full Tables list is created and all the information is set.
 	 *        | super(null, TITLE_STRING_PREFIX);
 	 *        |	this.createTableList(map);
+	 *        | this.setWidth(900);
 	 */
 	public TablesWindow(Map<UUID, List<String>> data) {
 		super(null, TITLE_STRING_PREFIX);
@@ -149,6 +150,19 @@ public class TablesWindow extends SubWindow {
 		return null;
 	}
 
+	/**
+	 * Checks for the ctrl-F key press
+	 * {@inheritDoc}
+	 * @param id
+	 *        | The id of the key pressed event.
+	 * @param keyCode
+	 *        | The key code of the key pressed event.
+	 * @param keyChar
+	 *        | The key character of a key pressed event.
+	 * @effect The components are called and the press is given to the component
+	 *        | for (Component c : currentKeyListeners) 
+	 *        | 	c.keyPressed(id, keyCode, keyChar);
+	 */
 	@Override
 	public void keyPressed(int id, int keyCode, char keyChar) {
 		super.keyPressed(id, keyCode, keyChar);
@@ -163,6 +177,9 @@ public class TablesWindow extends SubWindow {
 		}
 	}
 
+	/**
+	 * Handles the ctrlFPressend and fires the command to create from design subwindow
+	 */
 	private void ctrlFPressed() {
 		UICell selected = getTableList().getSelectedCell();
 		if (selected != null) {

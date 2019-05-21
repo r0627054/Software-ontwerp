@@ -1,5 +1,6 @@
 package usecases;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,9 +14,16 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import ui.model.components.Component;
+import ui.model.components.EditableTextField;
 import ui.model.components.HorizontalComponentList;
+import ui.model.components.RowsTable;
+import ui.model.components.TableList;
 import ui.model.components.UICell;
 import ui.model.components.VerticalComponentList;
+import ui.model.window.sub.FormWindow;
+import ui.model.window.sub.SubWindow;
+import ui.model.window.sub.TableRowsWindow;
+import ui.model.window.sub.TablesWindow;
 
 public class UseCase11Test extends UseCaseTest implements RowTableConstants {
 
@@ -44,7 +52,6 @@ public class UseCase11Test extends UseCaseTest implements RowTableConstants {
 			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
 
 			HorizontalComponentList rowsTableBefore = getTableViewModeRowsTable(tableId).getColumns();
-			System.out.println(rowsTableBefore.getComponentsList().get(0).getClass());
 			VerticalComponentList firstVerticalList = (VerticalComponentList) rowsTableBefore.getComponentsList()
 					.get(0);
 			
@@ -72,18 +79,7 @@ public class UseCase11Test extends UseCaseTest implements RowTableConstants {
 				if (entry.getValue().size() > afterRowsCounter) {
 					afterRowsCounter = entry.getValue().size();
 				}
-			}
-			VerticalComponentList vc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
-			System.out.println("before " + vc.getComponentsList());
-			for(Component c : vc.getComponentsList()) {
-				if(c instanceof UICell) {
-					System.out.println(((UICell) c).getId());
-				}
-			}
-			
-			VerticalComponentList vcc = (VerticalComponentList) rowsTableBefore.getComponentsList().get(0);
-			System.out.println("after " + vcc.getComponentsList());
-
+			}	
 			assertEquals(firstVerticalListSize - 1, firstVerticalListSizeAfter);
 			assertEquals(beforeRowsCounter - 1, afterRowsCounter);
 		} catch (Exception e) {
@@ -201,6 +197,92 @@ public class UseCase11Test extends UseCaseTest implements RowTableConstants {
 
 			assertEquals(firstVerticalListSize, firstVerticalListSizeAfter);
 			assertEquals(beforeRowsCounter, afterRowsCounter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	/**
+	 * Test 4 : It should not be possible to mark a row for delete in a computed table.
+	 */
+	@Test
+	public void test4clickingLeftOfShouldNotSelectForDelete() {
+		try {
+			
+			addDummyTableEmailColumnEmailCellValues();
+			this.addDummyTable("A");
+			simulateSingleClick(SECOND_ROW_X, FIRST_ROW_Y);
+			simulateKeyPress(ADD_TABLE_QUERY_REF_SECOND_TABLE);
+			simulateKeyPress(KeyEvent.VK_ENTER);
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TablesWindow);
+			
+			
+			simulateSingleClick(LEFT_TABLE_X,FIRST_ROW_Y);
+			assertFalse(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+			TableList tl =  (TableList) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vc = (VerticalComponentList) tl.getComponentsList().get(0);
+			for(Component c : vc.getComponentsList()) {
+				if(c instanceof UICell) {
+					UICell cell = (UICell) c;
+					if(cell.getComponent() instanceof EditableTextField) {
+						EditableTextField etf = (EditableTextField) cell.getComponent();
+						assertFalse(etf.isSelectedForDelete());
+
+					}
+				}
+			}
+			
+			
+			
+		assertFalse(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
+		} catch (Exception e) {
+			e.printStackTrace();
+			assertTrue(false);
+		}
+	}
+	
+	/**
+	 * Test 4 : 
+	 */
+	@Test
+	public void test5() {
+		try {
+			addDummyTableEmailColumnEmailCellValues();
+			
+			String tName = null;
+			UUID tableId = null;
+
+			for (Map.Entry<UUID, List<String>> entry : getDomainFacade().getTableNames().entrySet()) {
+				tName = entry.getValue().get(0);
+				tableId = entry.getKey();
+			}
+			Map<List<Object>, List<Object[]>> dataMapBefore = getDomainFacade().getTableWithIds(tableId);
+			getUiFacade().createTableRowsSubWindow(tableId, tName, dataMapBefore,false);
+					
+			RowsTable tlBefore = (RowsTable) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vcBefore = (VerticalComponentList) tlBefore.getColumns().getComponentsList().get(0);		
+			int numberOfRowsBefore = vcBefore.getComponentsList().size();		
+			
+			addDummyTableBooleanColumnCellValues();
+			
+			getUiFacade().createFormSubWindow(tableId, tName, dataMapBefore,false);
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof FormWindow);
+			
+			
+			simulateKeyPress(KeyEvent.VK_CONTROL);
+			simulateKeyPress(KeyEvent.VK_D);
+			
+			this.getUiFacade().getView().closeCurrentSubWindow();
+			assertTrue(this.getUiFacade().getView().getCurrentSubWindow() instanceof TableRowsWindow);
+			
+			RowsTable tlAfter = (RowsTable) this.getUiFacade().getView().getCurrentSubWindow().getContainer().getComponentsList().get(0);
+			VerticalComponentList vcAfter = (VerticalComponentList) tlAfter.getColumns().getComponentsList().get(0);
+	
+			int numberOfRowsAfter = vcAfter.getComponentsList().size();
+
+		assertEquals(numberOfRowsBefore -1, numberOfRowsAfter);
+		assertFalse(this.getUiFacade().getView().getCurrentSubWindow().isPaused());
 		} catch (Exception e) {
 			e.printStackTrace();
 			assertTrue(false);

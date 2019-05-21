@@ -8,7 +8,7 @@ import java.util.List;
  *  A horizontalComponentList is subclass of containerList.
  *  It organises components horizontally.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */

@@ -22,7 +22,7 @@ import ui.model.components.TitleBar;
  *  A SubWindow is an actual window inside in the view..
  *  The SubWindow keeps track of all the sizes and all the clickListeners/KeyListeners of the components.
  *
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -179,6 +179,9 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 */
 	private boolean paused = false;
 
+	/**
+	 * Variable storing whether or not ctrl is pressed.
+	 */
 	private boolean ctrlPressed = false;
 
 	/**
@@ -331,6 +334,7 @@ public abstract class SubWindow implements PropertyChangeListener {
 	 * @effect The components are called an told whether there was a click inside or outside.
 	 */
 	public void mouseClicked(int id, int x, int y, int clickCount) {
+		System.out.println(x+","+y);
 		this.handleResizing(id, x, y);
 		this.handleMoving(id, x, y);
 		if (isWithinComponent(x, y, DRAG_BORDER_SIZE)) {
@@ -840,10 +844,20 @@ public abstract class SubWindow implements PropertyChangeListener {
 		this.id = id;
 	}
 
+	/**
+	 * Checks whether the ctrl key is pressed.
+	 * @return True when the ctrl key is pressed.
+	 */
 	protected boolean isCtrlPressed() {
 		return ctrlPressed;
 	}
 
+	/**
+	 * Sets the ctrl pressed variable.
+	 * @param ctrlPressed True when the variable is pressed, False otherwise.
+	 * @post the ctrlPressed variable is set
+	 *       | new.isCtrlPressed() = ctrlPressed 
+	 */
 	protected void setCtrlPressed(boolean ctrlPressed) {
 		this.ctrlPressed = ctrlPressed;
 	}

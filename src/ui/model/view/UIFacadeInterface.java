@@ -11,7 +11,7 @@ import controller.observer.PropertyChangeListener;
  * An interface of the uiFacade. This interface defines all the functionalities
  * that should be handled the user interface.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -129,9 +129,21 @@ public interface UIFacadeInterface {
 	 */
 	public void closeAllSubWindowsOfTable(UUID tableID);
 
+	/**
+	 * Creates a formSubwindow out of the given information.
+	 * 
+	 * @param tableId       The id of the table.
+	 * @param tableNameOfId The name of the table.
+	 * @param tableData     The data inside the table.
+	 * @param isComputed     Whether or not the table is computed.
+	 */
 	public void createFormSubWindow(UUID tableId, String tableNameOfId,
 			Map<List<Object>, List<Object[]>> tableData, boolean isComputed);
 
+	/**
+	 * Closes all the design window using the table with the given tableId.
+	 * @param tableId The tableId of which all the design windows.
+	 */
 	public void closeAllDesignWindows(UUID tableId);
 
 }

@@ -13,7 +13,7 @@ import controller.handlers.ChangeEventType;
  *  Text can be edited and updated, errors can be shown.
  * 
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
@@ -70,6 +70,12 @@ public class EditableTextField extends TextField {
 	 *        The default value of the EditableTextField.
 	 * @param id
 	 *        The id of the EditableTextField
+	 * @param submitAction
+	 *        The action fired when a submit is registered.
+	 * @param doubleClickAction
+	 *        The action fired when a double click is registered.
+	 * @param deleteAction
+	 *        The action fired when a delete is registered.
 	 * @effect All the variables are set.
 	 *        | this(x, y, width, height, false, defaultValue, id)
 	 */
@@ -91,6 +97,12 @@ public class EditableTextField extends TextField {
 	 *        | The default value of the editableTextField
 	 * @param id
 	 *        | The id of the EditableTextField.
+	 * @param submitAction
+	 *        The action fired when a submit is registered.
+	 * @param doubleClickAction
+	 *        The action fired when a double click is registered.
+	 * @param deleteAction
+	 *        The action fired when a delete is registered.
 	 * @effect All the variables are set.
 	 *        | this(x, y, width, height, false, defaultValue, id)
 	 */
@@ -102,7 +114,6 @@ public class EditableTextField extends TextField {
 	/**
 	 * Submits a delete Table Event.
 	 */
-
 	private void delete() {
 		if (this.getDeleteAction() != null) {
 			propertyChanged(this.getId(), getDeleteAction(), null, null);

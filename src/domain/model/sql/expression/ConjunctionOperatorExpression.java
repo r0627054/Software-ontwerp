@@ -9,12 +9,31 @@ import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
 
+/**
+ * A ConjunctionOperatorExpression is an OperatorExpression which has an "AND" operator.
+ * 
+ * @version 3.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+ *
+ */
 public class ConjunctionOperatorExpression extends OperatorExpression {
 
+	/**
+	 * An instance of a ConjunctionOperatorExpression is created with the given parameters.
+	 * @param leftExpression The left expression of the conjunction.
+	 * @param rightExpression The right expression of the conjunction.
+	 * @param operator       The operator which will be set.
+	 */
 	public ConjunctionOperatorExpression(Expression leftExpression, Expression rightExpression, Operator operator) {
 		super(leftExpression, rightExpression, operator);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * It simplifies the expression with the row and cellIdMap.
+	 * It can be simplified only when the left and right expression are cellId's or BooleanExpressions.
+	 *  This is made because of edge cases. This class will handle the conjunction edge cases and how it will be simplified.
+	 */
 	@Override
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
@@ -51,12 +70,22 @@ public class ConjunctionOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(false);
 	}
 	
+	/**
+	 * Extracts the cellId value out of the expression.
+	 * @param exp a cellIdExpression.
+	 * @param row The row on which the current calculation is in progress.
+	 * @param cellIdMap The mapping of cellId to the index.
+	 * @return The domainCell a the given index in the row.
+	 */
 	private DomainCell getDomainCellOfOutOfCellId(Expression exp, Row row, Map<CellId, Integer> cellIdMap) {
 		CellId cellId = ((CellIdExpression) exp).getValue();
 		Integer index = cellIdMap.get(cellId);
 		return row.getCellAtIndex(index);
 	}
 
+	/**
+	 * Returns the conjunction operator expression is not editable.
+	 */
 	@Override
 	public Object[] isEditable() {
 		Object[] result = {new HashMap<CellId,Integer>(),false};

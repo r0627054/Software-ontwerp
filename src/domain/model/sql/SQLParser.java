@@ -28,12 +28,29 @@ import domain.model.sql.tablespecs.InnerJoinTableSpec;
 import domain.model.sql.tablespecs.SingleTableSpec;
 import domain.model.sql.tablespecs.TableSpec;
 
+/**
+ * The SQLParser is responsible for parsing the query to a formatted String or into a Query Object instance.
+ * 
+ * @version 3.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+ *
+ */
 public class SQLParser extends StreamTokenizer {
 
+	/**
+	 * The variable storing the String mapping of the keywords ttype.
+	 */
 	private static HashMap<String, Integer> keywords = new HashMap<>();
+	
+	/**
+	 * Variables storing the ttype integer value.
+	 */
 	public static final int TT_IDENT = -9, TT_SELECT = -10, TT_OR = -11, TT_AND = -12, TT_TRUE = -13, TT_FALSE = -14,
 			TT_AS = -15, TT_FROM = -16, TT_INNER = -17, TT_JOIN = -18, TT_ON = -19, TT_WHERE = -20;
 
+	/**
+	 * Populates the keywords map with the correct words and ttype values.
+	 */
 	static {
 		keywords.put("SELECT", TT_SELECT);
 		keywords.put("OR", TT_OR);
@@ -48,6 +65,15 @@ public class SQLParser extends StreamTokenizer {
 		keywords.put("WHERE", TT_WHERE);
 	}
 
+	/**
+	 * Creates a new instance of the SqlParser.
+	 * @param text The sql query as a String.
+	 * @effect all the variables are set.
+	 *       | super(new StringReader(text));
+	 *       |	ordinaryChar('.');
+	 *       | 	wordChars('_', '_');
+	 *       |	nextToken();
+	 */
 	public SQLParser(String text) {
 		super(new StringReader(text));
 		ordinaryChar('.');
@@ -55,10 +81,20 @@ public class SQLParser extends StreamTokenizer {
 		nextToken();
 	}
 
+	/**
+	 * Parses the query with the given string.
+	 * @param text The string which will be parsed.
+	 * @return The parsed and formatted String of the query.
+	 */
 	public static String parseQuery(String text) {
 		return new SQLParser(text).parseQuery();
 	}
 
+	/**
+	 * Returns the ttype of the next token.
+	 * @return the ttype of the next token.
+	 * @throws RuntimeException when the ttpye isn't in the keywords.
+	 */
 	@Override
 	public int nextToken() {
 		try {
@@ -76,16 +112,30 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Returns an instance of the parseException.
+	 * @return an instance of the parseException.
+	 */
 	public RuntimeException error() {
 		return new ParseException();
 	}
 
+	/**
+	 * Checks if the input has a valid ttype.
+	 * @param ttype The correct input integere representation.
+	 * @throws RuntimeException when the expected type is different from the actual ttype.
+	 */
 	public void expect(int ttype) {
 		if (this.ttype != ttype)
 			throw new RuntimeException("Expected " + ttype + ", found " + this.ttype);
 		nextToken();
 	}
 
+
+	/**
+	 * Parses the indent to a general formated String.
+	 * @return the general formated String of the indent.
+	 */
 	public String expectIdent() {
 		if (ttype != TT_IDENT)
 			throw error();
@@ -94,6 +144,10 @@ public class SQLParser extends StreamTokenizer {
 		return result;
 	}
 
+	/**
+	 * Parses a cellId to a general formated String.
+	 * @return the general formated String of the cellId.
+	 */
 	public String parseCellId() {
 		String rowId = expectIdent();
 		expect('.');
@@ -101,6 +155,10 @@ public class SQLParser extends StreamTokenizer {
 		return rowId + "." + colName;
 	}
 
+	/**
+	 * Creates a cellId object out of the input data.
+	 * @return a cellId object out of the input data.
+	 */
 	public Expression parseCellIdSqlExpression() {
 		String rowId = expectIdent();
 		expect('.');
@@ -108,6 +166,10 @@ public class SQLParser extends StreamTokenizer {
 		return new CellIdExpression(new CellId(rowId, colName));
 	}
 
+	/**
+	 * Creates a the final Expression object out of the input data.
+	 * @return a the final Expression object out of the input data.
+	 */
 	public Expression parsePrimarySqlExpression() {
 		switch (ttype) {
 		case TT_TRUE:
@@ -139,6 +201,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses a primary expression to a general formated String.
+	 * @return the general formated String of the primary expression.
+	 */
 	public String parsePrimaryExpr() {
 		switch (ttype) {
 		case TT_TRUE:
@@ -170,6 +236,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses a sumExpression to a general formated String.
+	 * @return the general formated String of the sumExpression.
+	 */
 	public String parseSum() {
 		String e = parsePrimaryExpr();
 		for (;;) {
@@ -188,6 +258,11 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	
+	/**
+	 * Creates a (MathOperatorExpression) Expression object out of the input data.
+	 * @return a (MathOperatorExpression) Expression object out of the input data.
+	 */
 	public Expression parseSqlExpressionSum() {
 		Expression e = this.parsePrimarySqlExpression();
 		for (;;) {
@@ -206,6 +281,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses an relationalExpression to a general formated String.
+	 * @return the general formated String of the relationalExpression.
+	 */
 	public String parseRelationalExpr() {
 		String e = parseSum();
 		switch (ttype) {
@@ -219,7 +298,11 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-
+	
+	/**
+	 * Creates a (RelationalOperatorExpression) Expression object out of the input data.
+	 * @return a (RelationalOperatorExpression) Expression object out of the input data.
+	 */
 	public Expression parseSqlRelationalExpression() {
 		Expression e = parseSqlExpressionSum();
 		switch (ttype) {
@@ -237,6 +320,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses an conjunction to a general formated String.
+	 * @return the general formated String of the conjunction.
+	 */
 	public String parseConjunction() {
 		String e = parseRelationalExpr();
 		switch (ttype) {
@@ -248,6 +335,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Creates a (conjunction) Expression object out of the input data.
+	 * @return a (conjunction) Expression object out of the input data.
+	 */
 	public Expression parseSqlConjunctionExpression() {
 		Expression e = parseSqlRelationalExpression();
 		switch (ttype) {
@@ -259,6 +350,10 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses an disjunction to a general formated String.
+	 * @return the general formated String of the disjunction.
+	 */
 	public String parseDisjunction() {
 		String e = parseConjunction();
 		switch (ttype) {
@@ -269,7 +364,11 @@ public class SQLParser extends StreamTokenizer {
 			return e;
 		}
 	}
-
+	
+	/**
+	 * Creates a (disjunction) Expression object out of the input data.
+	 * @return a (disjunction) Expression object out of the input data.
+	 */
 	public Expression parseSqlDisjunctionExpression() {
 		Expression e = parseSqlConjunctionExpression();
 		switch (ttype) {
@@ -281,14 +380,26 @@ public class SQLParser extends StreamTokenizer {
 		}
 	}
 
+	/**
+	 * Parses an expression to a general formated String.
+	 * @return the general formated String of the expression.
+	 */
 	public String parseExpr() {
 		return parseDisjunction();
 	}
-
+	
+	/**
+	 * Creates an Expression object out of the input data.
+	 * @return an Expression object out of the input data.
+	 */
 	public Expression parseSqlExpression() {
 		return parseSqlDisjunctionExpression();
 	}
 
+	/**
+	 * Parses a query to a general formated String.
+	 * @return the general formated String of the query.
+	 */
 	public String parseQuery() {
 		StringBuilder result = new StringBuilder();
 
@@ -331,6 +442,10 @@ public class SQLParser extends StreamTokenizer {
 		return result.toString();
 	}
 
+	/**
+	 * Returns the query created out of the String input
+	 * @return the query created out of the String input
+	 */
 	public Query getQueryFromString() {
 		SelectStatement selectStatement = this.createSelectStatement();
 		FromStatement fromStatement = this.createFromStatement();
@@ -338,6 +453,10 @@ public class SQLParser extends StreamTokenizer {
 		return new Query(selectStatement, fromStatement, whereStatement);
 	}
 
+	/**
+	 * Parses the input to a select statement object.
+	 * @return The select statement created out of the String input.
+	 */
 	private SelectStatement createSelectStatement() {
 		SelectStatement selectStatement = new SelectStatement();
 		expect(TT_SELECT);
@@ -356,6 +475,10 @@ public class SQLParser extends StreamTokenizer {
 		return selectStatement;
 	}
 
+	/**
+	 * Parses the input to a from statement object.
+	 * @return The from statement created out of the String input.
+	 */
 	private FromStatement createFromStatement() {
 		FromStatement fromStatement = new FromStatement();
 		TableSpec single = null;
@@ -388,65 +511,25 @@ public class SQLParser extends StreamTokenizer {
 		return fromStatement;
 	}
 
+	/**
+	 * Parses the input to a where statement object.
+	 * @return The where statement created out of the String input.
+	 */
 	private WhereStatement createWhereStatement() {
 		expect(TT_WHERE);
 		return new WhereStatement(this.parseSqlExpression());
 	}
 
+	/**
+	 * 
+	 * A custom RuntimeException class made for Exceptions in the SQLParser class.
+	 * 
+	 * @version 3.0
+	 * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+	 *
+	 */
 	public static class ParseException extends RuntimeException {
 	}
 
-	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 *
-	 * 
-	 * private void readSelect() { expect(TT_SELECT); while (true) { parseExpr();
-	 * expect(TT_AS); expectIdent(); if (ttype == ',') { nextToken(); } else break;
-	 * } }
-	 * 
-	 * public Map<String, String> getTableNames() { Map<String, String> result = new
-	 * LinkedHashMap<>();
-	 * 
-	 * readSelect();
-	 * 
-	 * expect(TT_FROM);
-	 * 
-	 * String tableName = expectIdent(); expect(TT_AS); String rowId =
-	 * expectIdent(); result.put(tableName, rowId);
-	 * 
-	 * while (ttype == TT_INNER) { nextToken(); expect(TT_JOIN); tableName =
-	 * expectIdent(); expect(TT_AS); rowId = expectIdent(); result.put(tableName,
-	 * rowId); expect(TT_ON); parseCellId(); expect('='); parseCellId(); } return
-	 * result; }
-	 * 
-	 * 
-	 * public List<InnerJoinCondition> getJoinConditions() {
-	 * List<InnerJoinCondition> result = new ArrayList<>(); readSelect();
-	 * 
-	 * expect(TT_FROM);
-	 * 
-	 * expectIdent(); expect(TT_AS); expectIdent();
-	 * 
-	 * while (ttype == TT_INNER) { nextToken(); expect(TT_JOIN); expectIdent();
-	 * expect(TT_AS); expectIdent(); expect(TT_ON); String colTable1 =
-	 * parseCellId(); expect('='); String colTable2 = parseCellId();
-	 * 
-	 * String table1 = colTable1.split("\\.")[0]; String table2 =
-	 * colTable2.split("\\.")[0]; String col1 = colTable1.split("\\.")[1]; String
-	 * col2 = colTable2.split("\\.")[1]; result.add(new InnerJoinCondition(table1,
-	 * table2, col1, col2)); }
-	 * 
-	 * return result; }
-	 */
 }
 
-/*
- * EXAMPLES
- * 
- * String sql = "SELECT movie.title AS title " + "FROM movies AS movie " +
- * "INNER JOIN appel AS peer ON movie.id = peer.id " +
- * "INNER JOIN a AS b ON a.id = peer.id " + "WHERE movie.imdb_score > 7\r\n";
- */

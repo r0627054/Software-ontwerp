@@ -9,14 +9,33 @@ import domain.model.Row;
 import domain.model.ValueType;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
-import domain.model.sql.SqlException;
 
+/**
+ * A MathOperatorExpression is an OperatorExpression which has an addition or subtraction operator.
+ * 
+ * @version 3.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+ *
+ */
 public class MathOperatorExpression extends OperatorExpression {
 
+	/**
+	 * An instance of a MathOperatorExpression is created with the given parameters.
+	 * @param leftExpression The left expression of the Math operator.
+	 * @param rightExpression The right expression of the Math operator.
+	 * @param operator       The operator which will be set.
+	 */
 	public MathOperatorExpression(Expression leftExpression, Expression rightExpression, Operator operator) {
 		super(leftExpression, rightExpression, operator);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * The expression can be simplified to a literal number expression if the one of the two expression is
+	 *  a cellIdExpression or a LiteralNumberExpression.
+	 * In all other cases a false boolean expression is returned.
+	 * All other edge cases will be in this method containig the addition or subtraction operator.
+	 */
 	@Override
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
@@ -133,6 +152,12 @@ public class MathOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(false);
 	}
 
+	/**
+	 * Merges two maps with Ids and number of occurences.
+	 * @param map1 The first map with UUIDS and number of occurrences.
+	 * @param map2 The second map with UUIDS and number of occurrences.
+	 * @return The merged map.
+	 */
 	private Map<UUID, Integer> mergeUsedIds(Map<UUID, Integer> map1, Map<UUID, Integer> map2) {
 		Map<UUID, Integer> result = new HashMap<>(map1);
 		for (UUID id : map2.keySet()) {
@@ -145,12 +170,25 @@ public class MathOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	/**
+	 * Extracts the cellId value out of the expression.
+	 * @param exp a cellIdExpression.
+	 * @param row The row on which the current calculation is in progress.
+	 * @param cellIdMap The mapping of cellId to the index.
+	 * @return The domainCell a the given index in the row.
+	 */
 	private DomainCell getDomainCellOfOutOfCellId(Expression exp, Row row, Map<CellId, Integer> cellIdMap) {
 		CellId cellId = ((CellIdExpression) exp).getValue();
 		Integer index = cellIdMap.get(cellId);
 		return row.getCellAtIndex(index);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * Checks whether the expression is editable.
+	 * Depending on the left and right expression says if the expression is editable.
+	 *  One or both of the expressions should be cellId or a LiteralNumberExpression or another math expression or bracketExpression.
+	 */
 	@Override
 	public Object[] isEditable() {
 		Map<CellId, Integer> leftMap = (Map<CellId, Integer>) getLeftExpression().isEditable()[0];
@@ -260,6 +298,11 @@ public class MathOperatorExpression extends OperatorExpression {
 		}
 	}
 
+	/**
+	 * Reverses the number of occurrences of each CellId will be reversed.
+	 * @param rightMap The Map of which the number of occurrences will be reversed.
+	 * @return The map with the same ids but all the occurrences are reversed.
+	 */
 	private Map<CellId, Integer> reverseMap(Map<CellId, Integer> rightMap) {
 		Map<CellId, Integer> tempMap = new HashMap<>();
 		for (Map.Entry<CellId, Integer> entry : rightMap.entrySet()) {
@@ -268,6 +311,13 @@ public class MathOperatorExpression extends OperatorExpression {
 		return tempMap;
 	}
 
+	/**
+	 * Creates the new return object when one expression is a math expression and the other is a cellId.
+	 * @param math The MathOperatorExpression
+	 * @param cell The CellIdExpression
+	 * @param cellIdIsLeft True when cellIdExpression is left, otherwise false.
+	 * @return The created return object of the isEditable method.
+	 */
 	public Object[] isEditableMathAndCellId(MathOperatorExpression math, CellIdExpression cell, boolean cellIdIsLeft) {
 		Map<CellId, Integer> mathMap = (Map<CellId, Integer>) math.isEditable()[0];
 		CellId cellId = cell.getValue();
@@ -312,6 +362,10 @@ public class MathOperatorExpression extends OperatorExpression {
 		}
 	}
 
+	/**
+	 * Calculates the subTotal of the MathOperatorExpression
+	 * @return The subTotal out of the MathOperatorExpression
+	 */
 	public int getSubtotal() {
 		// left
 		int leftSubResult = 0;

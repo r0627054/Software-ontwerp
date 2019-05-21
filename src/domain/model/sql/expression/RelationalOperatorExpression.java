@@ -8,12 +8,35 @@ import domain.model.Row;
 import domain.model.sql.CellId;
 import domain.model.sql.Operator;
 
+/**
+ * A RelationalOperatorExpression is an OperatorExpression.
+ *  The relationalOperators are "greater than" or "smaller than".
+ * 
+ * @version 3.0
+ * @author Dries Janse, Steven Ghekiere, Laurens Druwel
+ *
+ */
 public class RelationalOperatorExpression extends OperatorExpression {
 
+	
+
+	/**
+	 * An instance of a RelationalOperatorExpression is created with the given parameters.
+	 * @param leftExpression The left expression of the relational operator.
+	 * @param rightExpression The right expression of the relational operator.
+	 * @param operator       The operator which will be set.
+	 */
 	public RelationalOperatorExpression(Expression leftExpression, Expression rightExpression, Operator operator) {
 		super(leftExpression, rightExpression, operator);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * The expression can be simplified to a Boolean expression if the one of the two expression is
+	 *  a cellIdExpression or a LiteralNumberExpression.
+	 * In all other cases a false boolean expression is returned.
+	 * All other edge cases will be in this method containing the  "greater than" or "smaller than" operators.
+	 */
 	@Override
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap) {
 		Expression left = getLeftExpression().simplify(row, cellIdMap);
@@ -94,6 +117,13 @@ public class RelationalOperatorExpression extends OperatorExpression {
 
 	}
 
+	/**
+	 * Compares a boolean to cell and returns the result as a boolean expression.
+	 * @param cell        The cell to which the boolean will be compared.
+	 * @param compareBool The Boolean value to which it will be compared.
+	 * @param isCellIdLeft True when the cellId expression is on the left; otherwise false.
+	 * @return Compares the values and returns the result as a booleanExpression.
+	 */
 	private Expression compareCellIdToBool(DomainCell cell, boolean compareBool, boolean isCellIdLeft) {
 		if (cell.getValue() == null) {
 			return new BooleanExpression(false);
@@ -105,6 +135,13 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * Compares a String to cell and returns the result as a boolean expression.
+	 * @param cell        The cell to which the String will be compared.
+	 * @param compareString The String value to which it will be compared.
+	 * @param isCellIdLeft True when the cellId expression is on the left; otherwise false.
+	 * @return Compares the values and returns the result as a booleanExpression.
+	 */
 	private Expression compareCellIdToString(DomainCell cell, String compareString, boolean isCellIdLeft) {
 		if (cell.getValue() == null) {
 			return new BooleanExpression(false);
@@ -115,12 +152,24 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * Compares an Integer to cell and returns the result as a boolean expression.
+	 * @param cell        The cell to which the Integer will be compared.
+	 * @param compareString The Integer value to which it will be compared.
+	 * @param isCellIdLeft True when the cellId expression is on the left; otherwise false.
+	 * @return Compares the values and returns the result as a booleanExpression.
+	 */
 	private Expression compareCellIdToInt(DomainCell cell, Integer compareInt, boolean isCellIdLeft) {
 		Operator op = reverseOperatorIfCellRight(isCellIdLeft);
 		boolean result = cell.compare(compareInt, op);
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * Returns the opposite operator of the current one if the cellIdExpression is not on the left.
+	 * @param isCellIdLeft True when the cellIdExpression is on the left.
+	 * @return The opposite operator of the the current one if the cellIdExpression is not on the left.
+	 */
 	private Operator reverseOperatorIfCellRight(boolean isCellIdLeft) {
 		if (!isCellIdLeft)
 			switch (getOperator()) {
@@ -132,6 +181,12 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return getOperator();
 	}
 
+	/**
+	 * Compares two Strings with each other.
+	 * @param left  The String on the left.
+	 * @param right The String on the right.
+	 * @return the result as a BooleanExpression depending on the operator.
+	 */
 	private Expression compareTwoStrings(String left, String right) {
 		boolean result;
 
@@ -152,6 +207,12 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * Compares two booleans with each other.
+	 * @param left  The boolean on the left.
+	 * @param right The boolean on the right.
+	 * @return the result as a BooleanExpression depending on the operator.
+	 */
 	private BooleanExpression compareTwoBooleans(boolean left, boolean right) {
 		boolean result;
 		switch (getOperator()) {
@@ -171,6 +232,12 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * Compares two Integers with each other.
+	 * @param left  The Integers on the left.
+	 * @param right The Integers on the right.
+	 * @return the result as a BooleanExpression depending on the operator.
+	 */
 	private BooleanExpression compareTwoInts(Integer left, Integer right) {
 		if (left == null || right == null) {
 			return new BooleanExpression(false);
@@ -194,6 +261,10 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return new BooleanExpression(result);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * A RelationalOperatorExpression is not editable.
+	 */
 	@Override
 	public Object[] isEditable() {
 		Object[] result = { new HashMap<CellId, Integer>(), false };

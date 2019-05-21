@@ -9,7 +9,7 @@ import controller.handlers.ChangeEventType;
  * A ToggleTextField is a subclass of a TextField.
  *  It toggles between different texts.
  * 
- * @version 2.0
+ * @version 3.0
  * @author Dries Janse, Steven Ghekiere, Laurens Druwel
  *
  */
