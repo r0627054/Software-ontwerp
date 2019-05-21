@@ -85,7 +85,7 @@ public class MathOperatorExpression extends OperatorExpression {
 
 			if (leftCell.getType() == ValueType.INTEGER) {
 				if (leftCell.getValue() == null || rne.getValue() == null) {
-					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
+					return new LiteralNumberExpression(null, subtotal, usedIdsMap);
 				}
 				int result = 0;
 				Integer lc = (Integer) leftCell.getValue();
@@ -114,7 +114,7 @@ public class MathOperatorExpression extends OperatorExpression {
 
 			if (rightCell.getType() == ValueType.INTEGER) {
 				if (rightCell.getValue() == null || lne.getValue() == null) {
-					return new LiteralNumberExpression(null, subtotal, new HashMap<>());
+					return new LiteralNumberExpression(null, subtotal, usedIdsMap);
 				}
 				int result = 0;
 				Integer rc = (Integer) rightCell.getValue();
@@ -338,6 +338,12 @@ public class MathOperatorExpression extends OperatorExpression {
 		}
 
 		return leftSubResult + rightSubResult;
+	}
+
+	@Override
+	public void reset() {
+		getLeftExpression().reset();
+		getRightExpression().reset();
 	}
 
 }

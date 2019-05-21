@@ -61,4 +61,9 @@ public class DisjunctionOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		// Do nothing		
+	}
+
 }

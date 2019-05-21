@@ -79,13 +79,14 @@ public class SelectStatement implements Statement {
 		} else if (exp instanceof LiteralNumberExpression) {
 			LiteralNumberExpression litNum = (LiteralNumberExpression) exp;
 
-			
+			DomainCell cell = null;
 			if (litNum.isOneEditable()) {
-				return new DomainCell(litNum.getFirstUUIDOfMap(), litNum.getValue(), ValueType.INTEGER);
+				cell = new DomainCell(litNum.getFirstUUIDOfMap(), litNum.getValue(), ValueType.INTEGER);
 			} else {
-				return new DomainCell(ValueType.INTEGER, litNum.getValue());
+				cell = new DomainCell(ValueType.INTEGER, litNum.getValue());
 			}
-
+			this.getExpressionOfColumnSpec(specIndex).reset();
+			return cell;
 		} else if (exp instanceof BooleanExpression) {
 			return new DomainCell(ValueType.BOOLEAN, ((BooleanExpression) exp).getValue());
 		} else if (exp instanceof LiteralStringExpression) {
@@ -145,10 +146,10 @@ public class SelectStatement implements Statement {
 
 		return result;
 	}
-	
+
 	public ColumnSpec getColumnSpecOfDisplayName(String displayName) {
 		for (ColumnSpec columnSpec : this.getColumnSpecs()) {
-			if(columnSpec.getColumnName().equals(displayName)) {
+			if (columnSpec.getColumnName().equals(displayName)) {
 				return columnSpec;
 			}
 		}
@@ -163,11 +164,11 @@ public class SelectStatement implements Statement {
 		}
 		return null;
 	}
-	
+
 	public boolean hasDuplicateColumnNames() {
-		int nmbrOfColumns =this.getAllSelectColumnNames().size();
+		int nmbrOfColumns = this.getAllSelectColumnNames().size();
 		int nmbrOfcolumnsRemovedDuplicatedColumns = new HashSet<String>(getAllSelectColumnNames()).size();
-		if(nmbrOfColumns == nmbrOfcolumnsRemovedDuplicatedColumns) {
+		if (nmbrOfColumns == nmbrOfcolumnsRemovedDuplicatedColumns) {
 			return false;
 		}
 		return true;

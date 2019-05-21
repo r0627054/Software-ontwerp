@@ -62,5 +62,11 @@ public class BracketExpression implements Expression {
 		}
 		return 0;
 	}
+
+
+	@Override
+	public void reset() {
+		this.getExpression().reset();		
+	}
 	
 }

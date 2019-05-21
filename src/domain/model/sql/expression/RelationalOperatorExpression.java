@@ -33,7 +33,7 @@ public class RelationalOperatorExpression extends OperatorExpression {
 				if (leftCell.compare(rightCell, getOperator())) {
 					return new BooleanExpression(true);
 				}
-			} else if(leftCell == null && rightCell == null) {
+			} else if (leftCell == null && rightCell == null) {
 				return new BooleanExpression(true);
 			}
 
@@ -172,10 +172,10 @@ public class RelationalOperatorExpression extends OperatorExpression {
 	}
 
 	private BooleanExpression compareTwoInts(Integer left, Integer right) {
-		if(left == null || right == null) {
+		if (left == null || right == null) {
 			return new BooleanExpression(false);
 		}
-		
+
 		boolean result;
 		switch (getOperator()) {
 		case GREATER:
@@ -200,4 +200,9 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		getLeftExpression().reset();
+		getRightExpression().reset();
+	}
 }

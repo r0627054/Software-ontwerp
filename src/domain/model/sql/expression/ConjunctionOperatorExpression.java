@@ -63,4 +63,9 @@ public class ConjunctionOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		// Do nothing		
+	}
+
 }

@@ -52,4 +52,9 @@ public class BooleanExpression implements Expression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		// Do nothing
+	}
+
 }

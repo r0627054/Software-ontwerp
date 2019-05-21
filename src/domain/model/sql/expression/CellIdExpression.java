@@ -72,5 +72,10 @@ public class CellIdExpression implements Expression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		// Do nothing
+	}
+
 	
 }

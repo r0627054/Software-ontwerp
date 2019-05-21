@@ -88,4 +88,9 @@ public class LiteralNumberExpression implements Expression {
 		return result;
 	}
 
+	public void reset() {
+		this.setUsedIds(new HashMap<>());
+		this.setSubTotal(0);
+	}
+
 }

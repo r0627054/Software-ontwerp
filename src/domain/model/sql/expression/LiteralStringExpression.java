@@ -42,5 +42,10 @@ public class LiteralStringExpression implements Expression {
 		return result;
 	}
 
+	@Override
+	public void reset() {
+		// Do nothing		
+	}
+
 
 }

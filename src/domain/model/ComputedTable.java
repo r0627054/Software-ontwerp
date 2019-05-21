@@ -109,11 +109,13 @@ public class ComputedTable extends Table {
 			Column c = null;
 			if (((Boolean) isEditableObject[1]) && (cellIdsUsedCounterMap.keySet().size() == 1)
 					&& ((Integer) cellIdsUsedCounterMap.values().toArray()[0] != 0)) {
+				
 				this.getEditableOccurences().put(select.getColumnSpec(specIndex),
 						(Integer) ((Map<UUID, Integer>) isEditableObject[0]).values().toArray()[0]);
 				CellId cellId = select.getCellIdOfEditable(specIndex);
 				c = result.getColumnForIndex(this.getTableIndexFromCellId(cellId)).blindCopy();
 				c.setName(select.getColumnNameOfColumnSpec(specIndex));
+				
 			} else {
 				c = new Column(select.getColumnNameOfColumnSpec(specIndex), false);
 			}
@@ -381,7 +383,7 @@ public class ComputedTable extends Table {
 	 * @effect The query instance variable equal the given parameter.
 	 *         | new.getQuery().equals(query)
 	 */
-	private void setQuery(Query query) {
+	void setQuery(Query query) {
 		if (query == null) {
 			throw new DomainException("Query cannot be null.");
 		}
@@ -465,12 +467,11 @@ public class ComputedTable extends Table {
 	 */
 	@Override
 	public void editCell(UUID columnId, UUID cellId, Object value) {
-		Object newValue = value;
 		if (value instanceof Integer) {
 			Integer oldValue = (Integer) value;
 			ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getColumnName(cellId));
 			Integer nbrOfOffcurrences = this.getEditableOccurences().get(spec);
-			newValue = (oldValue - spec.getSubtotal()) / nbrOfOffcurrences;
+			Integer newValue = (oldValue - spec.getSubtotal()) / nbrOfOffcurrences;
 			for (Table t : getQueryTables()) {
 				if (t.hasColumn(columnId)) {
 					int index = this.getIndexOfCellInColumnId(columnId, cellId);
@@ -504,7 +505,6 @@ public class ComputedTable extends Table {
 				ColumnSpec spec = this.getQuery().getColumnSpecOfDisplayName(this.getColumnNameOfColumnId(columnId));
 				Integer nbrOfOffcurrences = this.getEditableOccurences().get(spec);
 				newValue = (oldValue) * nbrOfOffcurrences + spec.getSubtotal();
-
 			}
 			Column column = this.getColumn(columnId);
 			column.setValueForCellAtIndex(cellIndex, newValue);

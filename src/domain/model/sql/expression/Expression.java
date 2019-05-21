@@ -25,4 +25,6 @@ public interface Expression {
 	public Object[] isEditable();
 	
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap);
+	
+	public void reset();
 }
