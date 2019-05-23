@@ -16,7 +16,7 @@ public interface DesignTableConstants {
 	
 	public static final int DUMMY_TABLE_COLUMN_AMOUNT = 3;
 	
-	public static final String NEW_COLUMN_NAME = "Column";
+	public static final String NEW_COLUMN_NAME = "Column x";
 
 	public static final String COLUMN_NAME = "Column Name";
 	public static final String COLUMN_TYPE = "Type";
@@ -32,6 +32,10 @@ public interface DesignTableConstants {
 	
 	public static final int SECOND_TABLE_X = 160;
 	public static final int FIRST_TABLE_Y = 70;
+	public static final int SECOND_TABLE_Y = 100;
+	
+	public static final int FIRST_DESIGN_TABLE_X = 100;
+	public static final int FIRST_DESIGN_TABLE_Y = 150;
 	
 	public static final String ADD_TABLE_QUERY_REF_SECOND_TABLE = 			"SELECT e.Email AS c FROM DummyEmail AS e WHERE TRUE";
 	public static final String VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  	"SELECT e.Email AS emails FROM DummyEmail AS e WHERE FALSE";
