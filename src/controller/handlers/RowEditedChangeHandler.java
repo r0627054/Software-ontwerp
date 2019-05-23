@@ -68,7 +68,7 @@ public class RowEditedChangeHandler implements ChangeHandlerInterface, TypeConve
 						domainfacade.isComputedTable(otherId));
 			}
 		} catch (DomainException | NumberFormatException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			UUID columnId = domainfacade.getColumnId(tableId, cellId);
 			uifacade.pauseCurrentSubWindow(domainfacade.getIndexOfCellInColumnId(tableId, columnId, cellId), columnId);
 		}

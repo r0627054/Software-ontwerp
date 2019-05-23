@@ -14,7 +14,7 @@ public interface TableListConstants {
 	public static final String ADD_TABLE_NAME = "TEST123";
 	
 	public static final String ADD_TABLE_QUERY_REF_SECOND_TABLE = 			"SELECT e.Email AS emails FROM DummyEmail AS e WHERE TRUE";
-	public static final String VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  	"SELECT e.Email AS emails FROM DummyEmail AS e WHERE FALSE";
+	public static final String VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  	"SELECT e.Email AS emails FROM DummyEmail AS e WHERE FALSE ";
 	public static final String INVALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE =  "SELECT e.Name AS names FROM DummyEmail AS e WHERE TRUE";
 
 }

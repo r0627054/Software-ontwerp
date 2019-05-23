@@ -166,7 +166,7 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 			TableList tlBefore = (TableList) twBefore.getContainer().getComponentsList().get(0);	
 			VerticalComponentList vcBefore= (VerticalComponentList) tlBefore.getComponentsList().get(1);
 			String tableNameBefore = ((EditableTextField) ((UICell) vcBefore.getComponentsList().get(0)).getComponent()).getText();
-			System.out.println(tableNameBefore);
+			//System.out.println(tableNameBefore);
 			
 			simulateSingleClick(SECOND_TABLE_X, FIRST_TABLE_Y);
 			simulateKeyPresses(KeyEvent.VK_BACK_SPACE, 200);
@@ -183,12 +183,10 @@ public class UseCase3Test extends UseCaseTest implements TableListConstants {
 			
 			
 			String tableNameAfter = ((EditableTextField) ((UICell) vcAfter.getComponentsList().get(0)).getComponent()).getText();
-			
-//			System.out.println(tableNameAfter);
-//			System.out.println(VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE);
+
 			assertFalse(twAfter.isPaused());
 			
-			assertEquals(tableNameAfter, VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE);
+			assertEquals(tableNameAfter.replaceAll("( )+", " "), VALID_EDIT_TABLE_QUERY_REF_SECOND_TABLE.replaceAll("( )+", " "));
 		} catch (Exception e) {
 //			e.printStackTrace();
 			assertTrue(false);

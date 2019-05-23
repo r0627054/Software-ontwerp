@@ -28,7 +28,7 @@ public class CloseSubWindowChangeHandler implements ChangeHandlerInterface {
 		try {
 			uifacade.closeCurrentSubWindow();
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
