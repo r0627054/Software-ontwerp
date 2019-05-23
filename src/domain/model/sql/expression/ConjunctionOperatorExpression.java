@@ -92,6 +92,9 @@ public class ConjunctionOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	/**
+	 * Resets and does nothing for the basic type conjunctionOperator expression.
+	 */
 	@Override
 	public void reset() {
 		// Do nothing		

@@ -393,7 +393,9 @@ public class MathOperatorExpression extends OperatorExpression {
 
 		return leftSubResult + rightSubResult;
 	}
-
+	/**
+	 * Resets the left and right expression.
+	 */
 	@Override
 	public void reset() {
 		getLeftExpression().reset();

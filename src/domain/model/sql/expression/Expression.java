@@ -41,5 +41,8 @@ public interface Expression {
 	 */
 	public Expression simplify(Row row, Map<CellId, Integer> cellIdMap);
 	
+	/**
+	 * Resets the subTotal.
+	 */
 	public void reset();
 }

@@ -82,6 +82,9 @@ public class LiteralStringExpression implements Expression {
 		return result;
 	}
 
+	/**
+	 * Resets and does nothing for the basic type LiteralStringExpression expression.
+	 */
 	@Override
 	public void reset() {
 		// Do nothing		

@@ -133,6 +133,9 @@ public class CellIdExpression implements Expression {
 		return result;
 	}
 
+	/**
+	 * Resets and does nothing for the basic type cellId expression.
+	 */
 	@Override
 	public void reset() {
 		// Do nothing

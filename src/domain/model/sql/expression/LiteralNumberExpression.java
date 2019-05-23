@@ -190,6 +190,9 @@ public class LiteralNumberExpression implements Expression {
 		return result;
 	}
 
+	/**
+	 * Resets the subtotal and used ids.
+	 */
 	public void reset() {
 		this.setUsedIds(new HashMap<>());
 		this.setSubTotal(0);

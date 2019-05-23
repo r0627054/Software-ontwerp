@@ -271,6 +271,9 @@ public class RelationalOperatorExpression extends OperatorExpression {
 		return result;
 	}
 
+	/**
+	 * Resets the left and right expression.
+	 */
 	@Override
 	public void reset() {
 		getLeftExpression().reset();

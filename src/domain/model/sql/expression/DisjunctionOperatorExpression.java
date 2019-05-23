@@ -88,7 +88,10 @@ public class DisjunctionOperatorExpression extends OperatorExpression {
 		Object[] result = {new HashMap<CellId,Integer>(),false};
 		return result;
 	}
-
+	
+	/**
+	 * Resets and does nothing for the basic type disjunctionOperator expression.
+	 */
 	@Override
 	public void reset() {
 		// Do nothing		

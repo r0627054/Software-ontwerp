@@ -116,6 +116,9 @@ public class BracketExpression implements Expression {
 	}
 
 
+	/**
+	 * Resets the expression. 
+	 */
 	@Override
 	public void reset() {
 		this.getExpression().reset();		

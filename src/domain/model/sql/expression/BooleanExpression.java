@@ -105,6 +105,9 @@ public class BooleanExpression implements Expression {
 		return result;
 	}
 
+	/**
+	 * Resets and does nothing for the basic type boolean expression.
+	 */
 	@Override
 	public void reset() {
 		// Do nothing
